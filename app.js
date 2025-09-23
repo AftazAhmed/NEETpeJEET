@@ -1,23 +1,42 @@
 // NEET Biology Questions - Page Wise Analysis
-// Complete working JavaScript with TurboScribe-style copy-then-open flow
+// Complete data with all chapters for Class 11 & 12
 
 const chaptersData = {
   "11": [
-    { id: "ch1", name: "Chapter 1: The Living World", startPage: 3, endPage: 9 },
-    { id: "ch2", name: "Chapter 2: Biological Classification", startPage: 10, endPage: 22 },
-    { id: "ch3", name: "Chapter 3: Plant Kingdom", startPage: 23, endPage: 36 },
-    { id: "ch4", name: "Chapter 4: Animal Kingdom", startPage: 37, endPage: 54 },
-    { id: "ch5", name: "Chapter 5: Morphology of Flowering Plants", startPage: 57, endPage: 70 },
-    { id: "ch6", name: "Chapter 6: Anatomy of Flowering Plants", startPage: 71, endPage: 78 },
-    { id: "ch7", name: "Chapter 7: Structural Organisation in Animals", startPage: 79, endPage: 84 },
-    { id: "ch8", name: "Chapter 8: Cell - The Unit of Life", startPage: 87, endPage: 103 },
-    { id: "ch9", name: "Chapter 9: Biomolecules", startPage: 104, endPage: 119 },
-    { id: "ch10", name: "Chapter 10: Cell Cycle and Cell Division", startPage: 120, endPage: 130 }
+    { id: "ch1",  name: "Chapter 1: The Living World",                         startPage: 3,   endPage: 9  },
+    { id: "ch2",  name: "Chapter 2: Biological Classification",                 startPage: 10,  endPage: 22 },
+    { id: "ch3",  name: "Chapter 3: Plant Kingdom",                             startPage: 23,  endPage: 36 },
+    { id: "ch4",  name: "Chapter 4: Animal Kingdom",                            startPage: 37,  endPage: 54 },
+    { id: "ch5",  name: "Chapter 5: Morphology of Flowering Plants",            startPage: 57,  endPage: 70 },
+    { id: "ch6",  name: "Chapter 6: Anatomy of Flowering Plants",               startPage: 71,  endPage: 78 },
+    { id: "ch7",  name: "Chapter 7: Structural Organisation in Animals",        startPage: 79,  endPage: 84 },
+    { id: "ch8",  name: "Chapter 8: Cell - The Unit of Life",                   startPage: 87,  endPage: 103 },
+    { id: "ch9",  name: "Chapter 9: Biomolecules",                              startPage: 104, endPage: 119 },
+    { id: "ch10", name: "Chapter 10: Cell Cycle and Cell Division",             startPage: 120, endPage: 130 },
+    { id: "ch11", name: "Chapter 11: Photosynthesis in Higher Plants",          startPage: 133, endPage: 152 },
+    { id: "ch12", name: "Chapter 12: Respiration in Plants",                    startPage: 153, endPage: 165 },
+    { id: "ch13", name: "Chapter 13: Plant Growth and Development",             startPage: 166, endPage: 180 },
+    { id: "ch14", name: "Chapter 14: Breathing and Exchange of Gases",          startPage: 183, endPage: 192 },
+    { id: "ch15", name: "Chapter 15: Body Fluids and Circulation",              startPage: 193, endPage: 204 },
+    { id: "ch16", name: "Chapter 16: Excretory Products and their Elimination", startPage: 205, endPage: 216 },
+    { id: "ch17", name: "Chapter 17: Locomotion and Movement",                  startPage: 217, endPage: 229 },
+    { id: "ch18", name: "Chapter 18: Neural Control and Coordination",          startPage: 230, endPage: 238 },
+    { id: "ch19", name: "Chapter 19: Chemical Coordination and Integration",    startPage: 239, endPage: 250 }
   ],
   "12": [
-    { id: "ch1", name: "Chapter 1: Sexual Reproduction in Flowering Plants", startPage: 3, endPage: 25 },
-    { id: "ch2", name: "Chapter 2: Human Reproduction", startPage: 26, endPage: 40 },
-    { id: "ch3", name: "Chapter 3: Reproductive Health", startPage: 41, endPage: 50 }
+    { id: "ch1",  name: "Chapter 1: Sexual Reproduction in Flowering Plants",   startPage: 3,   endPage: 25  },
+    { id: "ch2",  name: "Chapter 2: Human Reproduction",                        startPage: 26,  endPage: 40  },
+    { id: "ch3",  name: "Chapter 3: Reproductive Health",                       startPage: 41,  endPage: 50  },
+    { id: "ch4",  name: "Chapter 4: Principles of Inheritance and Variation",   startPage: 53,  endPage: 78  },
+    { id: "ch5",  name: "Chapter 5: Molecular Basis of Inheritance",            startPage: 79,  endPage: 109 },
+    { id: "ch6",  name: "Chapter 6: Evolution",                                  startPage: 110, endPage: 126 },
+    { id: "ch7",  name: "Chapter 7: Human Health and Disease",                  startPage: 129, endPage: 148 },
+    { id: "ch8",  name: "Chapter 8: Microbes in Human Welfare",                 startPage: 149, endPage: 160 },
+    { id: "ch9",  name: "Chapter 9: Biotechnology: Principles and Processes",   startPage: 163, endPage: 176 },
+    { id: "ch10", name: "Chapter 10: Biotechnology and Its Applications",       startPage: 177, endPage: 187 },
+    { id: "ch11", name: "Chapter 11: Organisms and Populations",                startPage: 190, endPage: 204 },
+    { id: "ch12", name: "Chapter 12: Ecosystem",                                startPage: 205, endPage: 215 },
+    { id: "ch13", name: "Chapter 13: Biodiversity and Conservation",            startPage: 216, endPage: 227 }
   ]
 };
 
@@ -80,6 +99,39 @@ const questionsData = {
               "(d) None"
             ],
             answer: "(c) Mangifera indica Linn"
+          },
+          {
+            year: "AIPMT 2012",
+            question: "Which organism is correctly named according to international rules?",
+            options: [
+              "(a) Mangifera indica",
+              "(b) mangifera indica",
+              "(c) Mangifera Indica",
+              "(d) MANGIFERA INDICA"
+            ],
+            answer: "(a) Mangifera indica"
+          },
+          {
+            year: "NEET 2016",
+            question: "Nomenclature is governed by certain universal rules. Which one is contrary to the rules?",
+            options: [
+              "(a) Biological names can be written in any language",
+              "(b) First word represents genus, second is specific epithet",
+              "(c) Names are written in Latin and italicized when printed",
+              "(d) When handwritten, names are underlined"
+            ],
+            answer: "(a) Biological names can be written in any language"
+          },
+          {
+            year: "NEET 2019",
+            question: "Which of the following is against the rules of ICBN?",
+            options: [
+              "(a) Handwritten scientific names should be underlined",
+              "(b) Every species should have a generic name and a specific epithet",
+              "(c) Scientific names are in Latin and should be italicized when printed",
+              "(d) Generic and specific names should be written starting with small letters"
+            ],
+            answer: "(d) Generic and specific names should be written starting with small letters"
           }
         ]
       }
