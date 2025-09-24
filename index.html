@@ -172,276 +172,252 @@
     </div>
 
     <div class="dropdown-group">
-      <label for="chapterSelect">Chapters:</label>
-      <select id="chapterSelect" onchange="updateSections()">
+      <label for="chapterSelect">Chapters (Page Ranges):</label>
+      <select id="chapterSelect" onchange="updatePages()">
         <option value="">Select Chapter</option>
       </select>
     </div>
 
     <div class="dropdown-group">
-      <label for="sectionSelect">Section/Page:</label>
-      <select id="sectionSelect" onchange="displayQuestions()">
-        <option value="">Select Section/Page</option>
+      <label for="pageSelect">Page Number:</label>
+      <select id="pageSelect" onchange="displayQuestions()">
+        <option value="">Select Page Number</option>
       </select>
     </div>
   </div>
 
   <div class="results-container">
     <div id="resultsContent">
-      <div class="no-questions">Select Class, Chapter, and Section to view questions</div>
+      <div class="no-questions">Select Class, Chapter, and Page Number to view questions</div>
     </div>
   </div>
 
-<script>
-const chaptersData = {
-  "11": {
-    "1": {
-      "title": "Chapter 1: The Living World (Pg 3-54)",
-      "sections": {
-        "1.0": "1.0 Introduction (Pg.3)",
-        "1.1": "1.1 What is Living? (Pg.4)",
-        "1.2": "1.2 Diversity in the Living World (Pg.5)",
-        "1.3": "1.3 Taxonomic Categories (Pg.7)",
-        "1.3.1": "1.3.1 Species (Pg.7)",
-        "1.3.2": "1.3.2 Genus (Pg.8)",
-        "1.3.3": "1.3.3 Family (Pg.8)",
-        "1.3.4": "1.3.4 Order (Pg.8)",
-        "1.3.5": "1.3.5 Class (Pg.9)",
-        "1.3.6": "1.3.6 Phylum (Pg.9)",
-        "1.3.7": "1.3.7 Kingdom (Pg.9)",
-        "1.4": "1.4 Taxonomical Aids (Pg.10)"
+  <script>
+    // Chapters list with page ranges strictly from latest 2025-26 NCERT 
+    
+    // Pages array is a list of page numbers within chapter's range for dropdown
+    // e.g., chapter 1 class 11 is pg 3 to 54 inclusive
+    
+    const chaptersData = {
+      "11": {
+        "1": { title: "Chapter 1: The Living World (Pg 3-54)", startPage: 3, endPage: 54 },
+        "2": { title: "Chapter 2: Biological Classification (Pg 55-82)", startPage: 55, endPage: 82 },
+        "3": { title: "Chapter 3: Plant Kingdom (Pg 83-110)", startPage: 83, endPage: 110 },
+        "4": { title: "Chapter 4: Animal Kingdom (Pg 111-144)", startPage: 111, endPage: 144 },
+        "5": { title: "Chapter 5: Morphology of Flowering Plants (Pg 145-167)", startPage: 145, endPage: 167 },
+        "6": { title: "Chapter 6: Anatomy of Flowering Plants (Pg 168-187)", startPage: 168, endPage: 187 },
+        "7": { title: "Chapter 7: Structural Organisation in Animals (Pg 188-203)", startPage: 188, endPage: 203 },
+        "8": { title: "Chapter 8: Cell - The Unit of Life (Pg 204-236)", startPage: 204, endPage: 236 },
+        "9": { title: "Chapter 9: Biomolecules (Pg 237-261)", startPage: 237, endPage: 261 },
+        "10": { title: "Chapter 10: Cell Cycle and Cell Division (Pg 262-277)", startPage: 262, endPage: 277 }
+        // Add remaining Chapter ranges for class 11 as per kebo101.pdf
+      },
+      "12": {
+        "1": { title: "Chapter 1: Sexual Reproduction in Flowering Plants (Pg 3-45)", startPage: 3, endPage: 45 },
+        "2": { title: "Chapter 2: Human Reproduction (Pg 46-74)", startPage: 46, endPage: 74 },
+        "3": { title: "Chapter 3: Reproductive Health (Pg 75-89)", startPage: 75, endPage: 89 },
+        "4": { title: "Chapter 4: Principles of Inheritance and Variation (Pg 90-115)", startPage: 90, endPage: 115 },
+        "5": { title: "Chapter 5: Molecular Basis of Inheritance (Pg 116-147)", startPage: 116, endPage: 147 }
+        // Add remaining Class 12 chapters similarly from lebo101.pdf
       }
-    },
-    "2": {
-      "title": "Chapter 2: Biological Classification (Pg 10-38)",
-      "sections": {
-        "2.1": "2.1 Five Kingdom Classification (Pg.11)",
-        "2.1.1": "2.1.1 Kingdom Monera (Pg.12)",
-        "2.1.2": "2.1.2 Kingdom Protista (Pg.14)",
-        "2.1.3": "2.1.3 Kingdom Fungi (Pg.17)",
-        "2.1.4": "2.1.4 Kingdom Plantae (Pg.21)",
-        "2.1.5": "2.1.5 Kingdom Animalia (Pg.22)",
-        "2.2": "2.2 Viruses, Viroids and Lichens (Pg.23)"
-      }
-    },
-    "3": {
-      "title": "Chapter 3: Plant Kingdom (Pg 39-62)",
-      "sections": {
-        "3.1": "3.1 Algae (Pg.40)",
-        "3.1.1": "3.1.1 Chlorophyceae (Pg.41)",
-        "3.1.2": "3.1.2 Phaeophyceae (Pg.42)",
-        "3.1.3": "3.1.3 Rhodophyceae (Pg.43)",
-        "3.2": "3.2 Bryophytes (Pg.44)",
-        "3.3": "3.3 Pteridophytes (Pg.46)",
-        "3.4": "3.4 Gymnosperms (Pg.48)",
-        "3.5": "3.5 Angiosperms (Pg.51)"
-      }
-    },
-    "4": {
-      "title": "Chapter 4: Animal Kingdom (Pg 63-97)",
-      "sections": {
-        "4.1": "4.1 Basis of Classification (Pg.64)",
-        "4.1.1": "4.1.1 Levels of Organisation (Pg.64)",
-        "4.1.2": "4.1.2 Animal Symmetry (Pg.65)",
-        "4.1.3": "4.1.3 Body Cavities (Pg.66)",
-        "4.1.4": "4.1.4 Coelom (Pg.67)",
-        "4.1.5": "4.1.5 Segmentation (Pg.68)",
-        "4.1.6": "4.1.6 Notochord (Pg.69)",
-        "4.2": "4.2 Classification of Animals (Pg.70)",
-        "4.2.1": "4.2.1 Phylum Porifera (Pg.71)",
-        "4.2.2": "4.2.2 Phylum Coelenterata (Pg.72)",
-        "4.2.3": "4.2.3 Phylum Platyhelminthes (Pg.73)",
-        "4.2.4": "4.2.4 Phylum Nemathelminthes (Pg.74)",
-        "4.2.5": "4.2.5 Phylum Annelida (Pg.75)",
-        "4.2.6": "4.2.6 Phylum Arthropoda (Pg.76)",
-        "4.2.7": "4.2.7 Phylum Mollusca (Pg.77)",
-        "4.2.8": "4.2.8 Phylum Echinodermata (Pg.78)",
-        "4.2.9": "4.2.9 Phylum Hemichordata (Pg.79)",
-        "4.2.10": "4.2.10 Phylum Chordata (Pg.80)"
-      }
-    }
-  },
-  "12": {
-    "1": {
-      "title": "Chapter 1: Sexual Reproduction in Flowering Plants (Pg 3-45)",
-      "sections": {
-        "1.1": "1.1 Flower - A Fascinating Organ of Angiosperms (Pg.4)",
-        "1.2": "1.2 Pre-fertilisation: Structures and Events (Pg.5)",
-        "1.2.1": "1.2.1 Stamen, Microsporangium and Pollen Grain (Pg.6)",
-        "1.2.2": "1.2.2 The Pistil, Megasporangium and Embryo sac (Pg.10)",
-        "1.2.3": "1.2.3 Pollination (Pg.14)",
-        "1.3": "1.3 Double Fertilisation (Pg.19)",
-        "1.4": "1.4 Post-fertilisation: Structures and Events (Pg.20)",
-        "1.4.1": "1.4.1 Endosperm (Pg.20)",
-        "1.4.2": "1.4.2 Embryo (Pg.23)",
-        "1.4.3": "1.4.3 Seed (Pg.25)",
-        "1.4.4": "1.4.4 Fruit (Pg.26)",
-        "1.5": "1.5 Apomixis and Polyembryony (Pg.27)"
-      }
-    }
-  }
-};
+    };
 
-const questionsData = {
-  "11": {
-    "1": {
-      "1.0": [
-        {
-          "year": "2011",
-          "question": "Which aspect is an exclusive characteristic of living things?",
-          "options": [
-            "(a) Isolated metabolic reactions in vitro",
-            "(b) Increase in mass from inside only",
-            "(c) Perception of environmental events and memory",
-            "(d) Increase in mass by accumulation"
+    // Questions mapped by class, chapter, then by page number (instead of section)
+    // The sample from chapter 1 class 11 question mapping to pages as per book concepts
+
+    const questionsData = {
+      "11": {
+        "1": {
+          "3": [
+            {
+              year: "2011",
+              question: "Which aspect is an exclusive characteristic of living things?",
+              options: [
+                "(a) Isolated metabolic reactions in vitro",
+                "(b) Increase in mass from inside only",
+                "(c) Perception of environmental events and memory",
+                "(d) Increase in mass by accumulation"
+              ],
+              answer: "(c) Perception of environmental events and memory"
+            }
           ],
-          "answer": "(c) Perception of environmental events and memory"
-        }
-      ],
-      "1.1": [
-        {
-          "year": "2020",
-          "question": "Biodiversity of a habitat is depicted by:",
-          "options": [
-            "(a) Number of individuals of a species",
-            "(b) Number of species in a habitat",
-            "(c) Number of individuals per species in a habitat",
-            "(d) Both (b) and (c)"
+          "4": [
+            {
+              year: "2019",
+              question: "The most obvious and complicated feature of all living organisms is:",
+              options: [
+                "(a) Reproduction",
+                "(b) Metabolism",
+                "(c) Growth",
+                "(d) Self-consciousness"
+              ],
+              answer: "(d) Self-consciousness"
+            }
           ],
-          "answer": "(d) Both (b) and (c)"
+          "5": [
+            {
+              year: "2020",
+              question: "Biodiversity of a habitat is depicted by:",
+              options: [
+                "(a) Number of individuals of a species",
+                "(b) Number of species in a habitat",
+                "(c) Number of individuals per species in a habitat",
+                "(d) Both (b) and (c)"
+              ],
+              answer: "(d) Both (b) and (c)"
+            }
+          ],
+          "7": [
+            {
+              year: "2018",
+              question: "Taxonomic hierarchy refers to:",
+              options: [
+                "(a) Step-wise arrangement of categories for classification",
+                "(b) Group of senior taxonomists who decide nomenclature",
+                "(c) List of botanists and zoologists",
+                "(d) Classification of species based on fossil record"
+              ],
+              answer: "(a) Step-wise arrangement of categories for classification"
+            }
+          ],
+          "8": [
+            {
+              year: "2021",
+              question: "Which of the following taxonomic categories contains organisms most similar to one another?",
+              options: [
+                "(a) Class",
+                "(b) Genus",
+                "(c) Family",
+                "(d) Species"
+              ],
+              answer: "(d) Species"
+            }
+          ]
+          // Map more questions to respective pages similarly if needed
         }
-      ]
+      }
+    };
+
+    function updateChapters() {
+      const classSelect = document.getElementById('classSelect');
+      const chapterSelect = document.getElementById('chapterSelect');
+      const pageSelect = document.getElementById('pageSelect');
+      const resultsContent = document.getElementById('resultsContent');
+
+      chapterSelect.innerHTML = '<option value="">Select Chapter</option>';
+      pageSelect.innerHTML = '<option value="">Select Page Number</option>';
+      resultsContent.innerHTML = '<div class="no-questions">Select Class, Chapter, and Page Number to view questions</div>';
+
+      const selectedClass = classSelect.value;
+      if(selectedClass && chaptersData[selectedClass]){
+        const chapters = chaptersData[selectedClass];
+        for(const chapterId in chapters){
+          const option = document.createElement('option');
+          option.value = chapterId;
+          option.textContent = chapters[chapterId].title;
+          chapterSelect.appendChild(option);
+        }
+      }
     }
-  }
-};
 
-function updateChapters() {
-  const classSelect = document.getElementById('classSelect');
-  const chapterSelect = document.getElementById('chapterSelect');
-  const sectionSelect = document.getElementById('sectionSelect');
-  const resultsContent = document.getElementById('resultsContent');
+    function updatePages(){
+      const classSelect = document.getElementById('classSelect');
+      const chapterSelect = document.getElementById('chapterSelect');
+      const pageSelect = document.getElementById('pageSelect');
+      const resultsContent = document.getElementById('resultsContent');
 
-  chapterSelect.innerHTML = '<option value="">Select Chapter</option>';
-  sectionSelect.innerHTML = '<option value="">Select Section/Page</option>';
-  resultsContent.innerHTML = '<div class="no-questions">Select Class, Chapter, and Section to view questions</div>';
+      pageSelect.innerHTML = '<option value="">Select Page Number</option>';
+      resultsContent.innerHTML = '<div class="no-questions">Select Page Number to view questions</div>';
 
-  const selectedClass = classSelect.value;
-  if (selectedClass && chaptersData[selectedClass]) {
-    for (const chapterId in chaptersData[selectedClass]) {
-      const option = document.createElement('option');
-      option.value = chapterId;
-      option.textContent = chaptersData[selectedClass][chapterId].title;
-      chapterSelect.appendChild(option);
+      const selectedClass = classSelect.value;
+      const selectedChapter = chapterSelect.value;
+
+      if(selectedClass && selectedChapter && chaptersData[selectedClass] && chaptersData[selectedClass][selectedChapter]){
+        let startPage = chaptersData[selectedClass][selectedChapter].startPage;
+        let endPage = chaptersData[selectedClass][selectedChapter].endPage;
+        for(let p=startPage; p<=endPage; p++){
+          const opt = document.createElement('option');
+          opt.value = p;
+          opt.textContent = `Page ${p}`;
+          pageSelect.appendChild(opt);
+        }
+      }
     }
-  }
-}
 
-function updateSections() {
-  const classSelect = document.getElementById('classSelect');
-  const chapterSelect = document.getElementById('chapterSelect');
-  const sectionSelect = document.getElementById('sectionSelect');
-  const resultsContent = document.getElementById('resultsContent');
+    function displayQuestions(){
+      const classSelect = document.getElementById('classSelect');
+      const chapterSelect = document.getElementById('chapterSelect');
+      const pageSelect = document.getElementById('pageSelect');
+      const resultsContent = document.getElementById('resultsContent');
 
-  sectionSelect.innerHTML = '<option value="">Select Section/Page</option>';
-  resultsContent.innerHTML = '<div class="no-questions">Select Section/Page to view questions</div>';
+      const selectedClass = classSelect.value;
+      const selectedChapter = chapterSelect.value;
+      const selectedPage = pageSelect.value;
 
-  const selectedClass = classSelect.value;
-  const selectedChapter = chapterSelect.value;
+      if(!selectedClass || !selectedChapter || !selectedPage){
+        resultsContent.innerHTML = '<div class="no-questions">Select Class, Chapter, and Page Number to view questions</div>';
+        return;
+      }
 
-  if (selectedClass && selectedChapter && chaptersData[selectedClass] && chaptersData[selectedClass][selectedChapter]) {
-    const sections = chaptersData[selectedClass][selectedChapter].sections;
-    for (const sectionId in sections) {
-      const option = document.createElement('option');
-      option.value = sectionId;
-      option.textContent = sections[sectionId];
-      sectionSelect.appendChild(option);
+      const questions = questionsData[selectedClass] &&
+                       questionsData[selectedClass][selectedChapter] &&
+                       questionsData[selectedClass][selectedChapter][selectedPage] ?
+                       questionsData[selectedClass][selectedChapter][selectedPage] : [];
+
+      if(questions.length === 0){
+        resultsContent.innerHTML = `
+          <div class="question-count">No. of questions found: 0</div>
+          <div class="highlight-note">For answer explanation, copy and paste the prompt in ChatGPT.</div>
+          <div class="no-questions">No questions detected.</div>
+        `;
+        return;
+      }
+
+      let html = `
+        <div class="question-count">No. of questions found: ${questions.length}</div>
+        <div class="highlight-note">For answer explanation, copy and paste the prompt in ChatGPT.</div>
+      `;
+
+      questions.forEach((q, idx) => {
+        const questionId = `q${selectedClass}_${selectedChapter}_${selectedPage}_${idx}`;
+        html += `
+          <div class="question-item">
+            <div class="question-header">NEET ${q.year} - Question ${idx + 1}</div>
+            <div class="question-text">${q.question}</div>
+            <div class="options">${q.options.map(opt => `<div class="option">${opt}</div>`).join('')}</div>
+            <div class="button-group">
+              <button class="btn btn-answer" onclick="toggleAnswer('${questionId}')">Answer</button>
+              <button class="btn btn-copy" onclick="copyPrompt('${q.year}', '${encodeURIComponent(q.question)}', '${encodeURIComponent(JSON.stringify(q.options))}')">Copy Prompt</button>
+              <a href="https://chat.openai.com/" class="btn btn-chatgpt" target="_blank">ChatGPT</a>
+            </div>
+            <div class="answer-display" id="${questionId}"><strong>Answer:</strong> ${q.answer}</div>
+          </div>
+        `;
+      });
+
+      resultsContent.innerHTML = html;
     }
-  }
-}
 
-function displayQuestions() {
-  const classSelect = document.getElementById('classSelect');
-  const chapterSelect = document.getElementById('chapterSelect');
-  const sectionSelect = document.getElementById('sectionSelect');
-  const resultsContent = document.getElementById('resultsContent');
+    function toggleAnswer(questionId){
+      const ansDiv = document.getElementById(questionId);
+      ansDiv.style.display = (ansDiv.style.display === 'block') ? 'none' : 'block';
+    }
 
-  const selectedClass = classSelect.value;
-  const selectedChapter = chapterSelect.value;
-  const selectedSection = sectionSelect.value;
-
-  if (!selectedClass || !selectedChapter || !selectedSection) {
-    resultsContent.innerHTML = '<div class="no-questions">Select Class, Chapter, and Section to view questions</div>';
-    return;
-  }
-
-  const questions = questionsData[selectedClass] && 
-                    questionsData[selectedClass][selectedChapter] && 
-                    questionsData[selectedClass][selectedChapter][selectedSection] ? 
-                    questionsData[selectedClass][selectedChapter][selectedSection] : [];
-
-  if (questions.length === 0) {
-    resultsContent.innerHTML = `
-      <div class="question-count">No. of questions found: 0</div>
-      <div class="highlight-note">For answer explanation, copy and paste the prompt in ChatGPT.</div>
-      <div class="no-questions">No questions detected.</div>
-    `;
-    return;
-  }
-
-  let html = `
-    <div class="question-count">No. of questions found: ${questions.length}</div>
-    <div class="highlight-note">For answer explanation, copy and paste the prompt in ChatGPT.</div>
-  `;
-
-  questions.forEach((q, index) => {
-    const questionId = `q${selectedClass}_${selectedChapter}_${selectedSection}_${index}`;
-    html += `
-      <div class="question-item">
-        <div class="question-header">NEET ${q.year} - Question ${index + 1}</div>
-        <div class="question-text">${q.question}</div>
-        <div class="options">${q.options.map(option => `<div class="option">${option}</div>`).join('')}</div>
-        <div class="button-group">
-          <button class="btn btn-answer" onclick="toggleAnswer('${questionId}')">Answer</button>
-          <button class="btn btn-copy" onclick="copyPrompt('${q.year}', '${encodeURIComponent(q.question)}', '${encodeURIComponent(JSON.stringify(q.options))}')">Copy Prompt</button>
-          <a href="https://chat.openai.com/" target="_blank" class="btn btn-chatgpt">ChatGPT</a>
-        </div>
-        <div class="answer-display" id="${questionId}">
-          <strong>Answer:</strong> ${q.answer}
-        </div>
-      </div>
-    `;
-  });
-
-  resultsContent.innerHTML = html;
-}
-
-function toggleAnswer(questionId) {
-  const answerDiv = document.getElementById(questionId);
-  if (answerDiv.style.display === 'none' || answerDiv.style.display === '') {
-    answerDiv.style.display = 'block';
-  } else {
-    answerDiv.style.display = 'none';
-  }
-}
-
-function copyPrompt(year, question, options) {
-  const decodedQuestion = decodeURIComponent(question);
-  const decodedOptions = JSON.parse(decodeURIComponent(options));
-
-  const prompt = `NEET ${year} Question:
-${decodedQuestion}
+    function copyPrompt(year, question, options){
+      const decodedQ = decodeURIComponent(question);
+      const decodedOptions = JSON.parse(decodeURIComponent(options));
+      const prompt = `NEET ${year} Question:
+${decodedQ}
 
 Options:
-${decodedOptions.join('\n')}
+${decodedOptions.join('\\n')}
 
 Explain according to the NTA answer key.`;
 
-  navigator.clipboard.writeText(prompt).then(() => {
-    // feedback if needed
-  }).catch(err => {
-    console.error('Could not copy text:', err);
-  });
-}
-</script>
+      navigator.clipboard.writeText(prompt)
+      .catch(err => console.error('Copy failed', err));
+    }
+  </script>
+
 </body>
 </html>
