@@ -134,41 +134,87 @@
             border: 1px solid #c3e6cb;
         }
         
-        .button-group {
+        .action-buttons {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 12px;
+            margin-top: 20px;
             align-items: center;
             flex-wrap: wrap;
+            justify-content: space-between;
+            border-top: 1px solid #e9ecef;
+            padding-top: 20px;
+        }
+        
+        .left-buttons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .right-buttons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
         }
         
         .btn {
             padding: 10px 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 14px;
-            transition: all 0.3s ease;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
         
         .btn-answer {
             background: #28a745;
             color: white;
         }
+        
+        .btn-answer:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
 
         .btn-copy {
             background: #ffc107;
             color: #212529;
+            border: 1px solid #ffc107;
+        }
+
+        .btn-copy:hover {
+            background: #ffcd39;
+            transform: translateY(-1px);
+        }
+
+        .btn-copy:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
         
-        .btn-explain {
-            background: #007bff;
+        .btn-chatgpt {
+            background: #10a37f;
             color: white;
+            border: 1px solid #10a37f;
+        }
+
+        .btn-chatgpt:hover {
+            background: #0e906e;
+            transform: translateY(-1px);
         }
         
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        .copy-icon {
+            font-size: 12px;
+        }
+        
+        .chatgpt-icon {
+            font-size: 12px;
         }
         
         .no-questions {
@@ -187,33 +233,28 @@
             margin-top: 6px;
         }
 
-        .helper-text {
+        .status-text {
             font-size: 12px;
-            color: #555;
-            background: #eef2ff;
-            padding: 6px 10px;
-            border-radius: 12px;
+            color: #6c757d;
+            margin-left: 8px;
+            font-style: italic;
         }
 
-        .prompt-box {
-            width: 100%;
-            min-height: 90px;
-            margin-top: 12px;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-            font-size: 13px;
-            line-height: 1.5;
-            background: #f3f4f6;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 10px;
-            color: #111827;
-            resize: vertical;
-        }
-
-        .prompt-label {
-            margin-top: 10px;
-            font-size: 13px;
-            color: #374151;
+        @media (max-width: 768px) {
+            .action-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .left-buttons, .right-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .btn {
+                flex: 1;
+                justify-content: center;
+            }
         }
     </style>
 </head>
@@ -607,10 +648,7 @@
                 // Questions
                 sectionData.questions.forEach((questionData, index) => {
                     const qId = `answer-${selectedClass}-${selectedChapter}-${selectedSection}-${index}`;
-                    const promptId = `prompt-${selectedClass}-${selectedChapter}-${selectedSection}-${index}`;
-                    const yearEnc = encodeURIComponent(questionData.year);
-                    const questionEnc = encodeURIComponent(questionData.question);
-                    const optionsEnc = encodeURIComponent(JSON.stringify(questionData.options));
+                    const copyBtnId = `copy-${selectedClass}-${selectedChapter}-${selectedSection}-${index}`;
 
                     const questionDiv = document.createElement('div');
                     questionDiv.className = 'question-container';
@@ -623,20 +661,25 @@
                         <div id="${qId}" class="answer-area">
                             <strong>Answer:</strong> ${questionData.answer}
                         </div>
-                        <div class="button-group">
-                            <button class="btn btn-answer" onclick="showAnswer('${qId}')">Show Answer</button>
-                            <button class="btn btn-copy" onclick="copyPrompt(this, '${yearEnc}', '${questionEnc}', '${optionsEnc}')">Copy Prompt</button>
-                            <button class="btn btn-explain" onclick="openChatGPT()">Open in ChatGPT</button>
-                            <span class="helper-text">Copy and paste here</span>
+                        <div class="action-buttons">
+                            <div class="left-buttons">
+                                <button class="btn btn-answer" onclick="showAnswer('${qId}')">
+                                    Show Answer
+                                </button>
+                            </div>
+                            <div class="right-buttons">
+                                <button id="${copyBtnId}" class="btn btn-copy" onclick="copyPrompt('${copyBtnId}', '${questionData.year}', `${questionData.question.replace(/`/g, '\\`')}`, ${JSON.stringify(questionData.options).replace(/"/g, '&quot;')})">
+                                    <span class="copy-icon">📋</span>
+                                    Copy Prompt
+                                </button>
+                                <a href="https://chat.openai.com/" target="_blank" class="btn btn-chatgpt">
+                                    <span class="chatgpt-icon">🤖</span>
+                                    Open ChatGPT
+                                </a>
+                            </div>
                         </div>
-                        <div class="prompt-label">Prompt preview:</div>
-                        <textarea id="${promptId}" class="prompt-box" readonly aria-label="Prompt preview"></textarea>
                     `;
                     contentArea.appendChild(questionDiv);
-
-                    // Fill prompt preview
-                    const preview = document.getElementById(promptId);
-                    preview.value = buildPrompt(questionData.year, questionData.question, questionData.options);
                 });
             } else {
                 // No questions found
@@ -662,79 +705,111 @@
             answerArea.style.display = (answerArea.style.display === 'none' || answerArea.style.display === '') ? 'block' : 'none';
         }
 
-        // Build a simple prompt with the question and choices (no predefined extra instructions).
+        // Build prompt text with question and options
         function buildPrompt(year, question, options) {
             const lines = [
                 `${year}`,
                 `Question: ${question}`,
-                `Choices:`,
-                ...options
+                `Options:`,
+                ...options,
+                '',
+                'Please provide the correct answer with explanation.'
             ];
             return lines.join('
 ');
         }
 
-        // Opens ChatGPT in a new tab without any pre-filled text.
-        function openChatGPT() {
-            const chatGPTUrl = 'https://chat.openai.com/';
-            window.open(chatGPTUrl, '_blank', 'noopener');
-        }
-
-        // Copies the prompt (question + choices) to clipboard, TurboScribe-style "Copy Prompt" UX.
-        function copyPrompt(btn, yearEnc, questionEnc, optionsJsonEnc) {
-            const year = decodeURIComponent(yearEnc);
-            const question = decodeURIComponent(questionEnc);
-            const options = JSON.parse(decodeURIComponent(optionsJsonEnc));
+        // TurboScribe-style copy functionality
+        function copyPrompt(btnId, year, question, options) {
+            const button = document.getElementById(btnId);
+            const originalText = button.innerHTML;
+            
             const text = buildPrompt(year, question, options);
 
-            const originalLabel = btn.textContent;
-            const setCopied = () => {
-                btn.textContent = 'Copied!';
-                btn.disabled = true;
-                setTimeout(() => {
-                    btn.textContent = originalLabel;
-                    btn.disabled = false;
-                }, 1500);
-            };
-
+            // Try modern clipboard API first
             if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(setCopied).catch(() => fallbackCopy(text, setCopied));
+                navigator.clipboard.writeText(text).then(() => {
+                    // Success feedback
+                    button.innerHTML = '<span class="copy-icon">✅</span> Copied!';
+                    button.disabled = true;
+                    button.style.background = '#28a745';
+                    button.style.color = 'white';
+                    
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                        button.style.background = '#ffc107';
+                        button.style.color = '#212529';
+                    }, 2000);
+                }).catch(() => {
+                    // Fallback to execCommand
+                    fallbackCopy(text, button, originalText);
+                });
             } else {
-                fallbackCopy(text, setCopied);
+                // Fallback for older browsers
+                fallbackCopy(text, button, originalText);
             }
         }
 
-        function fallbackCopy(text, onSuccess) {
-            const ta = document.createElement('textarea');
-            ta.value = text;
-            ta.style.position = 'fixed';
-            ta.style.top = '-9999px';
-            document.body.appendChild(ta);
-            ta.focus();
-            ta.select();
+        // Fallback copy method
+        function fallbackCopy(text, button, originalText) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.left = '-9999px';
+            textarea.style.top = '-9999px';
+            document.body.appendChild(textarea);
+            
             try {
-                document.execCommand('copy');
-                onSuccess();
-            } catch (e) {
-                alert('Unable to copy automatically. Please select and copy manually:
+                textarea.focus();
+                textarea.select();
+                const successful = document.execCommand('copy');
+                
+                if (successful) {
+                    button.innerHTML = '<span class="copy-icon">✅</span> Copied!';
+                    button.disabled = true;
+                    button.style.background = '#28a745';
+                    button.style.color = 'white';
+                    
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                        button.style.background = '#ffc107';
+                        button.style.color = '#212529';
+                    }, 2000);
+                } else {
+                    throw new Error('Copy command failed');
+                }
+            } catch (err) {
+                // Manual copy instruction
+                button.innerHTML = '<span class="copy-icon">📋</span> Select & Copy';
+                button.style.background = '#6c757d';
+                
+                // Show the text in an alert for manual copying
+                alert('Please copy this text manually:
 
 ' + text);
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.background = '#ffc107';
+                }, 3000);
             } finally {
-                document.body.removeChild(ta);
+                document.body.removeChild(textarea);
             }
         }
     </script>
 
     <!-- 
     ===========================================
-    NOTES ON SECTION-WISE ALIGNMENT TO NCERT (REPRINT 2025–26)
+    TURBOSCRIBE-STYLE INTERFACE
     ===========================================
-    The application now uses section-wise breakdowns instead of page numbers:
-    - Each chapter contains sections with their exact NCERT headings
-    - Questions are mapped to specific sections for precise topic alignment
-    - Dropdown shows "Section/Page" for clear navigation
-    - Answer appears before Copy Prompt as requested
-    - Topics covered box removed as requested
+    - Clean action buttons layout with left/right alignment
+    - Copy Prompt button with visual feedback (clipboard icon)
+    - Independent ChatGPT button that opens in new tab
+    - TurboScribe-like visual styling and animations
+    - Robust copy functionality with fallbacks for all browsers
+    - Mobile-responsive design
     -->
 </body>
 </html>
