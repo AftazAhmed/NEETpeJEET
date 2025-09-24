@@ -3,983 +3,1059 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEET/AIPMT Biology Page Wise Analysis</title>
+    <title>NEET/AIPMT BIOLOGY PAGE WISE ANALYSIS (2000-2025)</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
-
         .header {
-            background: linear-gradient(45deg, #1e3c72, #2a5298);
-            color: white;
             text-align: center;
-            padding: 30px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
         }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
         .controls {
-            background: #f8f9fa;
-            padding: 30px;
-            border-bottom: 2px solid #e9ecef;
-        }
-
-        .dropdown-container {
             display: flex;
-            gap: 20px;
             flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-
         .dropdown-group {
-            display: flex;
-            flex-direction: column;
-            min-width: 250px;
+            flex: 1;
+            min-width: 200px;
         }
-
-        .dropdown-group label {
+        label {
+            display: block;
+            margin-bottom: 5px;
             font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 8px;
+            color: #333;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
             font-size: 16px;
         }
-
-        select {
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
+        .results-container {
             background: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            min-height: 200px;
         }
-
-        select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .content {
-            padding: 30px;
-            min-height: 400px;
-        }
-
         .question-count {
             background: #e3f2fd;
             padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            font-weight: bold;
-            color: #1976d2;
+            border-radius: 5px;
+            margin-bottom: 20px;
             font-size: 18px;
+            font-weight: bold;
         }
-
-        .instruction {
+        .highlight-note {
             background: #fff3cd;
-            border: 2px solid #ffc107;
-            border-radius: 10px;
-            padding: 15px;
+            border: 1px solid #ffeaa7;
+            padding: 10px;
+            border-radius: 5px;
             margin-bottom: 20px;
             font-weight: bold;
             color: #856404;
-            font-size: 16px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(255, 193, 7, 0.2);
         }
-
         .question-item {
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: transform 0.2s ease;
+            background: #fafafa;
         }
-
-        .question-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        }
-
         .question-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-
-        .question-year {
-            background: #4caf50;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
             font-weight: bold;
-            font-size: 14px;
-        }
-
-        .question-text {
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 15px;
             color: #2c3e50;
+            margin-bottom: 10px;
         }
-
+        .question-text {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
         .options {
-            margin: 15px 0;
+            margin-bottom: 15px;
         }
-
         .option {
-            margin: 8px 0;
-            padding: 8px 12px;
-            background: #f8f9fa;
-            border-radius: 5px;
-            border-left: 4px solid #667eea;
+            margin-bottom: 5px;
+            padding: 5px 0;
         }
-
-        .question-buttons {
+        .button-group {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            margin-top: 15px;
         }
-
         .btn {
-            padding: 10px 18px;
+            padding: 8px 16px;
             border: none;
-            border-radius: 6px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 14px;
-            font-weight: bold;
-            transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
-            text-align: center;
+            transition: background-color 0.3s;
         }
-
         .btn-answer {
-            background: #ff9800;
+            background-color: #4CAF50;
             color: white;
         }
-
         .btn-answer:hover {
-            background: #f57c00;
+            background-color: #45a049;
         }
-
         .btn-copy {
-            background: #2196f3;
+            background-color: #2196F3;
             color: white;
         }
-
         .btn-copy:hover {
-            background: #1976d2;
+            background-color: #1976D2;
         }
-
         .btn-chatgpt {
-            background: #10a37f;
+            background-color: #ff6b6b;
             color: white;
         }
-
         .btn-chatgpt:hover {
-            background: #0d8f67;
+            background-color: #ee5a52;
         }
-
-        .answer {
-            display: none;
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
-            border-radius: 5px;
+        .answer-display {
+            background-color: #e8f5e8;
+            border: 1px solid #4CAF50;
             padding: 10px;
+            border-radius: 4px;
             margin-top: 10px;
-            color: #155724;
             font-weight: bold;
+            display: none;
         }
-
         .no-questions {
             text-align: center;
             color: #666;
-            font-size: 18px;
-            padding: 50px;
-            background: #f8f9fa;
-            border-radius: 10px;
+            font-style: italic;
+            padding: 50px 20px;
         }
-
         @media (max-width: 768px) {
-            .dropdown-container {
+            .controls {
                 flex-direction: column;
             }
-            
-            .dropdown-group {
-                width: 100%;
-                min-width: unset;
-            }
-            
-            .question-header {
+            .button-group {
                 flex-direction: column;
-                gap: 10px;
-                align-items: flex-start;
             }
-            
-            .question-buttons {
-                width: 100%;
-                justify-content: flex-start;
+            .btn {
+                text-align: center;
             }
-        }
-
-        .loading {
-            text-align: center;
-            padding: 50px;
-            font-size: 18px;
-            color: #666;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>NEET/AIPMT BIOLOGY PAGE WISE ANALYSIS (2000-2025)</h1>
+    <div class="header">
+        <h1>NEET/AIPMT BIOLOGY PAGE WISE ANALYSIS (2000-2025)</h1>
+    </div>
+
+    <div class="controls">
+        <div class="dropdown-group">
+            <label for="classSelect">Class:</label>
+            <select id="classSelect" onchange="updateChapters()">
+                <option value="">Select Class</option>
+                <option value="11">Class 11</option>
+                <option value="12">Class 12</option>
+            </select>
         </div>
         
-        <div class="controls">
-            <div class="dropdown-container">
-                <div class="dropdown-group">
-                    <label for="classSelect">Class</label>
-                    <select id="classSelect" onchange="updateChapters()">
-                        <option value="">Select Class</option>
-                        <option value="11">Class 11</option>
-                        <option value="12">Class 12</option>
-                    </select>
-                </div>
-                
-                <div class="dropdown-group">
-                    <label for="chapterSelect">Chapters</label>
-                    <select id="chapterSelect" onchange="updateSections()">
-                        <option value="">Select Chapter</option>
-                    </select>
-                </div>
-                
-                <div class="dropdown-group">
-                    <label for="sectionSelect">Section/Page</label>
-                    <select id="sectionSelect" onchange="displayQuestions()">
-                        <option value="">Select Section/Page</option>
-                    </select>
-                </div>
+        <div class="dropdown-group">
+            <label for="chapterSelect">Chapters:</label>
+            <select id="chapterSelect" onchange="updateSections()">
+                <option value="">Select Chapter</option>
+            </select>
+        </div>
+        
+        <div class="dropdown-group">
+            <label for="sectionSelect">Section/Page:</label>
+            <select id="sectionSelect" onchange="displayQuestions()">
+                <option value="">Select Section/Page</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="results-container">
+        <div id="resultsContent">
+            <div class="no-questions">
+                Select Class, Chapter, and Section to view questions
             </div>
-        </div>
-        
-        <div class="content" id="content">
-            <div class="loading">Please select Class, Chapter and Section to view questions.</div>
         </div>
     </div>
 
     <script>
-        // Data structures for chapters and sections
+        // Data structure for chapters and sections
         const chaptersData = {
             "11": {
-                "1": "Chapter 1: The Living World (Pg.3-9)",
-                "2": "Chapter 2: Biological Classification (Pg.10-22)", 
-                "3": "Chapter 3: Plant Kingdom (Pg.23-36)",
-                "4": "Chapter 4: Animal Kingdom (Pg.37-56)",
-                "5": "Chapter 5: Morphology of Flowering Plants (Pg.57-70)",
-                "6": "Chapter 6: Anatomy of Flowering Plants (Pg.71-78)",
-                "7": "Chapter 7: Structural Organisation in Animals (Pg.79-86)",
-                "8": "Chapter 8: Cell: The Unit of Life (Pg.87-103)",
-                "9": "Chapter 9: Biomolecules (Pg.104-119)",
-                "10": "Chapter 10: Cell Cycle and Cell Division (Pg.120-132)",
-                "11": "Chapter 11: Photosynthesis in Higher Plants (Pg.133-152)",
-                "12": "Chapter 12: Respiration in Plants (Pg.153-165)",
-                "13": "Chapter 13: Plant Growth and Development (Pg.166-182)",
-                "14": "Chapter 14: Breathing and Exchange of Gases (Pg.183-192)",
-                "15": "Chapter 15: Body Fluids and Circulation (Pg.193-204)",
-                "16": "Chapter 16: Excretory Products and their Elimination (Pg.205-216)",
-                "17": "Chapter 17: Locomotion and Movement (Pg.217-229)",
-                "18": "Chapter 18: Neural Control and Coordination (Pg.230-238)",
-                "19": "Chapter 19: Chemical Coordination and Integration (Pg.239-250)"
-            },
-            "12": {
-                "1": "Chapter 1: Sexual Reproduction in Flowering Plants (Pg.3-25)",
-                "2": "Chapter 2: Human Reproduction (Pg.26-40)",
-                "3": "Chapter 3: Reproductive Health (Pg.41-52)",
-                "4": "Chapter 4: Principles of Inheritance and Variation (Pg.53-78)",
-                "5": "Chapter 5: Molecular Basis of Inheritance (Pg.79-109)",
-                "6": "Chapter 6: Evolution (Pg.110-128)",
-                "7": "Chapter 7: Human Health and Disease (Pg.129-148)",
-                "8": "Chapter 8: Microbes in Human Welfare (Pg.149-162)",
-                "9": "Chapter 9: Biotechnology: Principles and Processes (Pg.163-176)",
-                "10": "Chapter 10: Biotechnology and its Applications (Pg.177-189)",
-                "11": "Chapter 11: Organisms and Populations (Pg.190-204)",
-                "12": "Chapter 12: Ecosystem (Pg.205-215)",
-                "13": "Chapter 13: Biodiversity and Conservation (Pg.216-228)"
-            }
-        };
-
-        const sectionsData = {
-            "11": {
                 "1": {
-                    "1.0": "1.0 Introduction (Pg.3)",
-                    "1.1": "1.1 Diversity in the Living World (Pg.3)",
-                    "1.2": "1.2 Taxonomic Categories (Pg.6)",
-                    "1.2.1": "1.2.1 Species (Pg.6)",
-                    "1.2.2": "1.2.2 Genus (Pg.7)",
-                    "1.2.3": "1.2.3 Family (Pg.7)",
-                    "1.2.4": "1.2.4 Order (Pg.7)",
-                    "1.2.5": "1.2.5 Class (Pg.7)",
-                    "1.2.6": "1.2.6 Phylum (Pg.7)",
-                    "1.2.7": "1.2.7 Kingdom (Pg.8)"
+                    "title": "Chapter 1: The Living World (Pg 3-9)",
+                    "sections": {
+                        "1.0": "1.0 Introduction (Pg.3)",
+                        "1.1": "1.1 Diversity in the Living World (Pg.3)",
+                        "1.2": "1.2 Taxonomic Categories (Pg.6)",
+                        "1.2.1": "1.2.1 Species (Pg.6)",
+                        "1.2.2": "1.2.2 Genus (Pg.7)",
+                        "1.2.3": "1.2.3 Family (Pg.7)",
+                        "1.2.4": "1.2.4 Order (Pg.7)",
+                        "1.2.5": "1.2.5 Class (Pg.7)",
+                        "1.2.6": "1.2.6 Phylum (Pg.7)",
+                        "1.2.7": "1.2.7 Kingdom (Pg.8)"
+                    }
                 },
                 "2": {
-                    "2.0": "2.0 Introduction (Pg.10)",
-                    "2.1": "2.1 Need for Classification (Pg.10)",
-                    "2.2": "2.2 Three Domains of Life (Pg.11)",
-                    "2.3": "2.3 Kingdom Monera (Pg.11)",
-                    "2.4": "2.4 Kingdom Protista (Pg.13)",
-                    "2.5": "2.5 Kingdom Fungi (Pg.15)",
-                    "2.6": "2.6 Kingdom Plantae (Pg.18)",
-                    "2.7": "2.7 Kingdom Animalia (Pg.19)",
-                    "2.8": "2.8 Viruses, Viroids, Prions and Lichens (Pg.19)"
+                    "title": "Chapter 2: Biological Classification (Pg 10-22)",
+                    "sections": {
+                        "2.1": "2.1 Kingdom Monera (Pg.11)",
+                        "2.1.1": "2.1.1 Archaebacteria (Pg.11)",
+                        "2.1.2": "2.1.2 Eubacteria (Pg.12)",
+                        "2.2": "2.2 Kingdom Protista (Pg.14)",
+                        "2.2.1": "2.2.1 Chrysophytes (Pg.15)",
+                        "2.2.2": "2.2.2 Dinoflagellates (Pg.15)",
+                        "2.2.3": "2.2.3 Euglenoids (Pg.16)",
+                        "2.2.4": "2.2.4 Slime Moulds (Pg.16)",
+                        "2.2.5": "2.2.5 Protozoans (Pg.17)",
+                        "2.3": "2.3 Kingdom Fungi (Pg.18)",
+                        "2.3.1": "2.3.1 Phycomycetes (Pg.19)",
+                        "2.3.2": "2.3.2 Ascomycetes (Pg.19)",
+                        "2.3.3": "2.3.3 Basidiomycetes (Pg.20)",
+                        "2.3.4": "2.3.4 Deuteromycetes (Pg.20)",
+                        "2.4": "2.4 Kingdom Plantae (Pg.21)",
+                        "2.5": "2.5 Kingdom Animalia (Pg.22)"
+                    }
                 },
                 "3": {
-                    "3.0": "3.0 Introduction (Pg.23)",
-                    "3.1": "3.1 Algae (Pg.23)",
-                    "3.2": "3.2 Bryophytes (Pg.26)",
-                    "3.3": "3.3 Pteridophytes (Pg.28)",
-                    "3.4": "3.4 Gymnosperms (Pg.30)",
-                    "3.5": "3.5 Angiosperms (Pg.32)",
-                    "3.6": "3.6 Plant Life Cycles and Alternation of Generations (Pg.34)"
+                    "title": "Chapter 3: Plant Kingdom (Pg 23-36)",
+                    "sections": {
+                        "3.1": "3.1 Algae (Pg.24)",
+                        "3.1.1": "3.1.1 Chlorophyceae (Pg.25)",
+                        "3.1.2": "3.1.2 Phaeophyceae (Pg.26)",
+                        "3.1.3": "3.1.3 Rhodophyceae (Pg.26)",
+                        "3.2": "3.2 Bryophytes (Pg.27)",
+                        "3.2.1": "3.2.1 Liverworts (Pg.28)",
+                        "3.2.2": "3.2.2 Mosses (Pg.29)",
+                        "3.3": "3.3 Pteridophytes (Pg.30)",
+                        "3.4": "3.4 Gymnosperms (Pg.32)",
+                        "3.5": "3.5 Angiosperms (Pg.34)",
+                        "3.5.1": "3.5.1 Dicotyledons (Pg.35)",
+                        "3.5.2": "3.5.2 Monocotyledons (Pg.35)"
+                    }
                 },
                 "4": {
-                    "4.0": "4.0 Introduction (Pg.37)",
-                    "4.1": "4.1 Basis of Classification (Pg.37)",
-                    "4.2": "4.2 Classification of Animals (Pg.39)",
-                    "4.2.1": "4.2.1 Phylum Porifera (Pg.39)",
-                    "4.2.2": "4.2.2 Phylum Cnidaria (Pg.40)",
-                    "4.2.3": "4.2.3 Phylum Ctenophora (Pg.41)",
-                    "4.2.4": "4.2.4 Phylum Platyhelminthes (Pg.42)",
-                    "4.2.5": "4.2.5 Phylum Nematoda (Pg.43)",
-                    "4.2.6": "4.2.6 Phylum Annelida (Pg.44)",
-                    "4.2.7": "4.2.7 Phylum Arthropoda (Pg.45)",
-                    "4.2.8": "4.2.8 Phylum Mollusca (Pg.47)",
-                    "4.2.9": "4.2.9 Phylum Echinodermata (Pg.48)",
-                    "4.2.10": "4.2.10 Phylum Hemichordata (Pg.49)",
-                    "4.2.11": "4.2.11 Phylum Chordata (Pg.50)"
+                    "title": "Chapter 4: Animal Kingdom (Pg 37-54)",
+                    "sections": {
+                        "4.1": "4.1 Basis of Classification (Pg.38)",
+                        "4.1.1": "4.1.1 Levels of Organisation (Pg.38)",
+                        "4.1.2": "4.1.2 Symmetry (Pg.39)",
+                        "4.1.3": "4.1.3 Diploblastic and Triploblastic Organisation (Pg.39)",
+                        "4.1.4": "4.1.4 Coelom (Pg.40)",
+                        "4.1.5": "4.1.5 Segmentation (Pg.40)",
+                        "4.1.6": "4.1.6 Notochord (Pg.40)",
+                        "4.2": "4.2 Classification of Animals (Pg.41)",
+                        "4.2.1": "4.2.1 Phylum Porifera (Pg.41)",
+                        "4.2.2": "4.2.2 Phylum Cnidaria (Pg.42)",
+                        "4.2.3": "4.2.3 Phylum Ctenophora (Pg.43)",
+                        "4.2.4": "4.2.4 Phylum Platyhelminthes (Pg.44)",
+                        "4.2.5": "4.2.5 Phylum Nematoda (Pg.45)",
+                        "4.2.6": "4.2.6 Phylum Annelida (Pg.46)",
+                        "4.2.7": "4.2.7 Phylum Arthropoda (Pg.47)",
+                        "4.2.8": "4.2.8 Phylum Mollusca (Pg.48)",
+                        "4.2.9": "4.2.9 Phylum Echinodermata (Pg.49)",
+                        "4.2.10": "4.2.10 Phylum Hemichordata (Pg.50)",
+                        "4.2.11": "4.2.11 Phylum Chordata (Pg.51)"
+                    }
                 },
                 "5": {
-                    "5.0": "5.0 Introduction (Pg.57)",
-                    "5.1": "5.1 The Root (Pg.57)",
-                    "5.2": "5.2 The Stem (Pg.60)",
-                    "5.3": "5.3 The Leaf (Pg.63)",
-                    "5.4": "5.4 The Inflorescence (Pg.66)",
-                    "5.5": "5.5 The Flower (Pg.67)",
-                    "5.6": "5.6 The Fruit (Pg.69)",
-                    "5.7": "5.7 The Seed (Pg.70)"
+                    "title": "Chapter 5: Morphology of Flowering Plants (Pg 57-70)",
+                    "sections": {
+                        "5.1": "5.1 The Root (Pg.58)",
+                        "5.1.1": "5.1.1 Regions of the Root (Pg.58)",
+                        "5.1.2": "5.1.2 Modifications of Root (Pg.59)",
+                        "5.2": "5.2 The Stem (Pg.60)",
+                        "5.2.1": "5.2.1 Modifications of Stem (Pg.61)",
+                        "5.3": "5.3 The Leaf (Pg.63)",
+                        "5.3.1": "5.3.1 Venation (Pg.64)",
+                        "5.3.2": "5.3.2 Types of Leaves (Pg.64)",
+                        "5.3.3": "5.3.3 Leaf Modifications (Pg.65)",
+                        "5.4": "5.4 The Inflorescence (Pg.66)",
+                        "5.5": "5.5 The Flower (Pg.67)",
+                        "5.5.1": "5.5.1 Parts of a Flower (Pg.67)",
+                        "5.6": "5.6 The Fruit (Pg.69)",
+                        "5.7": "5.7 The Seed (Pg.70)"
+                    }
                 },
                 "6": {
-                    "6.0": "6.0 Introduction (Pg.71)",
-                    "6.1": "6.1 Tissues (Pg.71)",
-                    "6.2": "6.2 The Tissue System (Pg.73)",
-                    "6.3": "6.3 Anatomy of Dicotyledonous and Monocotyledonous Plants (Pg.75)",
-                    "6.4": "6.4 Secondary Growth (Pg.77)"
+                    "title": "Chapter 6: Anatomy of Flowering Plants (Pg 71-78)",
+                    "sections": {
+                        "6.1": "6.1 The Tissues (Pg.72)",
+                        "6.1.1": "6.1.1 Meristematic Tissues (Pg.72)",
+                        "6.1.2": "6.1.2 Permanent Tissues (Pg.73)",
+                        "6.2": "6.2 The Tissue Systems (Pg.75)",
+                        "6.3": "6.3 Anatomy of Dicotyledonous and Monocotyledonous Plants (Pg.76)",
+                        "6.3.1": "6.3.1 Dicotyledonous Root (Pg.76)",
+                        "6.3.2": "6.3.2 Monocotyledonous Root (Pg.77)",
+                        "6.3.3": "6.3.3 Dicotyledonous Stem (Pg.77)",
+                        "6.3.4": "6.3.4 Monocotyledonous Stem (Pg.78)",
+                        "6.4": "6.4 Secondary Growth (Pg.78)"
+                    }
                 },
                 "7": {
-                    "7.0": "7.0 Introduction (Pg.79)",
-                    "7.1": "7.1 Animal Tissues (Pg.79)",
-                    "7.2": "7.2 Organ and Organ System (Pg.82)",
-                    "7.3": "7.3 Earthworm (Pg.82)",
-                    "7.4": "7.4 Cockroach (Pg.83)",
-                    "7.5": "7.5 Frog (Pg.84)"
+                    "title": "Chapter 7: Structural Organisation in Animals (Pg 79-84)",
+                    "sections": {
+                        "7.1": "7.1 Animal Tissues (Pg.80)",
+                        "7.1.1": "7.1.1 Epithelial Tissue (Pg.80)",
+                        "7.1.2": "7.1.2 Connective Tissue (Pg.81)",
+                        "7.1.3": "7.1.3 Muscle Tissue (Pg.82)",
+                        "7.1.4": "7.1.4 Neural Tissue (Pg.83)",
+                        "7.2": "7.2 Organ and Organ System (Pg.83)",
+                        "7.3": "7.3 Earthworm (Pg.84)",
+                        "7.4": "7.4 Cockroach (Pg.84)"
+                    }
                 },
                 "8": {
-                    "8.0": "8.0 Introduction (Pg.87)",
-                    "8.1": "8.1 What is a Cell? (Pg.87)",
-                    "8.2": "8.2 Cell Theory (Pg.88)",
-                    "8.3": "8.3 An Overview of Cell (Pg.88)",
-                    "8.4": "8.4 Prokaryotic Cells (Pg.89)",
-                    "8.5": "8.5 Eukaryotic Cells (Pg.91)"
+                    "title": "Chapter 8: Cell - The Unit of Life (Pg 87-103)",
+                    "sections": {
+                        "8.1": "8.1 What is a Cell? (Pg.88)",
+                        "8.2": "8.2 Cell Theory (Pg.88)",
+                        "8.3": "8.3 An Overview of Cell (Pg.89)",
+                        "8.4": "8.4 Prokaryotic Cells (Pg.90)",
+                        "8.5": "8.5 Eukaryotic Cells (Pg.92)",
+                        "8.5.1": "8.5.1 Cell Membrane (Pg.92)",
+                        "8.5.2": "8.5.2 Cell Wall (Pg.94)",
+                        "8.5.3": "8.5.3 Endomembrane System (Pg.95)",
+                        "8.5.4": "8.5.4 Mitochondria (Pg.99)",
+                        "8.5.5": "8.5.5 Plastids (Pg.100)",
+                        "8.5.6": "8.5.6 Ribosomes (Pg.101)",
+                        "8.5.7": "8.5.7 Cytoskeleton (Pg.102)",
+                        "8.5.8": "8.5.8 Cilia and Flagella (Pg.102)",
+                        "8.5.9": "8.5.9 Centrosome and Centrioles (Pg.103)",
+                        "8.5.10": "8.5.10 Nucleus (Pg.103)"
+                    }
                 },
                 "9": {
-                    "9.0": "9.0 Introduction (Pg.104)",
-                    "9.1": "9.1 How to Analyse Chemical Composition? (Pg.104)",
-                    "9.2": "9.2 Primary and Secondary Metabolites (Pg.105)",
-                    "9.3": "9.3 Biomacromolecules (Pg.106)",
-                    "9.4": "9.4 Proteins (Pg.108)",
-                    "9.5": "9.5 Polysaccharides (Pg.112)",
-                    "9.6": "9.6 Nucleic Acids (Pg.114)",
-                    "9.7": "9.7 Structure of Proteins (Pg.117)"
+                    "title": "Chapter 9: Biomolecules (Pg 104-119)",
+                    "sections": {
+                        "9.1": "9.1 How to Analyse Chemical Composition? (Pg.105)",
+                        "9.2": "9.2 Primary and Secondary Metabolites (Pg.106)",
+                        "9.3": "9.3 Biomacromolecules (Pg.107)",
+                        "9.4": "9.4 Proteins (Pg.107)",
+                        "9.5": "9.5 Polysaccharides (Pg.113)",
+                        "9.6": "9.6 Nucleic Acids (Pg.115)",
+                        "9.7": "9.7 Structure of Proteins (Pg.117)",
+                        "9.8": "9.8 Nature of Bond Linking Monomers (Pg.118)",
+                        "9.9": "9.9 Dynamic State of Body Constituents (Pg.118)",
+                        "9.10": "9.10 Metabolic Basis for Living (Pg.119)",
+                        "9.11": "9.11 The Living State (Pg.119)"
+                    }
                 },
                 "10": {
-                    "10.0": "10.0 Introduction (Pg.120)",
-                    "10.1": "10.1 Cell Cycle (Pg.120)",
-                    "10.2": "10.2 M Phase (Pg.122)",
-                    "10.3": "10.3 Significance of Mitosis (Pg.125)",
-                    "10.4": "10.4 Meiosis (Pg.126)",
-                    "10.5": "10.5 Significance of Meiosis (Pg.129)"
+                    "title": "Chapter 10: Cell Cycle and Cell Division (Pg 120-130)",
+                    "sections": {
+                        "10.1": "10.1 Cell Cycle (Pg.121)",
+                        "10.2": "10.2 M Phase (Pg.122)",
+                        "10.2.1": "10.2.1 Karyokinesis (Pg.123)",
+                        "10.2.2": "10.2.2 Cytokinesis (Pg.126)",
+                        "10.3": "10.3 Significance of Mitosis (Pg.127)",
+                        "10.4": "10.4 Meiosis (Pg.127)",
+                        "10.4.1": "10.4.1 Meiosis I (Pg.128)",
+                        "10.4.2": "10.4.2 Meiosis II (Pg.129)",
+                        "10.5": "10.5 Significance of Meiosis (Pg.130)"
+                    }
                 },
                 "11": {
-                    "11.0": "11.0 Introduction (Pg.133)",
-                    "11.1": "11.1 What do we know? (Pg.133)",
-                    "11.2": "11.2 Early Experiments (Pg.134)",
-                    "11.3": "11.3 Where does Photosynthesis Take Place? (Pg.135)",
-                    "11.4": "11.4 How many Types of Pigments are Involved in Photosynthesis? (Pg.137)",
-                    "11.5": "11.5 What is Light Reaction? (Pg.139)",
-                    "11.6": "11.6 What is the Electron Transport? (Pg.141)",
-                    "11.7": "11.7 Where are the ATP and NADPH Used? (Pg.143)",
-                    "11.8": "11.8 The C4 Pathway (Pg.147)",
-                    "11.9": "11.9 Photorespiration (Pg.149)",
-                    "11.10": "11.10 Factors affecting Photosynthesis (Pg.150)"
+                    "title": "Chapter 11: Photosynthesis in Higher Plants (Pg 133-152)",
+                    "sections": {
+                        "11.1": "11.1 What do we Know? (Pg.134)",
+                        "11.2": "11.2 Early Experiments (Pg.134)",
+                        "11.3": "11.3 Where does Photosynthesis Take Place? (Pg.136)",
+                        "11.4": "11.4 How many Types of Pigments are Involved in Photosynthesis? (Pg.137)",
+                        "11.5": "11.5 What is Light Reaction? (Pg.139)",
+                        "11.6": "11.6 Where are the ATP and NADPH Used? (Pg.143)",
+                        "11.7": "11.7 The C4 Pathway (Pg.146)",
+                        "11.8": "11.8 Photorespiration (Pg.149)",
+                        "11.9": "11.9 Factors affecting Photosynthesis (Pg.150)"
+                    }
                 },
                 "12": {
-                    "12.0": "12.0 Introduction (Pg.153)",
-                    "12.1": "12.1 Do Plants Breathe? (Pg.153)",
-                    "12.2": "12.2 Glycolysis (Pg.154)",
-                    "12.3": "12.3 Fermentation (Pg.156)",
-                    "12.4": "12.4 Aerobic Respiration (Pg.158)",
-                    "12.5": "12.5 The Respiratory Balance Sheet (Pg.162)",
-                    "12.6": "12.6 Amphibolic Pathway (Pg.163)",
-                    "12.7": "12.7 Respiratory Quotient (Pg.164)"
+                    "title": "Chapter 12: Respiration in Plants (Pg 153-165)",
+                    "sections": {
+                        "12.1": "12.1 Do Plants Breathe? (Pg.154)",
+                        "12.2": "12.2 Glycolysis (Pg.155)",
+                        "12.3": "12.3 Fermentation (Pg.157)",
+                        "12.4": "12.4 Aerobic Respiration (Pg.158)",
+                        "12.4.1": "12.4.1 Tricarboxylic Acid Cycle (Pg.158)",
+                        "12.4.2": "12.4.2 Electron Transport System and Oxidative Phosphorylation (Pg.160)",
+                        "12.5": "12.5 The Respiratory Balance Sheet (Pg.162)",
+                        "12.6": "12.6 Amphibolic Pathway (Pg.163)",
+                        "12.7": "12.7 Respiratory Quotient (Pg.164)"
+                    }
                 },
                 "13": {
-                    "13.0": "13.0 Introduction (Pg.166)",
-                    "13.1": "13.1 Plant Growth (Pg.166)",
-                    "13.2": "13.2 Plant Growth Regulators (Pg.170)",
-                    "13.3": "13.3 Photoperiodism (Pg.174)",
-                    "13.4": "13.4 Vernalisation (Pg.176)",
-                    "13.5": "13.5 Seed Dormancy and Germination (Pg.177)"
+                    "title": "Chapter 13: Plant Growth and Development (Pg 166-180)",
+                    "sections": {
+                        "13.1": "13.1 Growth (Pg.167)",
+                        "13.1.1": "13.1.1 Plant Growth Generally is Indeterminate (Pg.167)",
+                        "13.1.2": "13.1.2 Measurement of Growth (Pg.168)",
+                        "13.1.3": "13.1.3 Phases of Growth (Pg.169)",
+                        "13.1.4": "13.1.4 Growth Rates (Pg.170)",
+                        "13.1.5": "13.1.5 Conditions for Growth (Pg.171)",
+                        "13.2": "13.2 Differentiation, Dedifferentiation and Redifferentiation (Pg.172)",
+                        "13.3": "13.3 Development (Pg.173)",
+                        "13.4": "13.4 Plant Growth Regulators (Pg.174)",
+                        "13.4.1": "13.4.1 Discovery of Plant Growth Regulators (Pg.174)",
+                        "13.4.2": "13.4.2 Characteristics (Pg.175)",
+                        "13.4.3": "13.4.3 The Auxins (Pg.176)",
+                        "13.4.4": "13.4.4 The Gibberellins (Pg.177)",
+                        "13.4.5": "13.4.5 The Cytokinins (Pg.178)",
+                        "13.4.6": "13.4.6 Ethylene (Pg.179)",
+                        "13.4.7": "13.4.7 Abscisic acid (Pg.179)",
+                        "13.5": "13.5 Photoperiodism (Pg.180)",
+                        "13.6": "13.6 Vernalisation (Pg.180)"
+                    }
                 },
                 "14": {
-                    "14.0": "14.0 Introduction (Pg.183)",
-                    "14.1": "14.1 Respiratory Organs (Pg.183)",
-                    "14.2": "14.2 Mechanism of Breathing (Pg.186)",
-                    "14.3": "14.3 Exchange of Gases (Pg.189)",
-                    "14.4": "14.4 Transport of Gases (Pg.190)",
-                    "14.5": "14.5 Regulation of Respiration (Pg.192)"
+                    "title": "Chapter 14: Breathing and Exchange of Gases (Pg 183-192)",
+                    "sections": {
+                        "14.1": "14.1 Respiratory Organs (Pg.184)",
+                        "14.2": "14.2 Mechanism of Breathing (Pg.186)",
+                        "14.2.1": "14.2.1 Inspiration (Pg.186)",
+                        "14.2.2": "14.2.2 Expiration (Pg.187)",
+                        "14.3": "14.3 Exchange of Gases (Pg.188)",
+                        "14.3.1": "14.3.1 Transport of Oxygen (Pg.189)",
+                        "14.3.2": "14.3.2 Transport of Carbon dioxide (Pg.190)",
+                        "14.4": "14.4 Regulation of Respiration (Pg.191)"
+                    }
                 },
                 "15": {
-                    "15.0": "15.0 Introduction (Pg.193)",
-                    "15.1": "15.1 Blood (Pg.193)",
-                    "15.2": "15.2 Lymph (Pg.197)",
-                    "15.3": "15.3 Circulatory System (Pg.197)",
-                    "15.4": "15.4 Double Circulation (Pg.201)",
-                    "15.5": "15.5 Regulation of Cardiac Activity (Pg.203)",
-                    "15.6": "15.6 Disorders of Circulatory System (Pg.203)"
+                    "title": "Chapter 15: Body Fluids and Circulation (Pg 193-204)",
+                    "sections": {
+                        "15.1": "15.1 Blood (Pg.194)",
+                        "15.1.1": "15.1.1 Plasma (Pg.194)",
+                        "15.1.2": "15.1.2 Formed Elements (Pg.195)",
+                        "15.2": "15.2 Lymph (Pg.197)",
+                        "15.3": "15.3 Circulatory Pathways (Pg.198)",
+                        "15.4": "15.4 Double Circulation (Pg.199)",
+                        "15.5": "15.5 Regulation of Cardiac Activity (Pg.201)",
+                        "15.6": "15.6 Disorders of Circulatory System (Pg.203)"
+                    }
                 },
                 "16": {
-                    "16.0": "16.0 Introduction (Pg.205)",
-                    "16.1": "16.1 Human Excretory System (Pg.205)",
-                    "16.2": "16.2 Urine Formation (Pg.208)",
-                    "16.3": "16.3 Function of the Tubules (Pg.210)",
-                    "16.4": "16.4 Mechanism of Concentration of the Filtrate (Pg.211)",
-                    "16.5": "16.5 Regulation of Kidney Function (Pg.213)",
-                    "16.6": "16.6 Micturition (Pg.214)",
-                    "16.7": "16.7 Role of other Organs in Excretion (Pg.214)",
-                    "16.8": "16.8 Disorders of the Excretory System (Pg.215)"
+                    "title": "Chapter 16: Excretory Products and their Elimination (Pg 205-216)",
+                    "sections": {
+                        "16.1": "16.1 Human Excretory System (Pg.206)",
+                        "16.2": "16.2 Urine Formation (Pg.208)",
+                        "16.2.1": "16.2.1 Glomerular Filtration (Pg.208)",
+                        "16.2.2": "16.2.2 Reabsorption (Pg.209)",
+                        "16.2.3": "16.2.3 Secretion (Pg.210)",
+                        "16.3": "16.3 Function of the Tubules (Pg.211)",
+                        "16.4": "16.4 Mechanism of Concentration of the Filtrate (Pg.212)",
+                        "16.5": "16.5 Regulation of Kidney Function (Pg.214)",
+                        "16.6": "16.6 Micturition (Pg.215)",
+                        "16.7": "16.7 Role of other Organs in Excretion (Pg.215)",
+                        "16.8": "16.8 Disorders of the Excretory System (Pg.216)"
+                    }
                 },
                 "17": {
-                    "17.0": "17.0 Introduction (Pg.217)",
-                    "17.1": "17.1 Types of Movement (Pg.217)",
-                    "17.2": "17.2 Muscle (Pg.218)",
-                    "17.3": "17.3 Skeletal System (Pg.222)",
-                    "17.4": "17.4 Joints (Pg.224)",
-                    "17.5": "17.5 Disorders of Muscular and Skeletal System (Pg.228)"
+                    "title": "Chapter 17: Locomotion and Movement (Pg 217-229)",
+                    "sections": {
+                        "17.1": "17.1 Types of Movement (Pg.218)",
+                        "17.2": "17.2 Muscle (Pg.219)",
+                        "17.2.1": "17.2.1 Structure of Contractile Proteins (Pg.220)",
+                        "17.2.2": "17.2.2 Mechanism of Muscle Contraction (Pg.221)",
+                        "17.3": "17.3 Skeletal System (Pg.224)",
+                        "17.3.1": "17.3.1 Joints (Pg.226)",
+                        "17.4": "17.4 Disorders of Muscular and Skeletal System (Pg.228)"
+                    }
                 },
                 "18": {
-                    "18.0": "18.0 Introduction (Pg.230)",
-                    "18.1": "18.1 Neural System (Pg.230)",
-                    "18.2": "18.2 Human Neural System (Pg.232)",
-                    "18.3": "18.3 Neuron as Structural and Functional Unit of Neural System (Pg.234)",
-                    "18.4": "18.4 Central Neural System (Pg.235)",
-                    "18.5": "18.5 Reflex Action and Reflex Arc (Pg.237)",
-                    "18.6": "18.6 Sensory Reception and Processing (Pg.238)"
+                    "title": "Chapter 18: Neural Control and Coordination (Pg 230-238)",
+                    "sections": {
+                        "18.1": "18.1 Neural System (Pg.231)",
+                        "18.2": "18.2 Human Neural System (Pg.232)",
+                        "18.2.1": "18.2.1 Central Neural System (Pg.232)",
+                        "18.2.2": "18.2.2 Peripheral Neural System (Pg.234)",
+                        "18.3": "18.3 Neuron as Structural and Functional Unit of Neural System (Pg.235)",
+                        "18.4": "18.4 Central Neural System (Pg.236)",
+                        "18.5": "18.5 Reflex Action and Reflex Arc (Pg.237)",
+                        "18.6": "18.6 Sensory Reception and Processing (Pg.238)"
+                    }
                 },
                 "19": {
-                    "19.0": "19.0 Introduction (Pg.239)",
-                    "19.1": "19.1 Endocrine Glands and Hormones (Pg.239)",
-                    "19.2": "19.2 Human Endocrine System (Pg.240)",
-                    "19.3": "19.3 Hormones of Heart, Kidney and Gastrointestinal Tract (Pg.248)",
-                    "19.4": "19.4 Mechanism of Hormone Action (Pg.249)"
+                    "title": "Chapter 19: Chemical Coordination and Integration (Pg 239-250)",
+                    "sections": {
+                        "19.1": "19.1 The Endocrine System (Pg.240)",
+                        "19.2": "19.2 Human Endocrine System (Pg.241)",
+                        "19.2.1": "19.2.1 The Hypothalamus (Pg.241)",
+                        "19.2.2": "19.2.2 The Pituitary Gland (Pg.242)",
+                        "19.2.3": "19.2.3 The Pineal Gland (Pg.244)",
+                        "19.2.4": "19.2.4 The Thyroid Gland (Pg.244)",
+                        "19.2.5": "19.2.5 The Parathyroid Gland (Pg.245)",
+                        "19.2.6": "19.2.6 The Thymus (Pg.246)",
+                        "19.2.7": "19.2.7 The Adrenal Gland (Pg.246)",
+                        "19.2.8": "19.2.8 The Pancreas (Pg.247)",
+                        "19.2.9": "19.2.9 The Testis (Pg.248)",
+                        "19.2.10": "19.2.10 The Ovary (Pg.248)",
+                        "19.3": "19.3 Hormones of Heart, Kidney and Gastrointestinal Tract (Pg.249)",
+                        "19.4": "19.4 Mechanism of Hormone Action (Pg.250)"
+                    }
                 }
             },
             "12": {
                 "1": {
-                    "1.0": "1.0 Introduction (Pg.3)",
-                    "1.1": "1.1 Flower - A Fascinating Organ of Angiosperms (Pg.3)",
-                    "1.2": "1.2 Pre-fertilisation : Structures and Events (Pg.4)",
-                    "1.3": "1.3 Double Fertilisation (Pg.12)",
-                    "1.4": "1.4 Post-fertilisation: Structures and Events (Pg.13)",
-                    "1.5": "1.5 Apomixis and Polyembryony (Pg.22)"
+                    "title": "Chapter 1: Sexual Reproduction in Flowering Plants (Pg 3-25)",
+                    "sections": {
+                        "1.1": "1.1 Flower - A Fascinating Organ of Angiosperms (Pg.4)",
+                        "1.2": "1.2 Pre-fertilisation: Structures and Events (Pg.5)",
+                        "1.2.1": "1.2.1 Stamen, Microsporangium and Pollen Grain (Pg.5)",
+                        "1.2.2": "1.2.2 The Pistil, Megasporangium and Embryo sac (Pg.8)",
+                        "1.2.3": "1.2.3 Pollination (Pg.11)",
+                        "1.3": "1.3 Double Fertilisation (Pg.16)",
+                        "1.4": "1.4 Post-fertilisation: Structures and Events (Pg.17)",
+                        "1.4.1": "1.4.1 Endosperm (Pg.17)",
+                        "1.4.2": "1.4.2 Embryo (Pg.19)",
+                        "1.4.3": "1.4.3 Seed (Pg.21)",
+                        "1.4.4": "1.4.4 Fruit (Pg.22)",
+                        "1.5": "1.5 Apomixis and Polyembryony (Pg.23)"
+                    }
                 },
                 "2": {
-                    "2.0": "2.0 Introduction (Pg.26)",
-                    "2.1": "2.1 The Male Reproductive System (Pg.26)",
-                    "2.2": "2.2 The Female Reproductive System (Pg.29)",
-                    "2.3": "2.3 Gametogenesis (Pg.31)",
-                    "2.4": "2.4 Menstrual Cycle (Pg.34)",
-                    "2.5": "2.5 Fertilisation and Implantation (Pg.35)",
-                    "2.6": "2.6 Pregnancy and Embryonic Development (Pg.37)",
-                    "2.7": "2.7 Parturition and Lactation (Pg.39)"
+                    "title": "Chapter 2: Human Reproduction (Pg 26-45)",
+                    "sections": {
+                        "2.1": "2.1 The Male Reproductive System (Pg.27)",
+                        "2.2": "2.2 The Female Reproductive System (Pg.30)",
+                        "2.3": "2.3 Gametogenesis (Pg.32)",
+                        "2.3.1": "2.3.1 Spermatogenesis (Pg.32)",
+                        "2.3.2": "2.3.2 Oogenesis (Pg.34)",
+                        "2.4": "2.4 Menstrual Cycle (Pg.36)",
+                        "2.5": "2.5 Fertilisation and Implantation (Pg.38)",
+                        "2.6": "2.6 Pregnancy and Embryonic Development (Pg.40)",
+                        "2.7": "2.7 Parturition and Lactation (Pg.43)"
+                    }
                 },
                 "3": {
-                    "3.0": "3.0 Introduction (Pg.41)",
-                    "3.1": "3.1 Reproductive Health - Problems and Strategies (Pg.41)",
-                    "3.2": "3.2 Population Explosion and Birth Control (Pg.42)",
-                    "3.3": "3.3 Medical Termination of Pregnancy (MTP) (Pg.45)",
-                    "3.4": "3.4 Sexually Transmitted Diseases (STD) (Pg.46)",
-                    "3.5": "3.5 Infertility (Pg.48)"
+                    "title": "Chapter 3: Reproductive Health (Pg 46-58)",
+                    "sections": {
+                        "3.1": "3.1 Reproductive Health - Problems and Strategies (Pg.47)",
+                        "3.2": "3.2 Population Explosion and Birth Control (Pg.48)",
+                        "3.3": "3.3 Medical Termination of Pregnancy (Pg.52)",
+                        "3.4": "3.4 Sexually Transmitted Diseases (Pg.53)",
+                        "3.5": "3.5 Infertility (Pg.56)"
+                    }
                 },
                 "4": {
-                    "4.0": "4.0 Introduction (Pg.53)",
-                    "4.1": "4.1 Mendel's Laws of Inheritance (Pg.53)",
-                    "4.2": "4.2 Inheritance of One Gene (Pg.54)",
-                    "4.3": "4.3 Inheritance of Two Genes (Pg.58)",
-                    "4.4": "4.4 Chromosomal Theory of Inheritance (Pg.62)",
-                    "4.5": "4.5 Linkage and Recombination (Pg.63)",
-                    "4.6": "4.6 Mutations (Pg.65)",
-                    "4.7": "4.7 Genetic Disorders (Pg.66)"
+                    "title": "Chapter 4: Principles of Inheritance and Variation (Pg 59-79)",
+                    "sections": {
+                        "4.1": "4.1 Mendel's Laws of Inheritance (Pg.60)",
+                        "4.1.1": "4.1.1 Inheritance of One Gene (Pg.61)",
+                        "4.1.2": "4.1.2 Inheritance of Two Genes (Pg.64)",
+                        "4.2": "4.2 Chromosomal Theory of Inheritance (Pg.66)",
+                        "4.3": "4.3 Linkage and Recombination (Pg.67)",
+                        "4.4": "4.4 Mutation (Pg.69)",
+                        "4.5": "4.5 Genetic Disorders (Pg.71)",
+                        "4.5.1": "4.5.1 Pedigree Analysis (Pg.71)",
+                        "4.5.2": "4.5.2 Mendelian Disorders (Pg.73)",
+                        "4.5.3": "4.5.3 Chromosomal Disorders (Pg.76)"
+                    }
                 },
                 "5": {
-                    "5.0": "5.0 Introduction (Pg.79)",
-                    "5.1": "5.1 The DNA (Pg.79)",
-                    "5.2": "5.2 The Search for Genetic Material (Pg.79)",
-                    "5.3": "5.3 RNA World (Pg.82)",
-                    "5.4": "5.4 Replication (Pg.83)",
-                    "5.5": "5.5 Transcription (Pg.86)",
-                    "5.6": "5.6 Genetic Code (Pg.90)",
-                    "5.7": "5.7 Translation (Pg.92)",
-                    "5.8": "5.8 Regulation of Gene Expression (Pg.96)",
-                    "5.9": "5.9 Human Genome Project (Pg.102)",
-                    "5.10": "5.10 DNA Fingerprinting (Pg.105)"
+                    "title": "Chapter 5: Molecular Basis of Inheritance (Pg 80-103)",
+                    "sections": {
+                        "5.1": "5.1 The DNA (Pg.81)",
+                        "5.2": "5.2 The Search for Genetic Material (Pg.82)",
+                        "5.2.1": "5.2.1 Transformation Principle (Pg.82)",
+                        "5.2.2": "5.2.2 The Genetic Material is DNA (Pg.84)",
+                        "5.3": "5.3 Properties of Genetic Material (DNA versus RNA) (Pg.85)",
+                        "5.4": "5.4 Packaging of DNA Helix (Pg.86)",
+                        "5.5": "5.5 The Central Dogma (Pg.87)",
+                        "5.6": "5.6 Transcription (Pg.88)",
+                        "5.7": "5.7 Genetic Code (Pg.91)",
+                        "5.8": "5.8 Translation (Pg.93)",
+                        "5.9": "5.9 Regulation of Gene Expression (Pg.96)",
+                        "5.9.1": "5.9.1 The Lac Operon (Pg.96)",
+                        "5.10": "5.10 Human Genome Project (Pg.99)",
+                        "5.11": "5.11 DNA Fingerprinting (Pg.101)"
+                    }
                 },
                 "6": {
-                    "6.0": "6.0 Introduction (Pg.110)",
-                    "6.1": "6.1 Origin of Life (Pg.110)",
-                    "6.2": "6.2 Evolution of Life Forms - A Theory (Pg.112)",
-                    "6.3": "6.3 What are the Evidences for Evolution? (Pg.114)",
-                    "6.4": "6.4 What is Adaptive Radiation? (Pg.116)",
-                    "6.5": "6.5 Biological Evolution (Pg.117)",
-                    "6.6": "6.6 Mechanism of Evolution (Pg.118)",
-                    "6.7": "6.7 Hardy-Weinberg Principle (Pg.121)",
-                    "6.8": "6.8 A Brief Account of Evolution (Pg.122)",
-                    "6.9": "6.9 Origin and Evolution of Man (Pg.124)"
+                    "title": "Chapter 6: Evolution (Pg 104-125)",
+                    "sections": {
+                        "6.1": "6.1 Origin of Life (Pg.105)",
+                        "6.2": "6.2 Evolution of Life Forms - A Theory (Pg.108)",
+                        "6.3": "6.3 What are the Evidences for Evolution? (Pg.110)",
+                        "6.3.1": "6.3.1 Morphological and Anatomical Evidence (Pg.110)",
+                        "6.3.2": "6.3.2 Palaeontological Evidence (Pg.112)",
+                        "6.3.3": "6.3.3 Biochemical Evidence (Pg.113)",
+                        "6.4": "6.4 What is Adaptive Radiation? (Pg.114)",
+                        "6.5": "6.5 Biological Evolution (Pg.116)",
+                        "6.6": "6.6 Mechanism of Evolution (Pg.117)",
+                        "6.6.1": "6.6.1 Darwin's Theory (Pg.117)",
+                        "6.6.2": "6.6.2 A Brief Account of Evolution (Pg.119)",
+                        "6.6.3": "6.6.3 The Origin and Evolution of Man (Pg.121)"
+                    }
                 },
                 "7": {
-                    "7.0": "7.0 Introduction (Pg.129)",
-                    "7.1": "7.1 Common Diseases in Humans (Pg.129)",
-                    "7.2": "7.2 Immunity (Pg.135)",
-                    "7.3": "7.3 AIDS (Pg.140)",
-                    "7.4": "7.4 Cancer (Pg.142)",
-                    "7.5": "7.5 Drugs and Alcohol Abuse (Pg.144)"
+                    "title": "Chapter 7: Human Health and Disease (Pg 126-144)",
+                    "sections": {
+                        "7.1": "7.1 Common Diseases in Humans (Pg.127)",
+                        "7.2": "7.2 Immunity (Pg.130)",
+                        "7.2.1": "7.2.1 Innate Immunity (Pg.130)",
+                        "7.2.2": "7.2.2 Acquired Immunity (Pg.131)",
+                        "7.3": "7.3 AIDS (Pg.135)",
+                        "7.4": "7.4 Cancer (Pg.137)",
+                        "7.5": "7.5 Drugs and Alcohol Abuse (Pg.140)"
+                    }
                 },
                 "8": {
-                    "8.0": "8.0 Introduction (Pg.149)",
-                    "8.1": "8.1 Microbes in Household Products (Pg.149)",
-                    "8.2": "8.2 Microbes in Industrial Products (Pg.150)",
-                    "8.3": "8.3 Microbes in Sewage Treatment (Pg.152)",
-                    "8.4": "8.4 Microbes in Production of Biogas (Pg.154)",
-                    "8.5": "8.5 Microbes as Biocontrol Agents (Pg.155)",
-                    "8.6": "8.6 Microbes as Biofertilisers (Pg.157)"
+                    "title": "Chapter 8: Microbes in Human Welfare (Pg 145-158)",
+                    "sections": {
+                        "8.1": "8.1 Microbes in Household Products (Pg.146)",
+                        "8.2": "8.2 Microbes in Industrial Products (Pg.147)",
+                        "8.3": "8.3 Microbes in Sewage Treatment (Pg.149)",
+                        "8.4": "8.4 Microbes in Production of Biogas (Pg.151)",
+                        "8.5": "8.5 Microbes as Biocontrol Agents (Pg.152)",
+                        "8.6": "8.6 Microbes as Biofertilisers (Pg.154)"
+                    }
                 },
                 "9": {
-                    "9.0": "9.0 Introduction (Pg.163)",
-                    "9.1": "9.1 Principles of Biotechnology (Pg.163)",
-                    "9.2": "9.2 Tools of Recombinant DNA Technology (Pg.164)",
-                    "9.3": "9.3 Processes of Recombinant DNA Technology (Pg.170)"
+                    "title": "Chapter 9: Biotechnology - Principles and Processes (Pg 159-172)",
+                    "sections": {
+                        "9.1": "9.1 Principles of Biotechnology (Pg.160)",
+                        "9.2": "9.2 Tools of Recombinant DNA Technology (Pg.162)",
+                        "9.2.1": "9.2.1 Restriction Enzymes (Pg.162)",
+                        "9.2.2": "9.2.2 Cloning Vectors (Pg.164)",
+                        "9.2.3": "9.2.3 Competent Host (For Transformation with Recombinant DNA) (Pg.166)",
+                        "9.3": "9.3 Processes of Recombinant DNA Technology (Pg.167)",
+                        "9.3.1": "9.3.1 Isolation of the Genetic Material (DNA) (Pg.167)",
+                        "9.3.2": "9.3.2 Cutting of DNA at Specific Locations (Pg.168)",
+                        "9.3.3": "9.3.3 Amplification of Gene of Interest using PCR (Pg.169)",
+                        "9.3.4": "9.3.4 Insertion of Recombinant DNA into the Host Cell/Organism (Pg.170)",
+                        "9.3.5": "9.3.5 Obtaining the Foreign Gene Product (Pg.171)"
+                    }
                 },
                 "10": {
-                    "10.0": "10.0 Introduction (Pg.177)",
-                    "10.1": "10.1 Biotechnological Applications in Agriculture (Pg.177)",
-                    "10.2": "10.2 Biotechnological Applications in Medicine (Pg.181)",
-                    "10.3": "10.3 Transgenic Animals (Pg.183)",
-                    "10.4": "10.4 Ethical Issues (Pg.185)"
+                    "title": "Chapter 10: Biotechnology and its Applications (Pg 173-186)",
+                    "sections": {
+                        "10.1": "10.1 Biotechnological Applications in Agriculture (Pg.174)",
+                        "10.1.1": "10.1.1 Bt Cotton (Pg.175)",
+                        "10.1.2": "10.1.2 Pest Resistant Plants (Pg.176)",
+                        "10.1.3": "10.1.3 Other Applications (Pg.177)",
+                        "10.2": "10.2 Biotechnological Applications in Medicine (Pg.178)",
+                        "10.2.1": "10.2.1 Genetically Engineered Insulin (Pg.178)",
+                        "10.2.2": "10.2.2 Gene Therapy (Pg.179)",
+                        "10.2.3": "10.2.3 Molecular Diagnosis (Pg.180)",
+                        "10.3": "10.3 Transgenic Animals (Pg.181)",
+                        "10.4": "10.4 Ethical Issues (Pg.183)"
+                    }
                 },
                 "11": {
-                    "11.0": "11.0 Introduction (Pg.190)",
-                    "11.1": "11.1 Organism and its Environment (Pg.190)",
-                    "11.2": "11.2 Populations (Pg.196)",
-                    "11.3": "11.3 Population Interactions (Pg.201)"
+                    "title": "Chapter 11: Organisms and Populations (Pg 187-202)",
+                    "sections": {
+                        "11.1": "11.1 Organism and Its Environment (Pg.188)",
+                        "11.1.1": "11.1.1 Major Abiotic Factors (Pg.189)",
+                        "11.1.2": "11.1.2 Responses to Abiotic Factors (Pg.193)",
+                        "11.1.3": "11.1.3 Adaptations (Pg.194)",
+                        "11.2": "11.2 Populations (Pg.196)",
+                        "11.2.1": "11.2.1 Population Attributes (Pg.196)",
+                        "11.2.2": "11.2.2 Population Growth (Pg.198)",
+                        "11.2.3": "11.2.3 Life History Variation (Pg.201)"
+                    }
                 },
                 "12": {
-                    "12.0": "12.0 Introduction (Pg.205)",
-                    "12.1": "12.1 Ecosystem - Structure and Function (Pg.205)",
-                    "12.2": "12.2 Productivity (Pg.207)",
-                    "12.3": "12.3 Decomposition (Pg.209)",
-                    "12.4": "12.4 Energy Flow (Pg.211)",
-                    "12.5": "12.5 Ecological Pyramids (Pg.213)",
-                    "12.6": "12.6 Ecological Succession (Pg.214)",
-                    "12.7": "12.7 Nutrient Cycling (Pg.215)"
+                    "title": "Chapter 12: Ecosystem (Pg 203-216)",
+                    "sections": {
+                        "12.1": "12.1 Ecosystem - Structure and Function (Pg.204)",
+                        "12.1.1": "12.1.1 Productivity (Pg.206)",
+                        "12.1.2": "12.1.2 Decomposition (Pg.208)",
+                        "12.1.3": "12.1.3 Energy Flow (Pg.210)",
+                        "12.1.4": "12.1.4 Ecological Pyramids (Pg.212)",
+                        "12.2": "12.2 Ecological Succession (Pg.213)",
+                        "12.3": "12.3 Nutrient Cycling (Pg.215)"
+                    }
                 },
                 "13": {
-                    "13.0": "13.0 Introduction (Pg.216)",
-                    "13.1": "13.1 Biodiversity (Pg.216)",
-                    "13.2": "13.2 Biodiversity Conservation (Pg.223)",
-                    "13.3": "13.3 Threats to Biodiversity (Pg.225)",
-                    "13.4": "13.4 Conservation of Biodiversity (Pg.226)"
+                    "title": "Chapter 13: Biodiversity and Conservation (Pg 217-232)",
+                    "sections": {
+                        "13.1": "13.1 Biodiversity (Pg.218)",
+                        "13.1.1": "13.1.1 Genetic Diversity (Pg.219)",
+                        "13.1.2": "13.1.2 Species Diversity (Pg.220)",
+                        "13.1.3": "13.1.3 Ecological Diversity (Pg.221)",
+                        "13.2": "13.2 Biodiversity Patterns (Pg.222)",
+                        "13.3": "13.3 The Importance of Species Diversity to the Ecosystem (Pg.224)",
+                        "13.4": "13.4 Loss of Biodiversity (Pg.225)",
+                        "13.4.1": "13.4.1 The Evil Quartet (Pg.225)",
+                        "13.5": "13.5 Biodiversity Conservation (Pg.228)",
+                        "13.5.1": "13.5.1 In-situ Conservation (Pg.229)",
+                        "13.5.2": "13.5.2 Ex-situ Conservation (Pg.230)"
+                    }
                 }
             }
         };
 
-        // Questions data - Class 11 Chapter 1: The Living World with all questions properly organized
+        // Questions data - only Chapter 1 Class 11 for now
         const questionsData = {
             "11": {
                 "1": {
                     "1.0": [
                         {
-                            year: "NEET 2011",
-                            question: "Which aspect is an exclusive characteristic of living things?",
-                            options: [
+                            "year": "2011",
+                            "question": "Which aspect is an exclusive characteristic of living things?",
+                            "options": [
                                 "(a) Isolated metabolic reactions in vitro",
                                 "(b) Increase in mass from inside only", 
                                 "(c) Perception of environmental events and memory",
                                 "(d) Increase in mass by accumulation"
                             ],
-                            answer: "(c) Perception of environmental events and memory"
+                            "answer": "(c) Perception of environmental events and memory"
                         },
                         {
-                            year: "NEET 2019",
-                            question: "The most obvious and complicated feature of all living organisms is:",
-                            options: [
+                            "year": "2019",
+                            "question": "The most obvious and complicated feature of all living organisms is:",
+                            "options": [
                                 "(a) Reproduction",
                                 "(b) Metabolism",
                                 "(c) Growth", 
                                 "(d) Self-consciousness"
                             ],
-                            answer: "(d) Self-consciousness"
+                            "answer": "(d) Self-consciousness"
                         }
                     ],
                     "1.1": [
                         {
-                            year: "NEET 2020",
-                            question: "Biodiversity of a habitat is depicted by:",
-                            options: [
+                            "year": "2020",
+                            "question": "Biodiversity of a habitat is depicted by:",
+                            "options": [
                                 "(a) Number of individuals of a species",
                                 "(b) Number of species in a habitat",
                                 "(c) Number of individuals per species in a habitat",
                                 "(d) Both (b) and (c)"
                             ],
-                            answer: "(d) Both (b) and (c)"
+                            "answer": "(d) Both (b) and (c)"
                         },
                         {
-                            year: "AIPMT 2015",
-                            question: "Which of the following represents the diversity in the living world?",
-                            options: [
+                            "year": "2015",
+                            "question": "Which of the following represents the diversity in the living world?",
+                            "options": [
                                 "(a) Morphological diversity",
                                 "(b) Biochemical diversity", 
                                 "(c) Behavioral diversity",
                                 "(d) All of the above"
                             ],
-                            answer: "(d) All of the above"
+                            "answer": "(d) All of the above"
                         }
                     ],
                     "1.2": [
                         {
-                            year: "NEET 2018",
-                            question: "Taxonomic hierarchy refers to:",
-                            options: [
+                            "year": "2018",
+                            "question": "Taxonomic hierarchy refers to:",
+                            "options": [
                                 "(a) Step-wise arrangement of categories for classification",
                                 "(b) Group of senior taxonomists who decide nomenclature",
                                 "(c) List of botanists and zoologists",
                                 "(d) Classification of species based on fossil record"
                             ],
-                            answer: "(a) Step-wise arrangement of categories for classification"
+                            "answer": "(a) Step-wise arrangement of categories for classification"
                         },
                         {
-                            year: "NEET 2016",
-                            question: "Study the four statements (A-D) and select the two correct ones: (A) Definition of biological species was given by Ernst Mayr (B) Photoperiod does not affect reproduction in plants (C) Binomial nomenclature system was given by R.H. Whittaker (D) In unicellular organisms, reproduction is synonymous with growth",
-                            options: [
+                            "year": "2016",
+                            "question": "Study the four statements (A-D) and select the two correct ones: (A) Definition of biological species was given by Ernst Mayr (B) Photoperiod does not affect reproduction in plants (C) Binomial nomenclature system was given by R.H. Whittaker (D) In unicellular organisms, reproduction is synonymous with growth",
+                            "options": [
                                 "(a) A and B",
                                 "(b) B and C",
-                                "(c) A and D",
+                                "(c) A and D", 
                                 "(d) C and D"
                             ],
-                            answer: "(c) A and D"
+                            "answer": "(c) A and D"
                         }
                     ],
                     "1.2.1": [
                         {
-                            year: "AIPMT 2003",
-                            question: "Species are considered as:",
-                            options: [
+                            "year": "2003",
+                            "question": "Species are considered as:",
+                            "options": [
                                 "(a) Artificial concept of human mind which cannot be defined in absolute terms",
                                 "(b) Real units of classification devised by taxonomists",
                                 "(c) The lowest units of classification",
                                 "(d) Both (b) and (c)"
                             ],
-                            answer: "(d) Both (b) and (c)"
+                            "answer": "(d) Both (b) and (c)"
                         },
                         {
-                            year: "NEET 2021",
-                            question: "Which of the following taxonomic categories contains organisms most similar to one another?",
-                            options: [
+                            "year": "2021",
+                            "question": "Which of the following taxonomic categories contains organisms most similar to one another?",
+                            "options": [
                                 "(a) Class",
-                                "(b) Genus",
+                                "(b) Genus", 
                                 "(c) Family",
                                 "(d) Species"
                             ],
-                            answer: "(d) Species"
+                            "answer": "(d) Species"
                         }
                     ],
                     "1.2.2": [
                         {
-                            year: "NEET 2013",
-                            question: "The common characteristics between tomato and potato will be maximum at the level of their:",
-                            options: [
+                            "year": "2013",
+                            "question": "The common characteristics between tomato and potato will be maximum at the level of their:",
+                            "options": [
                                 "(a) Division",
                                 "(b) Class",
-                                "(c) Family",
+                                "(c) Family", 
                                 "(d) Genus"
                             ],
-                            answer: "(d) Genus"
+                            "answer": "(d) Genus"
                         },
                         {
-                            year: "NEET 2020",
-                            question: "Compared to genus, which of the following is less general in characters?",
-                            options: [
+                            "year": "2020",
+                            "question": "Compared to genus, which of the following is less general in characters?",
+                            "options": [
                                 "(a) Family",
-                                "(b) Species",
+                                "(b) Species", 
                                 "(c) Order",
                                 "(d) Class"
                             ],
-                            answer: "(b) Species"
+                            "answer": "(b) Species"
                         }
                     ],
                     "1.2.3": [
                         {
-                            year: "NEET 2019",
-                            question: "While classifying plants, the suffix '-aceae' is used for:",
-                            options: [
+                            "year": "2019",
+                            "question": "While classifying plants, the suffix '-aceae' is used for:",
+                            "options": [
                                 "(a) Order",
                                 "(b) Family",
-                                "(c) Class",
+                                "(c) Class", 
                                 "(d) Genus"
                             ],
-                            answer: "(b) Family"
+                            "answer": "(b) Family"
                         },
                         {
-                            year: "AIPMT 2014",
-                            question: "Which one of the following animals is correctly matched with its particular taxonomic category?",
-                            options: [
+                            "year": "2014",
+                            "question": "Which one of the following animals is correctly matched with its particular taxonomic category?",
+                            "options": [
                                 "(a) Cuttlefish - Mollusca, a class",
-                                "(b) Humans - Primate, a species",
+                                "(b) Humans - Primate, a species", 
                                 "(c) Housefly - Musca, an order",
                                 "(d) Tiger - tigris, a species"
                             ],
-                            answer: "(a) Cuttlefish - Mollusca, a class"
+                            "answer": "(a) Cuttlefish - Mollusca, a class"
                         }
                     ],
                     "1.2.4": [
                         {
-                            year: "NEET 2017",
-                            question: "While classifying plants, the suffix '-ales' is used for:",
-                            options: [
+                            "year": "2017",
+                            "question": "While classifying plants, the suffix '-ales' is used for:",
+                            "options": [
                                 "(a) Family",
                                 "(b) Order",
                                 "(c) Class", 
                                 "(d) Division"
                             ],
-                            answer: "(b) Order"
+                            "answer": "(b) Order"
                         },
                         {
-                            year: "NEET 2018",
-                            question: "Identify the correct chronological order of taxonomic hierarchy from lowest to highest:",
-                            options: [
+                            "year": "2018",
+                            "question": "Identify the correct chronological order of taxonomic hierarchy from lowest to highest:",
+                            "options": [
                                 "(a) Family → Order → Class → Phylum",
-                                "(b) Family → Class → Order → Phylum",
+                                "(b) Family → Class → Order → Phylum", 
                                 "(c) Order → Family → Class → Phylum",
                                 "(d) Order → Class → Phylum → Family"
                             ],
-                            answer: "(a) Family → Order → Class → Phylum"
+                            "answer": "(a) Family → Order → Class → Phylum"
                         }
                     ],
                     "1.2.5": [
                         {
-                            year: "NEET 2020",
-                            question: "Which of the following taxonomic categories contains organisms least similar to one another?",
-                            options: [
+                            "year": "2020",
+                            "question": "Which of the following taxonomic categories contains organisms least similar to one another?",
+                            "options": [
                                 "(a) Class",
                                 "(b) Genus",
-                                "(c) Family",
+                                "(c) Family", 
                                 "(d) Species"
                             ],
-                            answer: "(a) Class"
+                            "answer": "(a) Class"
                         },
                         {
-                            year: "AIPMT 2012",
-                            question: "Class was the most general rank in the taxonomic hierarchy until which category was introduced?",
-                            options: [
+                            "year": "2012",
+                            "question": "Class was the most general rank in the taxonomic hierarchy until which category was introduced?",
+                            "options": [
                                 "(a) Kingdom",
-                                "(b) Phylum",
+                                "(b) Phylum", 
                                 "(c) Order",
                                 "(d) Family"
                             ],
-                            answer: "(b) Phylum"
+                            "answer": "(b) Phylum"
                         }
                     ],
                     "1.2.6": [
                         {
-                            year: "NEET 2022",
-                            question: "There are _____ phyla in Kingdom Animalia:",
-                            options: [
+                            "year": "2022",
+                            "question": "There are _____ phyla in Kingdom Animalia:",
+                            "options": [
                                 "(a) 25",
                                 "(b) 30",
-                                "(c) 35",
+                                "(c) 35", 
                                 "(d) 40"
                             ],
-                            answer: "(c) 35"
+                            "answer": "(c) 35"
                         },
                         {
-                            year: "AIPMT 2015",
-                            question: "Match Column I with Column II: Column I (Plant) | Column II (Family) - Mango | Anacardiaceae, Wheat | Poaceae",
-                            options: [
-                                "(a) Correctly matched",
-                                "(b) Only mango is correctly matched",
-                                "(c) Only wheat is correctly matched",
-                                "(d) Both are incorrectly matched"
+                            "year": "2015",
+                            "question": "Match Column I with Column II: Mango - Anacardiaceae, Wheat - Poaceae",
+                            "options": [
+                                "(a) Both correctly matched",
+                                "(b) Only Mango correctly matched", 
+                                "(c) Only Wheat correctly matched",
+                                "(d) Neither correctly matched"
                             ],
-                            answer: "(a) Correctly matched"
+                            "answer": "(a) Both correctly matched"
                         }
                     ],
                     "1.2.7": [
                         {
-                            year: "NEET 2019",
-                            question: "The highest category in taxonomic hierarchy is:",
-                            options: [
+                            "year": "2019",
+                            "question": "The highest category in taxonomic hierarchy is:",
+                            "options": [
                                 "(a) Kingdom",
                                 "(b) Phylum",
-                                "(c) Class",
+                                "(c) Class", 
                                 "(d) Species"
                             ],
-                            answer: "(a) Kingdom"
+                            "answer": "(a) Kingdom"
                         },
                         {
-                            year: "NEET 2021",
-                            question: "Kingdom-Phylum-Class-Order-Family-Genus-Species represents:",
-                            options: [
+                            "year": "2021",
+                            "question": "Kingdom-Phylum-Class-Order-Family-Genus-Species represents:",
+                            "options": [
                                 "(a) Categories of plants",
-                                "(b) Categories of animals",
+                                "(b) Categories of animals", 
                                 "(c) Both (a) and (b)",
                                 "(d) Categories of bacteria"
                             ],
-                            answer: "(c) Both (a) and (b)"
+                            "answer": "(c) Both (a) and (b)"
                         }
                     ]
                 }
-            },
-            "12": {}
+            }
         };
 
         function updateChapters() {
-            const classValue = document.getElementById('classSelect').value;
+            const classSelect = document.getElementById('classSelect');
             const chapterSelect = document.getElementById('chapterSelect');
             const sectionSelect = document.getElementById('sectionSelect');
+            const resultsContent = document.getElementById('resultsContent');
             
-            // Clear previous selections
+            // Clear dependent dropdowns
             chapterSelect.innerHTML = '<option value="">Select Chapter</option>';
             sectionSelect.innerHTML = '<option value="">Select Section/Page</option>';
-            document.getElementById('content').innerHTML = '<div class="loading">Please select Chapter and Section to view questions.</div>';
+            resultsContent.innerHTML = '<div class="no-questions">Select Class, Chapter, and Section to view questions</div>';
             
-            if (classValue && chaptersData[classValue]) {
-                Object.keys(chaptersData[classValue]).forEach(key => {
+            const selectedClass = classSelect.value;
+            if (selectedClass && chaptersData[selectedClass]) {
+                for (const chapterId in chaptersData[selectedClass]) {
                     const option = document.createElement('option');
-                    option.value = key;
-                    option.textContent = chaptersData[classValue][key];
+                    option.value = chapterId;
+                    option.textContent = chaptersData[selectedClass][chapterId].title;
                     chapterSelect.appendChild(option);
-                });
+                }
             }
         }
 
         function updateSections() {
-            const classValue = document.getElementById('classSelect').value;
-            const chapterValue = document.getElementById('chapterSelect').value;
+            const classSelect = document.getElementById('classSelect');
+            const chapterSelect = document.getElementById('chapterSelect');
             const sectionSelect = document.getElementById('sectionSelect');
+            const resultsContent = document.getElementById('resultsContent');
             
-            // Clear previous selections
+            // Clear dependent dropdown
             sectionSelect.innerHTML = '<option value="">Select Section/Page</option>';
-            document.getElementById('content').innerHTML = '<div class="loading">Please select Section to view questions.</div>';
+            resultsContent.innerHTML = '<div class="no-questions">Select Section/Page to view questions</div>';
             
-            if (classValue && chapterValue && sectionsData[classValue] && sectionsData[classValue][chapterValue]) {
-                Object.keys(sectionsData[classValue][chapterValue]).forEach(key => {
+            const selectedClass = classSelect.value;
+            const selectedChapter = chapterSelect.value;
+            
+            if (selectedClass && selectedChapter && chaptersData[selectedClass] && chaptersData[selectedClass][selectedChapter]) {
+                const sections = chaptersData[selectedClass][selectedChapter].sections;
+                for (const sectionId in sections) {
                     const option = document.createElement('option');
-                    option.value = key;
-                    option.textContent = sectionsData[classValue][chapterValue][key];
+                    option.value = sectionId;
+                    option.textContent = sections[sectionId];
                     sectionSelect.appendChild(option);
-                });
+                }
             }
         }
 
         function displayQuestions() {
-            const classValue = document.getElementById('classSelect').value;
-            const chapterValue = document.getElementById('chapterSelect').value;
-            const sectionValue = document.getElementById('sectionSelect').value;
-            const contentDiv = document.getElementById('content');
+            const classSelect = document.getElementById('classSelect');
+            const chapterSelect = document.getElementById('chapterSelect');
+            const sectionSelect = document.getElementById('sectionSelect');
+            const resultsContent = document.getElementById('resultsContent');
             
-            if (!classValue || !chapterValue || !sectionValue) {
-                contentDiv.innerHTML = '<div class="loading">Please select Class, Chapter and Section to view questions.</div>';
+            const selectedClass = classSelect.value;
+            const selectedChapter = chapterSelect.value;
+            const selectedSection = sectionSelect.value;
+            
+            if (!selectedClass || !selectedChapter || !selectedSection) {
+                resultsContent.innerHTML = '<div class="no-questions">Select Class, Chapter, and Section to view questions</div>';
                 return;
             }
             
-            const questions = questionsData[classValue] && 
-                            questionsData[classValue][chapterValue] && 
-                            questionsData[classValue][chapterValue][sectionValue];
-                            
-            if (!questions || questions.length === 0) {
-                contentDiv.innerHTML = '<div class="question-count">No. of questions found: 0</div><div class="no-questions">No questions detected.</div>';
+            // Check if questions exist for this section
+            const questions = questionsData[selectedClass] && 
+                            questionsData[selectedClass][selectedChapter] && 
+                            questionsData[selectedClass][selectedChapter][selectedSection] ? 
+                            questionsData[selectedClass][selectedChapter][selectedSection] : [];
+            
+            if (questions.length === 0) {
+                resultsContent.innerHTML = `
+                    <div class="question-count">No. of questions found: 0</div>
+                    <div class="highlight-note">For answer explanation, copy and paste the prompt in ChatGPT.</div>
+                    <div class="no-questions">No questions detected.</div>
+                `;
                 return;
             }
             
-            let html = '<div class="question-count">No. of questions found: ' + questions.length + '</div>';
-            html += '<div class="instruction">📋 To see the explanation, copy and paste the prompt in ChatGPT.</div>';
+            let html = `
+                <div class="question-count">No. of questions found: ${questions.length}</div>
+                <div class="highlight-note">For answer explanation, copy and paste the prompt in ChatGPT.</div>
+            `;
             
             questions.forEach((q, index) => {
-                html += '<div class="question-item">';
-                html += '<div class="question-header">';
-                html += '<div class="question-year">' + q.year + '</div>';
-                html += '</div>';
-                
-                html += '<div class="question-text">' + q.question + '</div>';
-                html += '<div class="options">';
-                q.options.forEach(option => {
-                    html += '<div class="option">' + option + '</div>';
-                });
-                html += '</div>';
-                
-                html += '<div class="question-buttons">';
-                html += '<button class="btn btn-answer" onclick="toggleAnswer(' + index + ')">Answer</button>';
-                html += '<button class="btn btn-copy" onclick="copyQuestion(' + index + ')">Copy Prompt</button>';
-                html += '<a href="https://chat.openai.com/chat?q=' + encodeURIComponent(q.question) + '" target="_blank" class="btn btn-chatgpt">ChatGPT</a>';
-                html += '</div>';
-                
-                html += '<div class="answer" id="answer-' + index + '">' + q.answer + '</div>';
-                html += '</div>';
+                const questionId = `q${selectedClass}_${selectedChapter}_${selectedSection}_${index}`;
+                html += `
+                    <div class="question-item">
+                        <div class="question-header">NEET ${q.year} - Question ${index + 1}</div>
+                        <div class="question-text">${q.question}</div>
+                        <div class="options">
+                            ${q.options.map(option => `<div class="option">${option}</div>`).join('')}
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-answer" onclick="toggleAnswer('${questionId}')">Answer</button>
+                            <button class="btn btn-copy" onclick="copyPrompt('${q.year}', '${encodeURIComponent(q.question)}', '${encodeURIComponent(JSON.stringify(q.options))}')">Copy Prompt</button>
+                            <a href="https://chat.openai.com/" target="_blank" class="btn btn-chatgpt">ChatGPT</a>
+                        </div>
+                        <div class="answer-display" id="${questionId}">
+                            <strong>Answer:</strong> ${q.answer}
+                        </div>
+                    </div>
+                `;
             });
             
-            contentDiv.innerHTML = html;
+            resultsContent.innerHTML = html;
         }
 
-        function toggleAnswer(index) {
-            const answerDiv = document.getElementById('answer-' + index);
+        function toggleAnswer(questionId) {
+            const answerDiv = document.getElementById(questionId);
             if (answerDiv.style.display === 'none' || answerDiv.style.display === '') {
                 answerDiv.style.display = 'block';
             } else {
@@ -987,35 +1063,32 @@
             }
         }
 
-        function copyQuestion(index) {
-            const classValue = document.getElementById('classSelect').value;
-            const chapterValue = document.getElementById('chapterSelect').value;
-            const sectionValue = document.getElementById('sectionSelect').value;
+        function copyPrompt(year, question, options) {
+            const decodedQuestion = decodeURIComponent(question);
+            const decodedOptions = JSON.parse(decodeURIComponent(options));
             
-            const questions = questionsData[classValue][chapterValue][sectionValue];
-            const q = questions[index];
+            const prompt = `NEET ${year} Question:
+${decodedQuestion}
+
+Options:
+${decodedOptions.join('
+')}
+
+Explain according to the NTA answer key.`;
             
-            let text = "Explain this NEET/AIPMT Biology question in detail:
-
-";
-            text += q.year + "
-
-" + q.question + "
-
-";
-            q.options.forEach(option => {
-                text += option + "
-";
-            });
-            text += "
-Provide a detailed explanation of the correct answer and why other options are incorrect.";
-            
-            navigator.clipboard.writeText(text).then(function() {
-                alert('Question prompt copied to clipboard!');
+            navigator.clipboard.writeText(prompt).then(function() {
+                // Optional: Show a brief confirmation
+                const event = new CustomEvent('copy-success');
+                document.dispatchEvent(event);
             }).catch(function(err) {
                 console.error('Could not copy text: ', err);
             });
         }
+
+        // Optional: Add a visual feedback for copy success
+        document.addEventListener('copy-success', function() {
+            // You can add a toast notification here if desired
+        });
     </script>
 </body>
 </html>
