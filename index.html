@@ -553,7 +553,7 @@
                 `Choices:`,
                 ...options
             ];
-            return lines.join('
+            return lines.join('\
 ');
         }
 
@@ -599,8 +599,8 @@
                 document.execCommand('copy');
                 onSuccess();
             } catch (e) {
-                alert('Unable to copy automatically. Please select and copy manually:
-
+                alert('Unable to copy automatically. Please select and copy manually:\
+\
 ' + text);
             } finally {
                 document.body.removeChild(ta);
