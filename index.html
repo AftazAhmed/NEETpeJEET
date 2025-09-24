@@ -290,262 +290,165 @@
     </div>
 
     <script>
-        // Chapter data with sections/pages for NCERT textbook (Reprint 2025–26)
-        const chaptersData = {
-            "11": [
-                { 
-                    id: "ch1", 
-                    name: "Chapter 1: The Living World", 
-                    sections: [
-                        { id: "intro", name: "1.0 Introduction (Pg.3)" },
-                        { id: "diversity", name: "1.1 Diversity in the Living World (Pg.3)" },
-                        { id: "taxonomic", name: "1.2 Taxonomic Categories (Pg.6)" },
-                        { id: "species", name: "1.2.1 Species (Pg.6)" },
-                        { id: "genus", name: "1.2.2 Genus (Pg.7)" },
-                        { id: "family", name: "1.2.3 Family (Pg.7)" },
-                        { id: "order", name: "1.2.4 Order (Pg.7)" },
-                        { id: "class", name: "1.2.5 Class (Pg.7)" },
-                        { id: "phylum", name: "1.2.6 Phylum (Pg.7)" },
-                        { id: "kingdom", name: "1.2.7 Kingdom (Pg.8)" }
-                    ]
-                },
-                { 
-                    id: "ch2", 
-                    name: "Chapter 2: Biological Classification", 
-                    sections: [
-                        { id: "intro", name: "2.0 Introduction (Pg.10)" },
-                        { id: "five_kingdom", name: "2.1 Five Kingdom Classification (Pg.11)" },
-                        { id: "monera", name: "2.2 Kingdom Monera (Pg.12)" },
-                        { id: "archaebacteria", name: "2.2.1 Archaebacteria (Pg.13)" },
-                        { id: "eubacteria", name: "2.2.2 Eubacteria (Pg.13)" },
-                        { id: "protista", name: "2.3 Kingdom Protista (Pg.14)" },
-                        { id: "chrysophytes", name: "2.3.1 Chrysophytes (Pg.14)" },
-                        { id: "dinoflagellates", name: "2.3.2 Dinoflagellates (Pg.15)" },
-                        { id: "euglenoids", name: "2.3.3 Euglenoids (Pg.15)" },
-                        { id: "slime_moulds", name: "2.3.4 Slime Moulds (Pg.15)" },
-                        { id: "protozoans", name: "2.3.5 Protozoans (Pg.15)" },
-                        { id: "fungi", name: "2.4 Kingdom Fungi (Pg.16)" },
-                        { id: "plantae", name: "2.5 Kingdom Plantae (Pg.19)" },
-                        { id: "animalia", name: "2.6 Kingdom Animalia (Pg.19)" },
-                        { id: "viruses", name: "2.7 Viruses, Viroids, Prions, Lichens (Pg.19)" }
-                    ]
-                }
-            ],
-            "12": [
-                { 
-                    id: "ch1", 
-                    name: "Chapter 1: Sexual Reproduction in Flowering Plants", 
-                    sections: [
-                        { id: "intro", name: "1.0 Introduction (Pg.3)" },
-                        { id: "flower", name: "1.1 Flower - A Fascinating Organ (Pg.3)" },
-                        { id: "microsporogenesis", name: "1.2 Microsporogenesis (Pg.6)" },
-                        { id: "megasporogenesis", name: "1.3 Megasporogenesis (Pg.8)" },
-                        { id: "pollination", name: "1.4 Pollination (Pg.10)" },
-                        { id: "fertilization", name: "1.5 Double Fertilization (Pg.15)" },
-                        { id: "embryogenesis", name: "1.6 Embryogenesis (Pg.18)" },
-                        { id: "seed", name: "1.7 Seed Development (Pg.20)" },
-                        { id: "fruit", name: "1.8 Fruit and Seed Dispersal (Pg.22)" }
-                    ]
-                }
-            ]
-        };
+        // Global variables
+        let chaptersData, questionsData;
 
-        // Questions data - section-wise alignment
-        const questionsData = {
-            "11": {
-                "ch1": {
-                    "intro": {
-                        questions: [
-                            {
-                                year: "NEET 2011",
-                                question: "Which aspect is an exclusive characteristic of living things?",
-                                options: [
-                                    "(a) Isolated metabolic reactions in vitro",
-                                    "(b) Increase in mass from inside only",
-                                    "(c) Perception of environmental events and memory",
-                                    "(d) Increase in mass by accumulation"
-                                ],
-                                answer: "(c) Perception of environmental events and memory"
-                            },
-                            {
-                                year: "NEET 2019",
-                                question: "The most obvious and complicated feature of all living organisms is:",
-                                options: [
-                                    "(a) Reproduction",
-                                    "(b) Metabolism",
-                                    "(c) Growth",
-                                    "(d) Self-consciousness"
-                                ],
-                                answer: "(d) Self-consciousness"
-                            }
+        // Initialize data
+        function initializeData() {
+            // Chapter data with sections/pages for NCERT textbook (Reprint 2025–26)
+            chaptersData = {
+                "11": [
+                    { 
+                        id: "ch1", 
+                        name: "Chapter 1: The Living World", 
+                        sections: [
+                            { id: "intro", name: "1.0 Introduction (Pg.3)" },
+                            { id: "diversity", name: "1.1 Diversity in the Living World (Pg.3)" },
+                            { id: "taxonomic", name: "1.2 Taxonomic Categories (Pg.6)" },
+                            { id: "species", name: "1.2.1 Species (Pg.6)" },
+                            { id: "genus", name: "1.2.2 Genus (Pg.7)" },
+                            { id: "family", name: "1.2.3 Family (Pg.7)" },
+                            { id: "order", name: "1.2.4 Order (Pg.7)" },
+                            { id: "class", name: "1.2.5 Class (Pg.7)" },
+                            { id: "phylum", name: "1.2.6 Phylum (Pg.7)" },
+                            { id: "kingdom", name: "1.2.7 Kingdom (Pg.8)" }
                         ]
                     },
-                    "diversity": {
-                        questions: [
-                            {
-                                year: "NEET 2020",
-                                question: "Biodiversity of a habitat is depicted by:",
-                                options: [
-                                    "(a) Number of individuals of a species",
-                                    "(b) Number of species in a habitat",
-                                    "(c) Number of individuals per species in a habitat",
-                                    "(d) Both (b) and (c)"
-                                ],
-                                answer: "(d) Both (b) and (c)"
-                            }
-                        ]
-                    },
-                    "taxonomic": {
-                        questions: [
-                            {
-                                year: "NEET 2018",
-                                question: "Taxonomic hierarchy refers to:",
-                                options: [
-                                    "(a) Step-wise arrangement of categories for classification",
-                                    "(b) Group of senior taxonomists who decide nomenclature",
-                                    "(c) List of botanists and zoologists",
-                                    "(d) Classification of species based on fossil record"
-                                ],
-                                answer: "(a) Step-wise arrangement of categories for classification"
-                            }
-                        ]
-                    },
-                    "species": {
-                        questions: [
-                            {
-                                year: "NEET 2021",
-                                question: "Which of the following taxonomic categories contains organisms most similar to one another?",
-                                options: [
-                                    "(a) Class",
-                                    "(b) Genus", 
-                                    "(c) Family",
-                                    "(d) Species"
-                                ],
-                                answer: "(d) Species"
-                            }
-                        ]
-                    },
-                    "genus": {
-                        questions: [
-                            {
-                                year: "NEET 2013",
-                                question: "The common characteristics between tomato and potato will be maximum at the level of their:",
-                                options: [
-                                    "(a) Division",
-                                    "(b) Class",
-                                    "(c) Family",
-                                    "(d) Genus"
-                                ],
-                                answer: "(d) Genus"
-                            }
-                        ]
-                    },
-                    "family": {
-                        questions: [
-                            {
-                                year: "NEET 2019",
-                                question: "While classifying plants, the suffix '-aceae' is used for:",
-                                options: [
-                                    "(a) Order",
-                                    "(b) Family",
-                                    "(c) Class",
-                                    "(d) Genus"
-                                ],
-                                answer: "(b) Family"
-                            }
-                        ]
-                    },
-                    "order": {
-                        questions: [
-                            {
-                                year: "NEET 2017",
-                                question: "While classifying plants, the suffix '-ales' is used for:",
-                                options: [
-                                    "(a) Family",
-                                    "(b) Order",
-                                    "(c) Class",
-                                    "(d) Division"
-                                ],
-                                answer: "(b) Order"
-                            }
-                        ]
-                    },
-                    "class": {
-                        questions: [
-                            {
-                                year: "NEET 2020",
-                                question: "Which of the following taxonomic categories contains organisms least similar to one another?",
-                                options: [
-                                    "(a) Class",
-                                    "(b) Genus",
-                                    "(c) Family",
-                                    "(d) Species"
-                                ],
-                                answer: "(a) Class"
-                            }
-                        ]
-                    },
-                    "phylum": {
-                        questions: [
-                            {
-                                year: "NEET 2022",
-                                question: "There are _____ phyla in Kingdom Animalia:",
-                                options: [
-                                    "(a) 25",
-                                    "(b) 30",
-                                    "(c) 35",
-                                    "(d) 40"
-                                ],
-                                answer: "(c) 35"
-                            }
-                        ]
-                    },
-                    "kingdom": {
-                        questions: [
-                            {
-                                year: "NEET 2019",
-                                question: "The highest category in taxonomic hierarchy is:",
-                                options: [
-                                    "(a) Kingdom",
-                                    "(b) Phylum",
-                                    "(c) Class",
-                                    "(d) Species"
-                                ],
-                                answer: "(a) Kingdom"
-                            }
+                    { 
+                        id: "ch2", 
+                        name: "Chapter 2: Biological Classification", 
+                        sections: [
+                            { id: "intro", name: "2.0 Introduction (Pg.10)" },
+                            { id: "five_kingdom", name: "2.1 Five Kingdom Classification (Pg.11)" },
+                            { id: "monera", name: "2.2 Kingdom Monera (Pg.12)" }
                         ]
                     }
-                }
-            },
-            "12": {}
-        };
+                ],
+                "12": [
+                    { 
+                        id: "ch1", 
+                        name: "Chapter 1: Sexual Reproduction in Flowering Plants", 
+                        sections: [
+                            { id: "intro", name: "1.0 Introduction (Pg.3)" },
+                            { id: "flower", name: "1.1 Flower - A Fascinating Organ (Pg.3)" }
+                        ]
+                    }
+                ]
+            };
 
-        // Wait for DOM to load before adding event listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, setting up event listeners');
-            
-            const classSelect = document.getElementById('class-select');
-            const chapterSelect = document.getElementById('chapter-select');
-            const sectionSelect = document.getElementById('section-select');
-            
-            if (classSelect) {
-                classSelect.addEventListener('change', loadChapters);
-                console.log('Class select event listener added');
-            }
-            
-            if (chapterSelect) {
-                chapterSelect.addEventListener('change', loadSections);
-                console.log('Chapter select event listener added');
-            }
-            
-            if (sectionSelect) {
-                sectionSelect.addEventListener('change', loadQuestions);
-                console.log('Section select event listener added');
-            }
-        });
+            // Questions data - section-wise alignment
+            questionsData = {
+                "11": {
+                    "ch1": {
+                        "intro": {
+                            questions: [
+                                {
+                                    year: "NEET 2011",
+                                    question: "Which aspect is an exclusive characteristic of living things?",
+                                    options: [
+                                        "(a) Isolated metabolic reactions in vitro",
+                                        "(b) Increase in mass from inside only",
+                                        "(c) Perception of environmental events and memory",
+                                        "(d) Increase in mass by accumulation"
+                                    ],
+                                    answer: "(c) Perception of environmental events and memory"
+                                },
+                                {
+                                    year: "NEET 2019",
+                                    question: "The most obvious and complicated feature of all living organisms is:",
+                                    options: [
+                                        "(a) Reproduction",
+                                        "(b) Metabolism",
+                                        "(c) Growth",
+                                        "(d) Self-consciousness"
+                                    ],
+                                    answer: "(d) Self-consciousness"
+                                }
+                            ]
+                        },
+                        "diversity": {
+                            questions: [
+                                {
+                                    year: "NEET 2020",
+                                    question: "Biodiversity of a habitat is depicted by:",
+                                    options: [
+                                        "(a) Number of individuals of a species",
+                                        "(b) Number of species in a habitat",
+                                        "(c) Number of individuals per species in a habitat",
+                                        "(d) Both (b) and (c)"
+                                    ],
+                                    answer: "(d) Both (b) and (c)"
+                                }
+                            ]
+                        },
+                        "taxonomic": {
+                            questions: [
+                                {
+                                    year: "NEET 2018",
+                                    question: "Taxonomic hierarchy refers to:",
+                                    options: [
+                                        "(a) Step-wise arrangement of categories for classification",
+                                        "(b) Group of senior taxonomists who decide nomenclature",
+                                        "(c) List of botanists and zoologists",
+                                        "(d) Classification of species based on fossil record"
+                                    ],
+                                    answer: "(a) Step-wise arrangement of categories for classification"
+                                }
+                            ]
+                        },
+                        "species": {
+                            questions: [
+                                {
+                                    year: "NEET 2021",
+                                    question: "Which of the following taxonomic categories contains organisms most similar to one another?",
+                                    options: [
+                                        "(a) Class",
+                                        "(b) Genus", 
+                                        "(c) Family",
+                                        "(d) Species"
+                                    ],
+                                    answer: "(d) Species"
+                                }
+                            ]
+                        },
+                        "genus": {
+                            questions: [
+                                {
+                                    year: "NEET 2013",
+                                    question: "The common characteristics between tomato and potato will be maximum at the level of their:",
+                                    options: [
+                                        "(a) Division",
+                                        "(b) Class",
+                                        "(c) Family",
+                                        "(d) Genus"
+                                    ],
+                                    answer: "(d) Genus"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "12": {}
+            };
+        }
+
+        // Event handlers
+        function handleClassChange() {
+            console.log('Class changed');
+            loadChapters();
+        }
+
+        function handleChapterChange() {
+            console.log('Chapter changed');
+            loadSections();
+        }
+
+        function handleSectionChange() {
+            console.log('Section changed');
+            loadQuestions();
+        }
 
         function loadChapters() {
-            console.log('loadChapters called');
             const classSelect = document.getElementById('class-select');
             const chapterSelect = document.getElementById('chapter-select');
             const sectionSelect = document.getElementById('section-select');
@@ -578,7 +481,6 @@
         }
 
         function loadSections() {
-            console.log('loadSections called');
             const classSelect = document.getElementById('class-select');
             const chapterSelect = document.getElementById('chapter-select');
             const sectionSelect = document.getElementById('section-select');
@@ -610,7 +512,6 @@
         }
 
         function loadQuestions() {
-            console.log('loadQuestions called');
             const classSelect = document.getElementById('class-select');
             const chapterSelect = document.getElementById('chapter-select');
             const sectionSelect = document.getElementById('section-select');
@@ -650,13 +551,11 @@
                 
                 // Questions
                 sectionData.questions.forEach((questionData, index) => {
-                    const qId = `answer-${selectedClass}-${selectedChapter}-${selectedSection}-${index}`;
-                    const copyBtnId = `copy-${selectedClass}-${selectedChapter}-${selectedSection}-${index}`;
+                    const qId = 'answer-' + selectedClass + '-' + selectedChapter + '-' + selectedSection + '-' + index;
+                    const copyBtnId = 'copy-' + selectedClass + '-' + selectedChapter + '-' + selectedSection + '-' + index;
 
                     const questionDiv = document.createElement('div');
                     questionDiv.className = 'question-container';
-                    
-                    const questionOptionsJson = JSON.stringify(questionData.options);
                     
                     questionDiv.innerHTML = `
                         <div class="question-year">${questionData.year}</div>
@@ -672,7 +571,7 @@
                                 <button class="btn btn-answer" onclick="showAnswer('${qId}')">
                                     Show Answer
                                 </button>
-                                <button id="${copyBtnId}" class="btn btn-copy" onclick="copyPrompt('${copyBtnId}', '${questionData.year}', `${questionData.question.replace(/`/g, '\\`').replace(/'/g, "\\'")}`, ${questionOptionsJson.replace(/"/g, "&quot;")})">
+                                <button id="${copyBtnId}" class="btn btn-copy" onclick="copyPrompt('${copyBtnId}', '${questionData.year}', `${questionData.question}`, ${JSON.stringify(questionData.options)})">
                                     <span class="copy-icon">📋</span>
                                     Copy Prompt
                                 </button>
@@ -715,9 +614,9 @@
         // Build prompt text with question and options
         function buildPrompt(year, question, options) {
             const lines = [
-                `${year}`,
-                `Question: ${question}`,
-                `Options:`,
+                year,
+                'Question: ' + question,
+                'Options:',
                 ...options,
                 '',
                 'Please provide the correct answer with explanation.'
@@ -730,8 +629,9 @@
         function copyPrompt(btnId, year, question, options) {
             console.log('copyPrompt called for:', btnId);
             const button = document.getElementById(btnId);
-            const originalText = button.innerHTML;
+            if (!button) return;
             
+            const originalText = button.innerHTML;
             const text = buildPrompt(year, question, options);
 
             // Try modern clipboard API first
@@ -806,19 +706,36 @@
                 document.body.removeChild(textarea);
             }
         }
-    </script>
 
-    <!-- 
-    ===========================================
-    DEBUGGING FIXES APPLIED
-    ===========================================
-    - Added DOMContentLoaded event listener
-    - Added console.log statements for debugging
-    - Removed onchange attributes from HTML (potential conflict)
-    - Added proper event listeners via JavaScript
-    - Fixed string escaping in onclick handlers
-    - Added error handling and logging
-    - Added CSS for disabled select styling
-    -->
+        // Initialize everything when page loads
+        window.addEventListener('load', function() {
+            console.log('Page loaded, initializing...');
+            
+            // Initialize data
+            initializeData();
+            
+            // Setup event listeners
+            const classSelect = document.getElementById('class-select');
+            const chapterSelect = document.getElementById('chapter-select');
+            const sectionSelect = document.getElementById('section-select');
+            
+            if (classSelect) {
+                classSelect.addEventListener('change', handleClassChange);
+                console.log('Class select event listener added');
+            }
+            
+            if (chapterSelect) {
+                chapterSelect.addEventListener('change', handleChapterChange);
+                console.log('Chapter select event listener added');
+            }
+            
+            if (sectionSelect) {
+                sectionSelect.addEventListener('change', handleSectionChange);
+                console.log('Section select event listener added');
+            }
+            
+            console.log('Initialization complete');
+        });
+    </script>
 </body>
 </html>
