@@ -198,22 +198,69 @@
             transform: none;
         }
         
-        .btn-chatgpt {
-            background: #10a37f;
+        .btn-apps {
+            background: #6f42c1;
             color: white;
-            border: 1px solid #10a37f;
+            border: 1px solid #6f42c1;
+            position: relative;
         }
 
-        .btn-chatgpt:hover {
-            background: #0e906e;
+        .btn-apps:hover {
+            background: #5a2d91;
             transform: translateY(-1px);
+        }
+        
+        .apps-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 180px;
+            z-index: 1000;
+            display: none;
+            margin-top: 5px;
+        }
+        
+        .apps-dropdown.show {
+            display: block;
+        }
+        
+        .app-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.2s;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .app-option:last-child {
+            border-bottom: none;
+        }
+        
+        .app-option:hover {
+            background: #f8f9fa;
+        }
+        
+        .app-icon {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .app-name {
+            font-size: 14px;
+            font-weight: 500;
         }
         
         .copy-icon {
             font-size: 12px;
         }
         
-        .chatgpt-icon {
+        .apps-icon {
             font-size: 12px;
         }
         
@@ -233,13 +280,6 @@
             margin-top: 6px;
         }
 
-        .status-text {
-            font-size: 12px;
-            color: #6c757d;
-            margin-left: 8px;
-            font-style: italic;
-        }
-
         @media (max-width: 768px) {
             .action-buttons {
                 flex-direction: column;
@@ -254,6 +294,12 @@
             .btn {
                 flex: 1;
                 justify-content: center;
+            }
+            
+            .apps-dropdown {
+                right: auto;
+                left: 0;
+                width: 100%;
             }
         }
     </style>
@@ -556,6 +602,46 @@
             "12": {}
         };
 
+        // AI Apps configuration with deep links
+        const aiApps = [
+            {
+                name: "ChatGPT",
+                icon: "🤖",
+                deepLink: "chatgpt://",
+                fallbackUrl: "https://chat.openai.com/"
+            },
+            {
+                name: "DeepSeek",
+                icon: "🔍", 
+                deepLink: "deepseek://",
+                fallbackUrl: "https://chat.deepseek.com/"
+            },
+            {
+                name: "Claude",
+                icon: "🧠",
+                deepLink: "claude://",
+                fallbackUrl: "https://claude.ai/"
+            },
+            {
+                name: "Gemini",
+                icon: "✨",
+                deepLink: "gemini://",
+                fallbackUrl: "https://gemini.google.com/"
+            },
+            {
+                name: "Microsoft Copilot",
+                icon: "💭",
+                deepLink: "copilot://",
+                fallbackUrl: "https://copilot.microsoft.com/"
+            },
+            {
+                name: "Perplexity",
+                icon: "🔮",
+                deepLink: "perplexity://",
+                fallbackUrl: "https://perplexity.ai/"
+            }
+        ];
+
         function loadChapters() {
             const classSelect = document.getElementById('class-select');
             const chapterSelect = document.getElementById('chapter-select');
@@ -649,6 +735,7 @@
                 sectionData.questions.forEach((questionData, index) => {
                     const qId = `answer-${selectedClass}-${selectedChapter}-${selectedSection}-${index}`;
                     const copyBtnId = `copy-${selectedClass}-${selectedChapter}-${selectedSection}-${index}`;
+                    const appsBtnId = `apps-${selectedClass}-${selectedChapter}-${selectedSection}-${index}`;
 
                     const questionDiv = document.createElement('div');
                     questionDiv.className = 'question-container';
@@ -672,10 +759,18 @@
                                     <span class="copy-icon">📋</span>
                                     Copy Prompt
                                 </button>
-                                <a href="https://chat.openai.com/" target="_blank" class="btn btn-chatgpt">
-                                    <span class="chatgpt-icon">🤖</span>
-                                    Open ChatGPT
-                                </a>
+                                <button id="${appsBtnId}" class="btn btn-apps" onclick="toggleAppsDropdown('${appsBtnId}')">
+                                    <span class="apps-icon">📱</span>
+                                    Open AI App
+                                    <div id="dropdown-${appsBtnId}" class="apps-dropdown">
+                                        ${aiApps.map(app => `
+                                            <a href="#" class="app-option" onclick="openAIApp('${app.deepLink}', '${app.fallbackUrl}', event)">
+                                                <span class="app-icon">${app.icon}</span>
+                                                <span class="app-name">${app.name}</span>
+                                            </a>
+                                        `).join('')}
+                                    </div>
+                                </button>
                             </div>
                         </div>
                     `;
@@ -705,6 +800,54 @@
             answerArea.style.display = (answerArea.style.display === 'none' || answerArea.style.display === '') ? 'block' : 'none';
         }
 
+        // Toggle AI apps dropdown
+        function toggleAppsDropdown(btnId) {
+            const dropdown = document.getElementById(`dropdown-${btnId}`);
+            const allDropdowns = document.querySelectorAll('.apps-dropdown');
+            
+            // Close all other dropdowns
+            allDropdowns.forEach(dd => {
+                if (dd.id !== `dropdown-${btnId}`) {
+                    dd.classList.remove('show');
+                }
+            });
+            
+            // Toggle current dropdown
+            dropdown.classList.toggle('show');
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.btn-apps')) {
+                document.querySelectorAll('.apps-dropdown').forEach(dd => {
+                    dd.classList.remove('show');
+                });
+            }
+        });
+
+        // Open AI app with deep link fallback
+        function openAIApp(deepLink, fallbackUrl, event) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            // Close dropdown
+            document.querySelectorAll('.apps-dropdown').forEach(dd => {
+                dd.classList.remove('show');
+            });
+
+            // Try deep link first
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = deepLink;
+            document.body.appendChild(iframe);
+            
+            // Fallback to web URL after delay
+            setTimeout(() => {
+                document.body.removeChild(iframe);
+                window.open(fallbackUrl, '_blank');
+            }, 1000);
+        }
+
         // Build prompt text with question and options
         function buildPrompt(year, question, options) {
             const lines = [
@@ -719,7 +862,7 @@
 ');
         }
 
-        // TurboScribe-style copy functionality
+        // Copy functionality
         function copyPrompt(btnId, year, question, options) {
             const button = document.getElementById(btnId);
             const originalText = button.innerHTML;
@@ -802,14 +945,14 @@
 
     <!-- 
     ===========================================
-    TURBOSCRIBE-STYLE INTERFACE
+    MOBILE AI APP LAUNCHER
     ===========================================
-    - Clean action buttons layout with left/right alignment
-    - Copy Prompt button with visual feedback (clipboard icon)
-    - Independent ChatGPT button that opens in new tab
-    - TurboScribe-like visual styling and animations
-    - Robust copy functionality with fallbacks for all browsers
-    - Mobile-responsive design
+    - "Open AI App" button with dropdown for multiple AI apps
+    - Deep link attempts to open native mobile apps
+    - Fallback to web versions if app not installed
+    - Includes ChatGPT, DeepSeek, Claude, Gemini, Copilot, Perplexity
+    - Works like media picker or WhatsApp opener buttons
+    - Mobile-optimized with proper touch targets
     -->
 </body>
 </html>
