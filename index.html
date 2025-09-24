@@ -71,95 +71,199 @@
 </div>
 
 <script>
-  // Holds questions; sample question added for Class 11 Chapter 1 Page 3
-  const questionData = {
-    "11": {
-      "1": {title:"The Living World", pages:range(3,9), questions:{
-         "3": [{
-            year:"NEET 2011",
-            question:"Which aspect is an exclusive characteristic of living things?",
-            options:["(a) Isolated metabolic reactions in vitro","(b) Increase in mass from inside only","(c) Perception of environmental events and memory","(d) Increase in mass by accumulation"],
-            answer:"(c) Perception of environmental events and memory"
-         }]
-      }},
-      "2": {title:"Biological Classification", pages:range(10,22), questions:{}},
-      "3": {title:"Plant Kingdom", pages:range(23,36), questions:{}},
-      "4": {title:"Animal Kingdom", pages:range(37,54), questions:{}},
-      "5": {title:"Morphology of Flowering Plants", pages:range(57,69), questions:{}},
-      "6": {title:"Anatomy of Flowering Plants", pages:range(71,78), questions:{}},
-      "7": {title:"Structural Organisation in Animals", pages:range(79,86), questions:{}},
-      "8": {title:"Cell - The Unit of Life", pages:range(87,103), questions:{}},
-      "9": {title:"Biomolecules", pages:range(104,119), questions:{}},
-      "10": {title:"Cell Cycle and Cell Division", pages:range(120,130), questions:{}},
-      "11": {title:"Photosynthesis in Higher Plants", pages:range(133,152), questions:{}},
-      "12": {title:"Respiration in Plants", pages:range(153,165), questions:{}},
-      "13": {title:"Plant Growth and Development", pages:range(166,182), questions:{}},
-      "14": {title:"Breathing and Exchange of Gases", pages:range(183,192), questions:{}},
-      "15": {title:"Body Fluids and Circulation", pages:range(193,204), questions:{}},
-      "16": {title:"Excretory Products and their Elimination", pages:range(205,216), questions:{}},
-      "17": {title:"Locomotion and Movement", pages:range(217,229), questions:{}},
-      "18": {title:"Neural Control and Coordination", pages:range(230,238), questions:{}},
-      "19": {title:"Chemical Coordination and Integration", pages:range(239,250), questions:{}}
-    },
-    "12": {
-      "1": {title:"Sexual Reproduction in Flowering Plants", pages:range(3,25), questions:{}},
-      "2": {title:"Human Reproduction", pages:range(26,40), questions:{}},
-      "3": {title:"Reproductive Health", pages:range(41,52), questions:{}},
-      "4": {title:"Principles of Inheritance and Variation", pages:range(53,78), questions:{}},
-      "5": {title:"Molecular Basis of Inheritance", pages:range(79,109), questions:{}},
-      "6": {title:"Evolution", pages:range(110,128), questions:{}},
-      "7": {title:"Human Health and Disease", pages:range(129,148), questions:{}},
-      "8": {title:"Microbes in Human Welfare", pages:range(149,160), questions:{}},
-      "9": {title:"Biotechnology - Principles and Processes", pages:range(161,176), questions:{}},
-      "10": {title:"Biotechnology and its Applications", pages:range(177,189), questions:{}},
-      "11": {title:"Organisms and Populations", pages:range(190,204), questions:{}},
-      "12": {title:"Ecosystem", pages:range(205,215), questions:{}},
-      "13": {title:"Biodiversity and Conservation", pages:range(216,227), questions:{}}
-    }
-  };
-
+  // Utility function to generate page arrays
   function range(start, end) {
     let result = [];
     for(let i = start; i <= end; i++) result.push(i);
     return result;
   }
 
+  // Base questionData skeleton with accurate kebo1ps.pdf and lebo1ps.pdf page mappings
+  const questionData = {
+    "11": {
+      "1": {
+        title: "The Living World",
+        pages: range(3, 9),
+        questions: {}
+      },
+      "2": {title: "Biological Classification", pages: range(10, 22), questions: {}},
+      "3": {title: "Plant Kingdom", pages: range(23, 36), questions: {}},
+      "4": {title: "Animal Kingdom", pages: range(37, 54), questions: {}},
+      "5": {title: "Morphology of Flowering Plants", pages: range(57, 69), questions: {}},
+      "6": {title: "Anatomy of Flowering Plants", pages: range(71, 78), questions: {}},
+      "7": {title: "Structural Organisation in Animals", pages: range(79, 86), questions: {}},
+      "8": {title: "Cell - The Unit of Life", pages: range(87, 103), questions: {}},
+      "9": {title: "Biomolecules", pages: range(104, 119), questions: {}},
+      "10": {title: "Cell Cycle and Cell Division", pages: range(120, 130), questions: {}},
+      "11": {title: "Photosynthesis in Higher Plants", pages: range(133, 152), questions: {}},
+      "12": {title: "Respiration in Plants", pages: range(153, 165), questions: {}},
+      "13": {title: "Plant Growth and Development", pages: range(166, 182), questions: {}},
+      "14": {title: "Breathing and Exchange of Gases", pages: range(183, 192), questions: {}},
+      "15": {title: "Body Fluids and Circulation", pages: range(193, 204), questions: {}},
+      "16": {title: "Excretory Products and their Elimination", pages: range(205, 216), questions: {}},
+      "17": {title: "Locomotion and Movement", pages: range(217, 229), questions: {}},
+      "18": {title: "Neural Control and Coordination", pages: range(230, 238), questions: {}},
+      "19": {title: "Chemical Coordination and Integration", pages: range(239, 250), questions: {}}
+    },
+    "12": {
+      "1": {title: "Sexual Reproduction in Flowering Plants", pages: range(3, 25), questions: {}},
+      "2": {title: "Human Reproduction", pages: range(26, 40), questions: {}},
+      "3": {title: "Reproductive Health", pages: range(41, 52), questions: {}},
+      "4": {title: "Principles of Inheritance and Variation", pages: range(53, 78), questions: {}},
+      "5": {title: "Molecular Basis of Inheritance", pages: range(79, 109), questions: {}},
+      "6": {title: "Evolution", pages: range(110, 128), questions: {}},
+      "7": {title: "Human Health and Disease", pages: range(129, 148), questions: {}},
+      "8": {title: "Microbes in Human Welfare", pages: range(149, 160), questions: {}},
+      "9": {title: "Biotechnology - Principles and Processes", pages: range(161, 176), questions: {}},
+      "10": {title: "Biotechnology and its Applications", pages: range(177, 189), questions: {}},
+      "11": {title: "Organisms and Populations", pages: range(190, 204), questions: {}},
+      "12": {title: "Ecosystem", pages: range(205, 215), questions: {}},
+      "13": {title: "Biodiversity and Conservation", pages: range(216, 227), questions: {}}
+    }
+  };
+
+  // Remove any old question on page 3 of class 11 chapter 1 before adding new ones
+  if (questionData["11"]["1"].questions["3"]) {
+    delete questionData["11"]["1"].questions["3"];
+  }
+
+  // Add new questions to pages 3 to 9 for class 11 chapter 1
+  questionData["11"]["1"].questions["3"] = [
+    {
+      year: "NEET 2022",
+      question: "How many (in number) of the following properties are defining characteristics of living organisms? Growth, reproduction, metabolism, cellular organization, consciousness",
+      options: ["(a) Two", "(b) Three", "(c) Four", "(d) Five"],
+      answer: "(c) Four"
+    },
+    {
+      year: "NEET 2021",
+      question: "In majority of higher animals and plants, growth and reproduction are:",
+      options: ["(a) Simultaneous processes", "(b) Mutually exclusive events", "(c) Independent of each other", "(d) Continuous throughout life"],
+      answer: "(b) Mutually exclusive events"
+    }
+  ];
+
+  questionData["11"]["1"].questions["4"] = [
+    {
+      year: "NEET 2020",
+      question: "According to Robert May, the global species diversity is about:",
+      options: ["(a) 50 million", "(b) 7 million", "(c) 1.5 million", "(d) 20 million"],
+      answer: "(b) 7 million"
+    }
+  ];
+
+  questionData["11"]["1"].questions["5"] = [
+    {
+      year: "NEET 2019",
+      question: "Select the correctly written scientific name of Mango which was first described by Carolus Linnaeus:",
+      options: ["(a) Mangifera Indica", "(b) Mangifera indica Carr.", "(c) Mangifera indica Linn.", "(d) mangifera indica"],
+      answer: "(c) Mangifera indica Linn."
+    },
+    {
+      year: "NEET-I 2016",
+      question: "Nomenclature is governed by certain universal rules. Which one of the following is contrary to the rules of nomenclature?",
+      options: ["(a) First word represents genus, second represents species", "(b) Biological names can be written in any language", "(c) When handwritten, names are underlined", "(d) Names are written in Latin and italicized"],
+      answer: "(b) Biological names can be written in any language"
+    },
+    {
+      year: "NEET 2018",
+      question: "Binomial nomenclature system was given by:",
+      options: ["(a) Carolus Linnaeus", "(b) Ernst Haeckel", "(c) Gaspard Bauhin", "(d) John Ray"],
+      answer: "(a) Carolus Linnaeus"
+    }
+  ];
+
+  questionData["11"]["1"].questions["6"] = [
+    {
+      year: "NEET 2020",
+      question: "Families are characterized on which of the following features of plant species?",
+      options: ["(a) External morphology", "(b) Anatomy of parts", "(c) Vegetative and reproductive parts", "(d) Seasonal similarities"],
+      answer: "(c) Vegetative and reproductive parts"
+    }
+  ];
+
+  questionData["11"]["1"].questions["7"] = [
+    {
+      year: "NEET 2023",
+      question: "Study of diversity of organisms and evolutionary relationship amongst them on the basis of all possible characters is called:",
+      options: ["(a) Taxonomy", "(b) Systematics", "(c) Alpha taxonomy", "(d) Phylogeny"],
+      answer: "(b) Systematics"
+    },
+    {
+      year: "NEET 2022",
+      question: "Systematics does NOT include:",
+      options: ["(a) Identification", "(b) Nomenclature", "(c) Classification", "(d) Evolutionary relationships between environment and organisms"],
+      answer: "(d) Evolutionary relationships between environment and organisms"
+    }
+  ];
+
+  questionData["11"]["1"].questions["8"] = [
+    {
+      year: "NEET 2022",
+      question: "In the taxonomic categories, which hierarchical arrangement in ascending order is correct in the case of animals?",
+      options: ["(a) Kingdom, Order, Phylum, Class, Family, Genus, Species", "(b) Kingdom, Phylum, Class, Order, Family, Genus, Species", "(c) Kingdom, Class, Phylum, Order, Family, Genus, Species", "(d) Kingdom, Order, Class, Phylum, Family, Genus, Species"],
+      answer: "(b) Kingdom, Phylum, Class, Order, Family, Genus, Species"
+    },
+    {
+      year: "NEET 2017",
+      question: "Kingdom-Phylum-Class-Order-Family-Genus-Species represents:",
+      options: ["(a) Categories of plants", "(b) Categories of animals", "(c) Both (a) and (b)", "(d) Categories of bacteria"],
+      answer: "(c) Both (a) and (b)"
+    },
+    {
+      year: "NEET-II 2016",
+      question: "Match Column I and II for housefly classification: Column I: a.Family b.Order c.Class d.Phylum Column II: i.Diptera ii.Arthropoda iii.Muscidae iv.Insecta",
+      options: ["(a) a-i, b-ii, c-i, d-iii", "(b) a-iv, b-iii, c-ii, d-i", "(c) a-iii, b-ii, c-iv, d-i", "(d) a-iii, b-i, c-iv, d-ii"],
+      answer: "(d) a-iii, b-i, c-iv, d-ii"
+    }
+  ];
+
+  questionData["11"]["1"].questions["9"] = [
+    {
+      year: "NEET 2024",
+      question: "Which of the following is NOT a taxonomic aid?",
+      options: ["(a) Herbarium", "(b) Botanical garden", "(c) Museum", "(d) Phylogenetic tree"],
+      answer: "(d) Phylogenetic tree"
+    }
+  ];
+
+
   const chapterData = {
     "11": [
-      {id:"1", name:"The Living World"},
-      {id:"2", name:"Biological Classification"},
-      {id:"3", name:"Plant Kingdom"},
-      {id:"4", name:"Animal Kingdom"},
-      {id:"5", name:"Morphology of Flowering Plants"},
-      {id:"6", name:"Anatomy of Flowering Plants"},
-      {id:"7", name:"Structural Organisation in Animals"},
-      {id:"8", name:"Cell - The Unit of Life"},
-      {id:"9", name:"Biomolecules"},
-      {id:"10", name:"Cell Cycle and Cell Division"},
-      {id:"11", name:"Photosynthesis in Higher Plants"},
-      {id:"12", name:"Respiration in Plants"},
-      {id:"13", name:"Plant Growth and Development"},
-      {id:"14", name:"Breathing and Exchange of Gases"},
-      {id:"15", name:"Body Fluids and Circulation"},
-      {id:"16", name:"Excretory Products and their Elimination"},
-      {id:"17", name:"Locomotion and Movement"},
-      {id:"18", name:"Neural Control and Coordination"},
-      {id:"19", name:"Chemical Coordination and Integration"}
+      {id:"1",name:"The Living World"},
+      {id:"2",name:"Biological Classification"},
+      {id:"3",name:"Plant Kingdom"},
+      {id:"4",name:"Animal Kingdom"},
+      {id:"5",name:"Morphology of Flowering Plants"},
+      {id:"6",name:"Anatomy of Flowering Plants"},
+      {id:"7",name:"Structural Organisation in Animals"},
+      {id:"8",name:"Cell - The Unit of Life"},
+      {id:"9",name:"Biomolecules"},
+      {id:"10",name:"Cell Cycle and Cell Division"},
+      {id:"11",name:"Photosynthesis in Higher Plants"},
+      {id:"12",name:"Respiration in Plants"},
+      {id:"13",name:"Plant Growth and Development"},
+      {id:"14",name:"Breathing and Exchange of Gases"},
+      {id:"15",name:"Body Fluids and Circulation"},
+      {id:"16",name:"Excretory Products and their Elimination"},
+      {id:"17",name:"Locomotion and Movement"},
+      {id:"18",name:"Neural Control and Coordination"},
+      {id:"19",name:"Chemical Coordination and Integration"}
     ],
     "12": [
-      {id:"1", name:"Sexual Reproduction in Flowering Plants"},
-      {id:"2", name:"Human Reproduction"},
-      {id:"3", name:"Reproductive Health"},
-      {id:"4", name:"Principles of Inheritance and Variation"},
-      {id:"5", name:"Molecular Basis of Inheritance"},
-      {id:"6", name:"Evolution"},
-      {id:"7", name:"Human Health and Disease"},
-      {id:"8", name:"Microbes in Human Welfare"},
-      {id:"9", name:"Biotechnology - Principles and Processes"},
-      {id:"10", name:"Biotechnology and its Applications"},
-      {id:"11", name:"Organisms and Populations"},
-      {id:"12", name:"Ecosystem"},
-      {id:"13", name:"Biodiversity and Conservation"}
+      {id:"1",name:"Sexual Reproduction in Flowering Plants"},
+      {id:"2",name:"Human Reproduction"},
+      {id:"3",name:"Reproductive Health"},
+      {id:"4",name:"Principles of Inheritance and Variation"},
+      {id:"5",name:"Molecular Basis of Inheritance"},
+      {id:"6",name:"Evolution"},
+      {id:"7",name:"Human Health and Disease"},
+      {id:"8",name:"Microbes in Human Welfare"},
+      {id:"9",name:"Biotechnology - Principles and Processes"},
+      {id:"10",name:"Biotechnology and its Applications"},
+      {id:"11",name:"Organisms and Populations"},
+      {id:"12",name:"Ecosystem"},
+      {id:"13",name:"Biodiversity and Conservation"}
     ]
   };
 
@@ -281,6 +385,5 @@
     updateChapters();
   });
 </script>
-
 </body>
 </html>
