@@ -3,45 +3,44 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NEET/AIPMT Biology Page Wise</title>
+<title>NEET/AIPMT Biology Page Wise Analysis (2000-2025)</title>
 <style>
   body { font-family: Arial, sans-serif; margin:0; padding:16px; background:#f6f7fa; }
   .header { text-align:center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color:#fff; padding:28px 10px 16px 10px; border-radius:9px; margin-bottom:22px;}
   .controls { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:30px;}
   .dropdown-group { min-width:170px; flex:1;}
   label { font-weight:bold; font-size:15px; margin-bottom:5px; display:block;}
-  select { width:100%; padding:9px 10px; border-radius:5px; border:2px solid #dee7ff; font-size:15px; background:#fff;}
+  select { width:100%; padding:9px 10px; border-radius:5px; border:2px solid #dee1ec; font-size:15px; background:#fff;}
   select:focus { border-color:#667eea; outline:none;}
-  .content-area { background:#fff; min-height:300px; box-shadow:0 2px 10px rgba(0,0,0,0.06); border-radius:9px; padding:22px 16px; overflow-y:auto; max-height:70vh;}
-  .question-count { font-size:17px; font-weight:bold; color:#333; background:#e2f1fd; border-left:4px solid #2196F3; padding:9px 12px; margin-bottom:16px;}
-  .question-item { border:1px solid #c8d4fd; border-radius:8px; margin-bottom:20px; padding:18px 18px 14px 18px; background:#f2f7ff;}
-  .question-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;}
-  .question-number { font-weight:bold; font-size:18px; color:#34495e;}
-  .question-year { font-size:13px; color:#7f8c8d;}
-  .question-text { font-size:16px; margin-bottom:12px; color:#2c3e50;}
+  .content-area { background:#fff; min-height:200px; box-shadow:0 2px 10px rgba(0,0,0,0.06); border-radius:9px; padding:22px 16px;}
+  .question-count { font-size:17px; font-weight:bold; color:#333; background:#e8f4fd; border-left:4px solid #2196F3; padding:9px 12px; margin-bottom:16px;}
+  .question-item { border:1px solid #e3e3ec; border-radius:8px; margin-bottom:22px; padding:15px 10px 12px 10px; background:#f9fafc;}
+  .question-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:9px;}
+  .question-year { background:#ff9800; color:#fff; padding:5px 12px; border-radius:13px; font-size:12px; font-weight:bold;}
+  .question-text { font-size:16px; margin-bottom:12px; color:#333;}
   .options { margin-bottom:10px;}
-  .option { margin:7px 0; padding:9px 13px; background:#dbe9ff; border-radius:5px; font-size:15px;}
-  .button-group { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:5px;}
-  .btn { padding:8px 14px; border:none; border-radius:5px; cursor:pointer; font-size:14px; transition:all 0.3s;}
-  .btn-answer { background:#4caf50; color:#fff;}
-  .btn-answer:hover { background:#388e3c;}
+  .option { margin:6px 0; padding:8px 11px; background:#f5f5ff; border-radius:4px;}
+  .button-group { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:3px;}
+  .btn { padding:8px 13px; border:none; border-radius:5px; cursor:pointer; font-size:14px; transition:all 0.3s;}
+  .btn-answer { background:#4CAF50; color:#fff;}
+  .btn-answer:hover { background:#479a46;}
   .btn-copy { background:#2196F3; color:#fff;}
   .btn-copy:hover { background:#1976D2;}
-  .btn-chatgpt { background:#FF5722; color:#fff;}
-  .btn-chatgpt:hover { background:#e64a19;}
-  .answer-reveal { display:none; margin-top:10px; background:#e8f5e9; border:1px solid #c8e6c9; border-radius:5px; color:#2e7d32; padding:12px; font-weight:600;}
-  .no-questions { text-align:center; color:#aab7c4; font-style:italic; padding:60px 12px; font-size:16px;}
-  @media (max-width:900px) {
-    .controls { flex-direction: column; }
-    .dropdown-group { min-width: 100%; }
+  .btn-chatgpt { background:#ff6b35; color:#fff;}
+  .btn-chatgpt:hover { background:#e55a31;}
+  .answer-reveal { display:none; margin-top:9px; background:#d4edda; border:1px solid #c3e6cb; border-radius:5px; color:#155724; padding:10px;}
+  .no-questions { text-align:center; color:#888; font-style:italic; padding:44px 8px;}
+  @media (max-width:900px) { 
+    .controls { flex-direction: column;}
+    .dropdown-group { min-width: unset;}
   }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <h2>NEET/AIPMT Biology Page Wise</h2>
-  <div style="font-size:13px;">All Previous Year Questions by Chapter & Section/Page (NCERT 2025-26)</div>
+  <h2>NEET/AIPMT BIOLOGY PAGE WISE ANALYSIS (2000-2025)</h2>
+  <div style="font-size:13.7px;">All Previous Year Questions, Chapter &amp; Section-Page Wise (NCERT 2025-26)</div>
 </div>
 
 <div class="controls">
@@ -60,9 +59,9 @@
     </select>
   </div>
   <div class="dropdown-group">
-    <label for="sectionSelect">Section / Page:</label>
+    <label for="sectionSelect">Section/Page:</label>
     <select id="sectionSelect" onchange="showQuestions()" disabled>
-      <option value="">Select Section / Page</option>
+      <option value="">Select Section/Page</option>
     </select>
   </div>
 </div>
@@ -72,188 +71,306 @@
 </div>
 
 <script>
-const sectionData = {
-  "11": {
-    "2": [
-      {id:"2-0", name:"2.0 Evolution of Classification (Pg 10-12)"},
-      {id:"2-1", name:"2.1 KINGDOM MONERA (Pg 12-16)"},
-      {id:"2-2", name:"2.1.1 Archaebacteria (Pg 13)"},
-      {id:"2-3", name:"2.1.2 Eubacteria (Pg 13-16)"},
-      {id:"2-4", name:"2.2 KINGDOM PROTISTA (Pg 14-16)"},
-      {id:"2-5", name:"2.2.1 Chrysophytes (Pg 14)"},
-      {id:"2-6", name:"2.2.2 Dinoflagellates (Pg 15)"},
-      {id:"2-7", name:"2.2.3 Euglenoids (Pg 15)"},
-      {id:"2-8", name:"2.2.4 Slime Moulds (Pg 15)"},
-      {id:"2-9", name:"2.2.5 Protozoans (Pg 15-16)"},
-      {id:"2-10",name:"2.3 KINGDOM FUNGI (Pg 16-19)"},
-      {id:"2-11",name:"2.3.1 Phycomycetes (Pg 17)"},
-      {id:"2-12",name:"2.3.2 Ascomycetes (Pg 17)"},
-      {id:"2-13",name:"2.3.3 Basidiomycetes (Pg 18)"},
-      {id:"2-14",name:"2.3.4 Deuteromycetes (Pg 18)"},
-      {id:"2-15",name:"2.4 KINGDOM PLANTAE (Pg 19)"},
-      {id:"2-16",name:"2.5 KINGDOM ANIMALIA (Pg 19)"},
-      {id:"2-17",name:"2.6 Viruses, Viroids, Prions, Lichens (Pg 19-21)"}
-    ]
+  // Utility function to generate ranges
+  function range(start, end) {
+    let result = [];
+    for(let i = start; i <= end; i++) result.push(i);
+    return result;
   }
-};
 
-const questionData = {
-  "11": {
-    "2": {
-      "2-0": [ 
-        // Place example question obj for 2-0 here from previous data, for brevity omitted.  
+  // Section data with page references for class 11 (sample filled for chapter 2 - Biological Classification)
+  const sectionData = {
+    "11": {
+      "1": [
+        {id:"3-9", name:"Pages 3-9 Overview"} // Placeholder for full detailed sections later
       ],
-      "2-1": [
-        // Place example question obj for 2-1 here from previous data, for brevity omitted.
+      "2": [
+        {id:"10-12", name:"2.0 Evolution of Classification Systems (Pg. 10-12)"},
+        {id:"11-11", name:"TABLE 2.1 Characteristics of the Five Kingdoms (Pg. 11)"},
+        {id:"11-11", name:"R.H. Whittaker (1969) Five Kingdom Classification (Pg. 11)"},
+        {id:"12-12", name:"2.1 KINGDOM MONERA (Pg. 12)"},
+        {id:"13-13", name:"2.1.1 Archaebacteria (Pg. 13)"},
+        {id:"13-13", name:"2.1.2 Eubacteria (Pg. 13)"},
+        {id:"14-15", name:"2.2 KINGDOM PROTISTA (Pg. 14-15)"},
+        {id:"14-14", name:"2.2.1 Chrysophytes (Pg. 14)"},
+        {id:"15-15", name:"2.2.2 Dinoflagellates, 2.2.3 Euglenoids, 2.2.4 Slime Moulds, 2.2.5 Protozoans (Pg. 15)"},
+        {id:"16-18", name:"2.3 KINGDOM FUNGI (Pg. 16-18)"},
+        {id:"17-17", name:"2.3.1 Phycomycetes (Pg. 17)"},
+        {id:"17-17", name:"2.3.2 Ascomycetes (Pg. 17)"},
+        {id:"18-18", name:"2.3.3 Basidiomycetes (Pg. 18)"},
+        {id:"18-18", name:"2.3.4 Deuteromycetes (Pg. 18)"},
+        {id:"19-19", name:"2.4 KINGDOM PLANTAE (Pg. 19)"},
+        {id:"19-19", name:"2.5 KINGDOM ANIMALIA (Pg. 19)"},
+        {id:"19-19", name:"Viruses (Pg. 19)"},
+        {id:"21-21", name:"Viroids, Prions, Lichens (Pg. 21)"}
       ],
-      "2-2": [
-        // Example for archaebacteria replaced with ...
+      "3": [
+        {id:"23-36", name:"Pages 23-36 Plant Kingdom"} // Placeholder overview 
       ],
-      "2-17": [
-        {
-          year: "1994",
-          question: "Tobacco mosaic virus (TMV) is characterized by what type of genetic material?",
-          options: ["(a) Single stranded RNA", "(b) Double stranded DNA", "(c) Proteinaceous", "(d) Double stranded RNA"],
-          answer: "(a) Single stranded RNA"
-        },
-        {
-          year: "1996",
-          question: "What is the genetic material of the influenza virus?",
-          options: ["(a) DNA", "(b) RNA", "(c) Single stranded DNA", "(d) None of these"],
-          answer: "(b) RNA"
-        },
-        // More questions here as injected in earlier steps...
-      ]
+      // Other chapters can be filled similarly with sections later
+    },
+    "12": {
+      "1": [
+        {id:"3-25", name:"Sexual Reproduction in Flowering Plants (Pg. 3-25)"}
+        // Can be detailed further based on NCERT sections
+      ],
+      "2": [
+        {id:"26-40", name:"Human Reproduction (Pg. 26-40)"}
+      ],
+      "3": [
+        {id:"41-52", name:"Reproductive Health (Pg. 41-52)"}
+      ],
+      "4": [
+        {id:"53-78", name:"Principles of Inheritance and Variation (Pg. 53-78)"}
+      ],
+      // Further chapters can have sections added similarly
     }
-  }
-};
+  };
 
-// Initialize dropdowns
-function updateChapters() {
-  const classSelect = document.getElementById('classSelect');
-  const chapterSelect = document.getElementById('chapterSelect');
-  const sectionSelect = document.getElementById('sectionSelect');
-  chapterSelect.innerHTML = '<option value="">Select Chapter</option>';
-  sectionSelect.innerHTML = '<option value="">Select Section / Page</option>';
-  sectionSelect.disabled = true;
-  if(classSelect.value){
-    chapterSelect.disabled = false;
-    Object.keys(sectionData[classSelect.value]).forEach(chapId => {
-      const opt = document.createElement('option');
-      opt.value = chapId;
-      opt.textContent = `Chapter ${chapId}: ${sectionData[classSelect.value][chapId][0] ? sectionData[classSelect.value][chapId][0].name.split(' ')[1] : ''}`;
-      chapterSelect.appendChild(opt);
-    });
-  }else{
-    chapterSelect.disabled = true;
-  }
-  document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section/Page to view questions.</div>';
-}
-
-function updateSections(){
-  const classSelect = document.getElementById('classSelect');
-  const chapterSelect = document.getElementById('chapterSelect');
-  const sectionSelect = document.getElementById('sectionSelect');
-  sectionSelect.innerHTML = '<option value="">Select Section / Page</option>';
-  sectionSelect.disabled = true;
-  if(classSelect.value && chapterSelect.value){
-    const sections = sectionData[classSelect.value][chapterSelect.value];
-    if(sections && sections.length){
-      sectionSelect.disabled = false;
-      sections.forEach(sec => {
-        let opt = document.createElement('option');
-        opt.value = sec.id;
-        opt.textContent = sec.name;
-        sectionSelect.appendChild(opt);
-      });
+  // Base questionData skeleton with page mappings (unchanged)
+  const questionData = {
+    "11": {
+      "1": {
+        title: "The Living World",
+        pages: range(3, 9),
+        questions: {}
+      },
+      "2": {
+        title: "Biological Classification",
+        pages: range(10, 22),
+        questions: {}
+      }, 
+      "3": {title: "Plant Kingdom", pages: range(23, 36), questions: {}},
+      "4": {title: "Animal Kingdom", pages: range(37, 54), questions: {}},
+      "5": {title: "Morphology of Flowering Plants", pages: range(57, 69), questions: {}},
+      "6": {title: "Anatomy of Flowering Plants", pages: range(71, 78), questions: {}},
+      "7": {title: "Structural Organisation in Animals", pages: range(79, 86), questions: {}},
+      "8": {title: "Cell - The Unit of Life", pages: range(87, 103), questions: {}},
+      "9": {title: "Biomolecules", pages: range(104, 119), questions: {}},
+      "10": {title: "Cell Cycle and Cell Division", pages: range(120, 130), questions: {}},
+      "11": {title: "Photosynthesis in Higher Plants", pages: range(133, 152), questions: {}},
+      "12": {title: "Respiration in Plants", pages: range(153, 165), questions: {}},
+      "13": {title: "Plant Growth and Development", pages: range(166, 182), questions: {}},
+      "14": {title: "Breathing and Exchange of Gases", pages: range(183, 192), questions: {}},
+      "15": {title: "Body Fluids and Circulation", pages: range(193, 204), questions: {}},
+      "16": {title: "Excretory Products and their Elimination", pages: range(205, 216), questions: {}},
+      "17": {title: "Locomotion and Movement", pages: range(217, 229), questions: {}},
+      "18": {title: "Neural Control and Coordination", pages: range(230, 238), questions: {}},
+      "19": {title: "Chemical Coordination and Integration", pages: range(239, 250), questions: {}}
+    },
+    "12": {
+      "1": {title: "Sexual Reproduction in Flowering Plants", pages: range(3, 25), questions: {}},
+      "2": {title: "Human Reproduction", pages: range(26, 40), questions: {}},
+      "3": {title: "Reproductive Health", pages: range(41, 52), questions: {}},
+      "4": {title: "Principles of Inheritance and Variation", pages: range(53, 78), questions: {}},
+      "5": {title: "Molecular Basis of Inheritance", pages: range(79, 109), questions: {}},
+      "6": {title: "Evolution", pages: range(110, 128), questions: {}},
+      "7": {title: "Human Health and Disease", pages: range(129, 148), questions: {}},
+      "8": {title: "Microbes in Human Welfare", pages: range(149, 160), questions: {}},
+      "9": {title: "Biotechnology - Principles and Processes", pages: range(161, 176), questions: {}},
+      "10": {title: "Biotechnology and its Applications", pages: range(177, 189), questions: {}},
+      "11": {title: "Organisms and Populations", pages: range(190, 204), questions: {}},
+      "12": {title: "Ecosystem", pages: range(205, 215), questions: {}},
+      "13": {title: "Biodiversity and Conservation", pages: range(216, 227), questions: {}}
     }
+  };
+
+  // Question data examples unchanged for demonstration (can be expanded)
+  if (questionData["11"]["1"].questions["3"]) {
+    delete questionData["11"]["1"].questions["3"];
   }
-  document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section/Page to view questions.</div>';
-}
-
-function showQuestions(){
-  const classVal = document.getElementById('classSelect').value;
-  const chapterVal = document.getElementById('chapterSelect').value;
-  const sectionVal = document.getElementById('sectionSelect').value;
-  const contentArea = document.getElementById('contentArea');
-  if(!classVal || !chapterVal || !sectionVal){
-    contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section/Page to view questions.</div>';
-    return;
-  }
-  const chapter = questionData[classVal][chapterVal];
-  if(!chapter){
-    contentArea.innerHTML = '<div class="no-questions">No questions available for selected chapter.</div>';
-    return;
-  }
-  const questions = chapter[sectionVal];
-  if(!questions || questions.length===0){
-    contentArea.innerHTML = '<div class="no-questions">0 questions detected.</div>';
-    return;
-  }
-  let html = `<div class="question-count">No. of questions: ${questions.length}</div>`;
-  questions.forEach((q,i) => {
-    html += `<div class="question-item">
-      <div class="question-header">
-        <div class="question-number">Q${i+1} (${q.year})</div>
-        <div class="question-year"></div>
-      </div>
-      <div class="question-text">${q.question}</div>
-      <div class="options">${q.options.map(o=>`<div class="option">${o}</div>`).join('')}</div>
-      <div class="button-group">
-        <button class="btn btn-answer" onclick="toggleAnswer(${i})">Show/Hide Answer</button>
-        <button class="btn btn-copy" onclick="copyQuestion(${i})">Copy Question</button>
-        <button class="btn btn-chatgpt" onclick="openChatGPT(${i})">Ask ChatGPT</button>
-      </div>
-      <div class="answer-reveal" id="answer-${i}">Answer: ${q.answer}</div>
-    </div>`;
-  });
-  contentArea.innerHTML = html;
-}
-
-function toggleAnswer(i){
-  const el = document.getElementById(`answer-${i}`);
-  if(el.style.display === 'block'){
-    el.style.display = 'none';
-  } else {
-    el.style.display = 'block';
-  }
-}
-
-function copyQuestion(i){
-  const classVal = document.getElementById('classSelect').value;
-  const chapterVal = document.getElementById('chapterSelect').value;
-  const sectionVal = document.getElementById('sectionSelect').value;
-  const question = questionData[classVal][chapterVal][sectionVal][i];
-  const text = question.year + "\n" + question.question + "\n" + question.options.join('\n');
-  navigator.clipboard.writeText(text).then(()=>{
-    alert('Question copied to clipboard!');
-  },()=>{alert('Failed to copy!');});
-}
-
-function openChatGPT(i){
-  const classVal = document.getElementById('classSelect').value;
-  const chapterVal = document.getElementById('chapterSelect').value;
-  const sectionVal = document.getElementById('sectionSelect').value;
-  const question = questionData[classVal][chapterVal][sectionVal][i];
-  const prompt = `Please explain this NEET biology question in detail:\n\n${question.year}\n${question.question}\nOptions:\n${question.options.join('\n')}\nAnswer: ${question.answer}`;
-  const url = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
-  window.open(url, '_blank');
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  updateChapters();
-});
-
-// Add-on example for future chapters:
-/*
-questionData["11"]["3"] = {
-  "3-0": [
+  questionData["11"]["1"].questions["3"] = [
     {
-      year: "NEET 2020",
-      question: "Sample question for chapter 3 section 0?",
-      options: ["a","b","c","d"],
-      answer: "a"
+      year: "NEET 2022",
+      question: "How many (in number) of the following properties are defining characteristics of living organisms? Growth, reproduction, metabolism, cellular organization, consciousness",
+      options: ["(a) Two", "(b) Three", "(c) Four", "(d) Five"],
+      answer: "(c) Four"
+    },
+    {
+      year: "NEET 2021",
+      question: "In majority of higher animals and plants, growth and reproduction are:",
+      options: ["(a) Simultaneous processes", "(b) Mutually exclusive events", "(c) Independent of each other", "(d) Continuous throughout life"],
+      answer: "(b) Mutually exclusive events"
     }
-  ]
-};
-*/
+  ];
+
+  // Further question data additions can be filled similarly...
+
+  // Chapter data remains the same for drop downs
+  const chapterData = {
+    "11": [
+      {id:"1",name:"The Living World"},
+      {id:"2",name:"Biological Classification"},
+      {id:"3",name:"Plant Kingdom"},
+      {id:"4",name:"Animal Kingdom"},
+      {id:"5",name:"Morphology of Flowering Plants"},
+      {id:"6",name:"Anatomy of Flowering Plants"},
+      {id:"7",name:"Structural Organisation in Animals"},
+      {id:"8",name:"Cell - The Unit of Life"},
+      {id:"9",name:"Biomolecules"},
+      {id:"10",name:"Cell Cycle and Cell Division"},
+      {id:"11",name:"Photosynthesis in Higher Plants"},
+      {id:"12",name:"Respiration in Plants"},
+      {id:"13",name:"Plant Growth and Development"},
+      {id:"14",name:"Breathing and Exchange of Gases"},
+      {id:"15",name:"Body Fluids and Circulation"},
+      {id:"16",name:"Excretory Products and their Elimination"},
+      {id:"17",name:"Locomotion and Movement"},
+      {id:"18",name:"Neural Control and Coordination"},
+      {id:"19",name:"Chemical Coordination and Integration"}
+    ],
+    "12": [
+      {id:"1",name:"Sexual Reproduction in Flowering Plants"},
+      {id:"2",name:"Human Reproduction"},
+      {id:"3",name:"Reproductive Health"},
+      {id:"4",name:"Principles of Inheritance and Variation"},
+      {id:"5",name:"Molecular Basis of Inheritance"},
+      {id:"6",name:"Evolution"},
+      {id:"7",name:"Human Health and Disease"},
+      {id:"8",name:"Microbes in Human Welfare"},
+      {id:"9",name:"Biotechnology - Principles and Processes"},
+      {id:"10",name:"Biotechnology and its Applications"},
+      {id:"11",name:"Organisms and Populations"},
+      {id:"12",name:"Ecosystem"},
+      {id:"13",name:"Biodiversity and Conservation"}
+    ]
+  };
+
+  function updateChapters() {
+    const classSelect = document.getElementById('classSelect');
+    const chapterSelect = document.getElementById('chapterSelect');
+    const sectionSelect = document.getElementById('sectionSelect');
+    chapterSelect.innerHTML = '<option value="">Select Chapter</option>';
+    sectionSelect.innerHTML = '<option value="">Select Section/Page</option>';
+    sectionSelect.disabled = true;
+    if (classSelect.value) {
+      chapterSelect.disabled = false;
+      chapterData[classSelect.value].forEach(chap => {
+        const opt = document.createElement('option');
+        opt.value = chap.id;
+        opt.textContent = `Chapter ${chap.id}: ${chap.name}`;
+        chapterSelect.appendChild(opt);
+      });
+    } else {
+      chapterSelect.disabled = true;
+    }
+    document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section/Page to view questions.</div>';
+  }
+
+  function updateSections() {
+    const classSelect = document.getElementById('classSelect');
+    const chapterSelect = document.getElementById('chapterSelect');
+    const sectionSelect = document.getElementById('sectionSelect');
+    sectionSelect.innerHTML = '<option value="">Select Section/Page</option>';
+    if (classSelect.value && chapterSelect.value) {
+      sectionSelect.disabled = false;
+      const sections = sectionData[classSelect.value] && sectionData[classSelect.value][chapterSelect.value];
+      if (sections && sections.length > 0) {
+        sections.forEach(s => {
+          let opt = document.createElement('option');
+          opt.value = s.id;
+          opt.textContent = s.name;
+          sectionSelect.appendChild(opt);
+        });
+      } else {
+        sectionSelect.disabled = true;
+      }
+    } else {
+      sectionSelect.disabled = true;
+    }
+    document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section/Page to view questions.</div>';
+  }
+
+  function showQuestions() {
+    const c = document.getElementById('classSelect').value;
+    const ch = document.getElementById('chapterSelect').value;
+    const sp = document.getElementById('sectionSelect').value;
+    const contentArea = document.getElementById('contentArea');
+    if (!c || !ch || !sp) {
+      contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section/Page to view questions.</div>';
+      return;
+    }
+    const chapter = questionData[c][ch];
+    if (!chapter) {
+      contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
+      return;
+    }
+
+    // Extract start page from section/page id (e.g. "10-12" => "10")
+    let startPage = sp.split('-')[0];
+    // Trim spaces for any unintended ones
+    startPage = startPage.trim();
+
+    // Fetch questions for the start page of the selected section
+    const questions = chapter.questions[startPage];
+    if (!questions || questions.length === 0) {
+      contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
+      return;
+    }
+    let html = `<div class="question-count">No. of questions found: ${questions.length}</div>`;
+    questions.forEach((q, i) => {
+      html += `<div class="question-item">
+        <div class="question-header"><span class="question-year">${q.year}</span></div>
+        <div class="question-text">${q.question}</div>
+        <div class="options">${q.options.map(o => `<div class="option">${o}</div>`).join('')}</div>
+        <div class="button-group">
+          <button class="btn btn-answer" onclick="toggleAnswer(${i})">Answer</button>
+          <button class="btn btn-copy" onclick="copyQuestion(${i})">Copy Question</button>
+          <button class="btn btn-chatgpt" onclick="openChatGPT(${i})">ChatGPT Explain</button>
+        </div>
+        <div class="answer-reveal" id="answer-${i}"><strong>Answer:</strong> ${q.answer}</div>
+      </div>`;
+    });
+    contentArea.innerHTML = html;
+  }
+
+  function toggleAnswer(i) {
+    const el = document.getElementById('answer-' + i);
+    el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+  }
+
+  function copyQuestion(i) {
+    const c = document.getElementById('classSelect').value;
+    const ch = document.getElementById('chapterSelect').value;
+    const sp = document.getElementById('sectionSelect').value;
+    // Extract start page
+    let startPage = sp.split('-')[0].trim();
+    const q = questionData[c][ch].questions[startPage][i];
+    const text = `${q.year} - ${q.question}\n${q.options.join('\n')}`;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => alert('Question copied to clipboard!'), fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+    function fallbackCopy() {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      alert('Question copied to clipboard!');
+    }
+  }
+
+  function openChatGPT(i) {
+    const c = document.getElementById('classSelect').value;
+    const ch = document.getElementById('chapterSelect').value;
+    const sp = document.getElementById('sectionSelect').value;
+    let startPage = sp.split('-')[0].trim();
+    const q = questionData[c][ch].questions[startPage][i];
+    const prompt = `Please explain this NEET Biology question in detail:\n\n${q.year} - ${q.question}\n${q.options.join('\n')}\n\nCorrect Answer: ${q.answer}`;
+    const url = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
+    window.open(url, '_blank');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    updateChapters();
+  });
+
+  // Placeholder for future chapter-wise question injections before </body>
+
+</script>
+
+</body>
+</html>
