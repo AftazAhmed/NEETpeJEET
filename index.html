@@ -101,7 +101,13 @@
     border-color: #023047;
     background-color: #e0f7f4;
   }
-  #scoreCard {
+  #scoreWrapper {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    margin-left: 12px;
+  }
+  .scoreCard {
     display: flex;
     align-items: center;
     font-weight: 700;
@@ -109,11 +115,9 @@
     color: #116466;
     border-left: 5px solid #028090;
     padding-left: 14px;
-    margin-left: 12px;
-    gap: 20px;
     white-space: nowrap;
   }
-  #refreshScoreBtn {
+  .resetBtn {
     cursor: pointer;
     background-color: #0d6efd;
     border: none;
@@ -124,8 +128,9 @@
     font-weight: 700;
     font-size: 15px;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-left: 8px;
   }
-  #refreshScoreBtn:hover {
+  .resetBtn:hover {
     background-color: #084298;
     box-shadow: 0 5px 20px rgba(8, 66, 152, 0.9);
   }
@@ -357,9 +362,14 @@
       <option value="">Select Page Number</option>
     </select>
   </div>
-  <div id="scoreCard" aria-live="polite" role="region" aria-atomic="true" tabindex="0">
-    Score: x / y
-    <button id="refreshScoreBtn" aria-label="Reset score">Reset</button>
+  <div id="scoreWrapper">
+    <div id="scoreCard" class="scoreCard" aria-live="polite" role="region" aria-atomic="true" tabindex="0">
+      Score: x / y
+    </div>
+    <div id="chapterScoreCard" class="scoreCard" aria-live="polite" role="region" aria-atomic="true" tabindex="0">
+      Chapter Score: p / q
+    </div>
+    <button id="refreshChapterScoreBtn" class="resetBtn" aria-label="Reset chapter score">Reset Chapter Score</button>
   </div>
 </div>
 
@@ -476,12 +486,15 @@
     }
   }
 
-  function resetScore(classId, chapterId) {
-    if (cumulativeScores[classId] && cumulativeScores[classId][chapterId]) {
-      cumulativeScores[classId][chapterId].correct = 0;
-    }
+  function resetAllChapterScores(classId) {
+    if (!cumulativeScores[classId]) return;
+    Object.keys(cumulativeScores[classId]).forEach(chapId => {
+      cumulativeScores[classId][chapId].correct = 0;
+    });
     if (answeredQuestionsByChapter[classId]) {
-      answeredQuestionsByChapter[classId][chapterId] = {};
+      Object.keys(answeredQuestionsByChapter[classId]).forEach(chapId => {
+        answeredQuestionsByChapter[classId][chapId] = {};
+      });
     }
   }
 
@@ -564,25 +577,45 @@
     const classSelect = document.getElementById('classSelect');
     const chapterSelect = document.getElementById('chapterSelect');
     const scoreCard = document.getElementById('scoreCard');
+    const chapterScoreCard = document.getElementById('chapterScoreCard');
     if (!classSelect.value || !chapterSelect.value) {
-      scoreCard.firstChild.textContent = 'Score: x / y';
+      scoreCard.textContent = 'Score: x / y';
+      chapterScoreCard.textContent = 'Chapter Score: p / q';
       return;
     }
     const c = classSelect.value;
     const ch = chapterSelect.value;
 
+    // Calculate page score as sum of correct / sum of total for current chapter
     let scoreObj = getScore(c, ch);
     if (!scoreObj) {
       initScore(c, ch, 0);
       scoreObj = getScore(c, ch);
-      scoreCard.firstChild.textContent = 'Score: x / y';
+      scoreCard.textContent = 'Score: x / y';
     } else {
       let totalQ = scoreObj.total;
       if (!totalQ || totalQ === 0) {
-        scoreCard.firstChild.textContent = 'Score: x / y';
+        scoreCard.textContent = 'Score: x / y';
       } else {
-        scoreCard.firstChild.textContent = `Score: ${scoreObj.correct} / ${totalQ}`;
+        scoreCard.textContent = `Score: ${scoreObj.correct} / ${totalQ}`;
       }
+    }
+
+    // Calculate chapter cumulative score p/q
+    let p = 0; // sum of correct answers all chapters
+    let q = 0; // sum of total questions all chapters
+    if (cumulativeScores[c]) {
+      Object.values(cumulativeScores[c]).forEach(obj => {
+        if(obj){
+          p += obj.correct || 0;
+          q += obj.total || 0;
+        }
+      });
+    }
+    if(q === 0){
+      chapterScoreCard.textContent = 'Chapter Score: p / q';
+    } else {
+      chapterScoreCard.textContent = `Chapter Score: ${p} / ${q}`;
     }
   }
 
@@ -770,11 +803,10 @@
     window.open(url, '_blank');
   }
 
-  document.getElementById('refreshScoreBtn').addEventListener('click', () => {
+  document.getElementById('refreshChapterScoreBtn').addEventListener('click', () => {
     const classSelect = document.getElementById('classSelect').value;
-    const chapterSelect = document.getElementById('chapterSelect').value;
-    if (!classSelect || !chapterSelect) return;
-    resetScore(classSelect, chapterSelect);
+    if (!classSelect) return;
+    resetAllChapterScores(classSelect);
     updateScoreDisplay();
   });
 
@@ -782,7 +814,6 @@
     updateChapters();
   });
 </script>
-
 <script>
 questionData["11"]["1"].questions["3"] = [
   {number: 1, year: "PMT/NEET-1994", question: "Biology is primarily concerned with which of the following?", options: ["a. DNA molecules", "b. Biomass measurements", "c. Living organisms", "d. Fossil records"], answer: "c. Living organisms"}
@@ -849,6 +880,7 @@ questionData["11"]["1"].questions["9"] = [
   {number: 44, year: "PMT/NEET-2016", question: "Herbarium labels do not include:", options: ["a. Collection date", "b. Collector name", "c. Local names", "d. Plant height"], answer: "d. Plant height"}
 ];
 </script>
+
 
 </body>
 </html>
