@@ -70,8 +70,9 @@
     display: flex;
     flex-wrap: wrap;
     gap: 18px;
-    margin-bottom: 32px;
+    margin-bottom: 16px;
     justify-content: center;
+    align-items: center;
   }
   .dropdown-group {
     min-width: 180px;
@@ -99,6 +100,34 @@
     outline: none;
     border-color: #023047;
     background-color: #e0f7f4;
+  }
+  #scoreCard {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 18px;
+    color: #116466;
+    border-left: 5px solid #028090;
+    padding-left: 14px;
+    margin-left: 12px;
+    gap: 20px;
+    white-space: nowrap;
+  }
+  #refreshScoreBtn {
+    cursor: pointer;
+    background-color: #0d6efd;
+    border: none;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 7px;
+    box-shadow: 0 4px 15px rgba(8, 66, 152, 0.7);
+    font-weight: 700;
+    font-size: 15px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  #refreshScoreBtn:hover {
+    background-color: #084298;
+    box-shadow: 0 5px 20px rgba(8, 66, 152, 0.9);
   }
   .content-area {
     background-color: #fff1e0;
@@ -154,16 +183,6 @@
     letter-spacing: 0.6px;
     white-space: nowrap;
   }
-  .score {
-    background-color: #198754;
-    color: #e0f7f4;
-    padding: 5px 12px;
-    border-radius: 14px;
-    font-weight: 600;
-    font-size: 14px;
-    box-shadow: 0 0 6px rgba(25, 135, 84, 0.8);
-    white-space: nowrap;
-  }
   .question-text {
     font-weight: 600;
     font-size: 15px;
@@ -187,24 +206,22 @@
     color: #244636;
     cursor: pointer;
     box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
-    transition: 0.3s;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
     user-select: none;
   }
   .option:hover:not(.disabled) {
     background-color: #dceddb;
     border-color: #71b280;
   }
-  .option.correct {
-    background-color: #198754;
-    border-color: #145c32;
-    color: #e0f7e9;
-    cursor: default;
+  .option.correct-temp {
+    background-color: rgba(25, 135, 84, 0.15);
+    border-color: rgba(25, 135, 84, 0.3);
+    color: #2e7d32;
   }
-  .option.incorrect {
-    background-color: #dc3545;
-    border-color: #842029;
-    color: #f8d7da;
-    cursor: default;
+  .option.incorrect-temp {
+    background-color: rgba(220, 53, 69, 0.15);
+    border-color: rgba(220, 53, 69, 0.3);
+    color: #b02a37;
   }
   .button-group {
     display: flex;
@@ -268,6 +285,8 @@
     opacity: 0.95;
     pointer-events: none;
     display: none;
+    transition: opacity 0.4s ease-out;
+    z-index: 10;
   }
   .tick-cross-popup.correct {
     background-color: #198754;
@@ -338,6 +357,10 @@
       <option value="">Select Page Number</option>
     </select>
   </div>
+  <div id="scoreCard" aria-live="polite" role="region" aria-atomic="true" tabindex="0">
+    Score: x / y
+    <button id="refreshScoreBtn" aria-label="Reset score">Reset</button>
+  </div>
 </div>
 
 <main class="content-area" id="contentArea" role="main" tabindex="-1">
@@ -352,7 +375,7 @@
     }
     return result;
   }
-  
+
   const questionData = {
     "11": {
       "1": {title: "The Living World", pages: range(3, 9), questions: {}},
@@ -391,7 +414,7 @@
       "13": {title: "Biodiversity and Conservation", pages: range(216, 227), questions: {}}
     }
   };
-  
+
   const chapterData = {
     "11": [
       {id:"1",name:"The Living World"},
@@ -431,20 +454,66 @@
     ]
   };
 
-  let scoringState = {
-    correctAnswers: 0,
-    totalQuestions: 0,
-    answeredQuestions: new Set()
-  };
+  let cumulativeScores = {};
+  let answeredQuestionsByChapter = {};
+
+  function getScore(classId, chapterId) {
+    if (cumulativeScores[classId] && cumulativeScores[classId][chapterId]) {
+      return cumulativeScores[classId][chapterId];
+    }
+    return null;
+  }
+
+  function initScore(classId, chapterId, totalQuestions) {
+    if (!cumulativeScores[classId]) cumulativeScores[classId] = {};
+    if (!cumulativeScores[classId][chapterId]) {
+      cumulativeScores[classId][chapterId] = {
+        correct: 0,
+        total: totalQuestions
+      };
+    } else {
+      cumulativeScores[classId][chapterId].total = totalQuestions;
+    }
+  }
+
+  function resetScore(classId, chapterId) {
+    if (cumulativeScores[classId] && cumulativeScores[classId][chapterId]) {
+      cumulativeScores[classId][chapterId].correct = 0;
+    }
+    if (answeredQuestionsByChapter[classId]) {
+      answeredQuestionsByChapter[classId][chapterId] = {};
+    }
+  }
+
+  function markQuestionAnswered(classId, chapterId, questionKey, correct) {
+    if (!answeredQuestionsByChapter[classId]) answeredQuestionsByChapter[classId] = {};
+    if (!answeredQuestionsByChapter[classId][chapterId]) answeredQuestionsByChapter[classId][chapterId] = {};
+
+    let prevCorrect = answeredQuestionsByChapter[classId][chapterId][questionKey];
+    if (prevCorrect === undefined) {
+      answeredQuestionsByChapter[classId][chapterId][questionKey] = correct;
+      if (correct) cumulativeScores[classId][chapterId].correct++;
+    } else {
+      if (prevCorrect !== correct) {
+        answeredQuestionsByChapter[classId][chapterId][questionKey] = correct;
+        if (correct) {
+          cumulativeScores[classId][chapterId].correct++;
+        } else {
+          cumulativeScores[classId][chapterId].correct--;
+          if (cumulativeScores[classId][chapterId].correct < 0) cumulativeScores[classId][chapterId].correct = 0;
+        }
+      }
+    }
+  }
 
   function updateChapters() {
-    scoringState = {correctAnswers: 0, totalQuestions: 0, answeredQuestions: new Set()};
     const classSelect = document.getElementById('classSelect');
     const chapterSelect = document.getElementById('chapterSelect');
     const sectionSelect = document.getElementById('sectionSelect');
     chapterSelect.innerHTML = '<option value="">Select Chapter</option>';
     sectionSelect.innerHTML = '<option value="">Select Page Number</option>';
     sectionSelect.disabled = true;
+
     if (classSelect.value) {
       chapterSelect.disabled = false;
       chapterData[classSelect.value].forEach(chap => {
@@ -456,11 +525,10 @@
     } else {
       chapterSelect.disabled = true;
     }
-    document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Page Number to view questions.</div>';
+    clearContentAndScore();
   }
 
   function updateSections() {
-    scoringState = {correctAnswers: 0, totalQuestions: 0, answeredQuestions: new Set()};
     const classSelect = document.getElementById('classSelect');
     const chapterSelect = document.getElementById('chapterSelect');
     const sectionSelect = document.getElementById('sectionSelect');
@@ -484,11 +552,41 @@
       sectionSelect.disabled = true;
       sectionSelect.innerHTML = '<option value="">Select Page Number</option>';
     }
+    clearContentAndScore();
+  }
+
+  function clearContentAndScore() {
     document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Page Number to view questions.</div>';
+    updateScoreDisplay();
+  }
+
+  function updateScoreDisplay() {
+    const classSelect = document.getElementById('classSelect');
+    const chapterSelect = document.getElementById('chapterSelect');
+    const scoreCard = document.getElementById('scoreCard');
+    if (!classSelect.value || !chapterSelect.value) {
+      scoreCard.firstChild.textContent = 'Score: x / y';
+      return;
+    }
+    const c = classSelect.value;
+    const ch = chapterSelect.value;
+
+    let scoreObj = getScore(c, ch);
+    if (!scoreObj) {
+      initScore(c, ch, 0);
+      scoreObj = getScore(c, ch);
+      scoreCard.firstChild.textContent = 'Score: x / y';
+    } else {
+      let totalQ = scoreObj.total;
+      if (!totalQ || totalQ === 0) {
+        scoreCard.firstChild.textContent = 'Score: x / y';
+      } else {
+        scoreCard.firstChild.textContent = `Score: ${scoreObj.correct} / ${totalQ}`;
+      }
+    }
   }
 
   function showQuestions() {
-    scoringState = {correctAnswers: 0, totalQuestions: 0, answeredQuestions: new Set()};
     const c = document.getElementById('classSelect').value;
     const ch = document.getElementById('chapterSelect').value;
     const page = document.getElementById('sectionSelect').value;
@@ -496,21 +594,24 @@
 
     if (!c || !ch || !page) {
       contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Page Number to view questions.</div>';
+      updateScoreDisplay();
       return;
     }
 
     if (page === '10') {
       contentArea.innerHTML = '<div class="question-count">No questions found in this page.</div>';
+      updateScoreDisplay();
       return;
     }
 
     const questions = questionData[c]?.[ch]?.questions?.[page] || [];
     if (!questions.length) {
       contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
+      updateScoreDisplay();
       return;
     }
 
-    scoringState.totalQuestions = questions.length;
+    initScore(c, ch, questions.length);
 
     let questionCounter = 1;
     const allPages = questionData[c][ch].pages;
@@ -527,7 +628,6 @@
         <div class="question-header">
           <span class="question-number">Q${qNum}.</span>
           <span class="question-year">${q.year}</span>
-          <span class="score" id="score-${qNum}">Score: 0/1</span>
         </div>
         <div class="question-text">${q.question}</div>
         <div class="options" id="options-${qNum}">
@@ -545,96 +645,63 @@
     });
     contentArea.innerHTML = html;
 
-    // Attach click handlers to options for scoring
     questions.forEach((q, i) => {
       const qNum = questionCounter + i;
       const optionsContainer = document.getElementById(`options-${qNum}`);
       optionsContainer.querySelectorAll('.option').forEach(optionDiv => {
-        optionDiv.addEventListener('click', e => handleOptionClick(e, qNum, q.answer));
+        optionDiv.addEventListener('click', e => handleOptionClick(e, c, ch, qNum, q.answer));
         optionDiv.addEventListener('keydown', e => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            handleOptionClick(e, qNum, q.answer);
+            handleOptionClick(e, c, ch, qNum, q.answer);
           }
         });
       });
     });
+
+    updateScoreDisplay();
   }
 
-  function handleOptionClick(event, qNum, correctAnswer) {
+  function handleOptionClick(event, classId, chapterId, qNum, correctAnswer) {
     const selectedOption = event.currentTarget;
     const optionsContainer = selectedOption.parentNode;
-    if (scoringState.answeredQuestions.has(qNum)) {
-      return; // Ignore if already answered
-    }
-    scoringState.answeredQuestions.add(qNum);
+    const questionKey = `q${qNum}`;
 
-    // Disable all options
+    if (answeredQuestionsByChapter[classId] && answeredQuestionsByChapter[classId][chapterId]
+        && answeredQuestionsByChapter[classId][chapterId][questionKey] !== undefined) {
+      return;
+    }
+
     optionsContainer.querySelectorAll('.option').forEach(o => {
       o.classList.add('disabled');
       o.style.cursor = 'default';
       o.setAttribute('aria-disabled', 'true');
-      o.removeEventListener('click', () => {}); // remove listeners ideally but here we just ignore if multiple click
+      o.tabIndex = -1;
     });
 
     const selectedText = selectedOption.textContent.trim();
     const isCorrect = selectedText === correctAnswer.trim();
 
-    if (isCorrect) {
-      scoringState.correctAnswers++;
-    }
+    markQuestionAnswered(classId, chapterId, questionKey, isCorrect);
 
-    // Mark options with colors
-    optionsContainer.querySelectorAll('.option').forEach(o => {
-      if (o.textContent.trim() === correctAnswer.trim()) {
-        o.classList.add('correct');
-      }
-    });
-    if (!isCorrect) {
-      selectedOption.classList.add('incorrect');
-    }
-
-    // Show tick or cross popup
     const popup = document.getElementById(`popup-${qNum}`);
-    if (isCorrect) {
-      popup.textContent = '✓';
-      popup.classList.remove('incorrect');
-      popup.classList.add('correct');
-    } else {
-      popup.textContent = '✗';
-      popup.classList.remove('correct');
-      popup.classList.add('incorrect');
-    }
+    popup.textContent = isCorrect ? '✓' : '✗';
+    popup.classList.remove('correct', 'incorrect');
+    popup.classList.add(isCorrect ? 'correct' : 'incorrect');
     popup.style.display = 'block';
+    popup.style.opacity = '1';
 
-    // Update score inside question box as x/1 for each question (1 point each)
-    const scoreSpan = document.getElementById(`score-${qNum}`);
-    scoreSpan.textContent = `Score: ${isCorrect ? 1 : 0}/1`;
+    selectedOption.classList.add(isCorrect ? 'option.correct-temp' : 'option.incorrect-temp');
 
-    // Update chapter total score display
-    updateChapterScoreDisplay();
-  }
+    setTimeout(() => {
+      popup.style.opacity = '0';
+    }, 1200);
+    setTimeout(() => {
+      popup.style.display = 'none';
+      selectedOption.classList.remove('option.correct-temp', 'option.incorrect-temp');
+    }, 1600);
 
-  function updateChapterScoreDisplay() {
-    const c = document.getElementById('classSelect').value;
-    const ch = document.getElementById('chapterSelect').value;
-    if (!c || !ch) return;
-
-    const chapterTitle = chapterData[c].find(chap => chap.id === ch)?.name || "";
-
-    let totalScoreDisplay = document.getElementById('totalScoreDisplay');
-    if (!totalScoreDisplay) {
-      totalScoreDisplay = document.createElement('div');
-      totalScoreDisplay.id = 'totalScoreDisplay';
-      totalScoreDisplay.style.fontWeight = '700';
-      totalScoreDisplay.style.fontSize = '18px';
-      totalScoreDisplay.style.color = '#116466';
-      totalScoreDisplay.style.marginBottom = '20px';
-      totalScoreDisplay.style.textAlign = 'center';
-      const contentArea = document.getElementById('contentArea');
-      contentArea.insertBefore(totalScoreDisplay, contentArea.firstChild);
-    }
-    totalScoreDisplay.textContent = `Total Score: ${scoringState.correctAnswers} / ${scoringState.totalQuestions} in Chapter ${ch}: ${chapterTitle}`;
+    updateScoreDisplay();
   }
 
   function toggleAnswer(qNum) {
@@ -648,6 +715,7 @@
       if (btn) btn.setAttribute('aria-expanded', 'true');
     }
   }
+
   function copyQuestion(qNum) {
     let questionObj = null;
     const c = document.getElementById('classSelect').value;
@@ -680,6 +748,7 @@
       alert('Question copied to clipboard!');
     }
   }
+
   function openChatGPT(qNum) {
     let questionObj = null;
     const c = document.getElementById('classSelect').value;
@@ -700,10 +769,20 @@
     const url = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
     window.open(url, '_blank');
   }
+
+  document.getElementById('refreshScoreBtn').addEventListener('click', () => {
+    const classSelect = document.getElementById('classSelect').value;
+    const chapterSelect = document.getElementById('chapterSelect').value;
+    if (!classSelect || !chapterSelect) return;
+    resetScore(classSelect, chapterSelect);
+    updateScoreDisplay();
+  });
+
   document.addEventListener('DOMContentLoaded', () => {
     updateChapters();
   });
 </script>
+
 <script>
 questionData["11"]["1"].questions["3"] = [
   {number: 1, year: "PMT/NEET-1994", question: "Biology is primarily concerned with which of the following?", options: ["a. DNA molecules", "b. Biomass measurements", "c. Living organisms", "d. Fossil records"], answer: "c. Living organisms"}
