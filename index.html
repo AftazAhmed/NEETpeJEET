@@ -1,1017 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NEET/AIPMT Biology Page Wise Analysis (2000-2025)</title>
+<style>
+  body { font-family: Arial, sans-serif; margin:0; padding:16px; background:#f6f7fa; }
+  .header { text-align:center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color:#fff; padding:28px 10px 16px 10px; border-radius:9px; margin-bottom:22px;}
+  .controls { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:30px;}
+  .dropdown-group { min-width:170px; flex:1;}
+  label { font-weight:bold; font-size:15px; margin-bottom:5px; display:block;}
+  select { width:100%; padding:9px 10px; border-radius:5px; border:2px solid #dee1ec; font-size:15px; background:#fff;}
+  select:focus { border-color:#667eea; outline:none;}
+  .content-area { background:#fff; min-height:200px; box-shadow:0 2px 10px rgba(0,0,0,0.06); border-radius:9px; padding:22px 16px;}
+  .question-count { font-size:17px; font-weight:bold; color:#333; background:#e8f4fd; border-left:4px solid #2196F3; padding:9px 12px; margin-bottom:16px;}
+  .question-item { border:1px solid #e3e3ec; border-radius:8px; margin-bottom:22px; padding:15px 10px 12px 10px; background:#f9fafc;}
+  .question-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:9px;}
+  .question-year { background:#ff9800; color:#fff; padding:5px 12px; border-radius:13px; font-size:12px; font-weight:bold;}
+  .question-text { font-size:16px; margin-bottom:12px; color:#333;}
+  .options { margin-bottom:10px;}
+  .option { margin:6px 0; padding:8px 11px; background:#f5f5ff; border-radius:4px;}
+  .button-group { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:3px;}
+  .btn { padding:8px 13px; border:none; border-radius:5px; cursor:pointer; font-size:14px; transition:all 0.3s;}
+  .btn-answer { background:#4CAF50; color:#fff;}
+  .btn-answer:hover { background:#479a46;}
+  .btn-copy { background:#2196F3; color:#fff;}
+  .btn-copy:hover { background:#1976D2;}
+  .btn-chatgpt { background:#ff6b35; color:#fff;}
+  .btn-chatgpt:hover { background:#e55a31;}
+  .answer-reveal { display:none; margin-top:9px; background:#d4edda; border:1px solid #c3e6cb; border-radius:5px; color:#155724; padding:10px;}
+  .no-questions { text-align:center; color:#888; font-style:italic; padding:44px 8px;}
+  @media (max-width:900px) { 
+    .controls { flex-direction: column;}
+    .dropdown-group { min-width: unset;}
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h2>NEET/AIPMT BIOLOGY PAGE WISE ANALYSIS (2000-2025)</h2>
+  <div style="font-size:13.7px;">All Previous Year Questions, Chapter & Section/Page-Wise (NCERT 2025-26)</div>
+</div>
+
+<div class="controls">
+  <div class="dropdown-group">
+    <label for="classSelect">Class:</label>
+    <select id="classSelect" onchange="updateChapters()">
+      <option value="">Select Class</option>
+      <option value="11">Class 11</option>
+      <option value="12">Class 12</option>
+    </select>
+  </div>
+  <div class="dropdown-group">
+    <label for="chapterSelect">Chapter:</label>
+    <select id="chapterSelect" onchange="updateSections()" disabled>
+      <option value="">Select Chapter</option>
+    </select>
+  </div>
+  <div class="dropdown-group">
+    <label for="sectionSelect">Section / Page:</label>
+    <select id="sectionSelect" onchange="showQuestions()" disabled>
+      <option value="">Select Section / Page</option>
+    </select>
+  </div>
+</div>
+
+<div class="content-area" id="contentArea">
+  <div class="no-questions">Please select Class, Chapter, and Section/Page to view questions.</div>
+</div>
+
 <script>
-// CHAPTER 2 BIOLOGICAL CLASSIFICATION - Complete Question Data Injection
-// Insert this code before the closing </script> tag
+  // Verified and accurate section/subsection list for Class 11 from NCERT Biology 2025-26 reprint (ncert.nic.in)
+  const sectionData = {
+    "11": {
+      "1": [
+        {id:"1-0", name:"1.0 Introduction to The Living World (Pg. 3-4)"},
+        {id:"1-1", name:"1.1 Diversity of Living Organisms (Pg. 5-6)"},
+        {id:"1-2", name:"1.2 Taxonomic Categories (Pg. 7-9)"},
+        {id:"1-2-1", name:"1.2.1 Species and Genus"},
+        {id:"1-2-2", name:"1.2.2 Family"},
+        {id:"1-2-3", name:"1.2.3 Order"},
+        {id:"1-2-4", name:"1.2.4 Class"},
+        {id:"1-2-5", name:"1.2.5 Phylum or Division"},
+        {id:"1-2-6", name:"1.2.6 Kingdom"},
+        {id:"1-2-7", name:"1.2.7 Taxonomical Aids"}
+      ],
+      "2": [
+        {id:"2-0", name:"2.0 Evolution of Classification Systems (Pg. 10-12)"},
+        {id:"2-1", name:"TABLE 2.1 Characteristics of the Five Kingdoms (Pg. 11)"},
+        {id:"2-2", name:"R.H. Whittaker (1969) Five Kingdom Classification (Pg. 11)"},
+        {id:"2-3", name:"2.1 KINGDOM MONERA (Pg. 12)"},
+        {id:"2-3-1", name:"2.1.1 Archaebacteria (Pg. 13)"},
+        {id:"2-3-2", name:"2.1.2 Eubacteria (Pg. 13)"},
+        {id:"2-4", name:"2.2 KINGDOM PROTISTA (Pg. 14)"},
+        {id:"2-4-1", name:"2.2.1 Chrysophytes (Pg. 14)"},
+        {id:"2-4-2", name:"2.2.2 Dinoflagellates (Pg. 15)"},
+        {id:"2-4-3", name:"2.2.3 Euglenoids (Pg. 15)"},
+        {id:"2-4-4", name:"2.2.4 Slime Moulds (Pg. 15)"},
+        {id:"2-4-5", name:"2.2.5 Protozoans (Pg. 15)"},
+        {id:"2-5", name:"2.3 KINGDOM FUNGI (Pg. 16)"},
+        {id:"2-5-1", name:"2.3.1 Phycomycetes (Pg. 17)"},
+        {id:"2-5-2", name:"2.3.2 Ascomycetes (Pg. 17)"},
+        {id:"2-5-3", name:"2.3.3 Basidiomycetes (Pg. 18)"},
+        {id:"2-5-4", name:"2.3.4 Deuteromycetes (Pg. 18)"},
+        {id:"2-6", name:"2.4 KINGDOM PLANTAE (Pg. 19)"},
+        {id:"2-7", name:"2.5 KINGDOM ANIMALIA (Pg. 19)"},
+        {id:"2-8", name:"2.6 Viruses, Viroids, Prions and Lichens (Pg. 19-21)"},
+        {id:"2-8-1", name:"2.6.1 Viruses (Pg. 19)"},
+        {id:"2-8-2", name:"2.6.2 Viroids (Pg. 21)"},
+        {id:"2-8-3", name:"2.6.3 Prions (Pg. 21)"},
+        {id:"2-8-4", name:"2.6.4 Lichens (Pg. 21)"}
+      ],
+      "3": [
+        {id:"3-0", name:"3.0 Plant Kingdom (Pg. 23-36)"}
+      ],
+      "4": [
+        {id:"4-0", name:"4.0 Animal Kingdom (Pg. 37-54)"}
+      ],
+      "5": [
+        {id:"5-0", name:"5.0 Morphology of Flowering Plants (Pg. 57-69)"}
+      ],
+      "6": [
+        {id:"6-0", name:"6.0 Anatomy of Flowering Plants (Pg. 71-78)"}
+      ],
+      "7": [
+        {id:"7-0", name:"7.0 Structural Organisation in Animals (Pg. 79-86)"}
+      ],
+      "8": [
+        {id:"8-0", name:"8.0 Cell - The Unit of Life (Pg. 87-103)"}
+      ],
+      "9": [
+        {id:"9-0", name:"9.0 Biomolecules (Pg. 104-119)"}
+      ],
+      "10": [
+        {id:"10-0", name:"10.0 Cell Cycle and Cell Division (Pg. 120-130)"}
+      ],
+      "11": [
+        {id:"11-0", name:"11.0 Photosynthesis in Higher Plants (Pg. 133-152)"}
+      ],
+      "12": [
+        {id:"12-0", name:"12.0 Respiration in Plants (Pg. 153-165)"}
+      ],
+      "13": [
+        {id:"13-0", name:"13.0 Plant Growth and Development (Pg. 166-182)"}
+      ],
+      "14": [
+        {id:"14-0", name:"14.0 Breathing and Exchange of Gases (Pg. 183-192)"}
+      ],
+      "15": [
+        {id:"15-0", name:"15.0 Body Fluids and Circulation (Pg. 193-204)"}
+      ],
+      "16": [
+        {id:"16-0", name:"16.0 Excretory Products and their Elimination (Pg. 205-216)"}
+      ],
+      "17": [
+        {id:"17-0", name:"17.0 Locomotion and Movement (Pg. 217-229)"}
+      ],
+      "18": [
+        {id:"18-0", name:"18.0 Neural Control and Coordination (Pg. 230-238)"}
+      ],
+      "19": [
+        {id:"19-0", name:"19.0 Chemical Coordination and Integration (Pg. 239-250)"}
+      ]
+    },
+    "12": {
+      "1": [
+        {id:"1-0", name:"1.0 Sexual Reproduction in Flowering Plants (Pg. 3-25)"}
+      ],
+      "2": [
+        {id:"2-0", name:"2.0 Human Reproduction (Pg. 26-40)"}
+      ],
+      "3": [
+        {id:"3-0", name:"3.0 Reproductive Health (Pg. 41-52)"}
+      ],
+      "4": [
+        {id:"4-0", name:"4.0 Principles of Inheritance and Variation (Pg. 53-78)"}
+      ],
+      "5": [
+        {id:"5-0", name:"5.0 Molecular Basis of Inheritance (Pg. 79-109)"}
+      ],
+      "6": [
+        {id:"6-0", name:"6.0 Evolution (Pg. 110-128)"}
+      ],
+      "7": [
+        {id:"7-0", name:"7.0 Human Health and Disease (Pg. 129-148)"}
+      ],
+      "8": [
+        {id:"8-0", name:"8.0 Microbes in Human Welfare (Pg. 149-160)"}
+      ],
+      "9": [
+        {id:"9-0", name:"9.0 Biotechnology - Principles and Processes (Pg. 161-176)"}
+      ],
+      "10": [
+        {id:"10-0", name:"10.0 Biotechnology and its Applications (Pg. 177-189)"}
+      ],
+      "11": [
+        {id:"11-0", name:"11.0 Organisms and Populations (Pg. 190-204)"}
+      ],
+      "12": [
+        {id:"12-0", name:"12.0 Ecosystem (Pg. 205-215)"}
+      ],
+      "13": [
+        {id:"13-0", name:"13.0 Biodiversity and Conservation (Pg. 216-227)"}
+      ]
+    }
+  };
 
-// 2.0 Evolution of Classification Systems (Pg. 10-12)
-questionData["11"]["2"].questions["2-0"] = [
-  {
-    year: "NEET 1989",
-    question: "The science of naming the plant is known as:",
-    options: ["(a) Classification", "(b) Identification", "(c) Nomenclature", "(d) Taxonomy"],
-    answer: "(c) Nomenclature"
-  },
-  {
-    year: "NEET 1990",
-    question: "A scientist having made significant contribution in the field of classification is:",
-    options: ["(a) Pasteur", "(b) Oparin", "(c) Darwin", "(d) Linnaeus"],
-    answer: "(d) Linnaeus"
-  },
-  {
-    year: "NEET 1991",
-    question: "Most important criteria used for the present day classification of living organisms is based on:",
-    options: ["(a) Presence and absence of notochord", "(b) Resemblances in external features", "(c) Breeding habits", "(d) Anatomical and physiological characteristics"],
-    answer: "(d) Anatomical and physiological characteristics"
-  },
-  {
-    year: "NEET 1991",
-    question: "An important criterion for modern day classification is:",
-    options: ["(a) resemblances in morphology", "(b) anatomical and physiological traits", "(c) breeding habits", "(d) presence or absence of notochord"],
-    answer: "(b) anatomical and physiological traits"
-  },
-  {
-    year: "NEET 1992",
-    question: "Aristotle classified the animals into two groups. Mark the correct one:",
-    options: ["(a) Vertebrate and invertebrate", "(b) Chordata and non-chordata", "(c) Protozoa and metazoa", "(d) Enaima and anaima"],
-    answer: "(d) Enaima and anaima"
-  },
-  {
-    year: "NEET 1993",
-    question: "Systema Naturae was written by:",
-    options: ["(a) Lamarck", "(b) Cuvier", "(c) Aristotle", "(d) Linnaeus"],
-    answer: "(d) Linnaeus"
-  },
-  {
-    year: "NEET 1994",
-    question: "Four kingdom classification was proposed by:",
-    options: ["(a) Whittaker", "(b) Copeland", "(c) Haeckel", "(d) Linnaeus"],
-    answer: "(b) Copeland"
-  },
-  {
-    year: "NEET 1995",
-    question: "Plant classification proposed by Carolus Linnaeus was artificial because it was based on:",
-    options: ["(a) Only a few morphological characters", "(b) Evolutionary tendencies which are diverse", "(c) Anatomical characters which are adaptive in nature", "(d) Physiological traits along with morphological characters"],
-    answer: "(a) Only a few morphological characters"
-  },
-  {
-    year: "NEET 1996",
-    question: "The meaning of taxon in the classification of animals:",
-    options: ["(a) A group of same species", "(b) A group of animals on the basis of number of chromosomes", "(c) A group of same type of animals", "(d) A group of similar genera"],
-    answer: "(c) A group of same type of animals"
-  },
-  {
-    year: "NEET 1999",
-    question: "A system of classification in which a large number of traits are considered is:",
-    options: ["(a) Artificial system", "(b) Synthetic system", "(c) Natural system", "(d) Phylogenetic system"],
-    answer: "(c) Natural system"
-  },
-  {
-    year: "NEET 2000",
-    question: "The non-nucleated, unicellular organisms of Whittaker's (1969) classification are included in the kingdom:",
-    options: ["(a) Protista", "(b) Monera", "(c) Animalia", "(d) Plantae"],
-    answer: "(b) Monera"
-  },
-  {
-    year: "NEET 1998",
-    question: "In the five kingdom system of classification, which single kingdom out of the following can include blue-green algae, nitrogen fixing bacteria and methanogenic archaebacteria?",
-    options: ["(a) Plantae", "(b) Protista", "(c) Monera", "(d) Fungi"],
-    answer: "(c) Monera"
-  },
-  {
-    year: "NEET 1998",
-    question: "A system of classification that is based on evolution, order and ancestry is known as:",
-    options: ["(a) Natural system", "(b) Analogous system", "(c) Phylogenetic system", "(d) Homologous system"],
-    answer: "(c) Phylogenetic system"
-  },
-  {
-    year: "NEET 1998",
-    question: "Systema Naturae is concerned with:",
-    options: ["(a) Solar system", "(b) Ecosystem", "(c) Classification of plants and animals", "(d) Natural selection"],
-    answer: "(c) Classification of plants and animals"
-  },
-  {
-    year: "NEET 2002",
-    question: "The basic unit of classification/taxonomy is:",
-    options: ["(a) Genus", "(b) Species", "(c) Family", "(d) Order"],
-    answer: "(b) Species"
-  },
-  {
-    year: "NEET 2002",
-    question: "Branch connected with nomenclature, identification and classification is:",
-    options: ["(a) Ecology", "(b) Taxonomy", "(c) Morphology", "(d) Physiology"],
-    answer: "(b) Taxonomy"
-  },
-  {
-    year: "NEET 2002",
-    question: "In five kingdom system, the main basis of classification is:",
-    options: ["(a) structure of nucleus", "(b) mode of nutrition", "(c) structure of cell wall", "(d) asexual reproduction"],
-    answer: "(a) structure of nucleus"
-  },
-  {
-    year: "NEET 2003",
-    question: "In which kingdom would you classify the archaea and nitrogen-fixing organisms, if the five kingdom system of classification is used?",
-    options: ["(a) Plantae", "(b) Fungi", "(c) Protista", "(d) Monera"],
-    answer: "(d) Monera"
-  },
-  {
-    year: "NEET 2004",
-    question: "Linnaeus system of plant classification is:",
-    options: ["(a) Artificial", "(b) Natural", "(c) Phylogenetic", "(d) None of the above"],
-    answer: "(a) Artificial"
-  },
-  {
-    year: "NEET 2012",
-    question: "In the five kingdom classification, Chlamydomonas and Chlorella have been included in:",
-    options: ["(a) protista", "(b) algae", "(c) plantae", "(d) monera"],
-    answer: "(a) protista"
-  },
-  {
-    year: "NEET 2012",
-    question: "Maximum nutritional diversity is found in the group:",
-    options: ["(a) fungi", "(b) animalia", "(c) monera", "(d) plantae"],
-    answer: "(c) monera"
-  },
-  {
-    year: "NEET 2014",
-    question: "Five kingdom system of classification suggested by R. H. Whittaker is not based on:",
-    options: ["(a) presence or absence of a well defined nucleus", "(b) mode of reproduction", "(c) mode of nutrition", "(d) complexity of body organisation"],
-    answer: "(b) mode of reproduction"
-  },
-  {
-    year: "NEET 2010",
-    question: "Single-celled eukaryotes are included in:",
-    options: ["(a) protista", "(b) fungi", "(c) archaea", "(d) monera"],
-    answer: "(a) protista"
-  },
-  {
-    year: "NEET 2012",
-    question: "Which single organism or the pair of organisms is correctly assigned to its or their named taxonomic group?",
-    options: ["(a) Paramecium and Plasmodium belong to the same kingdom as that of Penicillium", "(b) Lichen is composite organism formed from the symbiotic association of an algae and a protozoan", "(c) Yeast used in making bread and beer is fungus", "(d) Nostoc and Anabaena are examples of protista"],
-    answer: "(c) Yeast used in making bread and beer is fungus"
-  },
-  {
-    year: "NEET 2015",
-    question: "Pick up the wrong statement:",
-    options: ["(a) Some fungi are edible", "(b) Nuclear membrane is present in Monera", "(c) Cell wall is absent in Animalia", "(d) Protists have photosynthetic and heterotrophic modes of nutrition"],
-    answer: "(b) Nuclear membrane is present in Monera"
+  // Empty questions object ready for future injections by section id
+  const questionData = {
+    "11": {
+      "1": {title: "The Living World", sections: sectionData["11"]["1"], questions: {}},
+      "2": {title: "Biological Classification", sections: sectionData["11"]["2"], questions: {}},
+      "3": {title: "Plant Kingdom", sections: sectionData["11"]["3"], questions: {}},
+      "4": {title: "Animal Kingdom", sections: sectionData["11"]["4"], questions: {}},
+      "5": {title: "Morphology of Flowering Plants", sections: sectionData["11"]["5"], questions: {}},
+      "6": {title: "Anatomy of Flowering Plants", sections: sectionData["11"]["6"], questions: {}},
+      "7": {title: "Structural Organisation in Animals", sections: sectionData["11"]["7"], questions: {}},
+      "8": {title: "Cell - The Unit of Life", sections: sectionData["11"]["8"], questions: {}},
+      "9": {title: "Biomolecules", sections: sectionData["11"]["9"], questions: {}},
+      "10": {title: "Cell Cycle and Cell Division", sections: sectionData["11"]["10"], questions: {}},
+      "11": {title: "Photosynthesis in Higher Plants", sections: sectionData["11"]["11"], questions: {}},
+      "12": {title: "Respiration in Plants", sections: sectionData["11"]["12"], questions: {}},
+      "13": {title: "Plant Growth and Development", sections: sectionData["11"]["13"], questions: {}},
+      "14": {title: "Breathing and Exchange of Gases", sections: sectionData["11"]["14"], questions: {}},
+      "15": {title: "Body Fluids and Circulation", sections: sectionData["11"]["15"], questions: {}},
+      "16": {title: "Excretory Products and their Elimination", sections: sectionData["11"]["16"], questions: {}},
+      "17": {title: "Locomotion and Movement", sections: sectionData["11"]["17"], questions: {}},
+      "18": {title: "Neural Control and Coordination", sections: sectionData["11"]["18"], questions: {}},
+      "19": {title: "Chemical Coordination and Integration", sections: sectionData["11"]["19"], questions: {}}
+    },
+    "12": {
+      "1": {title: "Sexual Reproduction in Flowering Plants", sections: sectionData["12"]["1"], questions: {}},
+      "2": {title: "Human Reproduction", sections: sectionData["12"]["2"], questions: {}},
+      "3": {title: "Reproductive Health", sections: sectionData["12"]["3"], questions: {}},
+      "4": {title: "Principles of Inheritance and Variation", sections: sectionData["12"]["4"], questions: {}},
+      "5": {title: "Molecular Basis of Inheritance", sections: sectionData["12"]["5"], questions: {}},
+      "6": {title: "Evolution", sections: sectionData["12"]["6"], questions: {}},
+      "7": {title: "Human Health and Disease", sections: sectionData["12"]["7"], questions: {}},
+      "8": {title: "Microbes in Human Welfare", sections: sectionData["12"]["8"], questions: {}},
+      "9": {title: "Biotechnology - Principles and Processes", sections: sectionData["12"]["9"], questions: {}},
+      "10": {title: "Biotechnology and its Applications", sections: sectionData["12"]["10"], questions: {}},
+      "11": {title: "Organisms and Populations", sections: sectionData["12"]["11"], questions: {}},
+      "12": {title: "Ecosystem", sections: sectionData["12"]["12"], questions: {}},
+      "13": {title: "Biodiversity and Conservation", sections: sectionData["12"]["13"], questions: {}}
+    }
+  };
+
+  const chapterData = {
+    "11": [
+      {id:"1",name:"The Living World"},
+      {id:"2",name:"Biological Classification"},
+      {id:"3",name:"Plant Kingdom"},
+      {id:"4",name:"Animal Kingdom"},
+      {id:"5",name:"Morphology of Flowering Plants"},
+      {id:"6",name:"Anatomy of Flowering Plants"},
+      {id:"7",name:"Structural Organisation in Animals"},
+      {id:"8",name:"Cell - The Unit of Life"},
+      {id:"9",name:"Biomolecules"},
+      {id:"10",name:"Cell Cycle and Cell Division"},
+      {id:"11",name:"Photosynthesis in Higher Plants"},
+      {id:"12",name:"Respiration in Plants"},
+      {id:"13",name:"Plant Growth and Development"},
+      {id:"14",name:"Breathing and Exchange of Gases"},
+      {id:"15",name:"Body Fluids and Circulation"},
+      {id:"16",name:"Excretory Products and their Elimination"},
+      {id:"17",name:"Locomotion and Movement"},
+      {id:"18",name:"Neural Control and Coordination"},
+      {id:"19",name:"Chemical Coordination and Integration"}
+    ],
+    "12": [
+      {id:"1",name:"Sexual Reproduction in Flowering Plants"},
+      {id:"2",name:"Human Reproduction"},
+      {id:"3",name:"Reproductive Health"},
+      {id:"4",name:"Principles of Inheritance and Variation"},
+      {id:"5",name:"Molecular Basis of Inheritance"},
+      {id:"6",name:"Evolution"},
+      {id:"7",name:"Human Health and Disease"},
+      {id:"8",name:"Microbes in Human Welfare"},
+      {id:"9",name:"Biotechnology - Principles and Processes"},
+      {id:"10",name:"Biotechnology and its Applications"},
+      {id:"11",name:"Organisms and Populations"},
+      {id:"12",name:"Ecosystem"},
+      {id:"13",name:"Biodiversity and Conservation"}
+    ]
+  };
+
+  function updateChapters() {
+    const classSelect = document.getElementById('classSelect');
+    const chapterSelect = document.getElementById('chapterSelect');
+    const sectionSelect = document.getElementById('sectionSelect');
+    chapterSelect.innerHTML = '<option value="">Select Chapter</option>';
+    sectionSelect.innerHTML = '<option value="">Select Section / Page</option>';
+    sectionSelect.disabled = true;
+    if (classSelect.value) {
+      chapterSelect.disabled = false;
+      chapterData[classSelect.value].forEach(chap => {
+        const opt = document.createElement('option');
+        opt.value = chap.id;
+        opt.textContent = `Chapter ${chap.id}: ${chap.name}`;
+        chapterSelect.appendChild(opt);
+      });
+    } else {
+      chapterSelect.disabled = true;
+    }
+    document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section/Page to view questions.</div>';
   }
-];
 
-// 2.3 KINGDOM MONERA (Pg. 12)
-questionData["11"]["2"].questions["2-3"] = [
-  {
-    year: "NEET 1996",
-    question: "BGA (blue green algae) are included in which of the following groups?",
-    options: ["(a) Bryophytes", "(b) Prokaryotes", "(c) Protista", "(d) Fungi"],
-    answer: "(b) Prokaryotes"
-  },
-  {
-    year: "NEET 1990",
-    question: "Which one belongs to Monera?",
-    options: ["(a) Amoeba", "(b) Escherichia", "(c) Gelibium", "(d) Spirogyra"],
-    answer: "(b) Escherichia"
-  },
-  {
-    year: "NEET 1990",
-    question: "The main difference in Gram (+)ve and Gram (-)ve bacteria resides in their:",
-    options: ["(a) cell wall", "(b) cell membrane", "(c) cytoplasm", "(d) flagella"],
-    answer: "(a) cell wall"
-  },
-  {
-    year: "NEET 1991",
-    question: "Name the organisms which do not derive energy directly or indirectly from sun:",
-    options: ["(a) Chemosynthetic bacteria", "(b) Pathogenic bacteria", "(c) Symbiotic", "(d) Mould"],
-    answer: "(a) Chemosynthetic bacteria"
-  },
-  {
-    year: "NEET 1992",
-    question: "Bacteria lack alternation of generation because there is:",
-    options: ["(a) neither syngamy nor reduction division", "(b) distinct chromosomes are absent", "(c) no conjugation", "(d) no exchange of genetic material"],
-    answer: "(a) neither syngamy nor reduction division"
-  },
-  {
-    year: "NEET 1993",
-    question: "Escherichia coli is used extensively in biological research as it is:",
-    options: ["(a) easily cultured", "(b) easily available", "(c) easy to handle", "(d) easily multiplied in host"],
-    answer: "(a) easily cultured"
-  },
-  {
-    year: "NEET 1993",
-    question: "Gonophore/bacterial genome or nucleoid is made of:",
-    options: ["(a) histones and non-histones", "(b) RNA and histones", "(c) a single double stranded DNA", "(d) a single stranded DNA"],
-    answer: "(c) a single double stranded DNA"
-  },
-  {
-    year: "NEET 1994",
-    question: "Transduction in bacteria is mediated by:",
-    options: ["(a) plasmid vectors", "(b) phage vectors", "(c) cosmids", "(d) F-factors"],
-    answer: "(b) phage vectors"
-  },
-  {
-    year: "NEET 1994",
-    question: "Organisms, which fix atmospheric nitrogen in the soil, fall under the category of:",
-    options: ["(a) bacteria", "(b) green algae", "(c) soil fungi", "(d) mosses"],
-    answer: "(a) bacteria"
-  },
-  {
-    year: "NEET 1994",
-    question: "Many blue-green algae occur in thermal springs (hot-water springs). The temperature tolerance of these algae have been attributed to their:",
-    options: ["(a) mitochondrial inheritance", "(b) importance of homopolar bonds in their proteins", "(c) cell wall structure", "(d) modern cell organisation"],
-    answer: "(c) cell wall structure"
-  },
-  {
-    year: "NEET 1994",
-    question: "Wine turns sour because of:",
-    options: ["(a) Heat", "(b) Aerobic bacteria", "(c) Anaerobic bacteria", "(d) Exposure to light"],
-    answer: "(b) Aerobic bacteria"
-  },
-  {
-    year: "NEET 1994",
-    question: "The bacteria grown in the medium containing S³⁵ as lone source of sulphur show its incorporation into:",
-    options: ["(a) DNA", "(b) Protein", "(c) RNA", "(d) None of the above"],
-    answer: "(b) Protein"
-  },
-  {
-    year: "NEET 1994",
-    question: "The nitrifying bacteria are:",
-    options: ["(a) Autotrophic", "(b) Saprophytic", "(c) Parasitic", "(d) Chemosynthetic"],
-    answer: "(d) Chemosynthetic"
-  },
-  {
-    year: "NEET 1995",
-    question: "A large number of organic compounds can be decomposed by:",
-    options: ["(a) Azotobacter", "(b) Mycoplasma", "(c) Pseudomonas", "(d) None"],
-    answer: "(c) Pseudomonas"
-  },
-  {
-    year: "NEET 1995",
-    question: "The germ theory of disease was putforth by:",
-    options: ["(a) Koch", "(b) Pasteur", "(c) Rayer", "(d) Devaine"],
-    answer: "(b) Pasteur"
-  },
-  {
-    year: "NEET 1996",
-    question: "Which type of DNA is found in bacteria?",
-    options: ["(a) Circular free DNA", "(b) Membrane bound DNA", "(c) Straight DNA", "(d) Helical DNA"],
-    answer: "(a) Circular free DNA"
-  },
-  {
-    year: "NEET 1996",
-    question: "What are the sex organs provided in some bacteria?",
-    options: ["(a) Sex pili", "(b) Plasmid", "(c) Circular DNA", "(d) Gametes"],
-    answer: "(a) Sex pili"
-  },
-  {
-    year: "NEET 1996",
-    question: "Azotobacter and Bacillus polymyxa are the examples of:",
-    options: ["(a) pathogenic bacteria", "(b) decomposers", "(c) symbiotic N₂ fixer", "(d) non-symbiotic N₂ fixer"],
-    answer: "(d) non-symbiotic N₂ fixer"
-  },
-  {
-    year: "NEET 1997",
-    question: "The hereditary material present in the bacterium E.coli is:",
-    options: ["(a) single-stranded DNA", "(b) double-stranded DNA", "(c) DNA", "(d) RNA"],
-    answer: "(b) double-stranded DNA"
-  },
-  {
-    year: "NEET 1997",
-    question: "Organisms without any specific shape are:",
-    options: ["(a) Mycoplasmas", "(b) Bacteria", "(c) Viruses", "(d) Cyanobacteria"],
-    answer: "(a) Mycoplasmas"
-  },
-  {
-    year: "NEET 1998",
-    question: "The main role of bacteria in the carbon cycle involves:",
-    options: ["(a) chemosynthesis", "(b) digestion or breakdown of organic compounds", "(c) photosynthesis", "(d) assimilation of nitrogenous compounds"],
-    answer: "(b) digestion or breakdown of organic compounds"
-  },
-  {
-    year: "NEET 1998",
-    question: "The DNA of E. coli is:",
-    options: ["(a) double stranded and linear", "(b) double stranded and circular", "(c) single stranded and linear", "(d) single stranded and circular"],
-    answer: "(b) double stranded and circular"
-  },
-  {
-    year: "NEET 1998",
-    question: "A bacterium divides every 35 minutes. If a culture containing 10 cell per mL is grown for 175 minutes, what will be the cell concentration per mL after 175 minutes?",
-    options: ["(a) 35×10⁵ cells", "(b) 32×10⁵ cells", "(c) 175×10⁵ cells", "(d) 85×10⁵ cells"],
-    answer: "(b) 32×10⁵ cells"
-  },
-  {
-    year: "NEET 1998",
-    question: "Transfer of genetic material from one bacterium to another in the transduction process is through:",
-    options: ["(a) bacteriophages released from the donor bacterial strain", "(b) another bacterium having special organ for conjugation", "(c) physical contact between donor and recipient strains", "(d) conjugation between opposite strain bacterium"],
-    answer: "(a) bacteriophages released from the donor bacterial strain"
-  },
-  {
-    year: "NEET 1998",
-    question: "Which one of the following is genetically improved bacteria for pollution control?",
-    options: ["(a) Pseudomonas", "(b) Rhizobium", "(c) Nitrobacter", "(d) Nitrosomonas"],
-    answer: "(a) Pseudomonas"
-  },
-  {
-    year: "NEET 1998",
-    question: "A few organisms are known to grow and multiply at temperatures of 100-105°C. They belong to:",
-    options: ["(a) Thermophilic subaerial fungi", "(b) Marine archaebacteria", "(c) Thermophilic sulphur bacteria", "(d) Hot spring blue-green algae"],
-    answer: "(b) Marine archaebacteria"
-  },
-  {
-    year: "NEET 1998",
-    question: "Which one of the following can utilize molecular nitrogen (N₂) as nutrient for growth?",
-    options: ["(a) Rhizobium", "(b) Spirogyra", "(c) Mucor", "(d) Methanococcus"],
-    answer: "(a) Rhizobium"
-  },
-  {
-    year: "NEET 1998",
-    question: "The cells of the bacterium Streptococcus remain arranged in the form of:",
-    options: ["(a) Chain", "(b) Irregular cluster", "(c) Cube", "(d) Plate"],
-    answer: "(a) Chain"
-  },
-  {
-    year: "NEET 1998",
-    question: "Elementary cell body in mycoplasma perform the function of:",
-    options: ["(a) Metabolism", "(b) Excretion", "(c) Reproduction", "(d) Respiration"],
-    answer: "(a) Metabolism"
-  },
-  {
-    year: "NEET 1998",
-    question: "Genes for antibiotic resistance are located in:",
-    options: ["(a) Chromosome", "(b) Nucleus", "(c) Cell wall", "(d) Plasmid"],
-    answer: "(d) Plasmid"
-  },
-  {
-    year: "NEET 2002",
-    question: "Which of the following are called bacteria without cell wall:",
-    options: ["(a) Virus", "(b) Viroid", "(c) Mycoplasma", "(d) Cyanobacteria"],
-    answer: "(c) Mycoplasma"
-  },
-  {
-    year: "NEET 2001",
-    question: "Difference in Gram positive and Gram negative bacteria is due to:",
-    options: ["(a) cell wall", "(b) cell membrane", "(c) ribosome", "(d) cytoplasm"],
-    answer: "(a) cell wall"
-  },
-  {
-    year: "NEET 2001",
-    question: "What is true for archaebacteria?",
-    options: ["(a) All halophiles", "(b) All photosynthetics", "(c) All fossils", "(d) Oldest living beings"],
-    answer: "(d) Oldest living beings"
-  },
-  {
-    year: "NEET 2002",
-    question: "Organisms which obtain energy by the oxidation of reduced inorganic compounds are called:",
-    options: ["(a) photoautotrophs", "(b) chemoautotrophs", "(c) saprozoic", "(d) coproheterotrophs"],
-    answer: "(b) chemoautotrophs"
-  },
-  {
-    year: "NEET 2002",
-    question: "In bacteria, plasmid is:",
-    options: ["(a) extra chromosomal material", "(b) main DNA", "(c) non-functional DNA", "(d) repetitive gene"],
-    answer: "(a) extra chromosomal material"
-  },
-  {
-    year: "NEET 2002",
-    question: "Which statement is correct for bacterial transduction?",
-    options: ["(a) Transfer of some genes from one bacteria to another bacteria through virus", "(b) Transfer of genes from one bacteria to another bacteria by conjugation", "(c) Bacteria obtained its DNA directly from mother cell", "(d) Bacteria obtained DNA from other external source"],
-    answer: "(a) Transfer of some genes from one bacteria to another bacteria through virus"
-  },
-  {
-    year: "NEET 2005",
-    question: "For retting of jute the fermenting microbe used is:",
-    options: ["(a) methanophilic bacteria", "(b) butyric acid bacteria", "(c) Helicobacter pylori", "(d) Streptococcus latin"],
-    answer: "(b) butyric acid bacteria"
-  },
-  {
-    year: "NEET 2011",
-    question: "Which one of the following organisms is not an eukaryote?",
-    options: ["(a) Paramecium caudatum", "(b) Escherichia coli", "(c) Euglena viridis", "(d) Amoeba proteus"],
-    answer: "(b) Escherichia coli"
-  },
-  {
-    year: "NEET 2012",
-    question: "The cyanobacteria are also referred to as:",
-    options: ["(a) protists", "(b) golden algae", "(c) slime moulds", "(d) blue green algae"],
-    answer: "(d) blue green algae"
-  },
-  {
-    year: "NEET 2013",
-    question: "Pigment containing membranous extensions in some cyanobacteria are:",
-    options: ["(a) pneumatophores", "(b) chromatophores", "(c) heterocysts", "(d) basal bodies"],
-    answer: "(b) chromatophores"
-  },
-  {
-    year: "NEET 2017",
-    question: "Which among the following are the smallest living cells, known without a definite cell wall, pathogenic to plants as well as animals and can survive without oxygen?",
-    options: ["(a) Pseudomonas", "(b) Mycoplasma", "(c) Nostoc", "(d) Bacillus"],
-    answer: "(b) Mycoplasma"
-  },
-  {
-    year: "NEET 2017",
-    question: "Which of the following components provides sticky character to the bacterial cell?",
-    options: ["(a) Nuclear membrane", "(b) Plasma membrane", "(c) Glycocalyx", "(d) Cell wall"],
-    answer: "(c) Glycocalyx"
-  },
-  {
-    year: "NEET 2022",
-    question: "Given below are two statements. Assertion (A): Mycoplasma can pass through less than 1 micron filter size. Reason (R): Mycoplasma are bacteria with cell wall.",
-    options: ["(a) Both Assertion and Reason are correct", "(b) Both Assertion and Reason are incorrect", "(c) Assertion is correct but Reason is incorrect", "(d) Assertion is incorrect but Reason is correct"],
-    answer: "(c) Assertion is correct but Reason is incorrect"
-  },
-  {
-    year: "NEET 2022",
-    question: "Which of the following is a correct statement?",
-    options: ["(a) Cyanobacteria are a group of autotrophic organisms classified under Kingdom Monera", "(b) Bacteria are exclusively heterotrophic organism", "(c) Slime moulds are saprophytic organisms classified under Kingdom Monera", "(d) Mycoplasma have DNA, Ribosome and cell wall"],
-    answer: "(a) Cyanobacteria are a group of autotrophic organisms classified under Kingdom Monera"
+  function updateSections() {
+    const classSelect = document.getElementById('classSelect');
+    const chapterSelect = document.getElementById('chapterSelect');
+    const sectionSelect = document.getElementById('sectionSelect');
+    sectionSelect.innerHTML = '<option value="">Select Section / Page</option>';
+    if (classSelect.value && chapterSelect.value && questionData[classSelect.value] && questionData[classSelect.value][chapterSelect.value]) {
+      sectionSelect.disabled = false;
+      const sections = questionData[classSelect.value][chapterSelect.value].sections;
+      sections.forEach(sec => {
+        let opt = document.createElement('option');
+        opt.value = sec.id;
+        opt.textContent = sec.name;
+        sectionSelect.appendChild(opt);
+      });
+    } else {
+      sectionSelect.disabled = true;
+    }
+    document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section/Page to view questions.</div>';
   }
-];
 
-// 2.3.1 Archaebacteria (Pg. 13)
-questionData["11"]["2"].questions["2-3-1"] = [
-  {
-    year: "NEET 2008",
-    question: "In the light of recent classification of living organisms into three domain of life (bacteria, archaea and eukaraya), which one of the following statements is true about archaea?",
-    options: ["(a) Archaea completely differ from both prokaryotes and eukaryotes", "(b) Archaea completely differ from prokaryotes", "(c) Archaea rasemble eukarya in all respects", "(d) Archaea have some novel features that are absent in other prokaryotes and eukaryotes"],
-    answer: "(d) Archaea have some novel features that are absent in other prokaryotes and eukaryotes"
-  },
-  {
-    year: "NEET 2008",
-    question: "Thermococcus, Methanococcus and Methanobacterium exemplify:",
-    options: ["(a) bacteria whose DNA is relaxed or positively supercoiled but which have a cytoskeleton as well as mitochondria", "(b) bacteria that contain a cytoskeleton and ribosomes", "(c) archaebacteria that contain protein homologous to eukaryotic core histones", "(d) archaebacteria that lack any histones resembling those found in eukaryotes but whose DNA is negatively supercoiled"],
-    answer: "(c) archaebacteria that contain protein homologous to eukaryotic core histones"
-  },
-  {
-    year: "NEET 2010",
-    question: "Some hyperthermophilic organisms that grow in highly acidic (pH₂) habitats belong to the two groups:",
-    options: ["(a) eubacteria and archeae", "(b) cyanobacteria and diatoms", "(c) protists and mosses", "(d) liverworts and yeasts"],
-    answer: "(a) eubacteria and archeae"
-  },
-  {
-    year: "NEET 2013",
-    question: "Which of the following are likely to be present in deep sea water?",
-    options: ["(a) Blue-green algae", "(b) Saprophytic fungi", "(c) Archaebacteria", "(d) Eubacteria"],
-    answer: "(c) Archaebacteria"
-  },
-  {
-    year: "NEET 2014",
-    question: "Archaebacteria differ from eubacteria in:",
-    options: ["(a) cell membrane structure", "(b) mode of nutrition", "(c) cell shape", "(d) mode of reproduction"],
-    answer: "(a) cell membrane structure"
-  },
-  {
-    year: "NEET 2016",
-    question: "Methanogens belong to:",
-    options: ["(a) eubacteria", "(b) archaebacteria", "(c) dinoflagellates", "(d) slime moulds"],
-    answer: "(b) archaebacteria"
-  },
-  {
-    year: "NEET 2016",
-    question: "The primitive prokaryotes responsible for the production of biogas from the dung of ruminant animals, include the:",
-    options: ["(a) methanogens", "(b) eubacteria", "(c) halophiles", "(d) thermoacidophiles"],
-    answer: "(a) methanogens"
-  },
-  {
-    year: "NEET 2017",
-    question: "Which of the following are found in extreme saline conditions?",
-    options: ["(a) Eubacteria", "(b) Cyanobacteria", "(c) Mycobacteria", "(d) Archaebacteria"],
-    answer: "(d) Archaebacteria"
-  },
-  {
-    year: "NEET 2011",
-    question: "Select the correct combination of the statements (i-iv) regarding the characteristics of certain organisms. (i) Methanogens are archaebacteria which produce methane in marshy areas. (ii) Nostoc is a filamentous blue-green alga which fixes atmospheric nitrogen. (iii) Chemosynthetic autotrophic bacteria synthesise cellulose from glucose. (iv) Mycoplasma lack a cell wall and can survive without oxygen. The correct statements are:",
-    options: ["(a) (ii) and (iii)", "(b) (i), (ii) and (iii)", "(c) (ii), (iii) and (iv)", "(d) (i), (ii) and (iv)"],
-    answer: "(d) (i), (ii) and (iv)"
-  },
-  {
-    year: "NEET 2011",
-    question: "In eubacteria, a cellular component that resembles eukaryotic cell is:",
-    options: ["(a) plasma membrane", "(b) nucleus", "(c) ribosomes", "(d) cell wall"],
-    answer: "(c) ribosomes"
-  },
-  {
-    year: "NEET 2012",
-    question: "The most abundant prokaryotes helpful to humans in making curd from milk and in production of antibiotics are the ones categorized as:",
-    options: ["(a) cynobactera", "(b) archaebactera", "(c) chemosynthetic autotrophs", "(d) heterotrophic bacteria"],
-    answer: "(d) heterotrophic bacteria"
-  },
-  {
-    year: "NEET 2005",
-    question: "Basophilic prokaryotes:",
-    options: ["(a) grow and multiply in very deep marine sediments", "(b) occur in water containing high concentrations of barium hydroxide", "(c) readily grow and divide in sea water enriched in any soluble salt of barium", "(d) grow slowly in highly alkaline frozen lakes at high altitudes"],
-    answer: "(a) grow and multiply in very deep marine sediments"
+  function showQuestions() {
+    const c = document.getElementById('classSelect').value;
+    const ch = document.getElementById('chapterSelect').value;
+    const sec = document.getElementById('sectionSelect').value;
+    const contentArea = document.getElementById('contentArea');
+    if (!c || !ch || !sec) {
+      contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section/Page to view questions.</div>';
+      return;
+    }
+    const chapter = questionData[c][ch];
+    if (!chapter) {
+      contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
+      return;
+    }
+    const questions = chapter.questions[sec];
+    if (!questions || questions.length === 0) {
+      contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
+      return;
+    }
+    let html = `<div class="question-count">No. of questions found: ${questions.length}</div>`;
+    questions.forEach((q, i) => {
+      html += `<div class="question-item">
+        <div class="question-header"><span class="question-year">${q.year}</span></div>
+        <div class="question-text">${q.question}</div>
+        <div class="options">${q.options.map(o => `<div class="option">${o}</div>`).join('')}</div>
+        <div class="button-group">
+          <button class="btn btn-answer" onclick="toggleAnswer(${i})">Answer</button>
+          <button class="btn btn-copy" onclick="copyQuestion(${i})">Copy Question</button>
+          <button class="btn btn-chatgpt" onclick="openChatGPT(${i})">ChatGPT Explain</button>
+        </div>
+        <div class="answer-reveal" id="answer-${i}"><strong>Answer:</strong> ${q.answer}</div>
+      </div>`;
+    });
+    contentArea.innerHTML = html;
   }
-];
 
-// 2.3.2 Eubacteria (Pg. 13) - Questions are included in main Monera section
-
-// 2.4 KINGDOM PROTISTA (Pg. 14)
-questionData["11"]["2"].questions["2-4"] = [
-  {
-    year: "NEET 2016",
-    question: "Chrysophytes, Euglenoids, Dinoflagellates and Slime moulds are included in the Kingdom:",
-    options: ["(a) Fungi", "(b) Animalia", "(c) Monera", "(d) Protista"],
-    answer: "(d) Protista"
+  function toggleAnswer(i) {
+    const el = document.getElementById('answer-' + i);
+    el.style.display = (el.style.display === 'block') ? 'none' : 'block';
   }
-];
 
-// 2.4.1 Chrysophytes (Pg. 14)
-questionData["11"]["2"].questions["2-4-1"] = [
-  {
-    year: "NEET 2015",
-    question: "In which group of organisms the cell walls form two thin overlapping shells which fit together?",
-    options: ["(a) Dinoflagellates", "(b) Slime moulds", "(c) Chrysophytes", "(d) Euglenoids"],
-    answer: "(c) Chrysophytes"
-  },
-  {
-    year: "NEET 2016",
-    question: "Select the wrong statement:",
-    options: ["(a) The walls of diatoms are easily destructible", "(b) 'Diatomaceous earth' is formed by the cell walls of diatoms", "(c) Diatoms are chief producers in the oceans", "(d) Diatoms are microscopic and float passively in water"],
-    answer: "(a) The walls of diatoms are easily destructible"
-  },
-  {
-    year: "NEET 2018",
-    question: "Which of the following organisms are known as chief producers in the oceans?",
-    options: ["(a) Dinoflagellates", "(b) Diatoms", "(c) Cyanobacteria", "(d) Euglenoids"],
-    answer: "(b) Diatoms"
+  function copyQuestion(i) {
+    const c = document.getElementById('classSelect').value;
+    const ch = document.getElementById('chapterSelect').value;
+    const sec = document.getElementById('sectionSelect').value;
+    const q = questionData[c][ch].questions[sec][i];
+    const text = `${q.year} - ${q.question}\n${q.options.join('\n')}`;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => alert('Question copied to clipboard!'), fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+    function fallbackCopy() {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      alert('Question copied to clipboard!');
+    }
   }
-];
 
-// 2.4.2 Dinoflagellates (Pg. 15)
-questionData["11"]["2"].questions["2-4-2"] = [
-  {
-    year: "NEET 1993",
-    question: "Tranverse groove present in dinoflagellates is:",
-    options: ["(a) Sulcus", "(b) Cingulum", "(c) Annulus", "(d) Both (b) and (c)"],
-    answer: "(b) Cingulum"
+  function openChatGPT(i) {
+    const c = document.getElementById('classSelect').value;
+    const ch = document.getElementById('chapterSelect').value;
+    const sec = document.getElementById('sectionSelect').value;
+    const q = questionData[c][ch].questions[sec][i];
+    const prompt = `Please explain this NEET Biology question in detail:\n\n${q.year} - ${q.question}\n${q.options.join('\n')}\n\nCorrect Answer: ${q.answer}`;
+    const url = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
+    window.open(url, '_blank');
   }
-];
 
-// 2.4.3 Euglenoids (Pg. 15)
-questionData["11"]["2"].questions["2-4-3"] = [
-  {
-    year: "NEET 1995",
-    question: "Which of the following organisms possesses characters of both plants and animals?",
-    options: ["(a) Euglena", "(b) Paramecium", "(c) Bacteria", "(d) Mycoplasma"],
-    answer: "(a) Euglena"
-  }
-];
+  document.addEventListener('DOMContentLoaded', () => {
+    updateChapters();
+  });
 
-// 2.4.4 Slime Moulds (Pg. 15)
-questionData["11"]["2"].questions["2-4-4"] = [
-  {
-    year: "NEET 1993",
-    question: "Spore producing body of a cellular slime mould is:",
-    options: ["(a) Pseudoplasmodium", "(b) Plasmodium", "(c) Sporangium", "(d) Sporophore"],
-    answer: "(c) Sporangium"
-  },
-  {
-    year: "NEET 2007",
-    question: "Which one of the following is a slime mould?",
-    options: ["(a) Physarum", "(b) Thiobacillus", "(c) Anabaena", "(d) Rhizopus"],
-    answer: "(a) Physarum"
-  }
-];
-
-// 2.4.5 Protozoans (Pg. 15)
-questionData["11"]["2"].questions["2-4-5"] = [
-  {
-    year: "NEET 1989",
-    question: "Trypanosoma belongs to Class:",
-    options: ["(a) Sarcodina", "(b) Zooflagellata", "(c) Ciliata", "(d) Sporozoa"],
-    answer: "(b) Zooflagellata"
-  },
-  {
-    year: "NEET 1990",
-    question: "Genetic information in Paramecium is contained in:",
-    options: ["(a) micronucleus", "(b) macronucleus", "(c) both micronucleus and macronucleus", "(d) mitochondria"],
-    answer: "(c) both micronucleus and macronucleus"
-  },
-  {
-    year: "NEET 1990",
-    question: "Which is true about Trypanosoma?",
-    options: ["(a) Polymorphic", "(b) Monogenetic", "(c) Facultative parasite", "(d) Non-pathogenic"],
-    answer: "(a) Polymorphic"
-  },
-  {
-    year: "NEET 1990",
-    question: "Plasmodium, the malarial parasite, belongs to class:",
-    options: ["(a) sarcodina", "(b) ciliata", "(c) sporozoa", "(d) dinophyceae"],
-    answer: "(c) sporozoa"
-  },
-  {
-    year: "NEET 1991",
-    question: "In Amoeba and Paramecium osmoregulation occurs through:",
-    options: ["(a) pseudopodia", "(b) nucleus", "(c) contractile vacuole", "(d) dinophyceae"],
-    answer: "(c) contractile vacuole"
-  },
-  {
-    year: "NEET 1993",
-    question: "The causal organism of Kala-azar is:",
-    options: ["(a) Plasmodium vivax", "(b) Leishmania donovani", "(c) Trypanosoma lewsii", "(d) Wuchereria bancrofti"],
-    answer: "(b) Leishmania donovani"
-  },
-  {
-    year: "NEET 1993",
-    question: "Amoeba taken downstream to estuary will show:",
-    options: ["(a) Disappearance of contractile vacuole", "(b) Binary fission", "(c) Encystment", "(d) Stoppage of feeding"],
-    answer: "(c) Encystment"
-  },
-  {
-    year: "NEET 1993",
-    question: "Amoebic dysentery is caused by:",
-    options: ["(a) Entamoeba histolytica", "(b) Entamoeba gingivalis", "(c) Entamoeba coli", "(d) Amoeba proteus"],
-    answer: "(a) Entamoeba histolytica"
-  },
-  {
-    year: "NEET 1994",
-    question: "The protists have:",
-    options: ["(a) only free nucleic acid aggregates", "(b) membrane bound nucleoproteins lying embedded in the cytoplasm", "(c) gene containing nucleoproteins condensed together in loose mass", "(d) nucleoprotein in direct contact with the rest of the cell substance"],
-    answer: "(b) membrane bound nucleoproteins lying embedded in the cytoplasm"
-  },
-  {
-    year: "NEET 1994",
-    question: "Which protist reproduces both by binary fission and conjugation?",
-    options: ["(a) Amoeba", "(b) Paramecium", "(c) Euglena", "(d) Monocystis"],
-    answer: "(b) Paramecium"
-  },
-  {
-    year: "NEET 1995",
-    question: "The function of contractile vacuole, in protozoa, is:",
-    options: ["(a) osmoregulation", "(b) reproduction", "(c) locomotion", "(d) digestion of food"],
-    answer: "(a) osmoregulation"
-  },
-  {
-    year: "NEET 2018",
-    question: "Ciliates differ from all other protozoans in:",
-    options: ["(a) using flagella from locomotion", "(b) having a contractile vacuole for removing excess water", "(c) using pseudopodia for capturing prey", "(d) having two types of nuclei"],
-    answer: "(d) having two types of nuclei"
-  },
-  {
-    year: "NEET 2000",
-    question: "Malarial parasite is:",
-    options: ["(a) Polygenetic", "(b) Digenetic", "(c) Monogenetic", "(d) Monomorphic"],
-    answer: "(b) Digenetic"
-  },
-  {
-    year: "NEET 2002",
-    question: "In protozoa like Amoeba and Paramecium, the organ for osmoregulation is:",
-    options: ["(a) contractile vacuole", "(b) mitochondria", "(c) nucleus", "(d) food vacuole"],
-    answer: "(a) contractile vacuole"
-  },
-  {
-    year: "NEET 2002",
-    question: "In which of the following animals dimorphic nucleus is found?",
-    options: ["(a) Amoeba proteus", "(b) Trypanosoma gambiense", "(c) Plasmodium vivax", "(d) Paramecium caudatum"],
-    answer: "(d) Paramecium caudatum"
-  },
-  {
-    year: "NEET 2002",
-    question: "Malaria fever coincides with liberation of:",
-    options: ["(a) Cryptomerozoites", "(b) Metacryptomerozoites", "(c) Merozoites", "(d) Trophozoites"],
-    answer: "(c) Merozoites"
-  },
-  {
-    year: "NEET 2003",
-    question: "The chief advantage of encystment of an Amoeba is:",
-    options: ["(a) the ability to survive during adverse physical conditions", "(b) the ability to live for some time without ingesting food", "(c) protection from parasites and predators", "(d) the chance to get rid of accumulated waste products"],
-    answer: "(a) the ability to survive during adverse physical conditions"
-  },
-  {
-    year: "NEET 2004",
-    question: "When a fresh-water protozoan possessing a contractile vacuole, is placed in a glass containing marine water, the vacuole will:",
-    options: ["(a) increase in number", "(b) disappear", "(c) increase in size", "(d) decrease in size"],
-    answer: "(b) disappear"
-  },
-  {
-    year: "NEET 1998",
-    question: "After how many days could a patient commonly feel malaria from the time of biting of mosquito?",
-    options: ["(a) 2-8 days", "(b) 8-10 days", "(c) 10-20 days", "(d) 20-30 days"],
-    answer: "(c) 10-20 days"
-  },
-  {
-    year: "NEET 1999",
-    question: "Motile elongate zygote of Plasmodium occurs in:",
-    options: ["(a) Human RBCs", "(b) Human liver", "(c) Salivary glands of mosquito", "(d) Gut of mosquito"],
-    answer: "(d) Gut of mosquito"
-  },
-  {
-    year: "NEET 2000",
-    question: "The major function of contractile vacuole is:",
-    options: ["(a) Excretion", "(b) Circulation", "(c) Osmoregulation", "(d) All the above"],
-    answer: "(c) Osmoregulation"
-  }
-];
-
-// 2.5 KINGDOM FUNGI (Pg. 16)
-questionData["11"]["2"].questions["2-5"] = [
-  {
-    year: "NEET 1992",
-    question: "Which of the following is famous mycologist of India?",
-    options: ["(a) P. Maheshwari", "(b) M.O.P. Iyengar", "(c) K. Sharma", "(d) Sadasivan"],
-    answer: "(d) Sadasivan"
-  },
-  {
-    year: "NEET 1992",
-    question: "Yeast produces an enzyme complex that is responsible for fermentation. The enzyme complex is:",
-    options: ["(a) Aldolase", "(b) Dehydrogenase", "(c) Invertase", "(d) Zymase"],
-    answer: "(d) Zymase"
-  },
-  {
-    year: "NEET 2013",
-    question: "Which one of the following is true for fungi?",
-    options: ["(a) They lack a rigid cell wall", "(b) They are heterotrophs", "(c) They lack nuclear membrane", "(d) They are phagotrophs"],
-    answer: "(b) They are heterotrophs"
-  },
-  {
-    year: "NEET 2016",
-    question: "One of the major components of cell wall of most fungi is:",
-    options: ["(a) cellulose", "(b) hemicellulose", "(c) chitin", "(d) peptidoglycan"],
-    answer: "(c) chitin"
-  },
-  {
-    year: "NEET 2016",
-    question: "Which one of the following is wrong for fungi?",
-    options: ["(a) They are eukaryotic", "(b) All fungi possess a purely cellulosic cell wall", "(c) They are heterotrophic", "(d) They are both unicellular and multicellular"],
-    answer: "(b) All fungi possess a purely cellulosic cell wall"
-  },
-  {
-    year: "NEET 2021",
-    question: "Which of the following statements is correct?",
-    options: ["(a) Some of the organisms can fix atmospheric nitrogen in specialised cells called karyogamy", "(b) Fusion of two cells is called karyogamy", "(c) Fusion of protoplasms between two motile or non-motile gametes is called plasmogamy", "(d) Organisms that depend on living plants are called saprophytes"],
-    answer: "(c) Fusion of protoplasms between two motile or non-motile gametes is called plasmogamy"
-  },
-  {
-    year: "NEET 2002",
-    question: "Mycorrhiza exhibits the phenomenon of:",
-    options: ["(a) Antagonism", "(b) Endemism", "(c) Parasitism", "(d) Symbiosis"],
-    answer: "(d) Symbiosis"
-  },
-  {
-    year: "NEET 2002",
-    question: "Mycorrhiza works as:",
-    options: ["(a) Modified root", "(b) An organism for vegetative propagation", "(c) A root hair in adverse condition", "(d) Mechanical tissue for support"],
-    answer: "(a) Modified root"
-  },
-  {
-    year: "NEET 1993",
-    question: "In Mucor, asexual reproduction takes place by:",
-    options: ["(a) Motile zoospores", "(b) Spores", "(c) Zoogametes", "(d) Zygospores"],
-    answer: "(b) Spores"
-  },
-  {
-    year: "NEET 1997",
-    question: "Algal fungi are placed in:",
-    options: ["(a) Ascomycetes", "(b) Basidiomycetes", "(c) Phycomycetes", "(d) Deuteromycetes"],
-    answer: "(c) Phycomycetes"
-  },
-  {
-    year: "NEET 1999",
-    question: "Columullas is specialized structure found in the sporangium of:",
-    options: ["(a) Spirogyra", "(b) Ulothrix", "(c) Rhizopus", "(d) none of these"],
-    answer: "(c) Rhizopus"
-  },
-  {
-    year: "NEET 1999",
-    question: "Coenogametes are formed in:",
-    options: ["(a) Albugo", "(b) Saccharomyces", "(c) Rhizopus", "(d) Alternaria"],
-    answer: "(a) Albugo"
-  },
-  {
-    year: "NEET 2006",
-    question: "Which of the following environmental conditions are essential for optimum growth of Mucor on a piece of bread? A. Temperature of about 25°C B. Temperature of about 5°C C. Relative humidity of about 5% D. Relative humidity of about 95% E. A shady place F. A brightly illuminated place Choose the answer from the following options:",
-    options: ["(a) B, C and F only", "(b) A, C and E only", "(c) A, D and E only", "(d) B, D and E only"],
-    answer: "(c) A, D and E only"
-  },
-  {
-    year: "NEET 2015",
-    question: "Choose the wrong statement:",
-    options: ["(a) Morels and truffles are poisonous mushrooms", "(b) Yeast is unicellular and useful in fermentation", "(c) Penicillium is multicellular and produces antibiotics", "(d) Neurospora is used in the study of biochemical genetics"],
-    answer: "(a) Morels and truffles are poisonous mushrooms"
-  },
-  {
-    year: "NEET 2018",
-    question: "After karyogamy followed by meiosis, spores are produced exogenously in:",
-    options: ["(a) Neurospora", "(b) Alternaria", "(c) Agaricus", "(d) Saccharomyces"],
-    answer: "(c) Agaricus"
-  },
-  {
-    year: "NEET 2002",
-    question: "Which of the following secrets toxins during storage conditions of crop plants?",
-    options: ["(a) Aspergillus", "(b) Penicillium", "(c) Fusarium", "(d) Colletotrichum"],
-    answer: "(a) Aspergillus"
-  },
-  {
-    year: "NEET 2000",
-    question: "Assertion (A) Aflatoxins are produced by Aspergillus flavus. Reason (R): These toxins are useful to mankind.",
-    options: ["(a) If both the assertion and the reason are true and the reason is a correct explanation of the assertion", "(b) If both the assertion and reason are true but the reason is not a correct explanation of the assertion", "(c) If the assertion is true but the reason is false", "(d) If both the assertion and reason are false", "(e) If the assertion is false but reason is true"],
-    answer: "(c) If the assertion is true but the reason is false"
-  }
-];
-
-// 2.5.1 Phycomycetes (Pg. 17) - Questions included in main Fungi section
-
-// 2.5.2 Ascomycetes (Pg. 17) - Questions included in main Fungi section
-
-// 2.5.3 Basidiomycetes (Pg. 18)
-questionData["11"]["2"].questions["2-5-3"] = [
-  {
-    year: "NEET 2007",
-    question: "Which pair of the following belongs to basidiomycetes?",
-    options: ["(a) Puffballs and Claviceps", "(b) Peziza and stink horns", "(c) Morchella and Mushrooms", "(d) Birds nest fungi and puffballs"],
-    answer: "(d) Birds nest fungi and puffballs"
-  },
-  {
-    year: "NEET 1995",
-    question: "The black rust of wheat is fungal disease caused by:",
-    options: ["(a) Albugo candida", "(b) Puccinia graminis tritici", "(c) Melampsora lini", "(d) Claviceps purpurea"],
-    answer: "(b) Puccinia graminis tritici"
-  },
-  {
-    year: "NEET 1998",
-    question: "Puccinia forms uredia and:",
-    options: ["(a) Telia on wheat leaves", "(b) aecia on barberry leaves", "(c) pycnia on barberry leaves", "(d) aecia on wheat leaves"],
-    answer: "(b) aecia on barberry leaves"
-  },
-  {
-    year: "NEET 2000",
-    question: "Black rust of wheat is caused by:",
-    options: ["(a) Puccinia", "(b) Ustilago", "(c) Albugo", "(d) Phytophthora"],
-    answer: "(a) Puccinia"
-  },
-  {
-    year: "NEET 2009",
-    question: "Which one is the wrong pairing for the disease and its causal organism?",
-    options: ["(a) Black rust of wheat-Puccinia graminis", "(b) Loose smut of wheat-Ustilago nuda", "(c) Root knot of vegetables-Meloidogyne sp.", "(d) Late blight of potato-Alternaria solani"],
-    answer: "(d) Late blight of potato-Alternaria solani"
-  },
-  {
-    year: "NEET 2010",
-    question: "Black (stem) rust of wheat is caused by:",
-    options: ["(a) Alternaria solani", "(b) Ustilago nuda", "(c) Chlamydomonas", "(d) Xanthomonas oryzae"],
-    answer: "(b) Ustilago nuda"
-  },
-  {
-    year: "NEET 2011",
-    question: "The pathogen Microsporum responsible for ringworm disease in humans belongs to the same kingdom of organisms as that of:",
-    options: ["(a) Taenia, a tapeworm", "(b) Wuchereria, a filarial worm", "(c) Rhizopus, a mould", "(d) Ascaris, a round worm"],
-    answer: "(c) Rhizopus, a mould"
-  },
-  {
-    year: "NEET 2014",
-    question: "Which one of the following fungi contains hallucinogens?",
-    options: ["(a) Morchella esculenta", "(b) Amanita muscaria", "(c) Neurospora sp.", "(d) Ustilago sp."],
-    answer: "(b) Amanita muscaria"
-  }
-];
-
-// 2.5.4 Deuteromycetes (Pg. 18)
-questionData["11"]["2"].questions["2-5-4"] = [
-  {
-    year: "NEET 2015",
-    question: "The imperfect fungi which are decomposers of litter and help in mineral cycling belong to:",
-    options: ["(a) Phycomycetes", "(b) Ascomycetes", "(c) Deuteromycetes", "(d) Basidiomycetes"],
-    answer: "(c) Deuteromycetes"
-  },
-  {
-    year: "NEET 2015",
-    question: "Which one of the following matches is correct?",
-    options: ["(a) Mucor - Reproduction by conjugation - Ascomycetes", "(b) Agaricus - Parasitic fungus - Basidiomycetes", "(c) Phytophthora - Aseptate mycelium - Basidiomycetes", "(d) Alternaria - Sexual reproduction absent - Deuteromycetes"],
-    answer: "(d) Alternaria - Sexual reproduction absent - Deuteromycetes"
-  }
-];
-
-// 2.6 KINGDOM PLANTAE (Pg. 19)
-questionData["11"]["2"].questions["2-6"] = [
-  {
-    year: "NEET 2014",
-    question: "Which one of the following living organisms completely lacks a cell wall?",
-    options: ["(a) Cyanobacteria", "(b) Sea-fan (Gorgonia)", "(c) Saccharomyces", "(d) Blue-green algae"],
-    answer: "(b) Sea-fan (Gorgonia)"
-  }
-];
-
-// 2.7 KINGDOM ANIMALIA (Pg. 19) - No specific questions mapped
-
-// 2.8 VIRUSES, VIROIDS, PRIONS AND LICHENS (Pg. 19-21)
-questionData["11"]["2"].questions["2-8"] = [
-  {
-    year: "NEET 1994",
-    question: "Tobacco mosaic virus (TMV) genes are:",
-    options: ["(a) single stranded RNA", "(b) double stranded DNA", "(c) proteinaceous", "(d) double stranded RNA"],
-    answer: "(a) single stranded RNA"
-  },
-  {
-    year: "NEET 1996",
-    question: "What is the genetic material in influenza virus?",
-    options: ["(a) Double helical DNA", "(b) RNA", "(c) Single helix DNA", "(d) None of these"],
-    answer: "(b) RNA"
-  },
-  {
-    year: "NEET 1997",
-    question: "Viruses possess:",
-    options: ["(a) ribosomes to synthesise protein", "(b) organelle for its vital mechanism", "(c) either DNA or RNA", "(d) none of these"],
-    answer: "(c) either DNA or RNA"
-  },
-  {
-    year: "NEET 2003",
-    question: "Which one of the following statement about viruses is correct?",
-    options: ["(a) Viruses possess their own metabolic system", "(b) All viruses contain both RNA and DNA", "(c) Viruses are obligate parasites", "(d) Nucleic acid of viruses is known as capsid"],
-    answer: "(c) Viruses are obligate parasites"
-  },
-  {
-    year: "NEET 2012",
-    question: "Which statement is wrong for viruses?",
-    options: ["(a) All are parasites", "(b) All of them have helical symmetry", "(c) They have helical symmetry", "(d) Antibiotics have no effect on them"],
-    answer: "(b) All of them have helical symmetry"
-  },
-  {
-    year: "NEET 2014",
-    question: "Viruses have:",
-    options: ["(a) DNA enclosed in protein coat", "(b) prokaryotic nucleus", "(c) single chromosome", "(d) both DNA and RNA"],
-    answer: "(a) DNA enclosed in protein coat"
-  },
-  {
-    year: "NEET 2015",
-    question: "Select the wrong statement:",
-    options: ["(a) The term 'contagium vivum fluidum' was coined by M. W. Beijerinck", "(b) Mosaic disease in tobacco and AIDS in human being are caused by viruses", "(c) The viroids were discovered by D. J. Ivanowsky", "(d) W. M. Stanley showed that viruses could be crystallised"],
-    answer: "(c) The viroids were discovered by D. J. Ivanowsky"
-  },
-  {
-    year: "NEET 2009",
-    question: "T. O. Diener discovered a:",
-    options: ["(a) free infectious DNA", "(b) infectious protein", "(c) bacteriophage", "(d) free infectious RNA"],
-    answer: "(d) free infectious RNA"
-  },
-  {
-    year: "NEET 2016",
-    question: "Which of the following statements is wrong for viroids?",
-    options: ["(a) They cause infections", "(b) Their RNA is of high molecular weight", "(c) They lack a protein coat", "(d) They are smaller than viruses"],
-    answer: "(b) Their RNA is of high molecular weight"
-  },
-  {
-    year: "NEET 2017",
-    question: "Viroids differ from viruses in having:",
-    options: ["(a) DNA molecules without protein coat", "(b) RNA molecules with protein coat", "(c) RNA molecules without protein coat", "(d) DNA molecules with protein coat"],
-    answer: "(c) RNA molecules without protein coat"
-  },
-  {
-    year: "NEET 2020",
-    question: "Which of the following is correct about viroids?",
-    options: ["(a) They have RNA with protein coat", "(b) They have free RNA without protein coat", "(c) They have DNA with protein coat", "(d) They have free DNA without protein coat"],
-    answer: "(b) They have free RNA without protein coat"
-  },
-  {
-    year: "NEET 2019",
-    question: "Mad cow disease in cattle is caused by an organism which has:",
-    options: ["(a) inert crystalline structure", "(b) abnormally folded protein", "(c) free RNA without protein coat", "(d) free DNA without protein coat"],
-    answer: "(b) abnormally folded protein"
-  },
-  {
-    year: "NEET 2019",
-    question: "Which of the following statements is incorrect?",
-    options: ["(a) Prions consist of abnormally folded proteins", "(b) Viroids lack a protein coat", "(c) Viruses are obligate parasites", "(d) Infective constituent in viruses is the protein coat"],
-    answer: "(d) Infective constituent in viruses is the protein coat"
-  },
-  {
-    year: "NEET 2000",
-    question: "Lichens indicate SO₂ pollution because they:",
-    options: ["(a) Show association between algae and fungi", "(b) Grow faster than others", "(c) Are sensitive to SO₂", "(d) Flourish in SO₂ rich environment"],
-    answer: "(c) Are sensitive to SO₂"
-  },
-  {
-    year: "NEET 1992",
-    question: "Organisms which are indicator SO₂ pollution of air:",
-    options: ["(a) mosses", "(b) lichens", "(c) mushrooms", "(d) puffballs"],
-    answer: "(b) lichens"
-  },
-  {
-    year: "NEET 1996",
-    question: "Which one of the following statement about lichens is wrong?",
-    options: ["(a) These grow very rapidly (2 cm per day)", "(b) They show fungal and algal symbiotic relationships", "(c) Some of its species are eaten by reindeers", "(d) These are pollution indicators"],
-    answer: "(a) These grow very rapidly (2 cm per day)"
-  },
-  {
-    year: "NEET 1997",
-    question: "Most of the lichens consist of:",
-    options: ["(a) green algae and ascomycetes", "(b) brown algae and higher plant", "(c) blue green algae and basidiomycetes", "(d) red algae and ascomycetes"],
-    answer: "(a) green algae and ascomycetes"
-  },
-  {
-    year: "NEET 2004",
-    question: "Lichens are well known combination of an alga and a fungus, where fungus has:",
-    options: ["(a) a saprophytic relationship with the alga", "(b) an epiphytic relationship with alga", "(c) a parasitic relationship with alga", "(d) a symbiotic relationship with alga"],
-    answer: "(d) a symbiotic relationship with alga"
-  },
-  {
-    year: "NEET 1999",
-    question: "Reindeer moss is:",
-    options: ["(a) Sphagnum", "(b) Marchantia", "(c) Cladonia rangifera", "(d) None of these"],
-    answer: "(c) Cladonia rangifera"
-  },
-  {
-    year: "NEET 2019",
-    question: "Match column-I with column-II: Column I - Column II (A) Saprophyte - 1. Symbiotic association of fungi with plant roots (B) Parasite - 2. Decomposition of dead organic materials (C) Lichens - 3. Living on living plants or animals (D) Mycorrhiza - 4. Symbiotic association of algae and fungi Choose the correct answer from the options given below:",
-    options: ["(a) A→2, B→3, C→4, D→1", "(b) A→1, B→2, C→3, D→4", "(c) A→3, B→2, C→1, D→4", "(d) A→2, B→1, C→3, D→4"],
-    answer: "(a) A→2, B→3, C→4, D→1"
-  }
-];
-
+  // Place for future chapterwise question injection before </body>
+  /*
+  questionData["11"]["2"].questions["2-8-1"] = [
+    {
+      year: "NEET 2025",
+      question: "Sample question on Viruses?",
+      options: ["(a) Option A", "(b) Option B", "(c) Option C", "(d) Option D"],
+      answer: "(a) Option A"
+    }
+  ];
+  */
 </script>
+
+</body>
+</html>
