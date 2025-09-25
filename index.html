@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,7 +78,6 @@
     return result;
   }
 
-  // Updated chapter data with correct page ranges including page 11 in Class 11 Chapter 2, and corrected pages for Chapter 1
   const questionData = {
     "11": {
       "1": {title: "The Living World", pages: range(3, 9), questions: {}},
@@ -117,7 +117,6 @@
     }
   };
 
-  // Chapter titles for dropdown
   const chapterData = {
     "11": [
       {id:"1",name:"The Living World"},
@@ -191,7 +190,6 @@
 
       const chapterPages = questionData[c]?.[ch]?.pages || [];
 
-      // Add page 11 explicitly in Chapter 2 pages if missing
       if (c === '11' && ch === '2' && !chapterPages.includes(11)) {
         chapterPages.unshift(11);
       }
@@ -203,15 +201,6 @@
         opt.textContent = `Page ${pgStr}`;
         sectionSelect.appendChild(opt);
       });
-
-      // Rename 'R.H. Whittaker (1969)...' page dropdown to 'RH' with special key 'RH' if needed
-      if (c === '11' && ch === '2') {
-        let rhOpt = document.createElement('option');
-        rhOpt.value = 'RH';
-        rhOpt.textContent = 'RH';
-        sectionSelect.insertBefore(rhOpt, sectionSelect.firstChild);
-      }
-
     } else {
       sectionSelect.disabled = true;
       sectionSelect.innerHTML = '<option value="">Select Page Number</option>';
@@ -230,32 +219,11 @@
       return;
     }
 
-    // For RH special dropdown
-    if (c === '11' && ch === '2' && page === 'RH') {
-      const questions = questionData[c][ch].questions['RH'] || [];
-      if (!questions.length) {
-        contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
-        return;
-      }
-      let html = `<div class="question-count">No. of questions found: ${questions.length}</div>`;
-      questions.forEach((q, i) => {
-        html += `<div class="question-item">
-          <div class="question-header"><span class="question-year">${q.year}</span></div>
-          <div class="question-text">${q.question}</div>
-          <div class="options">${q.options.map(o => `<div class="option">${o}</div>`).join('')}</div>
-          <div class="button-group">
-            <button class="btn btn-answer" onclick="toggleAnswer(${i})">Answer</button>
-            <button class="btn btn-copy" onclick="copyQuestion(${i})">Copy Question</button>
-            <button class="btn btn-chatgpt" onclick="openChatGPT(${i})">ChatGPT Explain</button>
-          </div>
-          <div class="answer-reveal" id="answer-${i}"><strong>Answer:</strong> ${q.answer}</div>
-        </div>`;
-      });
-      contentArea.innerHTML = html;
+    if (page === '10') {
+      contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
       return;
     }
 
-    // For normal pages
     const questions = questionData[c]?.[ch]?.questions?.[page] || [];
     if (!questions.length) {
       contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
@@ -319,8 +287,9 @@
     updateChapters();
   });
 </script>
+
 <script>
-  // Add questions for Class 11, Chapter 2, Page 11 and Page 12
+  // Inject questions for pages 11 and 12 as example; add other pages similarly
   questionData["11"]["2"].questions["11"] = [
     {
       year: "PMT/NEET-2002",
@@ -414,10 +383,6 @@
       question: "Plant classification proposed by Carolus Linnaeus was artificial because it was based on:",
       options: ["a. Only a few morphological characters", "b. Evolutionary tendencies which are diverse", "c. Anatomical characters which are adaptive in nature", "d. Physiological traits along with morphological characters"],
       answer: "a. Only a few morphological characters"
-    },
-    // Additional questions for Page 12 up to 35 (add as necessary)
+    }
   ];
 </script>
-
-</body>
-</html>
