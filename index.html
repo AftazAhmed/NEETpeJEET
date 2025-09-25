@@ -120,14 +120,14 @@
     padding-left: 14px;
   }
   .question-item {
-    background-color: #fff3e6;
+    background-color: #fff8f0; /* lighter and less intense orange background */
     border-radius: 12px;
     border: 1.5px solid #f0c49c;
     margin-bottom: 26px;
-    padding: 24px 30px;
-    box-shadow: 0 4px 15px rgba(240, 196, 156, 0.25);
-    font-size: 16px;
-    max-width: 850px;
+    padding: 20px 24px;
+    box-shadow: 0 4px 15px rgba(240, 196, 156, 0.15);
+    font-size: 15px; /* reduced font size */
+    max-width: 100%;
   }
   .question-header {
     display: flex;
@@ -152,7 +152,7 @@
   }
   .question-text {
     font-weight: 600;
-    font-size: 18px;
+    font-size: 15px; /* reduced font size */
     color: #255c4d;
     margin-bottom: 14px;
     max-width: 100%;
@@ -211,11 +211,11 @@
     box-shadow: 0 5px 20px rgba(8, 66, 152, 0.7);
   }
   .btn-chatgpt {
-    background-color: #d6336c;
+    background-color: #ff0000; /* changed to red */
   }
   .btn-chatgpt:hover {
-    background-color: #9e2a53;
-    box-shadow: 0 5px 20px rgba(158, 42, 83, 0.7);
+    background-color: #cc0000; /* darker red on hover */
+    box-shadow: 0 5px 20px rgba(204, 0, 0, 0.7);
   }
   .answer-reveal {
     display: none;
@@ -252,7 +252,10 @@
     }
     .question-item {
       max-width: 100%;
-      padding: 20px 16px;
+      padding: 18px 12px;
+    }
+    .question-text {
+      font-size: 15px;
     }
   }
 </style>
@@ -451,7 +454,6 @@
       return;
     }
 
-    // Compute continuous numbering for chapter question numbering
     let questionCounter = 1;
     const allPages = questionData[c][ch].pages;
     for (let i = 0; i < allPages.length; i++) {
@@ -480,19 +482,16 @@
     });
     contentArea.innerHTML = html;
   }
-  
   function toggleAnswer(qNum) {
     const el = document.getElementById('answer-' + qNum);
     el.style.display = (el.style.display === 'block') ? 'none' : 'block';
   }
-
   function copyQuestion(qNum) {
     let questionObj = null;
     const c = document.getElementById('classSelect').value;
     const ch = document.getElementById('chapterSelect').value;
     const sp = document.getElementById('sectionSelect').value;
     if (!c || !ch || !sp) return;
-
     let questionCounter = 1;
     const allPages = questionData[c][ch].pages;
     for (let i = 0; i < allPages.length; i++) {
@@ -503,7 +502,6 @@
       questionCounter += (questionData[c][ch].questions[allPages[i]]?.length) || 0;
     }
     if (!questionObj) return;
-
     const text = `${questionObj.year} - ${questionObj.question}\n${questionObj.options.join('\n')}`;
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(() => alert('Question copied to clipboard!'), fallbackCopy);
@@ -520,14 +518,12 @@
       alert('Question copied to clipboard!');
     }
   }
-
   function openChatGPT(qNum) {
     let questionObj = null;
     const c = document.getElementById('classSelect').value;
     const ch = document.getElementById('chapterSelect').value;
     const sp = document.getElementById('sectionSelect').value;
     if (!c || !ch || !sp) return;
-
     let questionCounter = 1;
     const allPages = questionData[c][ch].pages;
     for (let i = 0; i < allPages.length; i++) {
@@ -538,12 +534,10 @@
       questionCounter += (questionData[c][ch].questions[allPages[i]]?.length) || 0;
     }
     if (!questionObj) return;
-
     const prompt = `Please explain this NEET Biology question in detail:\n\n${questionObj.year} - ${questionObj.question}\n${questionObj.options.join('\n')}\n\nCorrect Answer: ${questionObj.answer}`;
     const url = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
     window.open(url, '_blank');
   }
-
   document.addEventListener('DOMContentLoaded', () => {
     updateChapters();
   });
