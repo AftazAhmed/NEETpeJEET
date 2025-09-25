@@ -128,12 +128,15 @@
     box-shadow: 0 4px 15px rgba(240, 196, 156, 0.15);
     font-size: 15px;
     max-width: 100%;
+    position: relative;
   }
   .question-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 14px;
+    gap: 12px;
+    flex-wrap: wrap;
   }
   .question-number {
     font-weight: 700;
@@ -149,6 +152,17 @@
     font-size: 13px;
     box-shadow: 0 0 8px rgba(17,100,102,0.7);
     letter-spacing: 0.6px;
+    white-space: nowrap;
+  }
+  .score {
+    background-color: #198754;
+    color: #e0f7f4;
+    padding: 5px 12px;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: 0 0 6px rgba(25, 135, 84, 0.8);
+    white-space: nowrap;
   }
   .question-text {
     font-weight: 600;
@@ -163,7 +177,6 @@
     margin-bottom: 18px;
   }
   .option {
-    position: relative;
     background-color: #ffffff;
     border-radius: 6px;
     border: 1.8px solid #b5d0c8;
@@ -177,36 +190,21 @@
     transition: 0.3s;
     user-select: none;
   }
-  .option:hover:not(.selected) {
+  .option:hover:not(.disabled) {
     background-color: #dceddb;
     border-color: #71b280;
   }
   .option.correct {
     background-color: #198754;
-    color: white;
-    border-color: #146c43;
+    border-color: #145c32;
+    color: #e0f7e9;
     cursor: default;
   }
   .option.incorrect {
     background-color: #dc3545;
-    color: white;
-    border-color: #a71d2a;
+    border-color: #842029;
+    color: #f8d7da;
     cursor: default;
-  }
-  .option .feedback {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 20px;
-    font-weight: 700;
-    pointer-events: none;
-  }
-  .option.correct .feedback {
-    color: #c3f3a8;
-  }
-  .option.incorrect .feedback {
-    color: #f9c8c7;
   }
   .button-group {
     display: flex;
@@ -257,23 +255,32 @@
     font-weight: 700;
     box-shadow: 0 3px 14px rgba(59,130,246,0.5);
   }
+  .tick-cross-popup {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    font-size: 24px;
+    font-weight: 900;
+    padding: 4px 10px;
+    border-radius: 12px;
+    color: #fff;
+    user-select: none;
+    opacity: 0.95;
+    pointer-events: none;
+    display: none;
+  }
+  .tick-cross-popup.correct {
+    background-color: #198754;
+  }
+  .tick-cross-popup.incorrect {
+    background-color: #dc3545;
+  }
   .no-questions {
     text-align: center;
     font-style: italic;
     color: #4a5768;
     font-size: 17px;
     padding: 48px 10px;
-  }
-  #scoreTab {
-    font-weight: 700;
-    font-size: 18px;
-    color: #116466;
-    border: 2px solid #028090;
-    background-color: #daf0ec;
-    padding: 8px 14px;
-    border-radius: 10px;
-    margin-top: 12px;
-    width: fit-content;
   }
   @media (max-width: 900px) {
     .controls { flex-direction: column; }
@@ -335,13 +342,9 @@
 
 <main class="content-area" id="contentArea" role="main" tabindex="-1">
   <div class="no-questions">Please select Class, Chapter, and Page Number to view questions.</div>
-  <div id="scoreTab" aria-live="polite" aria-atomic="true" style="display:none;">Score: 0 / 0</div>
 </main>
 
 <script>
-  let score = 0;
-  let answeredQuestions = new Set();
-
   function range(start, end) {
     let result = [];
     for(let i = start; i <= end; i++) {
@@ -349,16 +352,93 @@
     }
     return result;
   }
-
+  
   const questionData = {
-    /* Your question data here */
+    "11": {
+      "1": {title: "The Living World", pages: range(3, 9), questions: {}},
+      "2": {title: "Biological Classification", pages: range(10, 22), questions: {}},
+      "3": {title: "Plant Kingdom", pages: range(23, 36), questions: {}},
+      "4": {title: "Animal Kingdom", pages: range(37, 54), questions: {}},
+      "5": {title: "Morphology of Flowering Plants", pages: range(57, 69), questions: {}},
+      "6": {title: "Anatomy of Flowering Plants", pages: range(71, 78), questions: {}},
+      "7": {title: "Structural Organisation in Animals", pages: range(79, 86), questions: {}},
+      "8": {title: "Cell - The Unit of Life", pages: range(87, 103), questions: {}},
+      "9": {title: "Biomolecules", pages: range(104, 119), questions: {}},
+      "10": {title: "Cell Cycle and Cell Division", pages: range(120, 130), questions: {}},
+      "11": {title: "Photosynthesis in Higher Plants", pages: range(133, 152), questions: {}},
+      "12": {title: "Respiration in Plants", pages: range(153, 165), questions: {}},
+      "13": {title: "Plant Growth and Development", pages: range(166, 182), questions: {}},
+      "14": {title: "Breathing and Exchange of Gases", pages: range(183, 192), questions: {}},
+      "15": {title: "Body Fluids and Circulation", pages: range(193, 204), questions: {}},
+      "16": {title: "Excretory Products and their Elimination", pages: range(205, 216), questions: {}},
+      "17": {title: "Locomotion and Movement", pages: range(217, 229), questions: {}},
+      "18": {title: "Neural Control and Coordination", pages: range(230, 238), questions: {}},
+      "19": {title: "Chemical Coordination and Integration", pages: range(239, 250), questions: {}}
+    },
+    "12": {
+      "1": {title: "Sexual Reproduction in Flowering Plants", pages: range(3, 25), questions: {}},
+      "2": {title: "Human Reproduction", pages: range(26, 40), questions: {}},
+      "3": {title: "Reproductive Health", pages: range(41, 52), questions: {}},
+      "4": {title: "Principles of Inheritance and Variation", pages: range(53, 78), questions: {}},
+      "5": {title: "Molecular Basis of Inheritance", pages: range(79, 109), questions: {}},
+      "6": {title: "Evolution", pages: range(110, 128), questions: {}},
+      "7": {title: "Human Health and Disease", pages: range(129, 148), questions: {}},
+      "8": {title: "Microbes in Human Welfare", pages: range(149, 160), questions: {}},
+      "9": {title: "Biotechnology - Principles and Processes", pages: range(161, 176), questions: {}},
+      "10": {title: "Biotechnology and its Applications", pages: range(177, 189), questions: {}},
+      "11": {title: "Organisms and Populations", pages: range(190, 204), questions: {}},
+      "12": {title: "Ecosystem", pages: range(205, 215), questions: {}},
+      "13": {title: "Biodiversity and Conservation", pages: range(216, 227), questions: {}}
+    }
+  };
+  
+  const chapterData = {
+    "11": [
+      {id:"1",name:"The Living World"},
+      {id:"2",name:"Biological Classification"},
+      {id:"3",name:"Plant Kingdom"},
+      {id:"4",name:"Animal Kingdom"},
+      {id:"5",name:"Morphology of Flowering Plants"},
+      {id:"6",name:"Anatomy of Flowering Plants"},
+      {id:"7",name:"Structural Organisation in Animals"},
+      {id:"8",name:"Cell - The Unit of Life"},
+      {id:"9",name:"Biomolecules"},
+      {id:"10",name:"Cell Cycle and Cell Division"},
+      {id:"11",name:"Photosynthesis in Higher Plants"},
+      {id:"12",name:"Respiration in Plants"},
+      {id:"13",name:"Plant Growth and Development"},
+      {id:"14",name:"Breathing and Exchange of Gases"},
+      {id:"15",name:"Body Fluids and Circulation"},
+      {id:"16",name:"Excretory Products and their Elimination"},
+      {id:"17",name:"Locomotion and Movement"},
+      {id:"18",name:"Neural Control and Coordination"},
+      {id:"19",name:"Chemical Coordination and Integration"}
+    ],
+    "12": [
+      {id:"1",name:"Sexual Reproduction in Flowering Plants"},
+      {id:"2",name:"Human Reproduction"},
+      {id:"3",name:"Reproductive Health"},
+      {id:"4",name:"Principles of Inheritance and Variation"},
+      {id:"5",name:"Molecular Basis of Inheritance"},
+      {id:"6",name:"Evolution"},
+      {id:"7",name:"Human Health and Disease"},
+      {id:"8",name:"Microbes in Human Welfare"},
+      {id:"9",name:"Biotechnology - Principles and Processes"},
+      {id:"10",name:"Biotechnology and its Applications"},
+      {id:"11",name:"Organisms and Populations"},
+      {id:"12",name:"Ecosystem"},
+      {id:"13",name:"Biodiversity and Conservation"}
+    ]
   };
 
-  const chapterData = {
-    /* Your chapter data here */
+  let scoringState = {
+    correctAnswers: 0,
+    totalQuestions: 0,
+    answeredQuestions: new Set()
   };
 
   function updateChapters() {
+    scoringState = {correctAnswers: 0, totalQuestions: 0, answeredQuestions: new Set()};
     const classSelect = document.getElementById('classSelect');
     const chapterSelect = document.getElementById('chapterSelect');
     const sectionSelect = document.getElementById('sectionSelect');
@@ -377,22 +457,20 @@
       chapterSelect.disabled = true;
     }
     document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Page Number to view questions.</div>';
-    hideScore();
-    score = 0;
-    answeredQuestions.clear();
   }
 
   function updateSections() {
+    scoringState = {correctAnswers: 0, totalQuestions: 0, answeredQuestions: new Set()};
     const classSelect = document.getElementById('classSelect');
     const chapterSelect = document.getElementById('chapterSelect');
     const sectionSelect = document.getElementById('sectionSelect');
     sectionSelect.innerHTML = '';
-    hideScore();
 
     if (classSelect.value && chapterSelect.value) {
       sectionSelect.disabled = false;
       const c = classSelect.value;
       const ch = chapterSelect.value;
+
       const chapterPages = questionData[c]?.[ch]?.pages || [];
 
       chapterPages.forEach(pg => {
@@ -407,29 +485,32 @@
       sectionSelect.innerHTML = '<option value="">Select Page Number</option>';
     }
     document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Page Number to view questions.</div>';
-    score = 0;
-    answeredQuestions.clear();
   }
 
   function showQuestions() {
+    scoringState = {correctAnswers: 0, totalQuestions: 0, answeredQuestions: new Set()};
     const c = document.getElementById('classSelect').value;
     const ch = document.getElementById('chapterSelect').value;
     const page = document.getElementById('sectionSelect').value;
     const contentArea = document.getElementById('contentArea');
-    const scoreTab = document.getElementById('scoreTab');
 
     if (!c || !ch || !page) {
       contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Page Number to view questions.</div>';
-      hideScore();
+      return;
+    }
+
+    if (page === '10') {
+      contentArea.innerHTML = '<div class="question-count">No questions found in this page.</div>';
       return;
     }
 
     const questions = questionData[c]?.[ch]?.questions?.[page] || [];
     if (!questions.length) {
       contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
-      hideScore();
       return;
     }
+
+    scoringState.totalQuestions = questions.length;
 
     let questionCounter = 1;
     const allPages = questionData[c][ch].pages;
@@ -442,98 +523,130 @@
     let html = `<div class="question-count">No. of questions found: ${questions.length}</div>`;
     questions.forEach((q, i) => {
       const qNum = questionCounter + i;
-      html += `<div class="question-item" data-qnum="${qNum}" data-correct-answer="${q.answer}">
+      html += `<div class="question-item" id="question-item-${qNum}">
         <div class="question-header">
           <span class="question-number">Q${qNum}.</span>
           <span class="question-year">${q.year}</span>
+          <span class="score" id="score-${qNum}">Score: 0/1</span>
         </div>
         <div class="question-text">${q.question}</div>
-        <div class="options">${q.options.map(o => `<div class="option" tabindex="0" role="button" aria-pressed="false">${o}<span class="feedback"></span></div>`).join('')}</div>
+        <div class="options" id="options-${qNum}">
+          ${q.options.map((o, idx) => `<div class="option" role="button" tabindex="0" 
+            data-qnum="${qNum}" data-index="${idx}">${o}</div>`).join('')}
+        </div>
         <div class="button-group">
-          <button class="btn btn-answer" onclick="toggleAnswer(${qNum})">Answer</button>
+          <button class="btn btn-answer" onclick="toggleAnswer(${qNum})" aria-expanded="false" aria-controls="answer-${qNum}">Answer</button>
           <button class="btn btn-copy" onclick="copyQuestion(${qNum})">Copy Question</button>
           <button class="btn btn-chatgpt" onclick="openChatGPT(${qNum})">ChatGPT Explain</button>
         </div>
         <div class="answer-reveal" id="answer-${qNum}"><strong>Answer:</strong> ${q.answer}</div>
+        <div class="tick-cross-popup" id="popup-${qNum}"></div>
       </div>`;
     });
     contentArea.innerHTML = html;
 
-    answeredQuestions.clear();
-    score = 0;
-    updateScoreDisplay(score, questions.length);
-
-    const optionElems = contentArea.querySelectorAll('.option');
-    optionElems.forEach(optionElem => {
-      optionElem.addEventListener('click', () => {
-        handleOptionClick(optionElem, questions.length);
-      });
-      optionElem.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          handleOptionClick(optionElem, questions.length);
-        }
+    // Attach click handlers to options for scoring
+    questions.forEach((q, i) => {
+      const qNum = questionCounter + i;
+      const optionsContainer = document.getElementById(`options-${qNum}`);
+      optionsContainer.querySelectorAll('.option').forEach(optionDiv => {
+        optionDiv.addEventListener('click', e => handleOptionClick(e, qNum, q.answer));
+        optionDiv.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleOptionClick(e, qNum, q.answer);
+          }
+        });
       });
     });
-
-    showScore();
   }
 
-  function handleOptionClick(optionElem, totalQuestions) {
-    const questionItem = optionElem.closest('.question-item');
-    const qNum = questionItem.getAttribute('data-qnum');
-    if (answeredQuestions.has(qNum)) {
-      return;
+  function handleOptionClick(event, qNum, correctAnswer) {
+    const selectedOption = event.currentTarget;
+    const optionsContainer = selectedOption.parentNode;
+    if (scoringState.answeredQuestions.has(qNum)) {
+      return; // Ignore if already answered
     }
-    answeredQuestions.add(qNum);
-    const correctAnswer = questionItem.getAttribute('data-correct-answer');
-    const selectedText = optionElem.textContent.replace(/[\u2713\u2717]/g, '').trim();
-    const feedbackSpan = optionElem.querySelector('.feedback');
+    scoringState.answeredQuestions.add(qNum);
 
-    if (selectedText === correctAnswer) {
-      optionElem.classList.add('correct');
-      feedbackSpan.textContent = '\u2713'; // tick
-      score++;
-    } else {
-      optionElem.classList.add('incorrect');
-      feedbackSpan.textContent = '\u2717'; // cross
-      const options = questionItem.querySelectorAll('.option');
-      options.forEach(opt => {
-        const ansText = opt.textContent.replace(/[\u2713\u2717]/g, '').trim();
-        if (ansText === correctAnswer) {
-          opt.classList.add('correct');
-          opt.querySelector('.feedback').textContent = '\u2713';
-        }
-      });
-    }
-
-    const options = questionItem.querySelectorAll('.option');
-    options.forEach(opt => {
-      opt.style.pointerEvents = 'none';
-      opt.setAttribute('aria-pressed', 'true');
+    // Disable all options
+    optionsContainer.querySelectorAll('.option').forEach(o => {
+      o.classList.add('disabled');
+      o.style.cursor = 'default';
+      o.setAttribute('aria-disabled', 'true');
+      o.removeEventListener('click', () => {}); // remove listeners ideally but here we just ignore if multiple click
     });
 
-    updateScoreDisplay(score, totalQuestions);
-  }
+    const selectedText = selectedOption.textContent.trim();
+    const isCorrect = selectedText === correctAnswer.trim();
 
-  function updateScoreDisplay(currentScore, totalQuestions) {
-    const scoreTab = document.getElementById('scoreTab');
-    if (totalQuestions > 0) {
-      scoreTab.style.display = 'inline-block';
-      scoreTab.textContent = `Score: ${currentScore} / ${totalQuestions}`;
-    } else {
-      hideScore();
+    if (isCorrect) {
+      scoringState.correctAnswers++;
     }
+
+    // Mark options with colors
+    optionsContainer.querySelectorAll('.option').forEach(o => {
+      if (o.textContent.trim() === correctAnswer.trim()) {
+        o.classList.add('correct');
+      }
+    });
+    if (!isCorrect) {
+      selectedOption.classList.add('incorrect');
+    }
+
+    // Show tick or cross popup
+    const popup = document.getElementById(`popup-${qNum}`);
+    if (isCorrect) {
+      popup.textContent = '✓';
+      popup.classList.remove('incorrect');
+      popup.classList.add('correct');
+    } else {
+      popup.textContent = '✗';
+      popup.classList.remove('correct');
+      popup.classList.add('incorrect');
+    }
+    popup.style.display = 'block';
+
+    // Update score inside question box as x/1 for each question (1 point each)
+    const scoreSpan = document.getElementById(`score-${qNum}`);
+    scoreSpan.textContent = `Score: ${isCorrect ? 1 : 0}/1`;
+
+    // Update chapter total score display
+    updateChapterScoreDisplay();
   }
 
-  function hideScore() {
-    const scoreTab = document.getElementById('scoreTab');
-    scoreTab.style.display = 'none';
+  function updateChapterScoreDisplay() {
+    const c = document.getElementById('classSelect').value;
+    const ch = document.getElementById('chapterSelect').value;
+    if (!c || !ch) return;
+
+    const chapterTitle = chapterData[c].find(chap => chap.id === ch)?.name || "";
+
+    let totalScoreDisplay = document.getElementById('totalScoreDisplay');
+    if (!totalScoreDisplay) {
+      totalScoreDisplay = document.createElement('div');
+      totalScoreDisplay.id = 'totalScoreDisplay';
+      totalScoreDisplay.style.fontWeight = '700';
+      totalScoreDisplay.style.fontSize = '18px';
+      totalScoreDisplay.style.color = '#116466';
+      totalScoreDisplay.style.marginBottom = '20px';
+      totalScoreDisplay.style.textAlign = 'center';
+      const contentArea = document.getElementById('contentArea');
+      contentArea.insertBefore(totalScoreDisplay, contentArea.firstChild);
+    }
+    totalScoreDisplay.textContent = `Total Score: ${scoringState.correctAnswers} / ${scoringState.totalQuestions} in Chapter ${ch}: ${chapterTitle}`;
   }
 
   function toggleAnswer(qNum) {
     const el = document.getElementById('answer-' + qNum);
-    el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+    const btn = el.previousElementSibling.querySelector('.btn-answer');
+    if (el.style.display === 'block') {
+      el.style.display = 'none';
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    } else {
+      el.style.display = 'block';
+      if (btn) btn.setAttribute('aria-expanded', 'true');
+    }
   }
   function copyQuestion(qNum) {
     let questionObj = null;
