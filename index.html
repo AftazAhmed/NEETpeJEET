@@ -40,7 +40,7 @@
 
 <div class="header">
   <h2>NEET/AIPMT BIOLOGY PAGE WISE ANALYSIS (2000-2025)</h2>
-  <div style="font-size:13.7px;">All Previous Year Questions, Chapter &amp; Section-Page Wise (NCERT 2025-26)</div>
+  <div style="font-size:13.7px;">All Previous Year Questions, Chapter &amp; Page Number Wise (NCERT 2025-26)</div>
 </div>
 
 <div class="controls">
@@ -59,15 +59,15 @@
     </select>
   </div>
   <div class="dropdown-group">
-    <label for="sectionSelect">Section/Page:</label>
+    <label for="sectionSelect">Page Number:</label>
     <select id="sectionSelect" onchange="showQuestions()" disabled>
-      <option value="">Select Section/Page</option>
+      <option value="">Select Page Number</option>
     </select>
   </div>
 </div>
 
 <div class="content-area" id="contentArea">
-  <div class="no-questions">Please select Class, Chapter, and Section/Page to view questions.</div>
+  <div class="no-questions">Please select Class, Chapter, and Page Number to view questions.</div>
 </div>
 
 <script>
@@ -78,68 +78,11 @@
     return result;
   }
 
-  // Section data with page references for class 11 (sample filled for chapter 2 - Biological Classification)
-  const sectionData = {
-    "11": {
-      "1": [
-        {id:"3-9", name:"Pages 3-9 Overview"} // Placeholder for full detailed sections later
-      ],
-      "2": [
-        {id:"10-12", name:"2.0 Evolution of Classification Systems (Pg. 10-12)"},
-        {id:"11-11", name:"TABLE 2.1 Characteristics of the Five Kingdoms (Pg. 11)"},
-        {id:"11-11", name:"R.H. Whittaker (1969) Five Kingdom Classification (Pg. 11)"},
-        {id:"12-12", name:"2.1 KINGDOM MONERA (Pg. 12)"},
-        {id:"13-13", name:"2.1.1 Archaebacteria (Pg. 13)"},
-        {id:"13-13", name:"2.1.2 Eubacteria (Pg. 13)"},
-        {id:"14-15", name:"2.2 KINGDOM PROTISTA (Pg. 14-15)"},
-        {id:"14-14", name:"2.2.1 Chrysophytes (Pg. 14)"},
-        {id:"15-15", name:"2.2.2 Dinoflagellates, 2.2.3 Euglenoids, 2.2.4 Slime Moulds, 2.2.5 Protozoans (Pg. 15)"},
-        {id:"16-18", name:"2.3 KINGDOM FUNGI (Pg. 16-18)"},
-        {id:"17-17", name:"2.3.1 Phycomycetes (Pg. 17)"},
-        {id:"17-17", name:"2.3.2 Ascomycetes (Pg. 17)"},
-        {id:"18-18", name:"2.3.3 Basidiomycetes (Pg. 18)"},
-        {id:"18-18", name:"2.3.4 Deuteromycetes (Pg. 18)"},
-        {id:"19-19", name:"2.4 KINGDOM PLANTAE (Pg. 19)"},
-        {id:"19-19", name:"2.5 KINGDOM ANIMALIA (Pg. 19)"},
-        {id:"19-19", name:"Viruses (Pg. 19)"},
-        {id:"21-21", name:"Viroids, Prions, Lichens (Pg. 21)"}
-      ],
-      "3": [
-        {id:"23-36", name:"Pages 23-36 Plant Kingdom"} // Placeholder overview 
-      ],
-      // Other chapters can be filled similarly with sections later
-    },
-    "12": {
-      "1": [
-        {id:"3-25", name:"Sexual Reproduction in Flowering Plants (Pg. 3-25)"}
-        // Can be detailed further based on NCERT sections
-      ],
-      "2": [
-        {id:"26-40", name:"Human Reproduction (Pg. 26-40)"}
-      ],
-      "3": [
-        {id:"41-52", name:"Reproductive Health (Pg. 41-52)"}
-      ],
-      "4": [
-        {id:"53-78", name:"Principles of Inheritance and Variation (Pg. 53-78)"}
-      ],
-      // Further chapters can have sections added similarly
-    }
-  };
-
-  // Base questionData skeleton with page mappings (unchanged)
+  // Simplified chapter data with page ranges from PDFs for Class 11 and 12
   const questionData = {
     "11": {
-      "1": {
-        title: "The Living World",
-        pages: range(3, 9),
-        questions: {}
-      },
-      "2": {
-        title: "Biological Classification",
-        pages: range(10, 22),
-        questions: {}
-      }, 
+      "1": {title: "The Living World", pages: range(3, 22), questions: {}},
+      "2": {title: "Biological Classification", pages: range(10, 22), questions: {}},
       "3": {title: "Plant Kingdom", pages: range(23, 36), questions: {}},
       "4": {title: "Animal Kingdom", pages: range(37, 54), questions: {}},
       "5": {title: "Morphology of Flowering Plants", pages: range(57, 69), questions: {}},
@@ -175,28 +118,7 @@
     }
   };
 
-  // Question data examples unchanged for demonstration (can be expanded)
-  if (questionData["11"]["1"].questions["3"]) {
-    delete questionData["11"]["1"].questions["3"];
-  }
-  questionData["11"]["1"].questions["3"] = [
-    {
-      year: "NEET 2022",
-      question: "How many (in number) of the following properties are defining characteristics of living organisms? Growth, reproduction, metabolism, cellular organization, consciousness",
-      options: ["(a) Two", "(b) Three", "(c) Four", "(d) Five"],
-      answer: "(c) Four"
-    },
-    {
-      year: "NEET 2021",
-      question: "In majority of higher animals and plants, growth and reproduction are:",
-      options: ["(a) Simultaneous processes", "(b) Mutually exclusive events", "(c) Independent of each other", "(d) Continuous throughout life"],
-      answer: "(b) Mutually exclusive events"
-    }
-  ];
-
-  // Further question data additions can be filled similarly...
-
-  // Chapter data remains the same for drop downs
+  // Chapter titles for dropdown
   const chapterData = {
     "11": [
       {id:"1",name:"The Living World"},
@@ -236,12 +158,37 @@
     ]
   };
 
+  // Special questions data for the R.H. Whittaker (1969) Five Kingdom Classification (Pg. 11)
+  questionData["11"]["2"].questions = {
+    "11-11": [
+      {
+        year: "PMT/NEET-2005",
+        question: "Which kingdom includes organisms that are prokaryotic and unicellular?",
+        options: ["a. Monera", "b. Protista", "c. Fungi", "d. Plantae"],
+        answer: "a. Monera"
+      },
+      {
+        year: "PMT/NEET-2007",
+        question: "Which kingdom contains mostly multicellular and heterotrophic organisms?",
+        options: ["a. Protista", "b. Fungi", "c. Animalia", "d. Plantae"],
+        answer: "c. Animalia"
+      },
+      {
+        year: "PMT/NEET-2010",
+        question: "Which kingdom is characterized by organisms with chitin cell walls?",
+        options: ["a. Monera", "b. Fungi", "c. Plantae", "d. Protista"],
+        answer: "b. Fungi"
+      }
+      // More questions can be added if needed
+    ]
+  };
+
   function updateChapters() {
     const classSelect = document.getElementById('classSelect');
     const chapterSelect = document.getElementById('chapterSelect');
     const sectionSelect = document.getElementById('sectionSelect');
     chapterSelect.innerHTML = '<option value="">Select Chapter</option>';
-    sectionSelect.innerHTML = '<option value="">Select Section/Page</option>';
+    sectionSelect.innerHTML = '<option value="">Select Page Number</option>';
     sectionSelect.disabled = true;
     if (classSelect.value) {
       chapterSelect.disabled = false;
@@ -254,69 +201,91 @@
     } else {
       chapterSelect.disabled = true;
     }
-    document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section/Page to view questions.</div>';
+    document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Page Number to view questions.</div>';
   }
 
   function updateSections() {
     const classSelect = document.getElementById('classSelect');
     const chapterSelect = document.getElementById('chapterSelect');
     const sectionSelect = document.getElementById('sectionSelect');
-    sectionSelect.innerHTML = '<option value="">Select Section/Page</option>';
+    sectionSelect.innerHTML = '';
+
     if (classSelect.value && chapterSelect.value) {
       sectionSelect.disabled = false;
-      const sections = sectionData[classSelect.value] && sectionData[classSelect.value][chapterSelect.value];
-      if (sections && sections.length > 0) {
-        sections.forEach(s => {
-          let opt = document.createElement('option');
-          opt.value = s.id;
-          opt.textContent = s.name;
-          sectionSelect.appendChild(opt);
+      const c = classSelect.value;
+      const ch = chapterSelect.value;
+
+      // Add special option for "R.H. Whittaker..." only for Class11 Chapter2
+      if (c === '11' && ch === '2') {
+        let opt = document.createElement('option');
+        opt.value = '11-11'; // special section id
+        opt.textContent = "R.H. Whittaker (1969) Five Kingdom Classification (Pg. 11)";
+        sectionSelect.appendChild(opt);
+      }
+
+      // Add page number options for the chapter
+      const chapterPages = questionData[c] && questionData[c][ch] && questionData[c][ch].pages;
+      if (chapterPages && chapterPages.length > 0) {
+        chapterPages.forEach(pg => {
+          let pgStr = pg.toString();
+          // Avoid duplicating page 11 if special section already added
+          if (!(c === '11' && ch === '2' && pgStr === '11')) {
+            let opt = document.createElement('option');
+            opt.value = pgStr;
+            opt.textContent = `Page ${pgStr}`;
+            sectionSelect.appendChild(opt);
+          }
         });
-      } else {
+      }
+
+      if (sectionSelect.options.length === 0) {
+        sectionSelect.innerHTML = '<option value="">No Pages Found</option>';
         sectionSelect.disabled = true;
       }
     } else {
       sectionSelect.disabled = true;
+      sectionSelect.innerHTML = '<option value="">Select Page Number</option>';
     }
-    document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section/Page to view questions.</div>';
+    document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Page Number to view questions.</div>';
   }
 
   function showQuestions() {
     const c = document.getElementById('classSelect').value;
     const ch = document.getElementById('chapterSelect').value;
-    const sp = document.getElementById('sectionSelect').value;
+    const page = document.getElementById('sectionSelect').value;
     const contentArea = document.getElementById('contentArea');
-    if (!c || !ch || !sp) {
-      contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section/Page to view questions.</div>';
-      return;
-    }
-    const chapter = questionData[c][ch];
-    if (!chapter) {
-      contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
+
+    if (!c || !ch || !page) {
+      contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Page Number to view questions.</div>';
       return;
     }
 
-    // Use full section/page id as key to fetch questions
-    const questions = chapter.questions[sp];
-    if (!questions || questions.length === 0) {
+    // Show questions only for the special R.H. Whittaker section (11-11 for Class11 Chapter2)
+    if (c === '11' && ch === '2' && page === '11-11') {
+      const questions = questionData[c][ch].questions[page];
+      if (!questions || questions.length === 0) {
+        contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
+        return;
+      }
+      let html = `<div class="question-count">No. of questions found: ${questions.length}</div>`;
+      questions.forEach((q, i) => {
+        html += `<div class="question-item">
+          <div class="question-header"><span class="question-year">${q.year}</span></div>
+          <div class="question-text">${q.question}</div>
+          <div class="options">${q.options.map(o => `<div class="option">${o}</div>`).join('')}</div>
+          <div class="button-group">
+            <button class="btn btn-answer" onclick="toggleAnswer(${i})">Answer</button>
+            <button class="btn btn-copy" onclick="copyQuestion(${i})">Copy Question</button>
+            <button class="btn btn-chatgpt" onclick="openChatGPT(${i})">ChatGPT Explain</button>
+          </div>
+          <div class="answer-reveal" id="answer-${i}"><strong>Answer:</strong> ${q.answer}</div>
+        </div>`;
+      });
+      contentArea.innerHTML = html;
+    } else {
+      // For all other pages, no questions
       contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
-      return;
     }
-    let html = `<div class="question-count">No. of questions found: ${questions.length}</div>`;
-    questions.forEach((q, i) => {
-      html += `<div class="question-item">
-        <div class="question-header"><span class="question-year">${q.year}</span></div>
-        <div class="question-text">${q.question}</div>
-        <div class="options">${q.options.map(o => `<div class="option">${o}</div>`).join('')}</div>
-        <div class="button-group">
-          <button class="btn btn-answer" onclick="toggleAnswer(${i})">Answer</button>
-          <button class="btn btn-copy" onclick="copyQuestion(${i})">Copy Question</button>
-          <button class="btn btn-chatgpt" onclick="openChatGPT(${i})">ChatGPT Explain</button>
-        </div>
-        <div class="answer-reveal" id="answer-${i}"><strong>Answer:</strong> ${q.answer}</div>
-      </div>`;
-    });
-    contentArea.innerHTML = html;
   }
 
   function toggleAnswer(i) {
@@ -359,282 +328,6 @@
   document.addEventListener('DOMContentLoaded', () => {
     updateChapters();
   });
-
-  // Placeholder for future chapter-wise question injections before </body>
-
-</script>
-
-<script>
-// NEET Chapter 2 Questions - Segment 1: Evolution of Classification Systems
-
-questionData["11"]["2"].questions = {
-  "10-12": [ // 2.0 Evolution of Classification Systems (Pg. 10-12) - 26 questions
-    {
-      year: "PMT/NEET-1989",
-      question: "What is the scientific study of plant naming called?",
-      options: ["a. Classification", "b. Identification", "c. Nomenclature", "d. Taxonomy"],
-      answer: "c. Nomenclature"
-    },
-    {
-      year: "PMT/NEET-1990", 
-      question: "Which scientist made a major contribution to biological classification?",
-      options: ["a. Pasteur", "b. Oparin", "c. Darwin", "d. Linnaeus"],
-      answer: "d. Linnaeus"
-    },
-    {
-      year: "PMT/NEET-1991",
-      question: "The primary criterion for current classification of living organisms is based on:",
-      options: [
-        "a. Notochord presence or absence",
-        "b. External structural similarities", 
-        "c. Reproductive behaviors",
-        "d. Structural and functional features"
-      ],
-      answer: "d. Structural and functional features"
-    },
-    {
-      year: "PMT/NEET-1991",
-      question: "A key standard for contemporary classification includes:",
-      options: [
-        "a. morphological similarities",
-        "b. structural and functional characteristics",
-        "c. reproductive patterns", 
-        "d. notochord presence or absence"
-      ],
-      answer: "b. structural and functional characteristics"
-    },
-    {
-      year: "PMT/NEET-1992",
-      question: "Aristotle divided animals into two categories. Identify the correct one:",
-      options: [
-        "a. Vertebrate and invertebrate",
-        "b. Chordata and non-chordata",
-        "c. Protozoa and metazoa",
-        "d. Enaima and anaima"
-      ],
-      answer: "a. Vertebrate and invertebrate"
-    },
-    {
-      year: "PMT/NEET-1991, 1993",
-      question: "The book 'Systema Naturae' was authored by:",
-      options: ["a. Lamarck", "b. Cuvier", "c. Aristotle", "d. Linnaeus"],
-      answer: "d. Linnaeus"
-    },
-    {
-      year: "PMT/NEET-1994",
-      question: "The four-kingdom classification system was suggested by:",
-      options: ["a. Whittaker", "b. Copeland", "c. Haeckel", "d. Linnaeus"],
-      answer: "b. Copeland"
-    },
-    {
-      year: "PMT/NEET-1992, 1994",
-      question: "The taxonomic term 'phylum' for animal classification was introduced by:",
-      options: ["a. E. Haeckel", "b. John Ray", "c. G.L. Cuvier", "d. Carolus Linnaeus"],
-      answer: "c. G.L. Cuvier"
-    },
-    {
-      year: "PMT/NEET-1990, 1995",
-      question: "Linnaeus's plant classification was artificial since it relied on:",
-      options: [
-        "a. Limited morphological traits",
-        "b. Diverse evolutionary patterns",
-        "c. Adaptive anatomical features", 
-        "d. Combined physiological and structural traits"
-      ],
-      answer: "a. Limited morphological traits"
-    },
-    {
-      year: "PMT/NEET-1996",
-      question: "A taxon in animal classification refers to:",
-      options: [
-        "a. Group of identical species",
-        "b. Group of similar organisms", 
-        "c. Group of related genera",
-        "d. Group with same chromosome number"
-      ],
-      answer: "b. Group of similar organisms"
-    },
-    {
-      year: "PMT/NEET-1998",
-      question: "Classification based on evolutionary relationships and ancestry is termed:",
-      options: ["a. Natural system", "b. Analogous system", "c. Phylogenetic system", "d. Homologous system"],
-      answer: "c. Phylogenetic system"
-    },
-    {
-      year: "PMT/NEET-1998",
-      question: "'Systema Naturae' deals with:",
-      options: ["a. Solar system", "b. Ecosystem", "c. Biological classification", "d. Natural selection"],
-      answer: "c. Biological classification"
-    },
-    {
-      year: "PMT/NEET-1996, 1999",
-      question: "Classification considering multiple characteristics is called:",
-      options: ["a. Artificial system", "b. Synthetic system", "c. Natural system", "d. Phylogenetic system"],
-      answer: "c. Natural system"
-    },
-    {
-      year: "PMT/NEET-1999, 2000",
-      question: "Which taxonomic rank contains the most distantly related organisms?",
-      options: ["a. Class", "b. Genus", "c. Family", "d. Species"],
-      answer: "a. Class"
-    },
-    {
-      year: "PMT/NEET-2000, 2001, 2002",
-      question: "The fundamental unit of biological classification is:",
-      options: ["a. Genus", "b. Species", "c. Family", "d. Order"],
-      answer: "b. Species"
-    },
-    {
-      year: "PMT/NEET-2000, 2002",
-      question: "The field dealing with naming, identification and classification is:",
-      options: ["a. Ecology", "b. Taxonomy", "c. Morphology", "d. Physiology"],
-      answer: "b. Taxonomy"
-    },
-    {
-      year: "PMT/NEET-1988, 2004",
-      question: "Who suggested phylogenetic classification of plants?",
-      options: ["a. Linnaeus", "b. Hutchinson", "c. Bentham and Hooker", "d. Mehta"],
-      answer: "b. Hutchinson"
-    },
-    {
-      year: "PMT/NEET-2002, 2004",
-      question: "Who proposed natural plant classification?",
-      options: ["a. Carolus Linnaeus", "b. John Hutchinson", "c. Bentham and Hooker", "d. Oswald Tippo"],
-      answer: "c. Bentham and Hooker"
-    },
-    {
-      year: "PMT/NEET-1996, 1999, 2004",
-      question: "Linnaeus's plant classification system is:",
-      options: ["a. Artificial", "b. Natural", "c. Phylogenetic", "d. None of the above"],
-      answer: "a. Artificial"
-    },
-    {
-      year: "PMT/NEET-2014",
-      question: "R.H. Whittaker's five-kingdom system is not based on:",
-      options: ["a. nuclear organization", "b. reproductive methods", "c. nutritional modes", "d. organizational complexity"],
-      answer: "b. reproductive methods"
-    },
-    {
-      year: "PMT/NEET-2002",
-      question: "The primary basis of five-kingdom classification is:",
-      options: ["a. nuclear structure", "b. nutritional mode", "c. cell wall structure", "d. asexual reproduction"],
-      answer: "b. nutritional mode"
-    },
-    {
-      year: "PMT/NEET-2003",
-      question: "Archaea and nitrogen-fixing organisms belong to which kingdom in five-kingdom system?",
-      options: ["a. Plantae", "b. Fungi", "c. Protista", "d. Monera"],
-      answer: "d. Monera"
-    },
-    {
-      year: "PMT/NEET-1994, 1997, 2000",
-      question: "Non-nucleated unicellular organisms in Whittaker's classification belong to:",
-      options: ["a. Protista", "b. Monera", "c. Animalia", "d. Plantae"],
-      answer: "b. Monera"
-    },
-    {
-      year: "PMT/NEET-2012",
-      question: "In five-kingdom classification, Chlamydomonas and Chlorella are included in:",
-      options: ["a. protista", "b. algae", "c. plantae", "d. monera"],
-      answer: "a. protista"
-    },
-    {
-      year: "PMT/NEET-2012",
-      question: "Greatest nutritional diversity is found in:",
-      options: ["a. fungi", "b. animalia", "c. monera", "d. plantae"],
-      answer: "c. monera"
-    },
-    {
-      year: "PMT/NEET-2012",
-      question: "Which organism or pair is correctly assigned to its taxonomic group?",
-      options: [
-        "a. Paramecium and Plasmodium share kingdom with Penicillium",
-        "b. Lichen is algae-protozoan association",
-        "c. Bread and beer yeast is fungal",
-        "d. Nostoc and Anabaena are protists"
-      ],
-      answer: "c. Bread and beer yeast is fungal"
-    }
-  ]
-};
-</script><script>
-// NEET Chapter 2 Questions - Segment 2: TABLE 2.1 Characteristics of the Five Kingdoms (Pg. 11)
-
-questionData["11"]["2"].questions["11-11"] = [
-  {
-    year: "PMT/NEET-2005",
-    question: "Which kingdom includes organisms that are prokaryotic and unicellular?",
-    options: ["a. Monera", "b. Protista", "c. Fungi", "d. Plantae"],
-    answer: "a. Monera"
-  },
-  {
-    year: "PMT/NEET-2007",
-    question: "Which kingdom contains mostly multicellular and heterotrophic organisms?",
-    options: ["a. Protista", "b. Fungi", "c. Animalia", "d. Plantae"],
-    answer: "c. Animalia"
-  },
-  {
-    year: "PMT/NEET-2010",
-    question: "Which kingdom is characterized by organisms with chitin cell walls?",
-    options: ["a. Monera", "b. Fungi", "c. Plantae", "d. Protista"],
-    answer: "b. Fungi"
-  }
-  // Add more questions as needed for this section
-];
-</script>
-<script>
-// NEET Chapter 2 Questions - Segments 3 to 7
-
-// 3: 2.1 KINGDOM MONERA (Pg. 12)
-questionData["11"]["2"].questions["12-12"] = [
-  {
-    year: "PMT/NEET-2006",
-    question: "Monera kingdom includes which type of organisms?",
-    options: ["a. Unicellular Prokaryotes", "b. Multicellular Eukaryotes", "c. Fungi", "d. Protists"],
-    answer: "a. Unicellular Prokaryotes"
-  }
-];
-
-// 4: 2.1.1 Archaebacteria (Pg. 13)
-questionData["11"]["2"].questions["13-13"] = [
-  {
-    year: "PMT/NEET-2008",
-    question: "Archaebacteria are known for living in:",
-    options: ["a. Extreme environments", "b. Normal soil", "c. Freshwater only", "d. Plants"],
-    answer: "a. Extreme environments"
-  }
-];
-
-// 5: 2.2 KINGDOM PROTISTA (Pg. 14-15)
-questionData["11"]["2"].questions["14-15"] = [
-  {
-    year: "PMT/NEET-2011",
-    question: "Which of the following belong to kingdom Protista?",
-    options: ["a. Algae", "b. Fungi", "c. Bacteria", "d. Animals"],
-    answer: "a. Algae"
-  }
-];
-
-// 6: 2.3 KINGDOM FUNGI (Pg. 16-18)
-questionData["11"]["2"].questions["16-18"] = [
-  {
-    year: "PMT/NEET-2013",
-    question: "Fungi have cell walls made of:",
-    options: ["a. Cellulose", "b. Chitin", "c. Peptidoglycan", "d. Silica"],
-    answer: "b. Chitin"
-  }
-];
-
-// 7: 2.3.1 Phycomycetes (Pg. 17)
-questionData["11"]["2"].questions["17-17"] = [
-  {
-    year: "PMT/NEET-2015",
-    question: "Phycomycetes include fungi known as:",
-    options: ["a. Bread molds", "b. Yeasts", "c. Mushrooms", "d. Smuts"],
-    answer: "a. Bread molds"
-  }
-];
-
 </script>
 
 </body>
