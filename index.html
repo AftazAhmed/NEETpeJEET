@@ -296,13 +296,8 @@
       return;
     }
 
-    // Extract start page from section/page id (e.g. "10-12" => "10")
-    let startPage = sp.split('-')[0];
-    // Trim spaces for any unintended ones
-    startPage = startPage.trim();
-
-    // Fetch questions for the start page of the selected section
-    const questions = chapter.questions[startPage];
+    // Use full section/page id as key to fetch questions
+    const questions = chapter.questions[sp];
     if (!questions || questions.length === 0) {
       contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
       return;
@@ -333,9 +328,7 @@
     const c = document.getElementById('classSelect').value;
     const ch = document.getElementById('chapterSelect').value;
     const sp = document.getElementById('sectionSelect').value;
-    // Extract start page
-    let startPage = sp.split('-')[0].trim();
-    const q = questionData[c][ch].questions[startPage][i];
+    const q = questionData[c][ch].questions[sp][i];
     const text = `${q.year} - ${q.question}\n${q.options.join('\n')}`;
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(() => alert('Question copied to clipboard!'), fallbackCopy);
@@ -357,8 +350,7 @@
     const c = document.getElementById('classSelect').value;
     const ch = document.getElementById('chapterSelect').value;
     const sp = document.getElementById('sectionSelect').value;
-    let startPage = sp.split('-')[0].trim();
-    const q = questionData[c][ch].questions[startPage][i];
+    const q = questionData[c][ch].questions[sp][i];
     const prompt = `Please explain this NEET Biology question in detail:\n\n${q.year} - ${q.question}\n${q.options.join('\n')}\n\nCorrect Answer: ${q.answer}`;
     const url = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
     window.open(url, '_blank');
@@ -370,7 +362,9 @@
 
   // Placeholder for future chapter-wise question injections before </body>
 
-</script><script>
+</script>
+
+<script>
 // NEET Chapter 2 Questions - Segment 1: Evolution of Classification Systems
 
 questionData["11"]["2"].questions = {
@@ -564,7 +558,6 @@ questionData["11"]["2"].questions = {
   ]
 };
 </script>
-
 
 </body>
 </html>
