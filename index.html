@@ -359,7 +359,7 @@
 <div class="controls" role="region" aria-label="Filtering controls">
   <div class="dropdown-group">
     <label for="classSelect">Class:</label>
-    <select id="classSelect" aria-controls="chapterSelect sectionSelect" onchange="updateChapters()" aria-required="true">
+    <select id="classSelect" aria-controls="chapterSelect sectionSelect" aria-required="true">
       <option value="">Select Class</option>
       <option value="11">Class 11</option>
       <option value="12">Class 12</option>
@@ -367,13 +367,13 @@
   </div>
   <div class="dropdown-group">
     <label for="chapterSelect">Chapter:</label>
-    <select id="chapterSelect" aria-controls="sectionSelect" onchange="updateSections()" disabled aria-required="true">
+    <select id="chapterSelect" aria-controls="sectionSelect" aria-required="true" disabled>
       <option value="">Select Chapter</option>
     </select>
   </div>
   <div class="dropdown-group">
     <label for="sectionSelect">Section:</label>
-    <select id="sectionSelect" onchange="showQuestions()" disabled aria-required="true">
+    <select id="sectionSelect" aria-required="true" disabled>
       <option value="">Select Section</option>
     </select>
   </div>
@@ -390,23 +390,6 @@
 </main>
 
 <script>
-  const questionData = {
-    "11": {
-      "2": {
-        title: "Biological Classification",
-        sections: [
-          {id: "2.0", name: "Evolution of Classification Systems"},
-          {id: "2.1", name: "Kingdom Monera"},
-          {id: "2.2", name: "Kingdom Protista"},
-          {id: "2.3", name: "Kingdom Fungi"},
-          {id: "2.4", name: "Kingdom Plantae"},
-          {id: "2.5", name: "Kingdom Animalia"},
-          {id: "2.6", name: "Viruses, Viroids, Prions and Lichens"}
-        ],
-        questions: {}
-      }
-    }
-  };
   const chapterData = {
     "11": [
       {id:"1",name:"The Living World"},
@@ -446,9 +429,189 @@
     ]
   };
 
-  // Functions for interactive controls initialized here (updateChapters, updateSections, showQuestions, etc.)...
-  // For brevity, they are omitted here but same as your main program functions 
+  const questionData = {
+    "11": {
+      "2": {
+        title: "Biological Classification",
+        sections: [
+          {id: "2.0", name: "Evolution of Classification Systems"},
+          {id: "2.1", name: "Kingdom Monera"},
+          {id: "2.2", name: "Kingdom Protista"},
+          {id: "2.3", name: "Kingdom Fungi"},
+          {id: "2.4", name: "Kingdom Plantae"},
+          {id: "2.5", name: "Kingdom Animalia"},
+          {id: "2.6", name: "Viruses, Viroids, Prions and Lichens"}
+        ],
+        questions: {}
+      }
+    },
+    "12": {}
+  };
 
+  function clearContentAndScore() {
+    document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
+    updateScoreDisplay();
+  }
+
+  function updateScoreDisplay() {
+    const scoreCard = document.getElementById('scoreCard');
+    scoreCard.textContent = 'Section score: x / y';
+  }
+
+  function updateChapters() {
+    const classSelect = document.getElementById('classSelect');
+    const chapterSelect = document.getElementById('chapterSelect');
+    const sectionSelect = document.getElementById('sectionSelect');
+
+    chapterSelect.innerHTML = '<option value="">Select Chapter</option>';
+    sectionSelect.innerHTML = '<option value="">Select Section</option>';
+    sectionSelect.disabled = true;
+
+    if(classSelect.value) {
+      chapterSelect.disabled = false;
+      chapterData[classSelect.value].forEach(chap => {
+        let opt = document.createElement('option');
+        opt.value = chap.id;
+        opt.textContent = `Chapter ${chap.id}: ${chap.name}`;
+        chapterSelect.appendChild(opt);
+      });
+    } else {
+      chapterSelect.disabled = true;
+    }
+    clearContentAndScore();
+  }
+
+  function updateSections() {
+    const classSelect = document.getElementById('classSelect');
+    const chapterSelect = document.getElementById('chapterSelect');
+    const sectionSelect = document.getElementById('sectionSelect');
+
+    sectionSelect.innerHTML = '';
+    if(classSelect.value && chapterSelect.value) {
+      sectionSelect.disabled = false;
+      const chData = questionData[classSelect.value];
+      const ch = chData ? chData[chapterSelect.value] : null;
+      const sections = ch ? ch.sections : [];
+      sections.forEach(sec => {
+        let opt = document.createElement('option');
+        opt.value = sec.id;
+        opt.textContent = `${sec.id}: ${sec.name}`;
+        sectionSelect.appendChild(opt);
+      });
+    } else {
+      sectionSelect.disabled = true;
+      sectionSelect.innerHTML = '<option value="">Select Section</option>';
+    }
+    clearContentAndScore();
+  }
+
+  function showQuestions() {
+    const classSelect = document.getElementById('classSelect');
+    const chapterSelect = document.getElementById('chapterSelect');
+    const sectionSelect = document.getElementById('sectionSelect');
+    const contentArea = document.getElementById('contentArea');
+
+    if(!classSelect.value || !chapterSelect.value || !sectionSelect.value) {
+      contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
+      updateScoreDisplay();
+      return;
+    }
+
+    const classId = classSelect.value;
+    const chapId = chapterSelect.value;
+    const secId = sectionSelect.value;
+    const questions = questionData[classId][chapId]?.questions?.[secId] || [];
+
+    if(questions.length === 0) {
+      contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
+      updateScoreDisplay();
+      return;
+    }
+
+    contentArea.innerHTML = `<div class="question-count">No. of questions found: ${questions.length}</div>`;
+
+    let questionNumberStart = 1; // Start numbering at 1 for each section
+    questions.forEach((q, index) => {
+      const qNum = questionNumberStart + index;
+      const optionsHtml = q.options.map((opt, i) =>
+        `<div class="option" role="button" tabindex="0" data-qnum="${qNum}" data-index="${i}">${opt}</div>`
+      ).join('');
+
+      contentArea.innerHTML += `
+        <div class="question-item" id="question-item-${qNum}">
+          <div class="question-header">
+            <span class="question-number">Q${qNum}.</span>
+            <span class="question-year">${q.year}</span>
+          </div>
+          <div class="question-text">${q.question}</div>
+          <div class="options">${optionsHtml}</div>
+          <div class="button-group">
+            <button class="btn btn-answer" onclick="toggleAnswer(${qNum})" aria-expanded="false" aria-controls="answer-${qNum}">Answer</button>
+            <button class="btn btn-copy" onclick="copyQuestion(${qNum})">Copy Question</button>
+            <button class="btn btn-chatgpt" onclick="openChatGPT(${qNum})">ChatGPT Explain</button>
+          </div>
+          <div class="answer-reveal" id="answer-${qNum}"><strong>Answer:</strong> ${q.answer}</div>
+        </div>
+      `;
+    });
+    updateScoreDisplay();
+  }
+
+  document.getElementById('classSelect').addEventListener('change', updateChapters);
+  document.getElementById('chapterSelect').addEventListener('change', updateSections);
+  document.getElementById('sectionSelect').addEventListener('change', showQuestions);
+
+  // Placeholder functions for buttons (implement as needed)
+  function toggleAnswer(qNum) {
+    const answerDiv = document.getElementById(`answer-${qNum}`);
+    if(answerDiv.style.display === 'block') {
+      answerDiv.style.display = 'none';
+    } else {
+      answerDiv.style.display = 'block';
+    }
+  }
+  function copyQuestion(qNum) {
+    const questionText = document.querySelector(`#question-item-${qNum} .question-text`).innerText;
+    navigator.clipboard.writeText(questionText);
+  }
+  function openChatGPT(qNum) {
+    const questionText = document.querySelector(`#question-item-${qNum} .question-text`).innerText;
+    alert(`Explain question: ${questionText}`);
+  }
+</script>
+<script>
+(function() {
+  const c = "11";
+  const ch = "2";
+  const s = "2.0"; // Evolution of Classification Systems
+
+  const newQuestions = [
+    {year:"NEET/AIPMT 2004", question:"Which botanist proposed the classification of plants based on their evolutionary relationships?", options:["A) Oswald Tippo", "B) Hutchinson", "C) Bentham and Hooker", "D) Linnaeus"], answer:"B) Hutchinson"},
+    {year:"NEET/AIPMT 2003", question:"Under the five-kingdom classification, archaea and nitrogen-fixing bacteria belong to which kingdom?", options:["A) Protista", "B) Monera", "C) Plantae", "D) Fungi"], answer:"B) Monera"},
+    {year:"NEET/AIPMT 2002", question:"The main criterion used in the five-kingdom system of classification is?", options:["A) Cell wall structure", "B) Mode of nutrition", "C) Reproduction mechanism", "D) DNA arrangement"], answer:"B) Mode of nutrition"},
+    {year:"NEET/AIPMT 2002", question:"The scientific study that includes classification, naming, and identification is called?", options:["A) Ecology", "B) Morphology", "C) Taxonomy", "D) Physiology"], answer:"C) Taxonomy"},
+    {year:"NEET/AIPMT 2000", question:"In Whittaker’s five-kingdom classification, non-nucleated unicellular organisms are included in?", options:["A) Protista", "B) Monera", "C) Animalia", "D) Plantae"], answer:"B) Monera"},
+    {year:"NEET/AIPMT 1999", question:"Classification considering many characters together is called?", options:["A) Artificial system", "B) Natural system", "C) Synthetic system", "D) Phylogenetic system"], answer:"B) Natural system"},
+    {year:"NEET/AIPMT 1998", question:"The book “Systema Naturae” primarily deals with?", options:["A) Solar system", "B) Ecosystem", "C) Classification of living organisms", "D) Natural selection"], answer:"C) Classification of living organisms"},
+    {year:"NEET/AIPMT 1998", question:"Which classification method arranges organisms based on their evolutionary ancestry?", options:["A) Analogous system", "B) Phylogenetic system", "C) Natural system", "D) Homologous system"], answer:"B) Phylogenetic system"},
+    {year:"NEET/AIPMT 1998", question:"Blue-green algae and methanogenic archaebacteria fall under which kingdom in Whittaker’s system?", options:["A) Plantae", "B) Fungi", "C) Monera", "D) Protista"], answer:"C) Monera"},
+    {year:"NEET/AIPMT 1996", question:"In taxonomy, what is the best definition of 'taxon'?", options:["A) Species group", "B) Family level", "C) A group comprising similar organisms", "D) Genus level"], answer:"C) A group comprising similar organisms"},
+    {year:"NEET/AIPMT 1995", question:"Linnaeus' classification is termed artificial because it mainly relies on what?", options:["A) Only morphological features", "B) Physiological features", "C) Breeding habits", "D) Gene sequences"], answer:"A) Only morphological features"},
+    {year:"NEET/AIPMT 1994", question:"Who introduced the term ‘phylum’ for animal groups?", options:["A) John Ray", "B) E. Haeckel", "C) Carolus Linnaeus", "D) G. L. Cuvier"], answer:"D) G. L. Cuvier"},
+    {year:"NEET/AIPMT 1994", question:"Who proposed the four-kingdom classification system?", options:["A) Copeland", "B) Whittaker", "C) Linnaeus", "D) Haeckel"], answer:"A) Copeland"},
+    {year:"NEET/AIPMT 1993", question:"“Systema Naturae” was authored by which scientist?", options:["A) Cuvier", "B) Lamarck", "C) Linnaeus", "D) Aristotle"], answer:"C) Linnaeus"},
+    {year:"NEET/AIPMT 1992", question:"Aristotle classified animals into which two groups?", options:["A) Protozoa and Metazoa", "B) Vertebrates and Invertebrates", "C) Chordata and Non-chordata", "D) Enaima and Anaima"], answer:"D) Enaima and Anaima"},
+    {year:"NEET/AIPMT 1990", question:"Which scientist made significant contributions to classification?", options:["A) Pasteur", "B) Linnaeus", "C) Darwin", "D) Oparin"], answer:"B) Linnaeus"}
+  ];
+
+  if(typeof window.questionData === "undefined") window.questionData = {};
+  if(!questionData[c]) questionData[c] = {};
+  if(!questionData[c][ch]) questionData[c][ch] = {title:"Biological Classification", sections: [], questions:{}};
+  if(!questionData[c][ch].questions) questionData[c][ch].questions = {};
+  if(!questionData[c][ch].questions[s]) questionData[c][ch].questions[s] = [];
+
+  questionData[c][ch].questions[s] = questionData[c][ch].questions[s].concat(newQuestions);
+})();
 </script>
 
 </body>
