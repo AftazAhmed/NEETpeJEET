@@ -272,6 +272,9 @@
     font-size: 15px;
     color: #f0f0f0;
     transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
   .btn-answer {
     background-color: #198754;
@@ -290,6 +293,33 @@
   }
   .btn-chatgpt:hover {
     background-color: #cc0000;
+  }
+  .btn-book {
+    background-color: #28a745;
+    position: relative;
+  }
+  .btn-book:hover {
+    background-color: #1e7e34;
+  }
+  .book-icon {
+    width: 16px;
+    height: 16px;
+    position: relative;
+    display: inline-block;
+  }
+  .book-icon::before {
+    content: "📖";
+    font-size: 14px;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .book-icon::after {
+    content: "🔍";
+    font-size: 10px;
+    position: absolute;
+    right: -2px;
+    top: -2px;
   }
   .answer-reveal {
     display: none;
@@ -1052,6 +1082,10 @@
           <button class="btn btn-answer" onclick="toggleAnswer(${qNum})" aria-expanded="false" aria-controls="answer-${qNum}">Answer</button>
           <button class="btn btn-copy" onclick="copyQuestion(${qNum})">Copy Question</button>
           <button class="btn btn-chatgpt" onclick="openChatGPT(${qNum})">ChatGPT Explain</button>
+          <button class="btn btn-book" onclick="openBookHighlighter(${qNum})">
+            <span class="book-icon"></span>
+            Book Highlighter
+          </button>
         </div>
         <div class="answer-reveal" id="answer-${qNum}"><strong>Answer:</strong> ${q.answer}</div>
       </div>`;
@@ -1156,6 +1190,30 @@
     window.open(`https://chat.openai.com/?q=${query}`, '_blank');
   }
 
+  function openBookHighlighter(qNum) {
+    const questionText = document.querySelector(`#question-item-${qNum} .question-text`).innerText;
+    const options = Array.from(document.querySelectorAll(`#question-item-${qNum} .option`)).map(opt => opt.innerText).join(' ');
+    
+    const hiddenPrompt = `Find the exact reference in NCERT Biology textbook reprint 2025-26 for this NEET question: "${questionText} ${options}". 
+
+Please provide in this exact format:
+1. **Page Number**: [exact page number]
+2. **Line Number**: [specific line range, e.g., lines 5-8]
+3. **Chapter/Section**: [exact chapter and section name]
+4. **Exact Text**: [verbatim text from the NCERT book that relates to this concept]
+5. **Concept**: [the biological concept being tested]
+
+Search comprehensively through Class 11 and Class 12 NCERT Biology textbooks (2025-26 reprint).
+
+**Important**: If the exact reference cannot be found in the NCERT textbook, then respond with:
+"The reference couldn't be found in the NCERT textbook, however it is found in other sources" and then provide a brief explanation of the topic/concept of the question.
+
+Format your response clearly with the 5 numbered points above.`;
+
+    const encodedPrompt = encodeURIComponent(hiddenPrompt);
+    window.open(`https://gemini.google.com/app?q=${encodedPrompt}`, '_blank');
+  }
+
   // Reset button functionality
   document.getElementById('resetChapterBtn').addEventListener('click', function() {
     const classSelect = document.getElementById('classSelect');
@@ -1166,6 +1224,7 @@
     }
   });
 </script>
+
 <script>
 (function() {
   const c = "11";
