@@ -214,6 +214,8 @@
     box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
     transition: background-color 0.3s, border-color 0.3s, color 0.3s;
     user-select: none;
+    position: relative;
+    overflow: visible;
   }
   .option:hover:not(.disabled) {
     background-color: #dceddb;
@@ -228,6 +230,37 @@
     background-color: rgba(220, 53, 69, 0.15);
     border-color: rgba(220, 53, 69, 0.3);
     color: #b02a37;
+  }
+  .answer-popup {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    opacity: 0.95;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 900;
+    border-radius: 6px;
+    z-index: 5;
+    pointer-events: none;
+    animation: popup-fade 1.2s forwards;
+  }
+  .answer-popup.correct {
+    background-color: rgba(25, 135, 84, 0.25);
+    color: #18763b;
+  }
+  .answer-popup.incorrect {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #b02a37;
+  }
+  @keyframes popup-fade {
+    0% { opacity: 0; }
+    10% { opacity: 1;}
+    80% { opacity: 0.95;}
+    100% { opacity: 0; }
   }
   .button-group {
     display: flex;
@@ -279,26 +312,7 @@
     box-shadow: 0 3px 14px rgba(59,130,246,0.5);
   }
   .tick-cross-popup {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    font-size: 24px;
-    font-weight: 900;
-    padding: 4px 10px;
-    border-radius: 12px;
-    color: #fff;
-    user-select: none;
-    opacity: 0.95;
-    pointer-events: none;
     display: none;
-    transition: opacity 0.4s ease-out;
-    z-index: 10;
-  }
-  .tick-cross-popup.correct {
-    background-color: #198754;
-  }
-  .tick-cross-popup.incorrect {
-    background-color: #dc3545;
   }
   .no-questions {
     text-align: center;
@@ -462,9 +476,25 @@
     ]
   };
 
+  // Use localStorage for persistent scores
   let cumulativeScores = {};
   let answeredQuestionsByChapter = {};
   let answeredQuestionsByPage = {};
+
+  function saveScores() {
+    localStorage.setItem('cumulativeScores', JSON.stringify(cumulativeScores));
+    localStorage.setItem('answeredQuestionsByChapter', JSON.stringify(answeredQuestionsByChapter));
+    localStorage.setItem('answeredQuestionsByPage', JSON.stringify(answeredQuestionsByPage));
+  }
+  function loadScores() {
+    const cs = localStorage.getItem('cumulativeScores');
+    const aqbc = localStorage.getItem('answeredQuestionsByChapter');
+    const aqbp = localStorage.getItem('answeredQuestionsByPage');
+    cumulativeScores = cs ? JSON.parse(cs) : {};
+    answeredQuestionsByChapter = aqbc ? JSON.parse(aqbc) : {};
+    answeredQuestionsByPage = aqbp ? JSON.parse(aqbp) : {};
+  }
+  loadScores();
 
   function getScore(classId, chapterId) {
     if (cumulativeScores[classId] && cumulativeScores[classId][chapterId]) {
@@ -483,6 +513,7 @@
     } else {
       cumulativeScores[classId][chapterId].total = totalQuestions;
     }
+    saveScores();
   }
 
   function resetAllChapterScores(classId) {
@@ -496,6 +527,7 @@
       });
     }
     answeredQuestionsByPage = {};
+    saveScores();
   }
 
   function markQuestionAnswered(classId, chapterId, pageKey, questionKey, correct) {
@@ -525,6 +557,7 @@
         }
       }
     }
+    saveScores();
   }
 
   function updateChapters() {
@@ -666,7 +699,6 @@
           <button class="btn btn-chatgpt" onclick="openChatGPT(${qNum})">ChatGPT Explain</button>
         </div>
         <div class="answer-reveal" id="answer-${qNum}"><strong>Answer:</strong> ${q.answer}</div>
-        <div class="tick-cross-popup" id="popup-${qNum}"></div>
       </div>`;
     });
     contentArea.innerHTML = html;
@@ -710,22 +742,19 @@
 
     markQuestionAnswered(classId, chapterId, pageKey, questionKey, isCorrect);
 
-    const popup = document.getElementById(`popup-${qNum}`);
-    popup.textContent = isCorrect ? '✓' : '✗';
-    popup.classList.remove('correct', 'incorrect');
-    popup.classList.add(isCorrect ? 'correct' : 'incorrect');
-    popup.style.display = 'block';
-    popup.style.opacity = '1';
+    // Remove any previous popup div
+    let popup = selectedOption.querySelector('.answer-popup');
+    if (popup) popup.remove();
 
-    selectedOption.classList.add(isCorrect ? 'option.correct-temp' : 'option.incorrect-temp');
+    popup = document.createElement('div');
+    popup.className = "answer-popup " + (isCorrect ? "correct" : "incorrect");
+    popup.innerText = isCorrect ? "✓" : "✗";
+    selectedOption.appendChild(popup);
 
     setTimeout(() => {
-      popup.style.opacity = '0';
-    }, 1200);
-    setTimeout(() => {
-      popup.style.display = 'none';
+      if (popup) popup.remove();
       selectedOption.classList.remove('option.correct-temp', 'option.incorrect-temp');
-    }, 1600);
+    }, 1200);
 
     updateScoreDisplay();
   }
@@ -805,6 +834,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     updateChapters();
+    updateScoreDisplay();
   });
 </script>
 
