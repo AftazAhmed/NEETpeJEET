@@ -1141,11 +1141,8 @@
 
   function copyQuestion(qNum) {
     const questionText = document.querySelector(`#question-item-${qNum} .question-text`).innerText;
-    const options = Array.from(document.querySelectorAll(`#question-item-${qNum} .option`)).map(opt => opt.innerText).join('
-');
-    const fullText = questionText + '
-
-' + options;
+    const options = Array.from(document.querySelectorAll(`#question-item-${qNum} .option`)).map(opt => opt.innerText).join('\n');
+    const fullText = questionText + '\n\n' + options;
     
     navigator.clipboard.writeText(fullText).then(() => {
       // Optional: Show a brief "Copied!" message
@@ -1204,5 +1201,6 @@
 
 })();
 </script>
+
 </body>
 </html>
