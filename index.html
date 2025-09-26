@@ -231,6 +231,10 @@
     border-color: rgba(220, 53, 69, 0.3);
     color: #b02a37;
   }
+  .option.disabled {
+    cursor: default;
+    opacity: 0.8;
+  }
   .answer-popup {
     position: absolute;
     left: 0;
@@ -359,7 +363,7 @@
 <div class="controls" role="region" aria-label="Filtering controls">
   <div class="dropdown-group">
     <label for="classSelect">Class:</label>
-    <select id="classSelect" aria-controls="chapterSelect sectionSelect" aria-required="true">
+    <select id="classSelect" aria-controls="chapterSelect sectionSelect" onchange="updateChapters()" aria-required="true">
       <option value="">Select Class</option>
       <option value="11">Class 11</option>
       <option value="12">Class 12</option>
@@ -367,13 +371,13 @@
   </div>
   <div class="dropdown-group">
     <label for="chapterSelect">Chapter:</label>
-    <select id="chapterSelect" aria-controls="sectionSelect" aria-required="true" disabled>
+    <select id="chapterSelect" aria-controls="sectionSelect" onchange="updateSections()" disabled aria-required="true">
       <option value="">Select Chapter</option>
     </select>
   </div>
   <div class="dropdown-group">
     <label for="sectionSelect">Section:</label>
-    <select id="sectionSelect" aria-required="true" disabled>
+    <select id="sectionSelect" onchange="showQuestions()" disabled aria-required="true">
       <option value="">Select Section</option>
     </select>
   </div>
@@ -390,6 +394,405 @@
 </main>
 
 <script>
+  const questionData = {
+    "11": {
+      "1": {
+        title: "The Living World", 
+        sections: [
+          {id: "1.0", name: "Introduction to Biology and Living Organisms"},
+          {id: "1.1", name: "Diversity in the Living World"},
+          {id: "1.2", name: "Taxonomic Categories"}
+        ], 
+        questions: {}
+      },
+      "2": {
+        title: "Biological Classification", 
+        sections: [
+          {id: "2.0", name: "Evolution of Classification Systems"},
+          {id: "2.1", name: "Kingdom Monera"},
+          {id: "2.2", name: "Kingdom Protista"},
+          {id: "2.3", name: "Kingdom Fungi"},
+          {id: "2.4", name: "Kingdom Plantae"},
+          {id: "2.5", name: "Kingdom Animalia"},
+          {id: "2.6", name: "Viruses, Viroids, Prions and Lichens"}
+        ], 
+        questions: {}
+      },
+      "3": {
+        title: "Plant Kingdom", 
+        sections: [
+          {id: "3.0", name: "Understanding Plant Kingdom and Classification Systems"},
+          {id: "3.1", name: "Algae"},
+          {id: "3.2", name: "Bryophytes"},
+          {id: "3.3", name: "Pteridophytes"},
+          {id: "3.4", name: "Gymnosperms"},
+          {id: "3.5", name: "Angiosperms"}
+        ], 
+        questions: {}
+      },
+      "4": {
+        title: "Animal Kingdom", 
+        sections: [
+          {id: "4.0", name: "Animal Diversity and Classification Basis"},
+          {id: "4.1", name: "Basis of Classification"},
+          {id: "4.2", name: "Classification of Animals"}
+        ], 
+        questions: {}
+      },
+      "5": {
+        title: "Morphology of Flowering Plants", 
+        sections: [
+          {id: "5.0", name: "External Structure and Variations in Plants"},
+          {id: "5.1", name: "The Root"},
+          {id: "5.2", name: "The Stem"},
+          {id: "5.3", name: "The Leaf"},
+          {id: "5.4", name: "The Inflorescence"},
+          {id: "5.5", name: "The Flower"},
+          {id: "5.6", name: "The Fruit"},
+          {id: "5.7", name: "The Seed"},
+          {id: "5.8", name: "Semi-technical Description of a Typical Flowering Plant"},
+          {id: "5.9", name: "Description of Some Important Families"}
+        ], 
+        questions: {}
+      },
+      "6": {
+        title: "Anatomy of Flowering Plants", 
+        sections: [
+          {id: "6.0", name: "Internal Structure and Functional Organisation"},
+          {id: "6.1", name: "The Tissue System"},
+          {id: "6.2", name: "Anatomy of Dicotyledonous and Monocotyledonous Plants"}
+        ], 
+        questions: {}
+      },
+      "7": {
+        title: "Structural Organisation in Animals", 
+        sections: [
+          {id: "7.0", name: "Multicellular Organisation and Organ Systems"},
+          {id: "7.1", name: "Organ and Organ System"},
+          {id: "7.2", name: "Frogs"}
+        ], 
+        questions: {}
+      },
+      "8": {
+        title: "Cell - The Unit of Life", 
+        sections: [
+          {id: "8.0", name: "Cell Theory and Cellular Organisation"},
+          {id: "8.1", name: "What is a Cell?"},
+          {id: "8.2", name: "Cell Theory"},
+          {id: "8.3", name: "An Overview of Cell"},
+          {id: "8.4", name: "Prokaryotic Cells"},
+          {id: "8.5", name: "Eukaryotic Cells"}
+        ], 
+        questions: {}
+      },
+      "9": {
+        title: "Biomolecules", 
+        sections: [
+          {id: "9.0", name: "Chemical Composition of Living Organisms"},
+          {id: "9.1", name: "How to Analyse Chemical Composition?"},
+          {id: "9.2", name: "Primary and Secondary Metabolites"},
+          {id: "9.3", name: "Biomacromolecules"},
+          {id: "9.4", name: "Proteins"},
+          {id: "9.5", name: "Polysaccharides"},
+          {id: "9.6", name: "Nucleic Acids"},
+          {id: "9.7", name: "Structure of Proteins"},
+          {id: "9.8", name: "Enzymes"}
+        ], 
+        questions: {}
+      },
+      "10": {
+        title: "Cell Cycle and Cell Division", 
+        sections: [
+          {id: "10.0", name: "Cell Growth and Reproduction"},
+          {id: "10.1", name: "Cell Cycle"},
+          {id: "10.2", name: "M Phase"},
+          {id: "10.3", name: "Significance of Mitosis"},
+          {id: "10.4", name: "Meiosis"},
+          {id: "10.5", name: "Significance of Meiosis"}
+        ], 
+        questions: {}
+      },
+      "11": {
+        title: "Photosynthesis in Higher Plants", 
+        sections: [
+          {id: "11.0", name: "Plant Metabolism and Energy Conversion"},
+          {id: "11.1", name: "What do we Know?"},
+          {id: "11.2", name: "Early Experiments"},
+          {id: "11.3", name: "Where does Photosynthesis take place?"},
+          {id: "11.4", name: "How many Pigments are involved in Photosynthesis?"},
+          {id: "11.5", name: "What is Light Reaction?"},
+          {id: "11.6", name: "The Electron Transport"},
+          {id: "11.7", name: "Where are the ATP and NADPH Used?"},
+          {id: "11.8", name: "The C₄ Pathway"},
+          {id: "11.9", name: "Photorespiration"},
+          {id: "11.10", name: "Factors affecting Photosynthesis"}
+        ], 
+        questions: {}
+      },
+      "12": {
+        title: "Respiration in Plants", 
+        sections: [
+          {id: "12.0", name: "Energy Requirements in Living Organisms"},
+          {id: "12.1", name: "Do Plants Breathe?"},
+          {id: "12.2", name: "Glycolysis"},
+          {id: "12.3", name: "Fermentation"},
+          {id: "12.4", name: "Aerobic Respiration"},
+          {id: "12.5", name: "The Respiratory Balance Sheet"},
+          {id: "12.6", name: "Amphibolic Pathway"},
+          {id: "12.7", name: "Respiratory Quotient"}
+        ], 
+        questions: {}
+      },
+      "13": {
+        title: "Plant Growth and Development", 
+        sections: [
+          {id: "13.0", name: "Growth Patterns and Development in Plants"},
+          {id: "13.1", name: "Growth"},
+          {id: "13.2", name: "Differentiation, Dedifferentiation and Redifferentiation"},
+          {id: "13.3", name: "Development"},
+          {id: "13.4", name: "Plant Growth Regulators"}
+        ], 
+        questions: {}
+      },
+      "14": {
+        title: "Breathing and Exchange of Gases", 
+        sections: [
+          {id: "14.0", name: "Coordination and Homeostasis in Human Body"},
+          {id: "14.1", name: "Respiratory Organs"},
+          {id: "14.2", name: "Mechanism of Breathing"},
+          {id: "14.3", name: "Exchange of Gases"},
+          {id: "14.4", name: "Transport of Gases"},
+          {id: "14.5", name: "Regulation of Respiration"},
+          {id: "14.6", name: "Disorders of Respiratory System"}
+        ], 
+        questions: {}
+      },
+      "15": {
+        title: "Body Fluids and Circulation", 
+        sections: [
+          {id: "15.0", name: "Transport of Materials in Living Organisms"},
+          {id: "15.1", name: "Blood"},
+          {id: "15.2", name: "Lymph (Tissue Fluid)"},
+          {id: "15.3", name: "Circulatory Pathways"},
+          {id: "15.4", name: "Double Circulation"},
+          {id: "15.5", name: "Regulation of Cardiac Activity"},
+          {id: "15.6", name: "Disorders of Circulatory System"}
+        ], 
+        questions: {}
+      },
+      "16": {
+        title: "Excretory Products and their Elimination", 
+        sections: [
+          {id: "16.0", name: "Waste Removal and Homeostasis"},
+          {id: "16.1", name: "Human Excretory System"},
+          {id: "16.2", name: "Urine Formation"},
+          {id: "16.3", name: "Function of the Tubules"},
+          {id: "16.4", name: "Mechanism of Concentration of the Filtrate"},
+          {id: "16.5", name: "Regulation of Kidney Function"},
+          {id: "16.6", name: "Micturition"},
+          {id: "16.7", name: "Role of other Organs in Excretion"},
+          {id: "16.8", name: "Disorders of the Excretory System"}
+        ], 
+        questions: {}
+      },
+      "17": {
+        title: "Locomotion and Movement", 
+        sections: [
+          {id: "17.0", name: "Movement as a Characteristic of Life"},
+          {id: "17.1", name: "Types of Movement"},
+          {id: "17.2", name: "Muscle"},
+          {id: "17.3", name: "Skeletal System"},
+          {id: "17.4", name: "Joints"},
+          {id: "17.5", name: "Disorders of Muscular and Skeletal System"}
+        ], 
+        questions: {}
+      },
+      "18": {
+        title: "Neural Control and Coordination", 
+        sections: [
+          {id: "18.0", name: "Coordination and Integration in Multicellular Organisms"},
+          {id: "18.1", name: "Neural System"},
+          {id: "18.2", name: "Human Neural System"},
+          {id: "18.3", name: "Neuron as Structural and Functional Unit of Neural System"},
+          {id: "18.4", name: "Central Neural System"}
+        ], 
+        questions: {}
+      },
+      "19": {
+        title: "Chemical Coordination and Integration", 
+        sections: [
+          {id: "19.0", name: "Endocrine System and Hormonal Coordination"},
+          {id: "19.1", name: "Endocrine Glands and Hormones"},
+          {id: "19.2", name: "Human Endocrine System"},
+          {id: "19.3", name: "Hormones of Heart, Kidney and Gastrointestinal Tract"},
+          {id: "19.4", name: "Mechanism of Hormone Action"}
+        ], 
+        questions: {}
+      }
+    },
+    "12": {
+      "1": {
+        title: "Sexual Reproduction in Flowering Plants", 
+        sections: [
+          {id: "1.0", name: "Reproduction as a Vital Life Process"},
+          {id: "1.1", name: "Flower - A Fascinating Organ of Angiosperms"},
+          {id: "1.2", name: "Pre-fertilisation: Structures and Events"},
+          {id: "1.3", name: "Double Fertilisation"},
+          {id: "1.4", name: "Post-fertilisation: Structures and Events"},
+          {id: "1.5", name: "Apomixis and Polyembryony"}
+        ], 
+        questions: {}
+      },
+      "2": {
+        title: "Human Reproduction", 
+        sections: [
+          {id: "2.0", name: "Sexual Reproduction in Humans"},
+          {id: "2.1", name: "The Male Reproductive System"},
+          {id: "2.2", name: "The Female Reproductive System"},
+          {id: "2.3", name: "Gametogenesis"},
+          {id: "2.4", name: "Menstrual Cycle"},
+          {id: "2.5", name: "Fertilisation and Implantation"},
+          {id: "2.6", name: "Pregnancy and Embryonic Development"},
+          {id: "2.7", name: "Parturition and Lactation"}
+        ], 
+        questions: {}
+      },
+      "3": {
+        title: "Reproductive Health", 
+        sections: [
+          {id: "3.0", name: "Reproductive Health and Well-being"},
+          {id: "3.1", name: "Reproductive Health – Problems and Strategies"},
+          {id: "3.2", name: "Population Stabilisation and Birth Control"},
+          {id: "3.3", name: "Medical Termination of Pregnancy"},
+          {id: "3.4", name: "Sexually Transmitted Infections (STIs)"},
+          {id: "3.5", name: "Infertility"}
+        ], 
+        questions: {}
+      },
+      "4": {
+        title: "Principles of Inheritance and Variation", 
+        sections: [
+          {id: "4.0", name: "Heredity and Genetic Basis of Inheritance"},
+          {id: "4.1", name: "Mendel's Laws of Inheritance"},
+          {id: "4.2", name: "Inheritance of One Gene"},
+          {id: "4.3", name: "Inheritance of Two Genes"},
+          {id: "4.4", name: "Sex Determination"},
+          {id: "4.5", name: "Mutation"},
+          {id: "4.6", name: "Genetic Disorders"}
+        ], 
+        questions: {}
+      },
+      "5": {
+        title: "Molecular Basis of Inheritance", 
+        sections: [
+          {id: "5.0", name: "Genetic Material and Molecular Biology"},
+          {id: "5.1", name: "The DNA"},
+          {id: "5.2", name: "The Search for Genetic Material"},
+          {id: "5.3", name: "RNA World"},
+          {id: "5.4", name: "Replication"},
+          {id: "5.5", name: "Transcription"},
+          {id: "5.6", name: "Genetic Code"},
+          {id: "5.7", name: "Translation"},
+          {id: "5.8", name: "Regulation of Gene Expression"},
+          {id: "5.9", name: "Human Genome Project"},
+          {id: "5.10", name: "DNA Fingerprinting"}
+        ], 
+        questions: {}
+      },
+      "6": {
+        title: "Evolution", 
+        sections: [
+          {id: "6.0", name: "History of Life Forms and Evolutionary Biology"},
+          {id: "6.1", name: "Origin of Life"},
+          {id: "6.2", name: "Evolution of Life Forms – A Theory"},
+          {id: "6.3", name: "What are the Evidences for Evolution?"},
+          {id: "6.4", name: "What is Adaptive Radiation?"},
+          {id: "6.5", name: "Biological Evolution"},
+          {id: "6.6", name: "Mechanism of Evolution"},
+          {id: "6.7", name: "Hardy-Weinberg Principle"},
+          {id: "6.8", name: "A Brief Account of Evolution"},
+          {id: "6.9", name: "Origin and Evolution of Man"}
+        ], 
+        questions: {}
+      },
+      "7": {
+        title: "Human Health and Disease", 
+        sections: [
+          {id: "7.0", name: "Biology and Human Welfare Applications"},
+          {id: "7.1", name: "Common Diseases in Humans"},
+          {id: "7.2", name: "Immunity"},
+          {id: "7.3", name: "AIDS"},
+          {id: "7.4", name: "Cancer"},
+          {id: "7.5", name: "Drugs and Alcohol Abuse"}
+        ], 
+        questions: {}
+      },
+      "8": {
+        title: "Microbes in Human Welfare", 
+        sections: [
+          {id: "8.0", name: "Microbial Diversity and Applications"},
+          {id: "8.1", name: "Microbes in Household Products"},
+          {id: "8.2", name: "Microbes in Industrial Products"},
+          {id: "8.3", name: "Microbes in Sewage Treatment"},
+          {id: "8.4", name: "Microbes in Production of Biogas"},
+          {id: "8.5", name: "Microbes as Biocontrol Agents"},
+          {id: "8.6", name: "Microbes as Biofertilisers"}
+        ], 
+        questions: {}
+      },
+      "9": {
+        title: "Biotechnology - Principles and Processes", 
+        sections: [
+          {id: "9.0", name: "Biotechnology and Genetic Engineering"},
+          {id: "9.1", name: "Principles of Biotechnology"},
+          {id: "9.2", name: "Tools of Recombinant DNA Technology"},
+          {id: "9.3", name: "Processes of Recombinant DNA Technology"}
+        ], 
+        questions: {}
+      },
+      "10": {
+        title: "Biotechnology and its Applications", 
+        sections: [
+          {id: "10.0", name: "Biotechnology Applications and Human Welfare"},
+          {id: "10.1", name: "Biotechnological Applications in Agriculture"},
+          {id: "10.2", name: "Biotechnological Applications in Medicine"},
+          {id: "10.3", name: "Transgenic Animals"},
+          {id: "10.4", name: "Ethical Issues"}
+        ], 
+        questions: {}
+      },
+      "11": {
+        title: "Organisms and Populations", 
+        sections: [
+          {id: "11.0", name: "Ecological Perspective and Biological Understanding"},
+          {id: "11.1", name: "Populations"}
+        ], 
+        questions: {}
+      },
+      "12": {
+        title: "Ecosystem", 
+        sections: [
+          {id: "12.0", name: "Ecosystem as a Functional Unit of Nature"},
+          {id: "12.1", name: "Ecosystem – Structure and Function"},
+          {id: "12.2", name: "Productivity"},
+          {id: "12.3", name: "Decomposition"},
+          {id: "12.4", name: "Energy Flow"},
+          {id: "12.5", name: "Ecological Pyramids"}
+        ], 
+        questions: {}
+      },
+      "13": {
+        title: "Biodiversity and Conservation", 
+        sections: [
+          {id: "13.0", name: "Life's Diversity and Conservation Challenges"},
+          {id: "13.1", name: "Biodiversity"},
+          {id: "13.2", name: "Biodiversity Conservation"}
+        ], 
+        questions: {}
+      }
+    }
+  };
+
   const chapterData = {
     "11": [
       {id:"1",name:"The Living World"},
@@ -429,48 +832,102 @@
     ]
   };
 
-  const questionData = {
-    "11": {
-      "2": {
-        title: "Biological Classification",
-        sections: [
-          {id: "2.0", name: "Evolution of Classification Systems"},
-          {id: "2.1", name: "Kingdom Monera"},
-          {id: "2.2", name: "Kingdom Protista"},
-          {id: "2.3", name: "Kingdom Fungi"},
-          {id: "2.4", name: "Kingdom Plantae"},
-          {id: "2.5", name: "Kingdom Animalia"},
-          {id: "2.6", name: "Viruses, Viroids, Prions and Lichens"}
-        ],
-        questions: {}
-      }
-    },
-    "12": {}
-  };
+  // Use localStorage for persistent scores
+  let cumulativeScores = {};
+  let answeredQuestionsByChapter = {};
+  let answeredQuestionsBySection = {};
 
-  function clearContentAndScore() {
-    document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
-    updateScoreDisplay();
+  function saveScores() {
+    localStorage.setItem('cumulativeScores', JSON.stringify(cumulativeScores));
+    localStorage.setItem('answeredQuestionsByChapter', JSON.stringify(answeredQuestionsByChapter));
+    localStorage.setItem('answeredQuestionsBySection', JSON.stringify(answeredQuestionsBySection));
+  }
+  function loadScores() {
+    const cs = localStorage.getItem('cumulativeScores');
+    const aqbc = localStorage.getItem('answeredQuestionsByChapter');
+    const aqbs = localStorage.getItem('answeredQuestionsBySection');
+    cumulativeScores = cs ? JSON.parse(cs) : {};
+    answeredQuestionsByChapter = aqbc ? JSON.parse(aqbc) : {};
+    answeredQuestionsBySection = aqbs ? JSON.parse(aqbs) : {};
+  }
+  loadScores();
+
+  function getScore(classId, chapterId) {
+    if (cumulativeScores[classId] && cumulativeScores[classId][chapterId]) {
+      return cumulativeScores[classId][chapterId];
+    }
+    return null;
   }
 
-  function updateScoreDisplay() {
-    const scoreCard = document.getElementById('scoreCard');
-    scoreCard.textContent = 'Section score: x / y';
+  function initScore(classId, chapterId, totalQuestions) {
+    if (!cumulativeScores[classId]) cumulativeScores[classId] = {};
+    if (!cumulativeScores[classId][chapterId]) {
+      cumulativeScores[classId][chapterId] = {
+        correct: 0,
+        total: totalQuestions
+      };
+    } else {
+      cumulativeScores[classId][chapterId].total = totalQuestions;
+    }
+    saveScores();
+  }
+
+  function resetAllChapterScores(classId) {
+    if (!cumulativeScores[classId]) return;
+    Object.keys(cumulativeScores[classId]).forEach(chapId => {
+      cumulativeScores[classId][chapId].correct = 0;
+    });
+    if (answeredQuestionsByChapter[classId]) {
+      Object.keys(answeredQuestionsByChapter[classId]).forEach(chapId => {
+        answeredQuestionsByChapter[classId][chapId] = {};
+      });
+    }
+    answeredQuestionsBySection = {};
+    saveScores();
+  }
+
+  function markQuestionAnswered(classId, chapterId, sectionKey, questionKey, correct) {
+    if (!answeredQuestionsByChapter[classId]) answeredQuestionsByChapter[classId] = {};
+    if (!answeredQuestionsByChapter[classId][chapterId]) answeredQuestionsByChapter[classId][chapterId] = {};
+    if (!answeredQuestionsBySection[sectionKey]) answeredQuestionsBySection[sectionKey] = {};
+
+    let prevCorrectSection = answeredQuestionsBySection[sectionKey][questionKey];
+    if (prevCorrectSection === undefined) {
+      answeredQuestionsBySection[sectionKey][questionKey] = correct;
+    } else {
+      answeredQuestionsBySection[sectionKey][questionKey] = correct;
+    }
+
+    let prevCorrect = answeredQuestionsByChapter[classId][chapterId][questionKey];
+    if (prevCorrect === undefined) {
+      answeredQuestionsByChapter[classId][chapterId][questionKey] = correct;
+      if (correct) cumulativeScores[classId][chapterId].correct++;
+    } else {
+      if (prevCorrect !== correct) {
+        answeredQuestionsByChapter[classId][chapterId][questionKey] = correct;
+        if (correct) {
+          cumulativeScores[classId][chapterId].correct++;
+        } else {
+          cumulativeScores[classId][chapterId].correct--;
+          if (cumulativeScores[classId][chapterId].correct < 0) cumulativeScores[classId][chapterId].correct = 0;
+        }
+      }
+    }
+    saveScores();
   }
 
   function updateChapters() {
     const classSelect = document.getElementById('classSelect');
     const chapterSelect = document.getElementById('chapterSelect');
     const sectionSelect = document.getElementById('sectionSelect');
-
     chapterSelect.innerHTML = '<option value="">Select Chapter</option>';
     sectionSelect.innerHTML = '<option value="">Select Section</option>';
     sectionSelect.disabled = true;
 
-    if(classSelect.value) {
+    if (classSelect.value) {
       chapterSelect.disabled = false;
       chapterData[classSelect.value].forEach(chap => {
-        let opt = document.createElement('option');
+        const opt = document.createElement('option');
         opt.value = chap.id;
         opt.textContent = `Chapter ${chap.id}: ${chap.name}`;
         chapterSelect.appendChild(opt);
@@ -485,17 +942,19 @@
     const classSelect = document.getElementById('classSelect');
     const chapterSelect = document.getElementById('chapterSelect');
     const sectionSelect = document.getElementById('sectionSelect');
-
     sectionSelect.innerHTML = '';
-    if(classSelect.value && chapterSelect.value) {
+
+    if (classSelect.value && chapterSelect.value) {
       sectionSelect.disabled = false;
-      const chData = questionData[classSelect.value];
-      const ch = chData ? chData[chapterSelect.value] : null;
-      const sections = ch ? ch.sections : [];
-      sections.forEach(sec => {
+      const c = classSelect.value;
+      const ch = chapterSelect.value;
+
+      const chapterSections = questionData[c]?.[ch]?.sections || [];
+
+      chapterSections.forEach(section => {
         let opt = document.createElement('option');
-        opt.value = sec.id;
-        opt.textContent = `${sec.id}: ${sec.name}`;
+        opt.value = section.id;
+        opt.textContent = `${section.id}: ${section.name}`;
         sectionSelect.appendChild(opt);
       });
     } else {
@@ -505,113 +964,177 @@
     clearContentAndScore();
   }
 
-  function showQuestions() {
+  function clearContentAndScore() {
+    document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
+    updateScoreDisplay();
+  }
+
+  function updateScoreDisplay() {
     const classSelect = document.getElementById('classSelect');
     const chapterSelect = document.getElementById('chapterSelect');
     const sectionSelect = document.getElementById('sectionSelect');
+    const scoreCard = document.getElementById('scoreCard');
+
+    if (!classSelect.value || !chapterSelect.value || !sectionSelect.value) {
+      scoreCard.textContent = 'Section score: x / y';
+      return;
+    }
+    const c = classSelect.value;
+    const ch = chapterSelect.value;
+    const section = sectionSelect.value;
+
+    let sectionKey = `${c}_${ch}_${section}`;
+
+    let totalSectionQuestions = 0;
+    if(questionData[c] && questionData[c][ch] && questionData[c][ch].questions[section]){
+      totalSectionQuestions = questionData[c][ch].questions[section].length;
+    }
+    if(!answeredQuestionsBySection[sectionKey]){
+      answeredQuestionsBySection[sectionKey] = {};
+    }
+    let correctSectionCount = Object.values(answeredQuestionsBySection[sectionKey]).filter(corr=>corr).length;
+    if(totalSectionQuestions === 0){
+      scoreCard.textContent = 'Section score: x / y';
+    } else {
+      scoreCard.textContent = `Section score: ${correctSectionCount} / ${totalSectionQuestions}`;
+    }
+  }
+
+  function showQuestions() {
+    const c = document.getElementById('classSelect').value;
+    const ch = document.getElementById('chapterSelect').value;
+    const section = document.getElementById('sectionSelect').value;
     const contentArea = document.getElementById('contentArea');
 
-    if(!classSelect.value || !chapterSelect.value || !sectionSelect.value) {
+    if (!c || !ch || !section) {
       contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
       updateScoreDisplay();
       return;
     }
 
-    const classId = classSelect.value;
-    const chapId = chapterSelect.value;
-    const secId = sectionSelect.value;
-    const questions = questionData[classId][chapId]?.questions?.[secId] || [];
-
-    if(questions.length === 0) {
+    const questions = questionData[c]?.[ch]?.questions?.[section] || [];
+    if (!questions.length) {
       contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
       updateScoreDisplay();
       return;
     }
 
-    contentArea.innerHTML = `<div class="question-count">No. of questions found: ${questions.length}</div>`;
+    initScore(c, ch, questions.length);
 
-    let questionNumberStart = 1; // Start numbering at 1 for each section
-    questions.forEach((q, index) => {
-      const qNum = questionNumberStart + index;
-      const optionsHtml = q.options.map((opt, i) =>
-        `<div class="option" role="button" tabindex="0" data-qnum="${qNum}" data-index="${i}">${opt}</div>`
-      ).join('');
+    let questionCounter = 1;
+    const allSections = questionData[c][ch].sections;
+    for (let i = 0; i < allSections.length; i++) {
+      if (allSections[i].id === section) break;
+      const qCountPrevSection = (questionData[c][ch].questions[allSections[i].id]?.length) || 0;
+      questionCounter += qCountPrevSection;
+    }
 
-      contentArea.innerHTML += `
-        <div class="question-item" id="question-item-${qNum}">
-          <div class="question-header">
-            <span class="question-number">Q${qNum}.</span>
-            <span class="question-year">${q.year}</span>
-          </div>
-          <div class="question-text">${q.question}</div>
-          <div class="options">${optionsHtml}</div>
-          <div class="button-group">
-            <button class="btn btn-answer" onclick="toggleAnswer(${qNum})" aria-expanded="false" aria-controls="answer-${qNum}">Answer</button>
-            <button class="btn btn-copy" onclick="copyQuestion(${qNum})">Copy Question</button>
-            <button class="btn btn-chatgpt" onclick="openChatGPT(${qNum})">ChatGPT Explain</button>
-          </div>
-          <div class="answer-reveal" id="answer-${qNum}"><strong>Answer:</strong> ${q.answer}</div>
+    let html = `<div class="question-count">No. of questions found: ${questions.length}</div>`;
+    questions.forEach((q, i) => {
+      const qNum = questionCounter + i;
+      html += `<div class="question-item" id="question-item-${qNum}">
+        <div class="question-header">
+          <span class="question-number">Q${qNum}.</span>
+          <span class="question-year">${q.year}</span>
         </div>
-      `;
+        <div class="question-text">${q.question}</div>
+        <div class="options" id="options-${qNum}">
+          ${q.options.map((o, idx) => `<div class="option" role="button" tabindex="0" 
+            data-qnum="${qNum}" data-index="${idx}">${o}</div>`).join('')}
+        </div>
+        <div class="button-group">
+          <button class="btn btn-answer" onclick="toggleAnswer(${qNum})" aria-expanded="false" aria-controls="answer-${qNum}">Answer</button>
+          <button class="btn btn-copy" onclick="copyQuestion(${qNum})">Copy Question</button>
+          <button class="btn btn-chatgpt" onclick="openChatGPT(${qNum})">ChatGPT Explain</button>
+        </div>
+        <div class="answer-reveal" id="answer-${qNum}"><strong>Answer:</strong> ${q.answer}</div>
+      </div>`;
     });
+    contentArea.innerHTML = html;
+
+    questions.forEach((q, i) => {
+      const qNum = questionCounter + i;
+      const optionsContainer = document.getElementById(`options-${qNum}`);
+      optionsContainer.querySelectorAll('.option').forEach(optionDiv => {
+        optionDiv.addEventListener('click', e => handleOptionClick(e, c, ch, section, qNum, q.answer));
+        optionDiv.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleOptionClick(e, c, ch, section, qNum, q.answer);
+          }
+        });
+      });
+    });
+
     updateScoreDisplay();
   }
 
-  document.getElementById('classSelect').addEventListener('change', updateChapters);
-  document.getElementById('chapterSelect').addEventListener('change', updateSections);
-  document.getElementById('sectionSelect').addEventListener('change', showQuestions);
+  function handleOptionClick(event, classId, chapterId, section, qNum, correctAnswer) {
+    const selectedOption = event.currentTarget;
+    const optionsContainer = selectedOption.parentNode;
+    const questionKey = `q${qNum}`;
+    const sectionKey = `${classId}_${chapterId}_${section}`;
 
-  // Placeholder functions for buttons (implement as needed)
+    if (answeredQuestionsBySection[sectionKey] && answeredQuestionsBySection[sectionKey][questionKey] !== undefined) {
+      return;
+    }
+
+    optionsContainer.querySelectorAll('.option').forEach(o => {
+      o.classList.add('disabled');
+      o.style.cursor = 'default';
+      o.setAttribute('aria-disabled', 'true');
+      o.tabIndex = -1;
+    });
+
+    const selectedText = selectedOption.textContent.trim();
+    const isCorrect = selectedText === correctAnswer;
+
+    selectedOption.classList.add(isCorrect ? 'correct-temp' : 'incorrect-temp');
+
+    markQuestionAnswered(classId, chapterId, sectionKey, questionKey, isCorrect);
+    updateScoreDisplay();
+  }
+
   function toggleAnswer(qNum) {
     const answerDiv = document.getElementById(`answer-${qNum}`);
-    if(answerDiv.style.display === 'block') {
+    const button = document.querySelector(`[aria-controls="answer-${qNum}"]`);
+    
+    if (answerDiv.style.display === 'block') {
       answerDiv.style.display = 'none';
+      button.setAttribute('aria-expanded', 'false');
     } else {
       answerDiv.style.display = 'block';
+      button.setAttribute('aria-expanded', 'true');
     }
   }
+
   function copyQuestion(qNum) {
     const questionText = document.querySelector(`#question-item-${qNum} .question-text`).innerText;
-    navigator.clipboard.writeText(questionText);
+    const options = Array.from(document.querySelectorAll(`#question-item-${qNum} .option`)).map(opt => opt.innerText).join('\n');
+    const fullText = questionText + '\n\n' + options;
+    
+    navigator.clipboard.writeText(fullText).then(() => {
+      // Optional: Show a brief "Copied!" message
+    });
   }
+
   function openChatGPT(qNum) {
     const questionText = document.querySelector(`#question-item-${qNum} .question-text`).innerText;
-    alert(`Explain question: ${questionText}`);
+    const options = Array.from(document.querySelectorAll(`#question-item-${qNum} .option`)).map(opt => opt.innerText).join(' ');
+    const query = encodeURIComponent(`Explain this NEET biology question: ${questionText} ${options}`);
+    window.open(`https://chat.openai.com/?q=${query}`, '_blank');
   }
-</script>
-<script>
-(function() {
-  const c = "11";
-  const ch = "2";
-  const s = "2.0"; // Evolution of Classification Systems
 
-  const newQuestions = [
-    {year:"NEET/AIPMT 2004", question:"Which botanist proposed the classification of plants based on their evolutionary relationships?", options:["A) Oswald Tippo", "B) Hutchinson", "C) Bentham and Hooker", "D) Linnaeus"], answer:"B) Hutchinson"},
-    {year:"NEET/AIPMT 2003", question:"Under the five-kingdom classification, archaea and nitrogen-fixing bacteria belong to which kingdom?", options:["A) Protista", "B) Monera", "C) Plantae", "D) Fungi"], answer:"B) Monera"},
-    {year:"NEET/AIPMT 2002", question:"The main criterion used in the five-kingdom system of classification is?", options:["A) Cell wall structure", "B) Mode of nutrition", "C) Reproduction mechanism", "D) DNA arrangement"], answer:"B) Mode of nutrition"},
-    {year:"NEET/AIPMT 2002", question:"The scientific study that includes classification, naming, and identification is called?", options:["A) Ecology", "B) Morphology", "C) Taxonomy", "D) Physiology"], answer:"C) Taxonomy"},
-    {year:"NEET/AIPMT 2000", question:"In Whittaker’s five-kingdom classification, non-nucleated unicellular organisms are included in?", options:["A) Protista", "B) Monera", "C) Animalia", "D) Plantae"], answer:"B) Monera"},
-    {year:"NEET/AIPMT 1999", question:"Classification considering many characters together is called?", options:["A) Artificial system", "B) Natural system", "C) Synthetic system", "D) Phylogenetic system"], answer:"B) Natural system"},
-    {year:"NEET/AIPMT 1998", question:"The book “Systema Naturae” primarily deals with?", options:["A) Solar system", "B) Ecosystem", "C) Classification of living organisms", "D) Natural selection"], answer:"C) Classification of living organisms"},
-    {year:"NEET/AIPMT 1998", question:"Which classification method arranges organisms based on their evolutionary ancestry?", options:["A) Analogous system", "B) Phylogenetic system", "C) Natural system", "D) Homologous system"], answer:"B) Phylogenetic system"},
-    {year:"NEET/AIPMT 1998", question:"Blue-green algae and methanogenic archaebacteria fall under which kingdom in Whittaker’s system?", options:["A) Plantae", "B) Fungi", "C) Monera", "D) Protista"], answer:"C) Monera"},
-    {year:"NEET/AIPMT 1996", question:"In taxonomy, what is the best definition of 'taxon'?", options:["A) Species group", "B) Family level", "C) A group comprising similar organisms", "D) Genus level"], answer:"C) A group comprising similar organisms"},
-    {year:"NEET/AIPMT 1995", question:"Linnaeus' classification is termed artificial because it mainly relies on what?", options:["A) Only morphological features", "B) Physiological features", "C) Breeding habits", "D) Gene sequences"], answer:"A) Only morphological features"},
-    {year:"NEET/AIPMT 1994", question:"Who introduced the term ‘phylum’ for animal groups?", options:["A) John Ray", "B) E. Haeckel", "C) Carolus Linnaeus", "D) G. L. Cuvier"], answer:"D) G. L. Cuvier"},
-    {year:"NEET/AIPMT 1994", question:"Who proposed the four-kingdom classification system?", options:["A) Copeland", "B) Whittaker", "C) Linnaeus", "D) Haeckel"], answer:"A) Copeland"},
-    {year:"NEET/AIPMT 1993", question:"“Systema Naturae” was authored by which scientist?", options:["A) Cuvier", "B) Lamarck", "C) Linnaeus", "D) Aristotle"], answer:"C) Linnaeus"},
-    {year:"NEET/AIPMT 1992", question:"Aristotle classified animals into which two groups?", options:["A) Protozoa and Metazoa", "B) Vertebrates and Invertebrates", "C) Chordata and Non-chordata", "D) Enaima and Anaima"], answer:"D) Enaima and Anaima"},
-    {year:"NEET/AIPMT 1990", question:"Which scientist made significant contributions to classification?", options:["A) Pasteur", "B) Linnaeus", "C) Darwin", "D) Oparin"], answer:"B) Linnaeus"}
-  ];
-
-  if(typeof window.questionData === "undefined") window.questionData = {};
-  if(!questionData[c]) questionData[c] = {};
-  if(!questionData[c][ch]) questionData[c][ch] = {title:"Biological Classification", sections: [], questions:{}};
-  if(!questionData[c][ch].questions) questionData[c][ch].questions = {};
-  if(!questionData[c][ch].questions[s]) questionData[c][ch].questions[s] = [];
-
-  questionData[c][ch].questions[s] = questionData[c][ch].questions[s].concat(newQuestions);
-})();
+  // Reset button functionality
+  document.getElementById('resetChapterBtn').addEventListener('click', function() {
+    const classSelect = document.getElementById('classSelect');
+    if (classSelect.value) {
+      resetAllChapterScores(classSelect.value);
+      updateScoreDisplay();
+      // Clear content but don't change selection
+      showQuestions();
+    }
+  });
 </script>
 
 </body>
