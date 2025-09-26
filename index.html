@@ -1189,6 +1189,201 @@ questionData["11"]["2"].questions["2.0"] = [
   {number: 1, year: "PMT/NEET-1994", question: "Biology is primarily concerned with which of the following?", options: ["a. DNA molecules", "b. Biomass measurements", "c. Living organisms", "d. Fossil records"], answer: "c. Living organisms"}
 ];
 </script>
+<script>
+(function() {
+  const c = "11";
+  const ch = "2";
+  const s = "2.0"; // Evolution of Classification Systems
 
+  const newQuestions = [
+    {
+      year: "NEET/AIPMT 1990",
+      question: "Which scientist made a landmark contribution to biological classification?",
+      options: [
+        "A) Pasteur",
+        "B) Oparin",
+        "C) Darwin",
+        "D) Linnaeus"
+      ],
+      answer: "D) Linnaeus"
+    },
+    {
+      year: "NEET/AIPMT 1992",
+      question: "Aristotle divided animals into two major groups; select the correct pair.",
+      options: [
+        "A) Vertebrate and invertebrate",
+        "B) Chordata and non-chordata",
+        "C) Protozoa and metazoa",
+        "D) Enaima and Anaima"
+      ],
+      answer: "D) Enaima and Anaima"
+    },
+    {
+      year: "NEET/AIPMT 1991, 1993",
+      question: "The classic work "Systema Naturae" was authored by whom?",
+      options: [
+        "A) Lamarck",
+        "B) Cuvier",
+        "C) Aristotle",
+        "D) Linnaeus"
+      ],
+      answer: "D) Linnaeus"
+    },
+    {
+      year: "NEET/AIPMT 1994",
+      question: "Who proposed the four-kingdom scheme of classification?",
+      options: [
+        "A) Whittaker",
+        "B) Copeland",
+        "C) Haeckel",
+        "D) Linnaeus"
+      ],
+      answer: "B) Copeland"
+    },
+    {
+      year: "NEET/AIPMT 1992, 1994",
+      question: "The term "phylum" in animal classification was introduced by which biologist?",
+      options: [
+        "A) E. Haeckel",
+        "B) John Ray",
+        "C) G. L. Cuvier",
+        "D) Carolus Linnaeus"
+      ],
+      answer: "C) G. L. Cuvier"
+    },
+    {
+      year: "NEET/AIPMT 1990, 1995",
+      question: "Linnaeus' plant classification is termed artificial because it relied mainly on what?",
+      options: [
+        "A) Only a few morphological traits",
+        "B) Broad evolutionary trends",
+        "C) Anatomical characters adaptive in nature",
+        "D) Physiological plus morphological features"
+      ],
+      answer: "A) Only a few morphological traits"
+    },
+    {
+      year: "NEET/AIPMT 1996",
+      question: "In taxonomy, a "taxon" refers best to which of the following?",
+      options: [
+        "A) A group of the same species",
+        "B) Animals grouped by chromosome number",
+        "C) A group of the same type of animals",
+        "D) A set of closely related genera"
+      ],
+      answer: "C) A group of the same type of animals"
+    },
+    {
+      year: "NEET/AIPMT 1998",
+      question: "Within Whittaker's system, which single kingdom includes blue-green algae, N-fixing bacteria, and methanogenic archaea?",
+      options: [
+        "A) Plantae",
+        "B) Fungi",
+        "C) Monera",
+        "D) Protista"
+      ],
+      answer: "C) Monera"
+    },
+    {
+      year: "NEET/AIPMT 1998",
+      question: "A scheme that arranges organisms by evolutionary descent and relationships is called the:",
+      options: [
+        "A) Natural system",
+        "B) Analogous system",
+        "C) Phylogenetic system",
+        "D) Homologous system"
+      ],
+      answer: "C) Phylogenetic system"
+    },
+    {
+      year: "NEET/AIPMT 1998",
+      question: ""Systema Naturae" is primarily concerned with which subject?",
+      options: [
+        "A) Solar system",
+        "B) Ecosystem",
+        "C) Classification of plants and animals",
+        "D) Natural selection"
+      ],
+      answer: "C) Classification of plants and animals"
+    },
+    {
+      year: "NEET/AIPMT 1996, 1999",
+      question: "A classification that considers many characters together is known as:",
+      options: [
+        "A) Artificial system",
+        "B) Synthetic system",
+        "C) Natural system",
+        "D) Phylogenetic system"
+      ],
+      answer: "C) Natural system"
+    },
+    {
+      year: "NEET/AIPMT 1994, 1997, 2000",
+      question: "In Whittaker's 1969 system, non-nucleated unicellular organisms fall under which kingdom?",
+      options: [
+        "A) Protista",
+        "B) Monera",
+        "C) Animalia",
+        "D) Plantae"
+      ],
+      answer: "B) Monera"
+    },
+    {
+      year: "NEET/AIPMT 2000, 2002",
+      question: "The discipline that integrates identification, nomenclature, and classification is called:",
+      options: [
+        "A) Ecology",
+        "B) Taxonomy",
+        "C) Morphology",
+        "D) Physiology"
+      ],
+      answer: "B) Taxonomy"
+    },
+    {
+      year: "NEET/AIPMT 2002",
+      question: "In the five-kingdom framework, which is the main basis of classification?",
+      options: [
+        "A) Nuclear organization",
+        "B) Mode of nutrition",
+        "C) Cell wall structure",
+        "D) Asexual reproduction"
+      ],
+      answer: "B) Mode of nutrition"
+    },
+    {
+      year: "NEET/AIPMT 2003",
+      question: "Under the five-kingdom system, archaea and nitrogen-fixing bacteria would be placed in:",
+      options: [
+        "A) Plantae",
+        "B) Fungi",
+        "C) Protista",
+        "D) Monera"
+      ],
+      answer: "D) Monera"
+    },
+    {
+      year: "NEET/AIPMT 1988, 2004",
+      question: "Who proposed the phylogenetic system of plant classification (in botany)?",
+      options: [
+        "A) Linnaeus",
+        "B) Hutchinson",
+        "C) Bentham and Hooker",
+        "D) Oswald Tippo"
+      ],
+      answer: "B) Hutchinson"
+    }
+  ];
+
+  // Ensure containers exist and append
+  if (!window.questionData) window.questionData = {};
+  if (!questionData[c]) questionData[c] = {};
+  if (!questionData[c][ch]) {
+    questionData[c][ch] = { title: "Biological Classification", sections: (questionData[c][ch]?.sections || []), questions: {} };
+  }
+  if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
+  if (!questionData[c][ch].questions[s]) questionData[c][ch].questions[s] = [];
+  questionData[c][ch].questions[s] = questionData[c][ch].questions[s].concat(newQuestions);
+})();
+</script>
 </body>
 </html>
