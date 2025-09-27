@@ -1874,6 +1874,56 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-
+<script>
+// Auto-display first section when chapter is selected
+document.addEventListener('DOMContentLoaded', function() {
+  const chapterSelect = document.getElementById('chapterSelect');
+  
+  if (chapterSelect) {
+    // Override the existing updateSections function to auto-select first section
+    const originalUpdateSections = window.updateSections;
+    
+    window.updateSections = function() {
+      // Call original function first
+      if (originalUpdateSections) {
+        originalUpdateSections();
+      }
+      
+      const classSelect = document.getElementById('classSelect');
+      const sectionSelect = document.getElementById('sectionSelect');
+      
+      if (classSelect.value && chapterSelect.value && sectionSelect) {
+        // Auto-select first section if available
+        if (sectionSelect.options.length > 0) {
+          sectionSelect.selectedIndex = 0;
+          sectionSelect.value = sectionSelect.options[0].value;
+          
+          // Automatically show questions for first section
+          setTimeout(() => {
+            if (typeof showQuestions === 'function') {
+              showQuestions();
+            }
+          }, 100);
+        }
+      }
+    };
+    
+    // Also add direct event listener as backup
+    chapterSelect.addEventListener('change', function() {
+      setTimeout(() => {
+        const sectionSelect = document.getElementById('sectionSelect');
+        if (sectionSelect && sectionSelect.options.length > 0 && !sectionSelect.value) {
+          sectionSelect.selectedIndex = 0;
+          sectionSelect.value = sectionSelect.options[0].value;
+          
+          if (typeof showQuestions === 'function') {
+            showQuestions();
+          }
+        }
+      }, 200);
+    });
+  }
+});
+</script>
 </body>
 </html>
