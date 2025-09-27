@@ -1224,551 +1224,7 @@
   });
 </script>
 
-<script>
-(function() {
-  const c = "11";
-  const ch = "2";
-  const section = "2.1";
 
-  const items = [
-    // Q17
-    {
-      year: "NEET/AIPMT 2019",
-      question: "Match Column I (groups) with Column II (typical habitats) and choose the correct option:<br><br>Column I: 1. Halophiles &nbsp; 2. Thermoacidophiles &nbsp; 3. Methanogens &nbsp; 4. Cyanobacteria<br>Column II: A. Saline lakes &nbsp; B. Hot springs &nbsp; C. Rumen of ruminants &nbsp; D. Sunlit aquatic waters",
-      options: [
-        "a) 1–A, 2–B, 3–C, 4–D",
-        "b) 1–B, 2–A, 3–D, 4–C",
-        "c) 1–C, 2–D, 3–B, 4–A",
-        "d) 1–D, 2–C, 3–A, 4–B"
-      ],
-      answer: "a) 1–A, 2–B, 3–C, 4–D"
-    },
-    // Q18
-    {
-      year: "NEET/AIPMT 2017",
-      question: "Identify the smallest wall‑less cells, often pathogenic and able to survive anaerobically.",
-      options: [
-        "a) Pseudomonas",
-        "b) Mycoplasma",
-        "c) Nostoc",
-        "d) Bacillus"
-      ],
-      answer: "b) Mycoplasma"
-    },
-    // Q19
-    {
-      year: "NEET/AIPMT 2017",
-      question: "Which structure confers a sticky surface to many bacterial cells?",
-      options: [
-        "a) Nuclear membrane",
-        "b) Plasma membrane",
-        "c) Glycocalyx",
-        "d) Cell wall"
-      ],
-      answer: "c) Glycocalyx"
-    },
-    // Q20
-    {
-      year: "NEET/AIPMT 2017",
-      question: "In bacteria, DNA replication occurs at which point in the division cycle?",
-      options: [
-        "a) Inside a nucleus",
-        "b) Prior to binary fission",
-        "c) Just before transcription",
-        "d) During S phase"
-      ],
-      answer: "b) Prior to binary fission"
-    },
-    // Q21
-    {
-      year: "NEET/AIPMT 2016",
-      question: "Methanogens are classified under which group?",
-      options: [
-        "a) Eubacteria",
-        "b) Archaebacteria",
-        "c) Dinoflagellates",
-        "d) Slime moulds"
-      ],
-      answer: "b) Archaebacteria"
-    },
-    // Q22
-    {
-      year: "NEET/AIPMT 2014",
-      question: "Pigment‑containing membranous extensions in some cyanobacteria are termed:",
-      options: [
-        "a) Pneumatophores",
-        "b) Chromatophores",
-        "c) Heterocysts",
-        "d) Basal bodies"
-      ],
-      answer: "b) Chromatophores"
-    },
-    // Q23
-    {
-      year: "NEET/AIPMT 2013",
-      question: "Archaea and eubacteria primarily differ in which cellular feature?",
-      options: [
-        "a) Cell membrane structure",
-        "b) Mode of nutrition",
-        "c) Cell shape",
-        "d) Mode of reproduction"
-      ],
-      answer: "a) Cell membrane structure"
-    },
-    // Q24
-    {
-      year: "NEET/AIPMT 2013",
-      question: "Which group is most likely to inhabit deep sea waters?",
-      options: [
-        "a) Blue‑green algae",
-        "b) Saprophytic fungi",
-        "c) Archaebacteria",
-        "d) Eubacteria"
-      ],
-      answer: "c) Archaebacteria"
-    },
-    // Q25
-    {
-      year: "NEET/AIPMT 2012",
-      question: "The most abundant prokaryotes involved in curd formation and antibiotic production are:",
-      options: [
-        "a) Cyanobacteria",
-        "b) Archaebacteria",
-        "c) Chemosynthetic autotrophs",
-        "d) Heterotrophic bacteria"
-      ],
-      answer: "d) Heterotrophic bacteria"
-    },
-    // Q26
-    {
-      year: "NEET/AIPMT 2012",
-      question: "Cyanobacteria are commonly referred to as:",
-      options: [
-        "a) Protists",
-        "b) Golden algae",
-        "c) Slime moulds",
-        "d) Blue‑green algae"
-      ],
-      answer: "d) Blue‑green algae"
-    },
-    // Q27
-    {
-      year: "NEET/AIPMT 2011",
-      question: "Which component of eubacteria most closely resembles that of eukaryotes?",
-      options: [
-        "a) Plasma membrane",
-        "b) Nucleus",
-        "c) Ribosomes",
-        "d) Cell wall"
-      ],
-      answer: "a) Plasma membrane"
-    },
-    // Q28
-    {
-      year: "NEET/AIPMT 2010",
-      question: "Some hyperthermophiles thriving in highly acidic habitats belong to:",
-      options: [
-        "a) Eubacteria and Archaea",
-        "b) Cyanobacteria and diatoms",
-        "c) Protists and mosses",
-        "d) Liverworts and yeasts"
-      ],
-      answer: "a) Eubacteria and Archaea"
-    },
-    // Q29
-    {
-      year: "NEET/AIPMT 2008",
-      question: "In the three‑domain scheme, archaea are best described by which statement?",
-      options: [
-        "a) Entirely distinct from both prokaryotes and eukaryotes",
-        "b) Totally different from prokaryotes",
-        "c) Identical to eukarya in all respects",
-        "d) Possess novel features not found in other domains"
-      ],
-      answer: "d) Possess novel features not found in other domains"
-    },
-    // Q30
-    {
-      year: "NEET/AIPMT 2008",
-      question: "Thermococcus, Methanococcus and Methanobacterium exemplify:",
-      options: [
-        "a) Bacteria with cytoskeleton and mitochondria",
-        "b) Bacteria with cytoskeleton and ribosomes",
-        "c) Archaea with proteins homologous to eukaryotic core histones",
-        "d) Archaea lacking histones with negatively supercoiled DNA"
-      ],
-      answer: "c) Archaea with proteins homologous to eukaryotic core histones"
-    },
-    // Q31
-    {
-      year: "NEET/AIPMT 2008",
-      question: "Bacterial leaf blight of rice is caused by:",
-      options: [
-        "a) Alternaria",
-        "b) Erwinia",
-        "c) Xanthomonas",
-        "d) Pseudomonas"
-      ],
-      answer: "c) Xanthomonas"
-    },
-    // Q32
-    {
-      year: "NEET/AIPMT 2006",
-      question: "Curing (fermentation) of tea leaves is mainly due to:",
-      options: [
-        "a) Fungi",
-        "b) Bacteria",
-        "c) Mycorrhiza",
-        "d) Viruses"
-      ],
-      answer: "b) Bacteria"
-    },
-    // Q33
-    {
-      year: "NEET/AIPMT 2005",
-      question: "In retting of jute, the fermenting microbes used are:",
-      options: [
-        "a) Methanophilic bacteria",
-        "b) Butyric acid bacteria",
-        "c) Helicobacter pylori",
-        "d) Streptococcus lactis"
-      ],
-      answer: "b) Butyric acid bacteria"
-    },
-    // Q34
-    {
-      year: "NEET/AIPMT 2002",
-      question: "Bacterial transduction is best described as:",
-      options: [
-        "a) Gene transfer via bacteriophage from one bacterium to another",
-        "b) Gene transfer by conjugation",
-        "c) DNA inherited directly from the mother cell",
-        "d) Uptake of DNA from the surroundings"
-      ],
-      answer: "a) Gene transfer via bacteriophage from one bacterium to another"
-    },
-    // Q35
-    {
-      year: "NEET/AIPMT 2001",
-      question: "Which statement is true for archaebacteria?",
-      options: [
-        "a) All are halophiles",
-        "b) All are photosynthetic",
-        "c) All are fossils",
-        "d) They are among the oldest living forms"
-      ],
-      answer: "d) They are among the oldest living forms"
-    },
-    // Q36
-    {
-      year: "NEET/AIPMT 2001/1997/1994",
-      question: "The fundamental difference between Gram‑positive and Gram‑negative bacteria lies in the:",
-      options: [
-        "a) Cell wall",
-        "b) Cell membrane",
-        "c) Cytoplasm",
-        "d) Ribosomes"
-      ],
-      answer: "a) Cell wall"
-    },
-    // Q37
-    {
-      year: "NEET/AIPMT 1995/1998",
-      question: "Antibiotic resistance genes in bacteria are typically located on:",
-      options: [
-        "a) Chromosome",
-        "b) Nucleus",
-        "c) Cell wall",
-        "d) Plasmid"
-      ],
-      answer: "d) Plasmid"
-    },
-    // Q38
-    {
-      year: "NEET/AIPMT 1998",
-      question: "During transduction, gene transfer occurs via:",
-      options: [
-        "a) Bacteriophages released from the donor strain",
-        "b) A bacterium with a special conjugation tube",
-        "c) Direct physical contact between strains",
-        "d) Conjugation between opposite strains"
-      ],
-      answer: "a) Bacteriophages released from the donor strain"
-    },
-    // Q39
-    {
-      year: "NEET/AIPMT 1998",
-      question: "Which bacterium has been genetically improved for pollution control?",
-      options: [
-        "a) Pseudomonas",
-        "b) Rhizobium",
-        "c) Nitrobacter",
-        "d) Nitrosomonas"
-      ],
-      answer: "a) Pseudomonas"
-    },
-    // Q40
-    {
-      year: "NEET/AIPMT 1998",
-      question: "A few organisms growing at 100–105°C most likely belong to:",
-      options: [
-        "a) Thermophilic subaerial fungi",
-        "b) Marine archaebacteria",
-        "c) Thermophilic sulphur bacteria",
-        "d) Hot‑spring cyanobacteria"
-      ],
-      answer: "b) Marine archaebacteria"
-    },
-    // Q41
-    {
-      year: "NEET/AIPMT 1998",
-      question: "Which organisms can utilize molecular nitrogen (N₂) directly as a nutrient for growth?",
-      options: [
-        "a) Rhizobium",
-        "b) Spirogyra",
-        "c) Mucor",
-        "d) Methanococcus"
-      ],
-      answer: "d) Methanococcus"
-    },
-    // Q42
-    {
-      year: "NEET/AIPMT 1999",
-      question: "Cells of Streptococcus are commonly arranged in:",
-      options: [
-        "a) Chains",
-        "b) Irregular clusters",
-        "c) Cubes",
-        "d) Plates"
-      ],
-      answer: "a) Chains"
-    },
-    // Q43
-    {
-      year: "NEET/AIPMT 1998",
-      question: "The chief role of bacteria in the carbon cycle is:",
-      options: [
-        "a) Chemosynthesis",
-        "b) Decomposition of organic compounds",
-        "c) Photosynthesis",
-        "d) Nitrogen assimilation"
-      ],
-      answer: "b) Decomposition of organic compounds"
-    },
-    // Q44
-    {
-      year: "NEET/AIPMT 1998",
-      question: "The DNA of E. coli is typically:",
-      options: [
-        "a) Double‑stranded and linear",
-        "b) Double‑stranded and circular",
-        "c) Single‑stranded and linear",
-        "d) Single‑stranded and circular"
-      ],
-      answer: "b) Double‑stranded and circular"
-    },
-    // Q45
-    {
-      year: "NEET/AIPMT 1998",
-      question: "A bacterium divides every 35 min; starting from 10×10^5 cells/mL, the count after 175 min will be:",
-      options: [
-        "a) 35×10^5",
-        "b) 32×10^5",
-        "c) 175×10^5",
-        "d) 85×10^5"
-      ],
-      answer: "b) 32×10^5"
-    },
-    // Q46
-    {
-      year: "NEET/AIPMT 1997",
-      question: "Organisms lacking a definite shape are:",
-      options: [
-        "a) Mycoplasmas",
-        "b) Bacteria",
-        "c) Viruses",
-        "d) Cyanobacteria"
-      ],
-      answer: "a) Mycoplasmas"
-    },
-    // Q47
-    {
-      year: "NEET/AIPMT 1997",
-      question: "The hereditary material in E. coli is:",
-      options: [
-        "a) Single‑stranded DNA",
-        "b) Double‑stranded DNA",
-        "c) DNA (unspecified)",
-        "d) RNA"
-      ],
-      answer: "b) Double‑stranded DNA"
-    },
-    // Q48
-    {
-      year: "NEET/AIPMT 1996",
-      question: "E. coli is widely used in labs mainly because it is:",
-      options: [
-        "a) Easy to culture",
-        "b) Easily available",
-        "c) Easy to handle",
-        "d) Multiplies rapidly in host"
-      ],
-      answer: "a) Easy to culture"
-    },
-    // Q49
-    {
-      year: "NEET/AIPMT 1996",
-      question: "What acts as the ‘sex organ’ during gene transfer in bacteria?",
-      options: [
-        "a) Sex pili",
-        "b) Plasmid",
-        "c) Circular DNA",
-        "d) Gametes"
-      ],
-      answer: "a) Sex pili"
-    },
-    // Q50
-    {
-      year: "NEET/AIPMT 1996",
-      question: "Bacterial DNA is of which type?",
-      options: [
-        "a) Circular, free DNA",
-        "b) Membrane‑bound DNA",
-        "c) Straight DNA",
-        "d) Helical DNA"
-      ],
-      answer: "a) Circular, free DNA"
-    },
-    // Q51
-    {
-      year: "NEET/AIPMT 1995",
-      question: "Mycoplasma differ from viruses in being sensitive to:",
-      options: [
-        "a) Tetracycline",
-        "b) Protein",
-        "c) Amino acid",
-        "d) Devaine"
-      ],
-      answer: "a) Tetracycline"
-    },
-    // Q52
-    {
-      year: "NEET/AIPMT 1994",
-      question: "Many blue‑green algae in hot springs tolerate high temperature mainly due to their:",
-      options: [
-        "a) Mitochondrial inheritance",
-        "b) Homopolar bonds in proteins",
-        "c) Cell wall structure",
-        "d) Modern cell organization"
-      ],
-      answer: "c) Cell wall structure"
-    },
-    // Q53
-    {
-      year: "NEET/AIPMT 1994",
-      question: "Bacterial transduction is mediated by:",
-      options: [
-        "a) Plasmid vectors",
-        "b) Phage vectors",
-        "c) Cosmids",
-        "d) F‑factors"
-      ],
-      answer: "b) Phage vectors"
-    },
-    // Q54
-    {
-      year: "NEET/AIPMT 1994/1997/2000",
-      question: "In Gram staining, the chief difference between Gram‑positive and Gram‑negative bacteria lies in the:",
-      options: [
-        "a) Cell wall",
-        "b) Cell membrane",
-        "c) Ribosomes",
-        "d) Cytoplasm"
-      ],
-      answer: "a) Cell wall"
-    },
-    // Q55
-    {
-      year: "NEET/AIPMT 1993",
-      question: "The bacterial nucleoid (genophore) is composed of:",
-      options: [
-        "a) Histones and non‑histones",
-        "b) RNA and histones",
-        "c) A single double‑stranded DNA",
-        "d) A single‑stranded DNA"
-      ],
-      answer: "c) A single double‑stranded DNA"
-    },
-    // Q56
-    {
-      year: "NEET/AIPMT 1991",
-      question: "Which organisms do not derive energy directly or indirectly from sunlight?",
-      options: [
-        "a) Chemosynthetic bacteria",
-        "b) Pathogenic bacteria",
-        "c) Symbionts",
-        "d) Moulds"
-      ],
-      answer: "a) Chemosynthetic bacteria"
-    },
-    // Q57
-    {
-      year: "NEET/AIPMT 1990",
-      question: "Which of the following belongs to Monera?",
-      options: [
-        "a) Amoeba",
-        "b) Escherichia",
-        "c) Gelidium",
-        "d) Spirogyra"
-      ],
-      answer: "b) Escherichia"
-    },
-    // Q58
-    {
-      year: "NEET/AIPMT 1990",
-      question: "The principal difference between Gram‑positive and Gram‑negative bacteria is associated with the:",
-      options: [
-        "a) Cell wall",
-        "b) Cell membrane",
-        "c) Cytoplasm",
-        "d) Flagella"
-      ],
-      answer: "a) Cell wall"
-    },
-    // Q59
-    {
-      year: "NEET/AIPMT 2005",
-      question: "With reference to Frankia (an actinomycete), select the incorrect statement.",
-      options: [
-        "a) Can induce root nodules on many plants",
-        "b) Fixes nitrogen only in symbiosis, not when free‑living",
-        "c) Forms specialized vesicles protecting nitrogenase",
-        "d) Infects roots via hair deformation similar to Rhizobium"
-      ],
-      answer: "b) Fixes nitrogen only in symbiosis, not when free‑living"
-    },
-    // Q60
-    {
-      year: "NEET/AIPMT 2008",
-      question: "Primitive prokaryotes present in the rumen of cattle that produce biogas belong to:",
-      options: [
-        "a) Methanogens",
-        "b) Eubacteria",
-        "c) Halophiles",
-        "d) Thermoacidophiles"
-      ],
-      answer: "a) Methanogens"
-    }
-  ];
-
-  if (!window.questionData) return;
-  if (!questionData[c] || !questionData[c][ch]) return;
-  if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
-
-  // Replace entire section with labeled questions
-  questionData[c][ch].questions[section] = items;
-})();
-</script>
 
 <script>
 // Fix for per-section refresh - replaces existing refresh functionality
@@ -1890,5 +1346,202 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
+
+
+<script>
+(function() {
+  const c = "11";
+  const ch = "2";
+  const section = "2.0";
+
+  const items = [
+    {
+      year: "NEET/AIPMT 2014",
+      question: "Five kingdom system of classification suggested by R. H. Whittaker is not based on which of the following criteria?",
+      options: [
+        "a) presence or absence of a well defined nucleus",
+        "b) mode of reproduction",
+        "c) mode of nutrition",
+        "d) complexity of body organisation"
+      ],
+      answer: "b) mode of reproduction"
+    },
+    {
+      year: "NEET/AIPMT 2012",
+      question: "In the five kingdom classification, Chlamydomonas and Chlorella have been included in which kingdom?",
+      options: [
+        "a) protista",
+        "b) algae",
+        "c) plantae",
+        "d) monera"
+      ],
+      answer: "a) protista"
+    },
+    {
+      year: "NEET/AIPMT 2004",
+      question: "Linnaeus system of plant classification is considered which type of system?",
+      options: [
+        "a) Artificial",
+        "b) Natural",
+        "c) Phylogenetic",
+        "d) None of the above"
+      ],
+      answer: "a) Artificial"
+    },
+    {
+      year: "NEET/AIPMT 2004/2002",
+      question: "Who did propose natural classification of plants?",
+      options: [
+        "a) Carolus Linnaeus",
+        "b) John Hutchinson",
+        "c) Bentham and Hooker",
+        "d) Oswald Tippo"
+      ],
+      answer: "c) Bentham and Hooker"
+    },
+    {
+      year: "NEET/AIPMT 2004/1988",
+      question: "Who proposed phylogenetic classification of plants?",
+      options: [
+        "a) Linnaeus",
+        "b) Hutchinson",
+        "c) Bentham and Hooker",
+        "d) Mehta"
+      ],
+      answer: "b) Hutchinson"
+    },
+    {
+      year: "NEET/AIPMT 2003",
+      question: "In which kingdom would you classify the archaea and nitrogen‑fixing organisms, if the five kingdom system of classification is used?",
+      options: [
+        "a) Plantae",
+        "b) Fungi",
+        "c) Protista",
+        "d) Monera"
+      ],
+      answer: "d) Monera"
+    },
+    {
+      year: "NEET/AIPMT 2002",
+      question: "In five kingdom system, the main basis of classification is based on which criterion?",
+      options: [
+        "a) structure of nucleus",
+        "b) mode of nutrition",
+        "c) structure of cell wall",
+        "d) asexual reproduction"
+      ],
+      answer: "b) mode of nutrition"
+    },
+    {
+      year: "NEET/AIPMT 2002/2001/2000",
+      question: "The basic unit of classification/taxonomy is which rank?",
+      options: [
+        "a) Genus",
+        "b) Species",
+        "c) Family",
+        "d) Order"
+      ],
+      answer: "b) Species"
+    },
+    {
+      year: "NEET/AIPMT 2000/1999",
+      question: "Which of the following taxonomical ranks contain organisms least similar to one another?",
+      options: [
+        "a) Class",
+        "b) Genus",
+        "c) Family",
+        "d) Species"
+      ],
+      answer: "a) Class"
+    },
+    {
+      year: "NEET/AIPMT 2000/1997/1994",
+      question: "The non‑nucleated, unicellular organisms of Whittaker's (1969) classification are included in which kingdom?",
+      options: [
+        "a) Protista",
+        "b) Monera",
+        "c) Animalia",
+        "d) Plantae"
+      ],
+      answer: "b) Monera"
+    },
+    {
+      year: "NEET/AIPMT 1999/1996",
+      question: "A system of classification in which a large number of traits are considered is termed which type?",
+      options: [
+        "a) Artificial system",
+        "b) Synthetic system",
+        "c) Natural system",
+        "d) Phylogenetic system"
+      ],
+      answer: "c) Natural system"
+    },
+    {
+      year: "NEET/AIPMT 1998",
+      question: "In the five kingdom system of classification, which single kingdom can include blue‑green algae, nitrogen fixing bacteria and methanogenic archaebacteria?",
+      options: [
+        "a) Plantae",
+        "b) Protista",
+        "c) Monera",
+        "d) Fungi"
+      ],
+      answer: "c) Monera"
+    },
+    {
+      year: "NEET/AIPMT 1998",
+      question: "A system of classification that is based on evolution, order and ancestry is known as which type?",
+      options: [
+        "a) Natural system",
+        "b) Analogous system",
+        "c) Phylogenetic system",
+        "d) Homologous system"
+      ],
+      answer: "c) Phylogenetic system"
+    },
+    {
+      year: "NEET/AIPMT 1998",
+      question: "Systema Naturae is concerned with which field?",
+      options: [
+        "a) Solar system",
+        "b) Ecosystem",
+        "c) Classification of plants and animals",
+        "d) Natural selection"
+      ],
+      answer: "c) Classification of plants and animals"
+    },
+    {
+      year: "NEET/AIPMT 1994/1992",
+      question: "The term "phylum" in animal classification was coined by whom?",
+      options: [
+        "a) E. Haeckel",
+        "b) John Ray",
+        "c) G.L. Cuvier",
+        "d) Carolus Linnaeus"
+      ],
+      answer: "c) G.L. Cuvier"
+    },
+    {
+      year: "NEET/AIPMT 1994",
+      question: "Four kingdom classification was proposed by whom?",
+      options: [
+        "a) Whittaker",
+        "b) Copeland",
+        "c) Haeckel",
+        "d) Linnaeus"
+      ],
+      answer: "b) Copeland"
+    }
+  ];
+
+  if (!window.questionData) return;
+  if (!questionData[c] || !questionData[c][ch]) return;
+
+  if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
+
+  // Replace the entire section
+  questionData[c][ch].questions[section] = items;
+})();
+</script>
+
 </body>
 </html>
