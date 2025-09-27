@@ -1708,5 +1708,28 @@
     }
   });
 </script>
+
+<script>
+// Enhanced ChatGPT functionality with NCERT reference prompt
+function openChatGPT(qNum) {
+  const questionText = document.querySelector(`#question-item-${qNum} .question-text`).innerText;
+  const options = Array.from(document.querySelectorAll(`#question-item-${qNum} .option`)).map(opt => opt.innerText).join('; ');
+  const yearText = document.querySelector(`#question-item-${qNum} .question-year`).innerText;
+  
+  // Enhanced prompt with NCERT reference requirement
+  const enhancedPrompt = `Explain this ${yearText} NEET question: 
+
+Question: ${questionText}
+
+Options: ${options}
+
+Quote exact reference from NCERT biology textbook latest reprint matching the concept of this question and explain accordingly`;
+  
+  const query = encodeURIComponent(enhancedPrompt);
+  window.open(`https://chat.openai.com/?q=${query}`, '_blank');
+}
+</script>
+
+
 </body>
 </html>
