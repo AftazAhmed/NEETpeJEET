@@ -1258,6 +1258,273 @@
 
 })();
 </script>
+<script>
+(function() {
+  const c = "11";
+  const ch = "2";
+  const section = "2.1";
 
+  const items = [
+    {
+      year: "NEET/AIPMT 2019",
+      question: "Match organisms with their typical habitats: Halophiles, Thermoacidophiles, Methanogens, Cyanobacteria.",
+      options: [
+        "A4 (Salty area), B1 (Hot springs), C3 (Guts of ruminants), D2 (Aquatic)",
+        "A1, B2, C3, D4",
+        "A3, B4, C2, D1",
+        "A2, B4, C3, D1"
+      ],
+      answer: "A4 (Salty area), B1 (Hot springs), C3 (Guts of ruminants), D2 (Aquatic)"
+    },
+    {
+      year: "NEET/AIPMT 2017",
+      question: "Identify the smallest wall‑less cells that can be pathogenic and tolerate anaerobic conditions.",
+      options: ["Pseudomonas", "Mycoplasma", "Nostoc", "Bacillus"],
+      answer: "Mycoplasma"
+    },
+    {
+      year: "NEET/AIPMT 2017",
+      question: "Which component gives many bacterial cells their sticky surface?",
+      options: ["Nuclear membrane", "Plasma membrane", "Glycocalyx", "Cell wall"],
+      answer: "Glycocalyx"
+    },
+    {
+      year: "NEET/AIPMT 2017",
+      question: "In bacteria, when does DNA replication take place?",
+      options: ["Within a nucleus", "Prior to binary fission", "Just before transcription", "During S phase"],
+      answer: "Prior to binary fission"
+    },
+    {
+      year: "NEET/AIPMT 2016",
+      question: "Methanogens are classified under which group?",
+      options: ["Eubacteria", "Archaebacteria", "Dinoflagellates", "Slime moulds"],
+      answer: "Archaebacteria"
+    },
+    {
+      year: "NEET/AIPMT 2014",
+      question: "Pigment‑bearing membranous extensions in some cyanobacteria are called:",
+      options: ["Pneumatophores", "Chromatophores", "Heterocysts", "Basal bodies"],
+      answer: "Chromatophores"
+    },
+    {
+      year: "NEET/AIPMT 2013",
+      question: "Archaea and eubacteria differ mainly in:",
+      options: ["Cell membrane structure", "Mode of nutrition", "Cell shape", "Mode of reproduction"],
+      answer: "Cell membrane structure"
+    },
+    {
+      year: "NEET/AIPMT 2013",
+      question: "Which group is most likely present in deep sea waters?",
+      options: ["Blue‑green algae", "Saprophytic fungi", "Archaebacteria", "Eubacteria"],
+      answer: "Archaebacteria"
+    },
+    {
+      year: "NEET/AIPMT 2012",
+      question: "Most abundant prokaryotes aiding curd formation and antibiotic production belong to:",
+      options: ["Cyanobacteria", "Archaebacteria", "Chemosynthetic autotrophs", "Heterotrophic bacteria"],
+      answer: "Heterotrophic bacteria"
+    },
+    {
+      year: "NEET/AIPMT 2012",
+      question: "Cyanobacteria are commonly known as:",
+      options: ["Protists", "Golden algae", "Slime moulds", "Blue‑green algae"],
+      answer: "Blue‑green algae"
+    },
+    {
+      year: "NEET/AIPMT 2011",
+      question: "Which eubacterial component most resembles that of eukaryotes?",
+      options: ["Plasma membrane", "Nucleus", "Ribosomes", "Cell wall"],
+      answer: "Plasma membrane"
+    },
+    {
+      year: "NEET/AIPMT 2010",
+      question: "Some hyperthermophiles growing in highly acidic habitats belong to:",
+      options: ["Eubacteria and Archaea", "Cyanobacteria and diatoms", "Protists and mosses", "Liverworts and yeasts"],
+      answer: "Eubacteria and Archaea"
+    },
+    {
+      year: "NEET/AIPMT 2008",
+      question: "Which statement is accurate regarding Archaea in the three‑domain scheme?",
+      options: [
+        "Completely different from both prokaryotes and eukaryotes",
+        "Completely different from prokaryotes",
+        "Resemble eukarya in all respects",
+        "Have novel features absent in other domains"
+      ],
+      answer: "Have novel features absent in other domains"
+    },
+    {
+      year: "NEET/AIPMT 2008",
+      question: "Thermococcus, Methanococcus and Methanobacterium exemplify:",
+      options: [
+        "Bacteria with cytoskeleton and mitochondria",
+        "Bacteria with cytoskeleton and ribosomes",
+        "Archaea with proteins homologous to eukaryotic core histones",
+        "Archaea lacking histones with negatively supercoiled DNA"
+      ],
+      answer: "Archaea with proteins homologous to eukaryotic core histones"
+    },
+    {
+      year: "NEET/AIPMT 2008",
+      question: "Bacterial leaf blight of rice is caused by:",
+      options: ["Alternaria", "Erwinia", "Xanthomonas", "Pseudomonas"],
+      answer: "Xanthomonas"
+    },
+    {
+      year: "NEET/AIPMT 2006",
+      question: "Curing of tea leaves is chiefly due to the activity of:",
+      options: ["Fungi", "Bacteria", "Mycorrhiza", "Viruses"],
+      answer: "Bacteria"
+    },
+    {
+      year: "NEET/AIPMT 2005",
+      question: "For retting of jute, the fermenting microbes used are:",
+      options: ["Methanophilic bacteria", "Butyric acid bacteria", "Helicobacter pylori", "Streptococcus lactis"],
+      answer: "Butyric acid bacteria"
+    },
+    {
+      year: "NEET/AIPMT 2002",
+      question: "Bacterial transduction is best described as:",
+      options: [
+        "Transfer of some genes via a bacteriophage",
+        "Transfer of genes by conjugation",
+        "DNA obtained directly from mother cell",
+        "DNA taken up from the environment"
+      ],
+      answer: "Transfer of some genes via a bacteriophage"
+    },
+    {
+      year: "NEET/AIPMT 2001",
+      question: "Which statement holds true for archaebacteria?",
+      options: ["All are halophiles", "All are photosynthetic", "All are fossils", "Among the oldest living forms"],
+      answer: "Among the oldest living forms"
+    },
+    {
+      year: "NEET/AIPMT 2001/1997/1994",
+      question: "The fundamental difference between Gram‑positive and Gram‑negative bacteria is in the:",
+      options: ["Cell wall", "Cell membrane", "Cytoplasm", "Ribosomes"],
+      answer: "Cell wall"
+    },
+    {
+      year: "NEET/AIPMT 1995/1998",
+      question: "Antibiotic resistance genes in bacteria are typically found on:",
+      options: ["Chromosome", "Nucleus", "Cell wall", "Plasmid"],
+      answer: "Plasmid"
+    },
+    {
+      year: "NEET/AIPMT 1999",
+      question: "Cells of Streptococcus are generally arranged in:",
+      options: ["Chains", "Irregular clusters", "Cubes", "Plates"],
+      answer: "Chains"
+    },
+    {
+      year: "NEET/AIPMT 1998",
+      question: "The chief role of bacteria in the carbon cycle is:",
+      options: ["Chemosynthesis", "Decomposition of organic compounds", "Photosynthesis", "Nitrogen assimilation"],
+      answer: "Decomposition of organic compounds"
+    },
+    {
+      year: "NEET/AIPMT 1998",
+      question: "The DNA of E. coli is typically:",
+      options: [
+        "Double‑stranded and linear",
+        "Double‑stranded and circular",
+        "Single‑stranded and linear",
+        "Single‑stranded and circular"
+      ],
+      answer: "Double‑stranded and circular"
+    },
+    {
+      year: "NEET/AIPMT 1998",
+      question: "A bacterium divides every 35 min; starting from 10×10^5 cells/mL, how many cells after 175 min?",
+      options: ["35×10^5", "32×10^5", "175×10^5", "85×10^5"],
+      answer: "32×10^5"
+    },
+    {
+      year: "NEET/AIPMT 1998",
+      question: "In transduction, gene transfer occurs via:",
+      options: [
+        "Bacteriophages released from the donor strain",
+        "A bacterium with a special conjugation organ",
+        "Physical contact between strains",
+        "Conjugation between opposite strains"
+      ],
+      answer: "Bacteriophages released from the donor strain"
+    },
+    {
+      year: "NEET/AIPMT 1998",
+      question: "Which bacterium is engineered for pollution control?",
+      options: ["Pseudomonas", "Rhizobium", "Nitrobacter", "Nitrosomonas"],
+      answer: "Pseudomonas"
+    },
+    {
+      year: "NEET/AIPMT 1998",
+      question: "Some organisms grow at 100–105°C; they belong to:",
+      options: [
+        "Thermophilic subaerial fungi",
+        "Marine archaebacteria",
+        "Thermophilic sulphur bacteria",
+        "Hot spring cyanobacteria"
+      ],
+      answer: "Marine archaebacteria"
+    },
+    {
+      year: "NEET/AIPMT 1997",
+      question: "Organisms lacking a definite shape are:",
+      options: ["Mycoplasmas", "Bacteria", "Viruses", "Cyanobacteria"],
+      answer: "Mycoplasmas"
+    },
+    {
+      year: "NEET/AIPMT 1996",
+      question: "E. coli is widely used in labs mainly because it is:",
+      options: ["Easy to culture", "Easily available", "Easy to handle", "Multiplies rapidly in host"],
+      answer: "Easy to culture"
+    },
+    {
+      year: "NEET/AIPMT 1996",
+      question: "What functions as the ‘sex organ’ during gene transfer in bacteria?",
+      options: ["Sex pili", "Plasmid", "Circular DNA", "Gametes"],
+      answer: "Sex pili"
+    },
+    {
+      year: "NEET/AIPMT 1996",
+      question: "Bacterial DNA is of which type?",
+      options: ["Circular, free DNA", "Membrane‑bound DNA", "Straight DNA", "Helical DNA"],
+      answer: "Circular, free DNA"
+    },
+    {
+      year: "NEET/AIPMT 1995",
+      question: "Mycoplasma differ from viruses in being sensitive to:",
+      options: ["Tetracycline", "Protein", "Amino acid", "Devaine"],
+      answer: "Tetracycline"
+    },
+    {
+      year: "NEET/AIPMT 1994",
+      question: "Thermal spring cyanobacteria tolerate heat mainly due to their:",
+      options: ["Mitochondrial inheritance", "Homopolar bonds in proteins", "Cell wall structure", "Modern cell organisation"],
+      answer: "Cell wall structure"
+    },
+    {
+      year: "NEET/AIPMT 1994",
+      question: "Bacterial transduction is mediated by:",
+      options: ["Plasmid vectors", "Phage vectors", "Cosmids", "F‑factors"],
+      answer: "Phage vectors"
+    }
+  ];
+
+  if (!window.questionData) return;
+  if (!questionData[c] || !questionData[c][ch]) return;
+
+  if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
+  if (!questionData[c][ch].questions[section]) questionData[c][ch].questions[section] = [];
+
+  const existing = questionData[c][ch].questions[section];
+
+  const existingSet = new Set(existing.map(q => q.question.trim().toLowerCase()));
+  const toAdd = items.filter(q => !existingSet.has(q.question.trim().toLowerCase()));
+
+  questionData[c][ch].questions[section] = existing.concat(toAdd);
+})();
+</script>
 </body>
 </html>
