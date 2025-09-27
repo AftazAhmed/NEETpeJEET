@@ -1526,5 +1526,55 @@
   questionData[c][ch].questions[section] = existing.concat(toAdd);
 })();
 </script>
+<script>
+(function () {
+  const c = "11";
+  const ch = "2";
+  const section = "2.1";
+
+  if (!window.questionData) return;
+  const secArr = questionData?.[c]?.[ch]?.questions?.[section];
+  if (!Array.isArray(secArr)) return;
+
+  // Locate the existing 2019 "match the following" question (robust match by year + keywords)
+  const isTarget = (q) => {
+    const yr = (q.year || "").toString();
+    const qt = (q.question || "").toLowerCase();
+    return yr.includes("2019") && (
+      qt.includes("match") ||
+      qt.includes("halophile") ||
+      qt.includes("thermoacid") ||
+      qt.includes("methanogen") ||
+      qt.includes("cyanobacter")
+    );
+  };
+
+  const idx = secArr.findIndex(isTarget);
+
+  // New, well-formatted match-the-following version (paraphrased)
+  const newItem = {
+    year: "NEET/AIPMT 2019",
+    question:
+      "Match the groups (Column I) with their typical habitats (Column II) and choose the correct combination:<br><br>" +
+      "Column I (Groups): 1. Halophiles &nbsp;&nbsp; 2. Thermoacidophiles &nbsp;&nbsp; 3. Methanogens &nbsp;&nbsp; 4. Cyanobacteria<br>" +
+      "Column II (Habitats): A. Hot springs &nbsp;&nbsp; B. Rumen of ruminants &nbsp;&nbsp; C. Saline lakes &nbsp;&nbsp; D. Aquatic, light-rich waters",
+    options: [
+      "1–C, 2–A, 3–B, 4–D",
+      "1–A, 2–B, 3–C, 4–D",
+      "1–B, 2–C, 3–D, 4–A",
+      "1–D, 2–A, 3–B, 4–C"
+    ],
+    answer: "1–C, 2–A, 3–B, 4–D"
+  };
+
+  // Replace if found; if not found, prepend
+  if (idx >= 0) {
+    secArr.splice(idx, 1, newItem);
+  } else {
+    secArr.unshift(newItem);
+  }
+})();
+</script>
+
 </body>
 </html>
