@@ -1543,30 +1543,22 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 </script>
 <script>
-// Force refresh cached questions - debugging script
+// SAFE fix - no page reload, just clear cache once
 (function() {
-  // Clear localStorage cache for questions
-  localStorage.removeItem('cumulativeScores');
-  localStorage.removeItem('answeredQuestionsByChapter');
-  localStorage.removeItem('answeredQuestionsBySection');
-  
-  // Force reload of questions by clearing the existing data structure
-  if (window.questionData) {
-    const c = "11";
-    const ch = "2";
-    const section = "2.0";
-    
-    // Delete existing section data to force refresh
-    if (questionData[c] && questionData[c][ch] && questionData[c][ch].questions) {
-      delete questionData[c][ch].questions[section];
-    }
+  // Only clear localStorage cache without reloading
+  if (localStorage.getItem('questionsCleared') !== 'true') {
+    localStorage.removeItem('cumulativeScores');
+    localStorage.removeItem('answeredQuestionsByChapter');
+    localStorage.removeItem('answeredQuestionsBySection');
+    localStorage.setItem('questionsCleared', 'true');
   }
   
-  // Reload the page after a short delay to ensure clean state
-  setTimeout(() => {
-    console.log('Forcing page reload to refresh questions...');
-    window.location.reload();
-  }, 500);
+  // Reset global variables
+  window.cumulativeScores = {};
+  window.answeredQuestionsByChapter = {};
+  window.answeredQuestionsBySection = {};
+  
+  console.log('Cache cleared safely - no reload');
 })();
 </script>
 </body>
