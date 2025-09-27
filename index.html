@@ -1806,111 +1806,74 @@
 </script>
 
 <script>
-/*
-  Per-section Refresh for scores
-  - Clears only the active section’s attempts from answeredQuestionsBySection
-  - Removes those questions from the chapter map and adjusts the chapter correct count
-  - Leaves other sections’ scores intact
-  - Rebinds the Refresh button to this behavior
-*/
-(function () {
-  // Reset only the selected section's score
-  function resetSectionScore(classId, chapterId, sectionId) {
-    if (!classId || !chapterId || !sectionId) return;
-
-    // Ensure global stores exist
-    window.cumulativeScores = window.cumulativeScores || {};
-    window.answeredQuestionsByChapter = window.answeredQuestionsByChapter || {};
-    window.answeredQuestionsBySection = window.answeredQuestionsBySection || {};
-
-    const sectionKey = `${classId}_${chapterId}_${sectionId}`;
-    const sectionMap = answeredQuestionsBySection[sectionKey] || {};
-    const chapterMap =
-      (answeredQuestionsByChapter[classId] &&
-        answeredQuestionsByChapter[classId][chapterId]) ||
-      {};
-
-    // Adjust chapter-level correct count for questions belonging to this section
-    Object.keys(sectionMap).forEach((qKey) => {
-      const wasCorrectChapter = chapterMap[qKey] === true;
-      if (
-        wasCorrectChapter &&
-        cumulativeScores[classId] &&
-        cumulativeScores[classId][chapterId]
-      ) {
-        cumulativeScores[classId][chapterId].correct = Math.max(
-          0,
-          (cumulativeScores[classId][chapterId].correct || 0) - 1
-        );
+// Fix for per-section refresh - replaces existing refresh functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const refreshBtn = document.getElementById('refreshChapterBtn');
+  
+  if (refreshBtn) {
+    // Remove existing event listeners by cloning the button
+    const newBtn = refreshBtn.cloneNode(true);
+    refreshBtn.parentNode.replaceChild(newBtn, refreshBtn);
+    
+    // Add new event listener for section-only refresh
+    newBtn.addEventListener('click', function() {
+      const classSelect = document.getElementById('classSelect');
+      const chapterSelect = document.getElementById('chapterSelect');
+      const sectionSelect = document.getElementById('sectionSelect');
+      
+      const c = classSelect?.value;
+      const ch = chapterSelect?.value;
+      const sec = sectionSelect?.value;
+      
+      if (!c || !ch || !sec) return;
+      
+      // Create section key
+      const sectionKey = `${c}_${ch}_${sec}`;
+      
+      // Get questions in current section that were answered
+      if (answeredQuestionsBySection[sectionKey]) {
+        const sectionAnswers = answeredQuestionsBySection[sectionKey];
+        
+        // For each answered question in this section, adjust chapter score
+        Object.keys(sectionAnswers).forEach(questionKey => {
+          const wasCorrect = sectionAnswers[questionKey];
+          
+          // Remove from chapter tracking
+          if (answeredQuestionsByChapter[c] && answeredQuestionsByChapter[c][ch]) {
+            delete answeredQuestionsByChapter[c][ch][questionKey];
+          }
+          
+          // Adjust chapter correct count
+          if (wasCorrect && cumulativeScores[c] && cumulativeScores[c][ch]) {
+            cumulativeScores[c][ch].correct = Math.max(0, cumulativeScores[c][ch].correct - 1);
+          }
+        });
+        
+        // Clear only this section
+        delete answeredQuestionsBySection[sectionKey];
       }
-      // Remove the question from the chapter answered map
-      if (
-        answeredQuestionsByChapter[classId] &&
-        answeredQuestionsByChapter[classId][chapterId]
-      ) {
-        delete answeredQuestionsByChapter[classId][chapterId][qKey];
-      }
+      
+      // Save the changes
+      saveScores();
+      
+      // Reset UI for current questions
+      document.querySelectorAll('.option').forEach(opt => {
+        opt.classList.remove('correct-temp', 'incorrect-temp', 'disabled');
+        const popup = opt.querySelector('.answer-popup');
+        if (popup) popup.remove();
+      });
+      
+      document.querySelectorAll('.answer-reveal').forEach(reveal => {
+        reveal.style.display = 'none';
+      });
+      
+      // Update score display
+      updateScoreDisplay();
     });
-
-    // Clear only this section’s map
-    delete answeredQuestionsBySection[sectionKey];
-
-    // Persist using existing saver if present
-    if (typeof saveScores === "function") saveScores();
-
-    // If this section is currently visible, also reset UI state
-    try {
-      const contentArea = document.getElementById("contentArea");
-      if (contentArea) {
-        // Enable options and remove temp classes/popups
-        contentArea.querySelectorAll(".option").forEach((opt) => {
-          opt.classList.remove("correct-temp", "incorrect-temp", "disabled");
-          const popup = opt.querySelector(".answer-popup");
-          if (popup && popup.parentNode) popup.parentNode.removeChild(popup);
-        });
-        // Hide any revealed answers
-        contentArea.querySelectorAll(".answer-reveal").forEach((ar) => {
-          ar.style.display = "none";
-        });
-      }
-    } catch (e) {
-      // Non-fatal UI cleanup error; ignore
-    }
-
-    // Update score display
-    if (typeof updateScoreDisplay === "function") updateScoreDisplay();
   }
-
-  // Bind/override the Refresh button click to per-section reset
-  function bindPerSectionRefresh() {
-    const btn = document.getElementById("refreshChapterBtn");
-    if (!btn) return;
-
-    btn.onclick = function (e) {
-      if (e && typeof e.preventDefault === "function") e.preventDefault();
-
-      const classSelect = document.getElementById("classSelect");
-      const chapterSelect = document.getElementById("chapterSelect");
-      const sectionSelect = document.getElementById("sectionSelect");
-
-      const c = classSelect && classSelect.value;
-      const ch = chapterSelect && chapterSelect.value;
-      const sec = sectionSelect && sectionSelect.value;
-
-      // Only act when a valid section is selected
-      if (c && ch && sec) {
-        resetSectionScore(c, ch, sec);
-      }
-    };
-  }
-
-  // Initialize binding once DOM is ready
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", bindPerSectionRefresh, { once: true });
-  } else {
-    bindPerSectionRefresh();
-  }
-})();
+});
 </script>
+
+
 </body>
 </html>
