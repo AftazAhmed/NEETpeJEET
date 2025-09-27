@@ -1770,5 +1770,49 @@ document.addEventListener('DOMContentLoaded', function() {
   questionData[c][ch].questions[section] = items;
 })();
 </script>
+<script>
+// Debug script to check what's happening
+(function() {
+  console.log('=== DEBUGGING QUESTIONS ===');
+  console.log('questionData exists:', !!window.questionData);
+  
+  if (window.questionData) {
+    console.log('Class 11 exists:', !!questionData["11"]);
+    console.log('Chapter 2 exists:', !!questionData["11"]?["2"]);
+    console.log('Chapter 2 questions:', questionData["11"]?["2"]?.questions);
+    console.log('Section 2.0 exists:', !!questionData["11"]?["2"]?.questions?.["2.0"]);
+    console.log('Section 2.1 exists:', !!questionData["11"]?["2"]?.questions?.["2.1"]);
+    
+    if (questionData["11"]?.["2"]?.questions?.["2.0"]) {
+      console.log('Section 2.0 questions count:', questionData["11"]["2"].questions["2.0"].length);
+    }
+    if (questionData["11"]?.["2"]?.questions?.["2.1"]) {
+      console.log('Section 2.1 questions count:', questionData["11"]["2"].questions["2.1"].length);
+    }
+  }
+  
+  // Check current dropdown values
+  const classSelect = document.getElementById('classSelect');
+  const chapterSelect = document.getElementById('chapterSelect');
+  const sectionSelect = document.getElementById('sectionSelect');
+  
+  console.log('Current selections:');
+  console.log('Class:', classSelect?.value || 'none');
+  console.log('Chapter:', chapterSelect?.value || 'none');
+  console.log('Section:', sectionSelect?.value || 'none');
+  
+  // Force show questions if everything is selected
+  if (classSelect?.value === "11" && chapterSelect?.value === "2" && sectionSelect?.value) {
+    console.log('Forcing showQuestions()...');
+    if (typeof showQuestions === 'function') {
+      showQuestions();
+    } else {
+      console.log('showQuestions function not found!');
+    }
+  }
+})();
+</script>
+
+
 </body>
 </html>
