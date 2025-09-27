@@ -1561,5 +1561,21 @@ document.addEventListener('DOMContentLoaded', function() {
   console.log('Cache cleared safely - no reload');
 })();
 </script>
+<script>
+// Safe cache clearer - add this first
+(function() {
+  if (localStorage.getItem('questionsCleared') !== 'true') {
+    localStorage.removeItem('cumulativeScores');
+    localStorage.removeItem('answeredQuestionsByChapter'); 
+    localStorage.removeItem('answeredQuestionsBySection');
+    localStorage.setItem('questionsCleared', 'true');
+  }
+  
+  window.cumulativeScores = {};
+  window.answeredQuestionsByChapter = {};
+  window.answeredQuestionsBySection = {};
+})();
+</script>
+
 </body>
 </html>
