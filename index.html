@@ -1998,7 +1998,203 @@ Version 2: NCERT based, quote the exact matching statement from NCERT biology te
   }
 })();
 </script>
+<script>
+/* ===== Addon: persistent red/green highlight + persistent "Attempted" label (survives section switch; clears on Refresh) ===== */
+(function () {
+  const STORAGE_KEY = 'attemptedSelections_v1'; // persists across section switches
 
+  // Load/save persisted selections { [sectionKey]: { [qKey]: { index:number, correct:boolean } } }
+  function loadAttempted() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; }
+  }
+  function saveAttempted(obj) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); } catch(e) {}
+  }
+  let attemptedSelections = loadAttempted();
+
+  // CSS for persistent states and attempted label
+  function ensureStyles() {
+    if (document.getElementById('persist-attempt-style')) return;
+    const style = document.createElement('style');
+    style.id = 'persist-attempt-style';
+    style.textContent = `
+      .option.correct-persist {
+        background-color: rgba(25, 135, 84, 0.25);
+        border-color: rgba(25, 135, 84, 0.35);
+        color: #2e7d32;
+      }
+      .option.incorrect-persist {
+        background-color: rgba(220, 53, 69, 0.20);
+        border-color: rgba(220, 53, 69, 0.35);
+        color: #b02a37;
+      }
+      .attempted-note {
+        margin-top: 6px;
+        font-size: 12px;
+        line-height: 1.25;
+        color: #1d4ed8;
+        background: #fff7cc;
+        border: 1px dashed #f59e0b;
+        padding: 4px 8px;
+        border-radius: 6px;
+        display: inline-block;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // Ensure an "Attempted" label exists for this question
+  function addAttemptedNote(qNum) {
+    const item = document.getElementById(`question-item-${qNum}`);
+    if (!item) return;
+    if (item.querySelector('.attempted-note')) return;
+    const optionsWrap = document.getElementById(`options-${qNum}`);
+    if (!optionsWrap) return;
+    const note = document.createElement('div');
+    note.className = 'attempted-note';
+    note.textContent = 'Attempted';
+    optionsWrap.insertAdjacentElement('afterend', note);
+  }
+
+  // Apply persistent highlight and disabling to a single question based on stored selection
+  function applyPersistToQuestion(qNum, selIndex, isCorrect) {
+    const optionsWrap = document.getElementById(`options-${qNum}`);
+    if (!optionsWrap) return;
+    const opts = optionsWrap.querySelectorAll('.option');
+    opts.forEach(o => {
+      o.classList.add('disabled');
+      o.style.cursor = 'default';
+      o.setAttribute('aria-disabled', 'true');
+      o.tabIndex = -1;
+    });
+    const chosen = optionsWrap.querySelector(`.option[data-index="${selIndex}"]`);
+    if (chosen) {
+      chosen.classList.remove('correct-temp', 'incorrect-temp');
+      chosen.classList.add(isCorrect ? 'correct-persist' : 'incorrect-persist');
+    }
+    addAttemptedNote(qNum);
+  }
+
+  // Repaint all persisted states for the current c, ch, section after showQuestions renders DOM
+  function repaintPersistedForCurrentSection() {
+    const classSelect = document.getElementById('classSelect');
+    const chapterSelect = document.getElementById('chapterSelect');
+    const sectionSelect = document.getElementById('sectionSelect');
+    if (!classSelect || !chapterSelect || !sectionSelect) return;
+    const c = classSelect.value, ch = chapterSelect.value, sec = sectionSelect.value;
+    if (!c || !ch || !sec) return;
+    const sectionKey = `${c}_${ch}_${sec}`;
+    const entries = attemptedSelections[sectionKey];
+    if (!entries) return;
+
+    // entries: { q123: {index, correct}, ...}
+    Object.keys(entries).forEach(qKey => {
+      const qNum = Number(String(qKey).replace(/^q/, ''));
+      const { index, correct } = entries[qKey] || {};
+      if (Number.isFinite(qNum) && Number.isFinite(index)) {
+        applyPersistToQuestion(qNum, index, !!correct);
+      }
+    });
+  }
+
+  // Suppress transient tick/cross popup (green impression) entirely
+  window.showTickCrossPopup = function () { /* suppressed by addon */ };
+
+  // Patch handleOptionClick to also persist the visual state and the selection
+  function patchHandleOptionClick() {
+    if (typeof window.handleOptionClick !== 'function') return false;
+    if (window.handleOptionClick._persistPatched) return true;
+
+    const original = window.handleOptionClick;
+    window.handleOptionClick = function (event, classId, chapterId, section, qNum, correctAnswer) {
+      const target = event?.currentTarget;
+      const selectedText = (target?.textContent || '').trim();
+      // original will disable options and compute scoring
+      original.call(this, event, classId, chapterId, section, qNum, correctAnswer);
+
+      // compute selection index from data-index (present in your markup)
+      const optIndex = Number(target?.getAttribute('data-index'));
+      const isCorrect = (selectedText === correctAnswer);
+
+      // persist visually
+      if (target) {
+        target.classList.remove('correct-temp', 'incorrect-temp');
+        target.classList.add(isCorrect ? 'correct-persist' : 'incorrect-persist');
+      }
+      addAttemptedNote(qNum);
+
+      // persist logically across section switches
+      const sectionKey = `${classId}_${chapterId}_${section}`;
+      const qKey = `q${qNum}`;
+      if (!attemptedSelections[sectionKey]) attemptedSelections[sectionKey] = {};
+      attemptedSelections[sectionKey][qKey] = { index: optIndex, correct: isCorrect };
+      saveAttempted(attemptedSelections);
+    };
+    window.handleOptionClick._persistPatched = true;
+    return true;
+  }
+
+  // Patch showQuestions to repaint persisted states after it finishes rendering
+  function patchShowQuestions() {
+    if (typeof window.showQuestions !== 'function') return false;
+    if (window.showQuestions._persistPatched) return true;
+
+    const original = window.showQuestions;
+    window.showQuestions = function () {
+      const res = original.apply(this, arguments);
+      // wait a tick to ensure DOM nodes exist, then repaint persisted states
+      setTimeout(() => repaintPersistedForCurrentSection(), 0);
+      return res;
+    };
+    window.showQuestions._persistPatched = true;
+    return true;
+  }
+
+  // Bind clearing behavior to the existing Refresh button (per-section)
+  function bindRefreshClear() {
+    const btn = document.getElementById('refreshChapterBtn');
+    if (!btn) return false;
+
+    btn.addEventListener('click', () => {
+      const classSelect = document.getElementById('classSelect');
+      const chapterSelect = document.getElementById('chapterSelect');
+      const sectionSelect = document.getElementById('sectionSelect');
+      if (!classSelect || !chapterSelect || !sectionSelect) return;
+      const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
+
+      // Clear persistent selections for this section only
+      if (attemptedSelections[sectionKey]) {
+        delete attemptedSelections[sectionKey];
+        saveAttempted(attemptedSelections);
+      }
+
+      // Clear visual marks in current DOM
+      document.querySelectorAll('.option.correct-persist, .option.incorrect-persist')
+        .forEach(el => el.classList.remove('correct-persist', 'incorrect-persist'));
+      document.querySelectorAll('.attempted-note').forEach(n => n.remove());
+    });
+    return true;
+  }
+
+  // Init with retries to ensure functions and elements exist
+  function init(attemptsLeft = 40) {
+    ensureStyles();
+    const ok1 = patchHandleOptionClick();
+    const ok2 = patchShowQuestions();
+    const ok3 = bindRefreshClear();
+
+    if ((!ok1 || !ok2 || !ok3) && attemptsLeft > 0) {
+      setTimeout(() => init(attemptsLeft - 1), 100);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => init(), { once: true });
+  } else {
+    init();
+  }
+})();
+</script>
 
 </body>
 </html>
