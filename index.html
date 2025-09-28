@@ -1708,5 +1708,279 @@
     }
   });
 </script>
+
+<script>
+(function() {
+  const c = "11";
+  const ch = "2";
+  const section = "2.2";
+
+  const items = [
+    {
+      year: "NEET/AIPMT 2018",
+      question: "Ciliates are unique among protozoans because they possess two forms of nuclei in the same cell.",
+      options: [
+        "a) use flagella for locomotion",
+        "b) have a contractile vacuole for osmoregulation",
+        "c) capture prey using pseudopodia",
+        "d) have two kinds of nuclei"
+      ],
+      answer: "d) have two kinds of nuclei"
+    },
+    {
+      year: "NEET/AIPMT 2018",
+      question: "In ocean ecosystems, the chief primary producers are generally diatoms among the chrysophytes.",
+      options: [
+        "a) Dinoflagellates",
+        "b) Diatoms",
+        "c) Cyanobacteria",
+        "d) Euglenoids"
+      ],
+      answer: "b) Diatoms"
+    },
+    {
+      year: "NEET/AIPMT 2016",
+      question: "Chrysophytes, euglenoids, dinoflagellates, and slime moulds are placed together under which kingdom?",
+      options: [
+        "a) Fungi",
+        "b) Animalia",
+        "c) Monera",
+        "d) Protista"
+      ],
+      answer: "d) Protista"
+    },
+    {
+      year: "NEET/AIPMT 2016",
+      question: "Choose the incorrect statement about diatoms.",
+      options: [
+        "a) Diatom walls are easily destructible",
+        "b) Their siliceous walls form diatomaceous earth",
+        "c) They act as chief producers in oceans",
+        "d) They are microscopic and drift passively in water"
+      ],
+      answer: "a) Diatom walls are easily destructible"
+    },
+    {
+      year: "NEET/AIPMT 2015",
+      question: "Which group shows a wall made of two thin overlapping halves that fit like a box and lid?",
+      options: [
+        "a) Dinoflagellates",
+        "b) Slime moulds",
+        "c) Chrysophytes (diatoms)",
+        "d) Euglenoids"
+      ],
+      answer: "c) Chrysophytes (diatoms)"
+    },
+    {
+      year: "NEET/AIPMT 2011",
+      question: "Identify the organism that is not eukaryotic.",
+      options: [
+        "a) Paramecium caudatum",
+        "b) Escherichia coli",
+        "c) Euglena viridis",
+        "d) Amoeba proteus"
+      ],
+      answer: "b) Escherichia coli"
+    },
+    {
+      year: "NEET/AIPMT 2007",
+      question: "Select the correctly identified representative of slime moulds.",
+      options: [
+        "a) Physarum",
+        "b) Thiobacillus",
+        "c) Anabaena",
+        "d) Rhizopus"
+      ],
+      answer: "a) Physarum"
+    },
+    {
+      year: "NEET/AIPMT 2005",
+      question: "Auxospores and hormogonia are formed, respectively, by:",
+      options: [
+        "a) some diatoms; several cyanobacteria",
+        "b) some cyanobacteria; many diatoms",
+        "c) several cyanobacteria; several diatoms",
+        "d) several diatoms; few cyanobacteria"
+      ],
+      answer: "a) some diatoms; several cyanobacteria"
+    },
+    {
+      year: "NEET/AIPMT 2004",
+      question: "A freshwater protozoan bearing a contractile vacuole is kept in sea water; the vacuole would:",
+      options: [
+        "a) increase in number",
+        "b) disappear",
+        "c) increase in size",
+        "d) decrease in size"
+      ],
+      answer: "b) disappear"
+    },
+    {
+      year: "NEET/AIPMT 2003",
+      question: "The main advantage of encystment in Amoeba is:",
+      options: [
+        "a) survival during harsh conditions",
+        "b) living without food for a period",
+        "c) protection from parasites and predators",
+        "d) removal of accumulated wastes"
+      ],
+      answer: "a) survival during harsh conditions"
+    },
+    {
+      year: "NEET/AIPMT 2002",
+      question: "Which organism carries two morphologically distinct nuclei in one cell?",
+      options: [
+        "a) Amoeba proteus",
+        "b) Trypanosoma gambiense",
+        "c) Plasmodium vivax",
+        "d) Paramecium caudatum"
+      ],
+      answer: "d) Paramecium caudatum"
+    },
+    {
+      year: "NEET/AIPMT 2002",
+      question: "In Amoeba and Paramecium, osmoregulation is mainly performed by:",
+      options: [
+        "a) contractile vacuole",
+        "b) nucleus",
+        "c) mitochondria",
+        "d) food vacuole"
+      ],
+      answer: "a) contractile vacuole"
+    },
+    {
+      year: "NEET/AIPMT 2000/1992",
+      question: "The malarial parasite is best described as:",
+      options: [
+        "a) Polygenetic",
+        "b) Digenetic",
+        "c) Monogenetic",
+        "d) Monomorphic"
+      ],
+      answer: "b) Digenetic"
+    },
+    {
+      year: "NEET/AIPMT 1999",
+      question: "The motile, elongated zygote (ookinete) of Plasmodium occurs in the:",
+      options: [
+        "a) human RBCs",
+        "b) human liver",
+        "c) mosquito salivary glands",
+        "d) mosquito gut"
+      ],
+      answer: "d) mosquito gut"
+    },
+    {
+      year: "NEET/AIPMT 1998",
+      question: "After a bite by an infected female Anopheles, malarial symptoms generally appear after:",
+      options: [
+        "a) 2–8 days",
+        "b) 8–10 days",
+        "c) 10–20 days",
+        "d) 20–30 days"
+      ],
+      answer: "c) 10–20 days"
+    },
+    {
+      year: "NEET/AIPMT 1997",
+      question: "The infective stage of Entamoeba histolytica for humans is the:",
+      options: [
+        "a) trophozoite",
+        "b) precyst",
+        "c) uninucleate cyst",
+        "d) tetranucleate cyst"
+      ],
+      answer: "d) tetranucleate cyst"
+    },
+    {
+      year: "NEET/AIPMT 1995",
+      question: "Which organism exhibits both plant-like and animal-like traits?",
+      options: [
+        "a) Euglena",
+        "b) Paramecium",
+        "c) Mycoplasma",
+        "d) Bacteria"
+      ],
+      answer: "a) Euglena"
+    },
+    {
+      year: "NEET/AIPMT 1995",
+      question: "In protozoa, the primary function of the contractile vacuole is:",
+      options: [
+        "a) osmoregulation",
+        "b) reproduction",
+        "c) locomotion",
+        "d) digestion"
+      ],
+      answer: "a) osmoregulation"
+    },
+    {
+      year: "NEET/AIPMT 1993",
+      question: "The transverse groove in dinoflagellates is termed the:",
+      options: [
+        "a) sulcus",
+        "b) cingulum",
+        "c) annulus",
+        "d) both (b) and (c)"
+      ],
+      answer: "b) cingulum"
+    },
+    {
+      year: "NEET/AIPMT 1993",
+      question: "In cellular slime moulds, the spore-producing body is the:",
+      options: [
+        "a) pseudoplasmodium",
+        "b) plasmodium",
+        "c) sporangium",
+        "d) sporophore"
+      ],
+      answer: "c) sporangium"
+    },
+    {
+      year: "NEET/AIPMT 1992",
+      question: "The phase of Plasmodium vivax completed in the female Anopheles is the:",
+      options: [
+        "a) sexual cycle",
+        "b) pre-erythrocytic schizogony",
+        "c) exoerythrocytic schizogony",
+        "d) post-erythrocytic schizogony"
+      ],
+      answer: "a) sexual cycle"
+    },
+    {
+      year: "NEET/AIPMT 1990",
+      question: "Plasmodium (malarial parasite) belongs to the class:",
+      options: [
+        "a) Sarcodina",
+        "b) Ciliata",
+        "c) Sporozoa",
+        "d) Dinophyceae"
+      ],
+      answer: "c) Sporozoa"
+    }
+  ];
+
+  if (!window.questionData) return;
+  if (!questionData[c] || !questionData[c][ch]) return;
+  if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
+
+  // Replace 2.2 entirely
+  questionData[c][ch].questions[section] = items;
+
+  // If currently viewing 2.2, refresh the display
+  const classSelect = document.getElementById('classSelect');
+  const chapterSelect = document.getElementById('chapterSelect');
+  const sectionSelect = document.getElementById('sectionSelect');
+  if (classSelect?.value === c && chapterSelect?.value === ch && sectionSelect?.value === section) {
+    setTimeout(() => {
+      if (typeof showQuestions === 'function') showQuestions();
+    }, 100);
+  }
+})();
+</script>
+
+
+
+
 </body>
 </html>
