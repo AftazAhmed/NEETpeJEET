@@ -2339,6 +2339,110 @@ Version 2: NCERT based, quote the exact matching statement from NCERT biology te
   }
 })();
 </script>
+<script>
+/* Fix: Ensure sections 2.2–2.6 display immediately and are not cleared afterward */
+(function () {
+  function safeShowFirstSection() {
+    const classSelect = document.getElementById('classSelect');
+    const chapterSelect = document.getElementById('chapterSelect');
+    const sectionSelect = document.getElementById('sectionSelect');
+    if (!classSelect || !chapterSelect || !sectionSelect) return;
+
+    const c = classSelect.value;
+    const ch = chapterSelect.value;
+
+    if (!c || !ch) return;
+
+    const chapter = (window.questionData && questionData[c] && questionData[c][ch]) || null;
+    if (!chapter) return;
+
+    // Populate sections from chapter data if not already
+    const sections = chapter.sections || [];
+    if (sectionSelect.options.length === 0 && sections.length > 0) {
+      sectionSelect.disabled = false;
+      sectionSelect.innerHTML = '';
+      sections.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id;
+        opt.textContent = `${s.id}: ${s.name}`;
+        sectionSelect.appendChild(opt);
+      });
+    }
+
+    // Auto-select first section and render questions
+    if (sectionSelect.options.length > 0) {
+      sectionSelect.selectedIndex = 0;
+      sectionSelect.value = sectionSelect.options[0].value;
+      if (typeof showQuestions === 'function') {
+        showQuestions();
+      }
+    }
+  }
+
+  // Override updateSections to avoid clearing after rendering
+  const originalUpdateSections = window.updateSections;
+  window.updateSections = function () {
+    const contentArea = document.getElementById('contentArea');
+    const sectionSelect = document.getElementById('sectionSelect');
+    const chapterSelect = document.getElementById('chapterSelect');
+
+    // Clear early (before we render), not after
+    if (contentArea) {
+      contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
+    }
+    if (sectionSelect) {
+      sectionSelect.disabled = true;
+      sectionSelect.innerHTML = '<option value="">Select Section</option>';
+    }
+
+    // Call original to rebuild chapter and section list
+    if (typeof originalUpdateSections === 'function') {
+      try { originalUpdateSections(); } catch (e) { /* no-op */ }
+    }
+
+    // If a chapter is chosen, fill and show first section
+    if (chapterSelect && chapterSelect.value) {
+      setTimeout(safeShowFirstSection, 50);
+    }
+  };
+
+  // If addons ran before questionData existed, retry when DOM and data are ready
+  function waitForDataAndRender(attemptsLeft = 40) {
+    const classSelect = document.getElementById('classSelect');
+    const chapterSelect = document.getElementById('chapterSelect');
+    const sectionSelect = document.getElementById('sectionSelect');
+
+    const dataReady =
+      window.questionData &&
+      questionData["11"] &&
+      questionData["11"]["2"] &&
+      questionData["11"]["2"].questions &&
+      (questionData["11"]["2"].questions["2.2"] ||
+       questionData["11"]["2"].questions["2.3"] ||
+       questionData["11"]["2"].questions["2.4"] ||
+       questionData["11"]["2"].questions["2.5"] ||
+       questionData["11"]["2"].questions["2.6"]);
+
+    if (!dataReady) {
+      if (attemptsLeft <= 0) return;
+      return setTimeout(() => waitForDataAndRender(attemptsLeft - 1), 100);
+    }
+
+    // If user is already at Class 11, Chapter 2, re-render the first section immediately
+    if (classSelect && chapterSelect && sectionSelect) {
+      if (classSelect.value === "11" && chapterSelect.value === "2") {
+        safeShowFirstSection();
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => waitForDataAndRender(), { once: true });
+  } else {
+    waitForDataAndRender();
+  }
+})();
+</script>
 
 </body>
 </html>
