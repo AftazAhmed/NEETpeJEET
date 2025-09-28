@@ -412,7 +412,7 @@
   <div class="class-reload-group">
     <div class="class-dropdown-part">
       <label for="classSelect">Class:</label>
-      <select id="classSelect" aria-controls="chapterSelect sectionSelect" aria-required="true">
+      <select id="classSelect" aria-controls="chapterSelect sectionSelect" aria-required="true" onchange="updateChapters()">
         <option value="">Select Class</option>
         <option value="11">Class 11</option>
         <option value="12">Class 12</option>
@@ -422,13 +422,13 @@
   </div>
   <div class="dropdown-group">
     <label for="chapterSelect">Chapter:</label>
-    <select id="chapterSelect" aria-controls="sectionSelect" aria-required="true" disabled>
+    <select id="chapterSelect" aria-controls="sectionSelect" aria-required="true" disabled onchange="updateSections()">
       <option value="">Select Chapter</option>
     </select>
   </div>
   <div class="dropdown-group">
     <label for="sectionSelect">Section:</label>
-    <select id="sectionSelect" aria-required="true" disabled>
+    <select id="sectionSelect" aria-required="true" disabled onchange="showQuestions()">
       <option value="">Select Section</option>
     </select>
   </div>
@@ -994,7 +994,7 @@
 
   // ========== Persistence ==========
   function sectionAnsweredKey({ cls, ch, sec }) {
-    return `answered:${cls}-${ch}-${sec}`; // session-based
+    return `answered:${cls}-${ch}-${sec}`;
   }
   function readSectionAnswered(keys) {
     try {
@@ -1009,7 +1009,7 @@
   }
 
   function sectionScoreKey({ cls, ch, sec }) {
-    return `score:${cls}-${ch}-${sec}`; // persistent
+    return `score:${cls}-${ch}-${sec}`;
   }
   function readSectionScore(keys) {
     try {
@@ -1031,7 +1031,7 @@
   }
 
   // ========== UI population ==========
-    function updateChapters() {
+  function updateChapters() {
     chapterSelect.innerHTML = '<option value="">Select Chapter</option>';
     sectionSelect.innerHTML = '<option value="">Select Section</option>';
     sectionSelect.disabled = true;
@@ -1058,7 +1058,6 @@
 
   function updateSections() {
     sectionSelect.innerHTML = '<option value="">Select Section</option>';
-
     const { cls, ch } = getSelectionKeys();
     if (!cls || !ch) {
       sectionSelect.disabled = true;
@@ -1066,23 +1065,22 @@
       updateScoreCard();
       return;
     }
-
     const sections = safeGet(window.questionData, [cls, ch, 'sections'], []);
-    sections.slice().sort((a, b) => {
+    sections.slice().sort((a,b) => {
       const A = a.id.split('.').map(Number), B = b.id.split('.').map(Number);
-      return (A[0] - B[0]) || (A[1] - B[1]) || 0;
+      return (A[0]-B[0]) || (A[1]-B[1]) || 0;
     }).forEach(s => {
       const opt = document.createElement('option');
       opt.value = s.id;
       opt.textContent = `${s.id} — ${s.name}`;
       sectionSelect.appendChild(opt);
     });
-
     sectionSelect.disabled = sections.length === 0;
     renderNoSelection();
     updateScoreCard();
   }
 
+  // ========== Rendering ==========
   function showQuestions() {
     const { cls, ch, sec } = getSelectionKeys();
     const allQs = safeGet(window.questionData, [cls, ch, 'questions', sec], []);
@@ -1264,12 +1262,10 @@
     toast.className = 'copy-toast';
     toast.textContent = message;
     document.body.appendChild(toast);
-    setTimeout(() => {
-      toast.remove();
-    }, 2200);
+    setTimeout(() => { toast.remove(); }, 2200);
   }
 
-  // Ask AI modal integration
+    // Ask AI modal integration
   function openAIModalWithQuestion(q, keys) {
     const { cls, ch, sec } = keys || getSelectionKeys();
     const chapterTitle = safeGet(window.questionData, [cls, ch, 'title'], `Chapter ${ch}`);
@@ -1323,7 +1319,7 @@
     contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
   }
 
-  // Event listeners
+  // Wire events (in addition to inline onchange for resilience)
   classSelect.addEventListener('change', updateChapters);
   chapterSelect.addEventListener('change', updateSections);
   sectionSelect.addEventListener('change', showQuestions);
@@ -1407,22 +1403,16 @@
     // Refresh UI while retaining current selections where possible
     const { cls, ch, sec } = getSelectionKeys();
 
-    // Repopulate chapters if class is selected
     if (cls) {
       const prevCh = ch;
       const prevSec = sec;
 
-      // Rebuild chapter list to include any newly added chapters
       updateChapters();
 
-      // Restore chapter if it still exists
       if (prevCh && safeGet(window.questionData, [cls, prevCh])) {
         chapterSelect.value = prevCh;
-
-        // Rebuild sections for restored chapter
         updateSections();
 
-        // Restore section if it still exists
         const sections = safeGet(window.questionData, [cls, prevCh, 'sections'], []);
         if (prevSec && sections.some(s => s.id === prevSec)) {
           sectionSelect.value = prevSec;
@@ -1442,7 +1432,7 @@
 </script>
 
 <!-- ========= Paste your add-on script block BELOW this line and ABOVE </body> =========
-Example usage (remove the surrounding comment and edit):
+Example:
 <script>
   window.mergeQuestionData({
     "11": {
