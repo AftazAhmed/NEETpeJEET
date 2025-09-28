@@ -1759,6 +1759,29 @@
 })();
 </script>
 
+<script>
+// Enhanced ChatGPT functionality with two-version answer format
+function openChatGPT(qNum) {
+  const questionText = document.querySelector(`#question-item-${qNum} .question-text`).innerText;
+  const options = Array.from(document.querySelectorAll(`#question-item-${qNum} .option`)).map(opt => opt.innerText).join('; ');
+  const yearText = document.querySelector(`#question-item-${qNum} .question-year`).innerText;
+  
+  // Enhanced prompt with two-version answer requirement
+  const enhancedPrompt = `Explain this ${yearText} NEET question: 
+
+Question: ${questionText}
+
+Options: ${options}
+
+Give two versions of answer:
+Version 1: Brief explanation
+Version 2: NCERT based, quote the exact matching statement from NCERT biology textbook latest reprint and explain accordingly.`;
+  
+  const query = encodeURIComponent(enhancedPrompt);
+  window.open(`https://chat.openai.com/?q=${query}`, '_blank');
+}
+</script>
+
 
 
 </body>
