@@ -63,12 +63,11 @@
 </main>
 
 <script>
-  // Core questionData initialization (empty sections/questions for 2)
   const questionData = {
     "11": {
       "2": {
         title: "Biological Classification",
-        sections: [], // will be registered by addon
+        sections: [],
         questions: {}
       }
     }
@@ -368,21 +367,11 @@
         questionData[c][ch].sections.push({ id: section, name: sectionName });
       }
 
-      if (typeof updateChapters === "function") {
-        updateChapters();
-      }
-      if (chapterSelect) {
-        chapterSelect.value = ch;
-      }
-      if (typeof updateSections === "function") {
-        updateSections();
-      }
-      if (sectionSelect) {
-        sectionSelect.value = section;
-      }
-      if (typeof showQuestions === "function") {
-        showQuestions();
-      }
+      if (typeof updateChapters === "function") updateChapters();
+      if (chapterSelect) chapterSelect.value = ch;
+      if (typeof updateSections === "function") updateSections();
+      if (sectionSelect) sectionSelect.value = section;
+      if (typeof showQuestions === "function") showQuestions();
     }
 
     if (document.readyState === "loading") {
