@@ -63,16 +63,16 @@
 </main>
 
 <script>
+  // Core questionData initialization (empty sections/questions for 2)
   const questionData = {
     "11": {
       "2": {
         title: "Biological Classification",
-        sections: [],
+        sections: [], // will be registered by addon
         questions: {}
       }
     }
   };
-
   const classSelect = document.getElementById("classSelect");
   const chapterSelect = document.getElementById("chapterSelect");
   const sectionSelect = document.getElementById("sectionSelect");
@@ -86,12 +86,10 @@
     ele.innerHTML = `<option value="">Select ${ele.id.replace("Select", "")}</option>`;
     if (disable) ele.disabled = true;
   }
-
   function clearContent() {
     contentArea.innerHTML = "Please select Class → Chapter → Section to view questions.";
     scoreDisplay.textContent = "Score: 0 / 0";
   }
-
   function updateChapters() {
     clearDropdown(chapterSelect);
     clearDropdown(sectionSelect, true);
@@ -106,7 +104,6 @@
     });
     chapterSelect.disabled = false;
   }
-
   function updateSections() {
     clearDropdown(sectionSelect);
     clearContent();
@@ -125,7 +122,6 @@
       showQuestions();
     }
   }
-
   function registerOptionsEventHandlers() {
     document.querySelectorAll(".option").forEach((opt) => {
       opt.onclick = handleOptionClick;
@@ -137,13 +133,11 @@
       };
     });
   }
-
   function handleOptionClick(e) {
     const opt = e.currentTarget;
     const qId = +opt.closest(".question").dataset.qnum;
     if (!qId) return;
     if (opt.classList.contains("disabled")) return;
-
     const container = opt.parentElement;
     container.querySelectorAll(".option").forEach((o) => {
       o.classList.add("disabled");
@@ -151,25 +145,20 @@
       o.tabIndex = -1;
       o.classList.remove("correct", "wrong");
     });
-
     const correctAnswer = container.dataset.correct.toLowerCase().trim();
     const selectedText = opt.textContent.toLowerCase().trim();
     const isCorrect = selectedText === correctAnswer;
-
     if (isCorrect) {
       opt.classList.add("correct");
     } else {
       opt.classList.add("wrong");
     }
-
     const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
     persisted[sectionKey] = persisted[sectionKey] || {};
     persisted[sectionKey][qId] = { selected: opt.dataset.index, correct: isCorrect };
     localStorage.setItem("neetchoices_v3", JSON.stringify(persisted));
-
     updateScore();
   }
-
   function repaintPersistentChoices() {
     const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
     const sel = persisted[sectionKey] || {};
@@ -188,7 +177,6 @@
       });
     });
   }
-
   function updateScore() {
     const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
     const sel = persisted[sectionKey] || {};
@@ -199,7 +187,6 @@
     let corrects = Object.values(sel).filter((x) => x.correct).length;
     scoreDisplay.textContent = `Score: ${corrects} / ${total}`;
   }
-
   function showQuestions() {
     clearContent();
     if (!classSelect.value || !chapterSelect.value || !sectionSelect.value) return;
@@ -229,7 +216,6 @@
     repaintPersistentChoices();
     updateScore();
   }
-
   classSelect.addEventListener("change", () => {
     updateChapters();
     clearContent();
@@ -241,7 +227,6 @@
   sectionSelect.addEventListener("change", () => {
     showQuestions();
   });
-
   refreshBtn.addEventListener("click", () => {
     const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
     delete persisted[sectionKey];
@@ -251,7 +236,6 @@
 </script>
 
 <script>
-  /* ===== Display Foundation: register sections and enforce UI refresh ===== */
   (function () {
     function bindSafeEvents() {
       const cs = document.getElementById("classSelect");
@@ -308,12 +292,9 @@
       ) {
         if (cs.value === String(c) && chs.value === String(ch)) {
           updateSections();
-          const opt = Array.from(ss.options).find(
-            (o) => o.value === sectionId
-          );
+          const opt = Array.from(ss.options).find(o => o.value === sectionId);
           if (opt) ss.value = sectionId;
-          if (typeof showQuestions === "function")
-            setTimeout(showQuestions, 0);
+          if (typeof showQuestions === "function") setTimeout(showQuestions, 0);
         }
       }
     }
@@ -337,7 +318,7 @@
       document.addEventListener("DOMContentLoaded", () => {
         bindSafeEvents();
         forceInitialRefresh();
-      }, {once: true});
+      }, { once: true });
     } else {
       bindSafeEvents();
       forceInitialRefresh();
@@ -346,7 +327,6 @@
 </script>
 
 <script>
-  /* ===== Section Addon: 2.0 Evolution of Classification Systems ===== */
   (function () {
     const c = "11";
     const ch = "2";
@@ -376,33 +356,34 @@
     ];
 
     function inject() {
-  if (!window.questionData) return;
-  if (!questionData[c]) questionData[c] = {};
-  if (!questionData[c][ch]) questionData[c][ch] = { sections: [], questions: {} };
-  if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
+      if (!window.questionData) return;
+      if (!questionData[c]) questionData[c] = {};
+      if (!questionData[c][ch])
+        questionData[c][ch] = { sections: [], questions: {} };
+      if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
 
-  questionData[c][ch].questions[section] = items;
+      questionData[c][ch].questions[section] = items;
 
-  if (!questionData[c][ch].sections.find(s => s.id === section)) {
-    questionData[c][ch].sections.push({ id: section, name: sectionName });
-  }
+      if (!questionData[c][ch].sections.find((s) => s.id === section)) {
+        questionData[c][ch].sections.push({ id: section, name: sectionName });
+      }
 
-  if (typeof updateChapters === "function") {
-    updateChapters();
-  }
-  if (chapterSelect) {
-    chapterSelect.value = ch;
-  }
-  if (typeof updateSections === "function") {
-    updateSections();
-  }
-  if (sectionSelect) {
-    sectionSelect.value = section;
-  }
-  if (typeof showQuestions === "function") {
-    showQuestions();
-  }
-}
+      if (typeof updateChapters === "function") {
+        updateChapters();
+      }
+      if (chapterSelect) {
+        chapterSelect.value = ch;
+      }
+      if (typeof updateSections === "function") {
+        updateSections();
+      }
+      if (sectionSelect) {
+        sectionSelect.value = section;
+      }
+      if (typeof showQuestions === "function") {
+        showQuestions();
+      }
+    }
 
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", inject);
@@ -411,6 +392,5 @@
     }
   })();
 </script>
-
 </body>
 </html>
