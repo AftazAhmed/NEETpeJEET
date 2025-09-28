@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NEET-PYQ</title>
+<title>NEET-PYQ (Main Build with Add-on)</title>
 <style>
   body {
     font-family: 'Montserrat', Arial, sans-serif;
@@ -37,24 +37,23 @@
   .header h1 {
     position: relative;
     margin: 0 0 12px 0;
-    font-size: 3rem;
+    font-size: 2.6rem;
     font-weight: 900;
     letter-spacing: 2px;
     line-height: 1.1;
-    transform: none !important;
     color: #ffa726;
     max-width: 100%;
     white-space: nowrap;
   }
   .header .subtitle {
     position: relative;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     color: #b9fbc0;
     letter-spacing: 0.6px;
   }
   .note {
-    max-width: 720px;
+    max-width: 900px;
     margin: 0 auto 24px auto;
     font-style: italic;
     font-size: 14px;
@@ -124,9 +123,8 @@
     height: 36px;
     white-space: nowrap;
   }
-  .reload-btn:hover {
-    background-color: #7c3aed;
-  }
+  .reload-btn:hover { background-color: #7c3aed; }
+
   #scoreWrapper {
     display: flex;
     align-items: center;
@@ -159,9 +157,8 @@
     align-items: center;
     gap: 4px;
   }
-  .refreshBtn:hover {
-    background-color: #084298;
-  }
+  .refreshBtn:hover { background-color: #084298; }
+
   .content-area {
     background-color: #fff1e0;
     padding: 28px 30px;
@@ -222,9 +219,7 @@
     word-wrap: break-word;
     word-break: break-word;
   }
-  .options {
-    margin-bottom: 18px;
-  }
+  .options { margin-bottom: 18px; }
   .option {
     background-color: #ffffff;
     border-radius: 6px;
@@ -240,10 +235,7 @@
     position: relative;
     overflow: visible;
   }
-  .option:hover:not(.disabled) {
-    background-color: #dceddb;
-    border-color: #71b280;
-  }
+  .option:hover:not(.disabled) { background-color: #dceddb; border-color: #71b280; }
   .option.correct-temp {
     background-color: rgba(25, 135, 84, 0.15);
     border-color: rgba(25, 135, 84, 0.3);
@@ -257,38 +249,12 @@
   .option.disabled {
     cursor: default;
     opacity: 0.8;
+    pointer-events: none; /* hard-lock after answer */
   }
-  .answer-popup {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    opacity: 0.95;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    font-weight: 900;
-    border-radius: 6px;
-    z-index: 5;
-    pointer-events: none;
-    animation: popup-fade 1.2s forwards;
-  }
-  .answer-popup.correct {
-    background-color: rgba(25, 135, 84, 0.25);
-    color: #18763b;
-  }
-  .answer-popup.incorrect {
-    background-color: rgba(220, 53, 69, 0.2);
-    color: #b02a37;
-  }
-  @keyframes popup-fade {
-    0% { opacity: 0; }
-    10% { opacity: 1;}
-    80% { opacity: 0.95;}
-    100% { opacity: 0; }
-  }
+
+  /* No inline "Correct!" / "Incorrect" word overlay */
+  .answer-popup { display: none; }
+
   .button-group {
     display: flex;
     gap: 14px;
@@ -305,24 +271,13 @@
     color: #f0f0f0;
     transition: background-color 0.3s ease;
   }
-  .btn-answer {
-    background-color: #198754;
-  }
-  .btn-answer:hover {
-    background-color: #146c43;
-  }
-  .btn-copy {
-    background-color: #0d6efd;
-  }
-  .btn-copy:hover {
-    background-color: #084298;
-  }
-  .btn-chatgpt {
-    background-color: #ff0000;
-  }
-  .btn-chatgpt:hover {
-    background-color: #cc0000;
-  }
+  .btn-answer { background-color: #198754; }
+  .btn-answer:hover { background-color: #146c43; }
+  .btn-copy { background-color: #0d6efd; }
+  .btn-copy:hover { background-color: #084298; }
+  .btn-chatgpt { background-color: #ff0000; }
+  .btn-chatgpt:hover { background-color: #cc0000; }
+
   .answer-reveal {
     display: none;
     margin-top: 14px;
@@ -333,10 +288,10 @@
     padding: 14px 18px;
     font-weight: 700;
   }
+
   .tick-cross-popup {
     position: fixed;
-    top: 50%;
-    left: 50%;
+    top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     font-size: 80px;
     font-weight: 900;
@@ -344,18 +299,16 @@
     pointer-events: none;
     animation: tick-cross-fade 1.5s forwards;
   }
-  .tick-cross-popup.correct {
-    color: #198754;
-  }
-  .tick-cross-popup.incorrect {
-    color: #dc3545;
-  }
+  .tick-cross-popup.correct { color: #198754; }
+  .tick-cross-popup.incorrect { color: #dc3545; }
+
   @keyframes tick-cross-fade {
     0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
     20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
     40% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
     100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
   }
+
   .no-questions {
     text-align: center;
     font-style: italic;
@@ -363,46 +316,20 @@
     font-size: 17px;
     padding: 48px 10px;
   }
+
   @media (max-width: 900px) {
-    .controls { 
-      flex-direction: column; 
-      align-items: stretch;
-    }
-    .dropdown-group { 
-      min-width: unset; 
-      width: 100%;
-    }
-    .class-reload-group {
-      min-width: unset;
-      width: 100%;
-      flex-direction: row;
-    }
-    .class-dropdown-part {
-      flex: 1;
-    }
-    .reload-btn {
-      margin-left: 8px;
-      flex-shrink: 0;
-    }
+    .controls { flex-direction: column; align-items: stretch; }
+    .dropdown-group { min-width: unset; width: 100%; }
+    .class-reload-group { min-width: unset; width: 100%; flex-direction: row; }
+    .class-dropdown-part { flex: 1; }
+    .reload-btn { margin-left: 8px; flex-shrink: 0; }
     .header h1 {
-      padding-left: 8px;
-      padding-right: 8px;
-      margin-left: 0;
-      max-width: 320px;
-      white-space: normal;
+      padding-left: 8px; padding-right: 8px; margin-left: 0;
+      max-width: 320px; white-space: normal;
     }
-    .content-area {
-      max-width: 100%;
-      padding: 20px 16px;
-      min-height: 300px;
-    }
-    .question-item {
-      max-width: 100%;
-      padding: 18px 12px;
-    }
-    .question-text {
-      font-size: 15px;
-    }
+    .content-area { max-width: 100%; padding: 20px 16px; min-height: 300px; }
+    .question-item { max-width: 100%; padding: 18px 12px; }
+    .question-text { font-size: 15px; }
   }
 </style>
 </head>
@@ -444,7 +371,7 @@
   </div>
   <div id="scoreWrapper">
     <div id="scoreCard" class="scoreCard" aria-live="polite" role="region" aria-atomic="true" tabindex="0">
-      Section score: x / y
+      Section score: 0 / 0
     </div>
     <button id="refreshChapterBtn" class="refreshBtn" aria-label="Refresh section score">
       <span>🔄</span> Refresh
@@ -457,19 +384,23 @@
 </main>
 
 <script>
-  const questionData = {
+  // ========== Full dataset skeleton ==========
+  // Class 11: Chapters 1–19 with sections; questions provided ONLY for 2.0 and 2.1 per requirement.
+  // Class 12: Chapters 1–5 with sections; no questions yet (open for add-ons).
+
+  window.questionData = {
     "11": {
       "1": {
-        title: "The Living World", 
+        title: "The Living World",
         sections: [
           {id: "1.0", name: "Introduction to Biology and Living Organisms"},
           {id: "1.1", name: "Diversity in the Living World"},
           {id: "1.2", name: "Taxonomic Categories"}
-        ], 
+        ],
         questions: {}
       },
       "2": {
-        title: "Biological Classification", 
+        title: "Biological Classification",
         sections: [
           {id: "2.0", name: "Evolution of Classification Systems"},
           {id: "2.1", name: "Kingdom Monera"},
@@ -478,10 +409,11 @@
           {id: "2.4", name: "Kingdom Plantae"},
           {id: "2.5", name: "Kingdom Animalia"},
           {id: "2.6", name: "Viruses, Viroids, Prions and Lichens"}
-        ], 
+        ],
         questions: {
           "2.0": [
             {
+              id: "2.0-2014-1",
               year: "NEET/AIPMT 2014",
               question: "Five kingdom system of classification suggested by R. H. Whittaker is not based on which of the following criteria?",
               options: [
@@ -493,6 +425,7 @@
               answer: "b) mode of reproduction"
             },
             {
+              id: "2.0-2012-1",
               year: "NEET/AIPMT 2012",
               question: "In the five kingdom classification, Chlamydomonas and Chlorella have been included in which kingdom?",
               options: [
@@ -504,6 +437,7 @@
               answer: "a) protista"
             },
             {
+              id: "2.0-2004-1",
               year: "NEET/AIPMT 2004",
               question: "Linnaeus system of plant classification is considered which type of system?",
               options: [
@@ -515,6 +449,7 @@
               answer: "a) Artificial"
             },
             {
+              id: "2.0-2004-2",
               year: "NEET/AIPMT 2004/2002",
               question: "Who did propose natural classification of plants?",
               options: [
@@ -526,6 +461,7 @@
               answer: "c) Bentham and Hooker"
             },
             {
+              id: "2.0-2004-3",
               year: "NEET/AIPMT 2004/1988",
               question: "Who proposed phylogenetic classification of plants?",
               options: [
@@ -537,6 +473,7 @@
               answer: "b) Hutchinson"
             },
             {
+              id: "2.0-2003-1",
               year: "NEET/AIPMT 2003",
               question: "In which kingdom would you classify the archaea and nitrogen‑fixing organisms, if the five kingdom system of classification is used?",
               options: [
@@ -548,6 +485,7 @@
               answer: "d) Monera"
             },
             {
+              id: "2.0-2002-1",
               year: "NEET/AIPMT 2002",
               question: "In five kingdom system, the main basis of classification is based on which criterion?",
               options: [
@@ -559,6 +497,7 @@
               answer: "b) mode of nutrition"
             },
             {
+              id: "2.0-2002-2",
               year: "NEET/AIPMT 2002/2001/2000",
               question: "The basic unit of classification/taxonomy is which rank?",
               options: [
@@ -570,6 +509,7 @@
               answer: "b) Species"
             },
             {
+              id: "2.0-2000-1",
               year: "NEET/AIPMT 2000/1999",
               question: "Which of the following taxonomical ranks contain organisms least similar to one another?",
               options: [
@@ -581,6 +521,7 @@
               answer: "a) Class"
             },
             {
+              id: "2.0-2000-2",
               year: "NEET/AIPMT 2000/1997/1994",
               question: "The non‑nucleated, unicellular organisms of Whittaker's (1969) classification are included in which kingdom?",
               options: [
@@ -592,6 +533,7 @@
               answer: "b) Monera"
             },
             {
+              id: "2.0-1999-1",
               year: "NEET/AIPMT 1999/1996",
               question: "A system of classification in which a large number of traits are considered is termed which type?",
               options: [
@@ -603,6 +545,7 @@
               answer: "c) Natural system"
             },
             {
+              id: "2.0-1998-1",
               year: "NEET/AIPMT 1998",
               question: "In the five kingdom system of classification, which single kingdom can include blue‑green algae, nitrogen fixing bacteria and methanogenic archaebacteria?",
               options: [
@@ -614,6 +557,7 @@
               answer: "c) Monera"
             },
             {
+              id: "2.0-1998-2",
               year: "NEET/AIPMT 1998",
               question: "A system of classification that is based on evolution, order and ancestry is known as which type?",
               options: [
@@ -625,6 +569,7 @@
               answer: "c) Phylogenetic system"
             },
             {
+              id: "2.0-1998-3",
               year: "NEET/AIPMT 1998",
               question: "Systema Naturae is concerned with which field?",
               options: [
@@ -636,6 +581,7 @@
               answer: "c) Classification of plants and animals"
             },
             {
+              id: "2.0-1994-1",
               year: "NEET/AIPMT 1994/1992",
               question: "The term \"phylum\" in animal classification was coined by whom?",
               options: [
@@ -647,6 +593,7 @@
               answer: "c) G.L. Cuvier"
             },
             {
+              id: "2.0-1994-2",
               year: "NEET/AIPMT 1994",
               question: "Four kingdom classification was proposed by whom?",
               options: [
@@ -660,6 +607,7 @@
           ],
           "2.1": [
             {
+              id: "2.1-2019-1",
               year: "NEET/AIPMT 2019",
               question: "Match Column I (groups) with Column II (typical habitats) and choose the correct option:<br><br>Column I: A) Halophiles &nbsp; B) Thermoacidophiles &nbsp; C) Methanogens &nbsp; D) Cyanobacteria<br>Column II: 1) Hot springs &nbsp; 2) Aquatic environment &nbsp; 3) Guts of ruminants &nbsp; 4) Salty area",
               options: [
@@ -671,6 +619,7 @@
               answer: "a) A-4, B-1, C-3, D-2"
             },
             {
+              id: "2.1-2017-1",
               year: "NEET/AIPMT 2017",
               question: "Which among the following are the smallest living cells, known without a definite cell wall, pathogenic to plants as well as animals and can survive without oxygen?",
               options: [
@@ -682,6 +631,7 @@
               answer: "b) Mycoplasma"
             },
             {
+              id: "2.1-2017-2",
               year: "NEET/AIPMT 2017",
               question: "Which of the following components provides sticky character to the bacterial cell?",
               options: [
@@ -693,6 +643,7 @@
               answer: "c) Glycocalyx"
             },
             {
+              id: "2.1-2017-3",
               year: "NEET/AIPMT 2017",
               question: "DNA replication in bacteria occurs:",
               options: [
@@ -704,6 +655,7 @@
               answer: "b) Prior to fission"
             },
             {
+              id: "2.1-2016-1",
               year: "NEET/AIPMT 2016",
               question: "Methanogens belong to:",
               options: [
@@ -715,6 +667,7 @@
               answer: "b) archaebacteria"
             },
             {
+              id: "2.1-2014-1",
               year: "NEET/AIPMT 2014",
               question: "Pigment containing membranous extensions in some cyanobacteria are:",
               options: [
@@ -726,6 +679,7 @@
               answer: "b) chromatophores"
             },
             {
+              id: "2.1-2013-1",
               year: "NEET/AIPMT 2013",
               question: "Archaebacteria differ from eubacteria in:",
               options: [
@@ -737,6 +691,7 @@
               answer: "a) cell membrane structure"
             },
             {
+              id: "2.1-2013-2",
               year: "NEET/AIPMT 2013",
               question: "Which of the following are likely to be present in deep sea water?",
               options: [
@@ -748,6 +703,7 @@
               answer: "c) Archaebacteria"
             },
             {
+              id: "2.1-2012-1",
               year: "NEET/AIPMT 2012",
               question: "The most abundant prokaryotes helpful to humans in making curd from milk and in production of antibiotics are the ones categorized as:",
               options: [
@@ -759,6 +715,7 @@
               answer: "d) heterotrophic bacteria"
             },
             {
+              id: "2.1-2012-2",
               year: "NEET/AIPMT 2012",
               question: "The cyanobacteria are also referred to as:",
               options: [
@@ -770,6 +727,7 @@
               answer: "d) blue green algae"
             },
             {
+              id: "2.1-2011-1",
               year: "NEET/AIPMT 2011",
               question: "In eubacteria, a cellular component that resembles eukaryotic cells is:",
               options: [
@@ -781,6 +739,7 @@
               answer: "a) plasma membrane"
             },
             {
+              id: "2.1-2010-1",
               year: "NEET/AIPMT 2010",
               question: "Some hyperthermophilic organisms that grow in highly acidic (pH₂) habitats belong to the two groups:",
               options: [
@@ -792,6 +751,7 @@
               answer: "a) eubacteria and archaea"
             },
             {
+              id: "2.1-2008-1",
               year: "NEET/AIPMT 2008",
               question: "In the light of recent classification of living organisms into three domains of life (bacteria, archaea and eukarya), which one of the following statements is true about archaea?",
               options: [
@@ -803,6 +763,7 @@
               answer: "d) Archaea have some novel features that are absent in other prokaryotes and eukaryotes"
             },
             {
+              id: "2.1-2008-2",
               year: "NEET/AIPMT 2008",
               question: "Thermococcus, Methanococcus and Methanobacterium exemplify:",
               options: [
@@ -814,6 +775,7 @@
               answer: "c) archaebacteria that contain protein homologous to eukaryotic core histones"
             },
             {
+              id: "2.1-2008-3",
               year: "NEET/AIPMT 2008",
               question: "Bacterial leaf blight of rice is caused by species:",
               options: [
@@ -825,6 +787,7 @@
               answer: "c) Xanthomonas"
             },
             {
+              id: "2.1-2006-1",
               year: "NEET/AIPMT 2006",
               question: "Curing of tea leaves is brought about by the activity of:",
               options: [
@@ -836,6 +799,7 @@
               answer: "b) bacteria"
             },
             {
+              id: "2.1-2005-1",
               year: "NEET/AIPMT 2005",
               question: "For retting of jute the fermenting microbe used is:",
               options: [
@@ -847,6 +811,7 @@
               answer: "b) butyric acid bacteria"
             },
             {
+              id: "2.1-2002-1",
               year: "NEET/AIPMT 2002",
               question: "Which statement is correct for bacterial transduction?",
               options: [
@@ -858,6 +823,7 @@
               answer: "a) Transfer of some genes from one bacteria to another bacteria through virus"
             },
             {
+              id: "2.1-2001-1",
               year: "NEET/AIPMT 2001",
               question: "What is true for archaebacteria?",
               options: [
@@ -869,6 +835,7 @@
               answer: "d) Oldest living beings"
             },
             {
+              id: "2.1-2001-2",
               year: "NEET/AIPMT 2001",
               question: "Difference in Gram positive and Gram negative bacteria is due to:",
               options: [
@@ -880,6 +847,7 @@
               answer: "a) cell wall"
             },
             {
+              id: "2.1-1998-1",
               year: "NEET/AIPMT 1998",
               question: "Genes for antibiotic resistance are located in:",
               options: [
@@ -891,6 +859,7 @@
               answer: "d) Plasmid"
             },
             {
+              id: "2.1-1998-2",
               year: "NEET/AIPMT 1998",
               question: "Which one of the following can utilize molecular nitrogen (N₂) as nutrient for growth?",
               options: [
@@ -902,6 +871,7 @@
               answer: "d) Methanococcus"
             },
             {
+              id: "2.1-1990-1",
               year: "NEET/AIPMT 1990",
               question: "Which one belongs to Monera?",
               options: [
@@ -913,6 +883,7 @@
               answer: "b) Escherichia"
             },
             {
+              id: "2.1-1990-2",
               year: "NEET/AIPMT 1990",
               question: "The main difference in Gram (+)ve and Gram (-)ve bacteria resides in their:",
               options: [
@@ -926,9 +897,8 @@
           ]
         }
       },
-      // Continue with other chapters...
       "3": {
-        title: "Plant Kingdom", 
+        title: "Plant Kingdom",
         sections: [
           {id: "3.0", name: "Understanding Plant Kingdom and Classification Systems"},
           {id: "3.1", name: "Algae"},
@@ -936,20 +906,20 @@
           {id: "3.3", name: "Pteridophytes"},
           {id: "3.4", name: "Gymnosperms"},
           {id: "3.5", name: "Angiosperms"}
-        ], 
+        ],
         questions: {}
       },
       "4": {
-        title: "Animal Kingdom", 
+        title: "Animal Kingdom",
         sections: [
           {id: "4.0", name: "Animal Diversity and Classification Basis"},
           {id: "4.1", name: "Basis of Classification"},
           {id: "4.2", name: "Classification of Animals"}
-        ], 
+        ],
         questions: {}
       },
       "5": {
-        title: "Morphology of Flowering Plants", 
+        title: "Morphology of Flowering Plants",
         sections: [
           {id: "5.0", name: "External Structure and Variations in Plants"},
           {id: "5.1", name: "The Root"},
@@ -961,29 +931,29 @@
           {id: "5.7", name: "The Seed"},
           {id: "5.8", name: "Semi-technical Description of a Typical Flowering Plant"},
           {id: "5.9", name: "Description of Some Important Families"}
-        ], 
+        ],
         questions: {}
       },
       "6": {
-        title: "Anatomy of Flowering Plants", 
+        title: "Anatomy of Flowering Plants",
         sections: [
           {id: "6.0", name: "Internal Structure and Functional Organisation"},
           {id: "6.1", name: "The Tissue System"},
           {id: "6.2", name: "Anatomy of Dicotyledonous and Monocotyledonous Plants"}
-        ], 
+        ],
         questions: {}
       },
       "7": {
-        title: "Structural Organisation in Animals", 
+        title: "Structural Organisation in Animals",
         sections: [
           {id: "7.0", name: "Multicellular Organisation and Organ Systems"},
           {id: "7.1", name: "Organ and Organ System"},
           {id: "7.2", name: "Frogs"}
-        ], 
+        ],
         questions: {}
       },
       "8": {
-        title: "Cell - The Unit of Life", 
+        title: "Cell - The Unit of Life",
         sections: [
           {id: "8.0", name: "Cell Theory and Cellular Organisation"},
           {id: "8.1", name: "What is a Cell?"},
@@ -991,11 +961,11 @@
           {id: "8.3", name: "An Overview of Cell"},
           {id: "8.4", name: "Prokaryotic Cells"},
           {id: "8.5", name: "Eukaryotic Cells"}
-        ], 
+        ],
         questions: {}
       },
       "9": {
-        title: "Biomolecules", 
+        title: "Biomolecules",
         sections: [
           {id: "9.0", name: "Chemical Composition of Living Organisms"},
           {id: "9.1", name: "How to Analyse Chemical Composition?"},
@@ -1006,11 +976,11 @@
           {id: "9.6", name: "Nucleic Acids"},
           {id: "9.7", name: "Structure of Proteins"},
           {id: "9.8", name: "Enzymes"}
-        ], 
+        ],
         questions: {}
       },
       "10": {
-        title: "Cell Cycle and Cell Division", 
+        title: "Cell Cycle and Cell Division",
         sections: [
           {id: "10.0", name: "Cell Growth and Reproduction"},
           {id: "10.1", name: "Cell Cycle"},
@@ -1018,11 +988,11 @@
           {id: "10.3", name: "Significance of Mitosis"},
           {id: "10.4", name: "Meiosis"},
           {id: "10.5", name: "Significance of Meiosis"}
-        ], 
+        ],
         questions: {}
       },
       "11": {
-        title: "Photosynthesis in Higher Plants", 
+        title: "Photosynthesis in Higher Plants",
         sections: [
           {id: "11.0", name: "Plant Metabolism and Energy Conversion"},
           {id: "11.1", name: "What do we Know?"},
@@ -1035,11 +1005,11 @@
           {id: "11.8", name: "The C₄ Pathway"},
           {id: "11.9", name: "Photorespiration"},
           {id: "11.10", name: "Factors affecting Photosynthesis"}
-        ], 
+        ],
         questions: {}
       },
       "12": {
-        title: "Respiration in Plants", 
+        title: "Respiration in Plants",
         sections: [
           {id: "12.0", name: "Energy Requirements in Living Organisms"},
           {id: "12.1", name: "Do Plants Breathe?"},
@@ -1049,22 +1019,22 @@
           {id: "12.5", name: "The Respiratory Balance Sheet"},
           {id: "12.6", name: "Amphibolic Pathway"},
           {id: "12.7", name: "Respiratory Quotient"}
-        ], 
+        ],
         questions: {}
       },
       "13": {
-        title: "Plant Growth and Development", 
+        title: "Plant Growth and Development",
         sections: [
           {id: "13.0", name: "Growth Patterns and Development in Plants"},
           {id: "13.1", name: "Growth"},
           {id: "13.2", name: "Differentiation, Dedifferentiation and Redifferentiation"},
           {id: "13.3", name: "Development"},
           {id: "13.4", name: "Plant Growth Regulators"}
-        ], 
+        ],
         questions: {}
       },
       "14": {
-        title: "Breathing and Exchange of Gases", 
+        title: "Breathing and Exchange of Gases",
         sections: [
           {id: "14.0", name: "Coordination and Homeostasis in Human Body"},
           {id: "14.1", name: "Respiratory Organs"},
@@ -1073,11 +1043,11 @@
           {id: "14.4", name: "Transport of Gases"},
           {id: "14.5", name: "Regulation of Respiration"},
           {id: "14.6", name: "Disorders of Respiratory System"}
-        ], 
+        ],
         questions: {}
       },
       "15": {
-        title: "Body Fluids and Circulation", 
+        title: "Body Fluids and Circulation",
         sections: [
           {id: "15.0", name: "Transport of Materials in Living Organisms"},
           {id: "15.1", name: "Blood"},
@@ -1086,11 +1056,11 @@
           {id: "15.4", name: "Double Circulation"},
           {id: "15.5", name: "Regulation of Cardiac Activity"},
           {id: "15.6", name: "Disorders of Circulatory System"}
-        ], 
+        ],
         questions: {}
       },
       "16": {
-        title: "Excretory Products and their Elimination", 
+        title: "Excretory Products and their Elimination",
         sections: [
           {id: "16.0", name: "Waste Removal and Homeostasis"},
           {id: "16.1", name: "Human Excretory System"},
@@ -1101,11 +1071,11 @@
           {id: "16.6", name: "Micturition"},
           {id: "16.7", name: "Role of other Organs in Excretion"},
           {id: "16.8", name: "Disorders of the Excretory System"}
-        ], 
+        ],
         questions: {}
       },
       "17": {
-        title: "Locomotion and Movement", 
+        title: "Locomotion and Movement",
         sections: [
           {id: "17.0", name: "Movement as a Characteristic of Life"},
           {id: "17.1", name: "Types of Movement"},
@@ -1113,35 +1083,35 @@
           {id: "17.3", name: "Skeletal System"},
           {id: "17.4", name: "Joints"},
           {id: "17.5", name: "Disorders of Muscular and Skeletal System"}
-        ], 
+        ],
         questions: {}
       },
       "18": {
-        title: "Neural Control and Coordination", 
+        title: "Neural Control and Coordination",
         sections: [
           {id: "18.0", name: "Coordination and Integration in Multicellular Organisms"},
           {id: "18.1", name: "Neural System"},
           {id: "18.2", name: "Human Neural System"},
           {id: "18.3", name: "Neuron as Structural and Functional Unit of Neural System"},
           {id: "18.4", name: "Central Neural System"}
-        ], 
+        ],
         questions: {}
       },
       "19": {
-        title: "Chemical Coordination and Integration", 
+        title: "Chemical Coordination and Integration",
         sections: [
           {id: "19.0", name: "Endocrine System and Hormonal Coordination"},
           {id: "19.1", name: "Endocrine Glands and Hormones"},
           {id: "19.2", name: "Human Endocrine System"},
           {id: "19.3", name: "Hormones of Heart, Kidney and Gastrointestinal Tract"},
           {id: "19.4", name: "Mechanism of Hormone Action"}
-        ], 
+        ],
         questions: {}
       }
     },
     "12": {
       "1": {
-        title: "Sexual Reproduction in Flowering Plants", 
+        title: "Sexual Reproduction in Flowering Plants",
         sections: [
           {id: "1.0", name: "Reproduction as a Vital Life Process"},
           {id: "1.1", name: "Flower - A Fascinating Organ of Angiosperms"},
@@ -1149,11 +1119,11 @@
           {id: "1.3", name: "Double Fertilisation"},
           {id: "1.4", name: "Post-fertilisation: Structures and Events"},
           {id: "1.5", name: "Apomixis and Polyembryony"}
-        ], 
+        ],
         questions: {}
       },
       "2": {
-        title: "Human Reproduction", 
+        title: "Human Reproduction",
         sections: [
           {id: "2.0", name: "Sexual Reproduction in Humans"},
           {id: "2.1", name: "The Male Reproductive System"},
@@ -1163,11 +1133,11 @@
           {id: "2.5", name: "Fertilisation and Implantation"},
           {id: "2.6", name: "Pregnancy and Embryonic Development"},
           {id: "2.7", name: "Parturition and Lactation"}
-        ], 
+        ],
         questions: {}
       },
       "3": {
-        title: "Reproductive Health", 
+        title: "Reproductive Health",
         sections: [
           {id: "3.0", name: "Reproductive Health and Well-being"},
           {id: "3.1", name: "Reproductive Health – Problems and Strategies"},
@@ -1175,11 +1145,11 @@
           {id: "3.3", name: "Medical Termination of Pregnancy"},
           {id: "3.4", name: "Sexually Transmitted Infections (STIs)"},
           {id: "3.5", name: "Infertility"}
-        ], 
+        ],
         questions: {}
       },
       "4": {
-        title: "Principles of Inheritance and Variation", 
+        title: "Principles of Inheritance and Variation",
         sections: [
           {id: "4.0", name: "Heredity and Genetic Basis of Inheritance"},
           {id: "4.1", name: "Mendel's Laws of Inheritance"},
@@ -1188,11 +1158,11 @@
           {id: "4.4", name: "Sex Determination"},
           {id: "4.5", name: "Mutation"},
           {id: "4.6", name: "Genetic Disorders"}
-        ], 
+        ],
         questions: {}
       },
       "5": {
-        title: "Molecular Basis of Inheritance", 
+        title: "Molecular Basis of Inheritance",
         sections: [
           {id: "5.0", name: "Genetic Material and Molecular Biology"},
           {id: "5.1", name: "The DNA"},
@@ -1205,1190 +1175,471 @@
           {id: "5.8", name: "Regulation of Gene Expression"},
           {id: "5.9", name: "Human Genome Project"},
           {id: "5.10", name: "DNA Fingerprinting"}
-        ], 
-        questions: {}
-      },
-      "6": {
-        title: "Evolution", 
-        sections: [
-          {id: "6.0", name: "History of Life Forms and Evolutionary Biology"},
-          {id: "6.1", name: "Origin of Life"},
-          {id: "6.2", name: "Evolution of Life Forms – A Theory"},
-          {id: "6.3", name: "What are the Evidences for Evolution?"},
-          {id: "6.4", name: "What is Adaptive Radiation?"},
-          {id: "6.5", name: "Biological Evolution"},
-          {id: "6.6", name: "Mechanism of Evolution"},
-          {id: "6.7", name: "Hardy-Weinberg Principle"},
-          {id: "6.8", name: "A Brief Account of Evolution"},
-          {id: "6.9", name: "Origin and Evolution of Man"}
-        ], 
-        questions: {}
-      },
-      "7": {
-        title: "Human Health and Disease", 
-        sections: [
-          {id: "7.0", name: "Biology and Human Welfare Applications"},
-          {id: "7.1", name: "Common Diseases in Humans"},
-          {id: "7.2", name: "Immunity"},
-          {id: "7.3", name: "AIDS"},
-          {id: "7.4", name: "Cancer"},
-          {id: "7.5", name: "Drugs and Alcohol Abuse"}
-        ], 
-        questions: {}
-      },
-      "8": {
-        title: "Microbes in Human Welfare", 
-        sections: [
-          {id: "8.0", name: "Microbial Diversity and Applications"},
-          {id: "8.1", name: "Microbes in Household Products"},
-          {id: "8.2", name: "Microbes in Industrial Products"},
-          {id: "8.3", name: "Microbes in Sewage Treatment"},
-          {id: "8.4", name: "Microbes in Production of Biogas"},
-          {id: "8.5", name: "Microbes as Biocontrol Agents"},
-          {id: "8.6", name: "Microbes as Biofertilisers"}
-        ], 
-        questions: {}
-      },
-      "9": {
-        title: "Biotechnology - Principles and Processes", 
-        sections: [
-          {id: "9.0", name: "Biotechnology and Genetic Engineering"},
-          {id: "9.1", name: "Principles of Biotechnology"},
-          {id: "9.2", name: "Tools of Recombinant DNA Technology"},
-          {id: "9.3", name: "Processes of Recombinant DNA Technology"}
-        ], 
-        questions: {}
-      },
-      "10": {
-        title: "Biotechnology and its Applications", 
-        sections: [
-          {id: "10.0", name: "Biotechnology Applications and Human Welfare"},
-          {id: "10.1", name: "Biotechnological Applications in Agriculture"},
-          {id: "10.2", name: "Biotechnological Applications in Medicine"},
-          {id: "10.3", name: "Transgenic Animals"},
-          {id: "10.4", name: "Ethical Issues"}
-        ], 
-        questions: {}
-      },
-      "11": {
-        title: "Organisms and Populations", 
-        sections: [
-          {id: "11.0", name: "Ecological Perspective and Biological Understanding"},
-          {id: "11.1", name: "Populations"}
-        ], 
-        questions: {}
-      },
-      "12": {
-        title: "Ecosystem", 
-        sections: [
-          {id: "12.0", name: "Ecosystem as a Functional Unit of Nature"},
-          {id: "12.1", name: "Ecosystem – Structure and Function"},
-          {id: "12.2", name: "Productivity"},
-          {id: "12.3", name: "Decomposition"},
-          {id: "12.4", name: "Energy Flow"},
-          {id: "12.5", name: "Ecological Pyramids"}
-        ], 
-        questions: {}
-      },
-      "13": {
-        title: "Biodiversity and Conservation", 
-        sections: [
-          {id: "13.0", name: "Life's Diversity and Conservation Challenges"},
-          {id: "13.1", name: "Biodiversity"},
-          {id: "13.2", name: "Biodiversity Conservation"}
-        ], 
+        ],
         questions: {}
       }
+      // Additional Class 12 chapters can be appended via add-ons or later expansion.
     }
   };
 
-  const chapterData = {
-    "11": [
-      {id:"1",name:"The Living World"},
-      {id:"2",name:"Biological Classification"},
-      {id:"3",name:"Plant Kingdom"},
-      {id:"4",name:"Animal Kingdom"},
-      {id:"5",name:"Morphology of Flowering Plants"},
-      {id:"6",name:"Anatomy of Flowering Plants"},
-      {id:"7",name:"Structural Organisation in Animals"},
-      {id:"8",name:"Cell - The Unit of Life"},
-      {id:"9",name:"Biomolecules"},
-      {id:"10",name:"Cell Cycle and Cell Division"},
-      {id:"11",name:"Photosynthesis in Higher Plants"},
-      {id:"12",name:"Respiration in Plants"},
-      {id:"13",name:"Plant Growth and Development"},
-      {id:"14",name:"Breathing and Exchange of Gases"},
-      {id:"15",name:"Body Fluids and Circulation"},
-      {id:"16",name:"Excretory Products and their Elimination"},
-      {id:"17",name:"Locomotion and Movement"},
-      {id:"18",name:"Neural Control and Coordination"},
-      {id:"19",name:"Chemical Coordination and Integration"}
-    ],
-    "12": [
-      {id:"1",name:"Sexual Reproduction in Flowering Plants"},
-      {id:"2",name:"Human Reproduction"},
-      {id:"3",name:"Reproductive Health"},
-      {id:"4",name:"Principles of Inheritance and Variation"},
-      {id:"5",name:"Molecular Basis of Inheritance"},
-      {id:"6",name:"Evolution"},
-      {id:"7",name:"Human Health and Disease"},
-      {id:"8",name:"Microbes in Human Welfare"},
-      {id:"9",name:"Biotechnology - Principles and Processes"},
-      {id:"10",name:"Biotechnology and its Applications"},
-      {id:"11",name:"Organisms and Populations"},
-      {id:"12",name:"Ecosystem"},
-      {id:"13",name:"Biodiversity and Conservation"}
-    ]
-  };
+  // ========== DOM ==========
+  const classSelect = document.getElementById('classSelect');
+  const chapterSelect = document.getElementById('chapterSelect');
+  const sectionSelect = document.getElementById('sectionSelect');
+  const contentArea = document.getElementById('contentArea');
+  const scoreCard = document.getElementById('scoreCard');
+  const refreshBtn = document.getElementById('refreshChapterBtn');
 
-  // Use localStorage for persistent scores
-  let cumulativeScores = {};
-  let answeredQuestionsByChapter = {};
-  let answeredQuestionsBySection = {};
-
-  function saveScores() {
-    localStorage.setItem('cumulativeScores', JSON.stringify(cumulativeScores));
-    localStorage.setItem('answeredQuestionsByChapter', JSON.stringify(answeredQuestionsByChapter));
-    localStorage.setItem('answeredQuestionsBySection', JSON.stringify(answeredQuestionsBySection));
+  // ========== Utilities ==========
+  function safeGet(obj, pathArr, fallback = undefined) {
+    return pathArr.reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), obj) ?? fallback;
   }
-  function loadScores() {
-    const cs = localStorage.getItem('cumulativeScores');
-    const aqbc = localStorage.getItem('answeredQuestionsByChapter');
-    const aqbs = localStorage.getItem('answeredQuestionsBySection');
-    cumulativeScores = cs ? JSON.parse(cs) : {};
-    answeredQuestionsByChapter = aqbc ? JSON.parse(aqbc) : {};
-    answeredQuestionsBySection = aqbs ? JSON.parse(aqbs) : {};
+  function getSelectionKeys() {
+    const cls = classSelect.value;
+    const ch = chapterSelect.value;
+    const sec = sectionSelect.value;
+    return { cls, ch, sec };
   }
-  loadScores();
+  function numericSortKeys(keysArr) {
+    return keysArr.sort((a, b) => Number(a) - Number(b));
+  }
 
-  function getScore(classId, chapterId) {
-    if (cumulativeScores[classId] && cumulativeScores[classId][chapterId]) {
-      return cumulativeScores[classId][chapterId];
+  // ========== Persistence ==========
+  function sectionAnsweredKey({ cls, ch, sec }) {
+    return `answered:${cls}-${ch}-${sec}`; // session-based
+  }
+  function readSectionAnswered(keys) {
+    try {
+      const raw = sessionStorage.getItem(sectionAnsweredKey(keys));
+      if (!raw) return {};
+      const parsed = JSON.parse(raw);
+      return typeof parsed === 'object' && parsed ? parsed : {};
+    } catch {
+      return {};
     }
-    return null;
+  }
+  function writeSectionAnswered(keys, map) {
+    try { sessionStorage.setItem(sectionAnsweredKey(keys), JSON.stringify(map)); } catch {}
   }
 
-  function initScore(classId, chapterId, totalQuestions) {
-    if (!cumulativeScores[classId]) cumulativeScores[classId] = {};
-    if (!cumulativeScores[classId][chapterId]) {
-      cumulativeScores[classId][chapterId] = {
-        correct: 0,
-        total: totalQuestions
-      };
-    } else {
-      cumulativeScores[classId][chapterId].total = totalQuestions;
+  function sectionScoreKey({ cls, ch, sec }) {
+    return `score:${cls}-${ch}-${sec}`; // localStorage persistent
+  }
+  function readSectionScore(keys) {
+    try {
+      const raw = localStorage.getItem(sectionScoreKey(keys));
+      if (!raw) return { correctIds: [] };
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed.correctIds) ? parsed : { correctIds: [] };
+    } catch {
+      return { correctIds: [] };
     }
-    saveScores();
+  }
+  function writeSectionScore(keys, data) {
+    try { localStorage.setItem(sectionScoreKey(keys), JSON.stringify(data)); } catch {}
+  }
+  function markCorrectForSection(keys, qid) {
+    const data = readSectionScore(keys);
+    if (!data.correctIds.includes(qid)) {
+      data.correctIds.push(qid);
+      writeSectionScore(keys, data);
+    }
   }
 
-  function markQuestionAnswered(classId, chapterId, sectionKey, questionKey, correct) {
-    if (!answeredQuestionsByChapter[classId]) answeredQuestionsByChapter[classId] = {};
-    if (!answeredQuestionsByChapter[classId][chapterId]) answeredQuestionsByChapter[classId][chapterId] = {};
-    if (!answeredQuestionsBySection[sectionKey]) answeredQuestionsBySection[sectionKey] = {};
-
-    let prevCorrectSection = answeredQuestionsBySection[sectionKey][questionKey];
-    if (prevCorrectSection === undefined) {
-      answeredQuestionsBySection[sectionKey][questionKey] = correct;
-    } else {
-      answeredQuestionsBySection[sectionKey][questionKey] = correct;
-    }
-
-    let prevCorrect = answeredQuestionsByChapter[classId][chapterId][questionKey];
-    if (prevCorrect === undefined) {
-      answeredQuestionsByChapter[classId][chapterId][questionKey] = correct;
-      if (correct) cumulativeScores[classId][chapterId].correct++;
-    } else {
-      if (prevCorrect !== correct) {
-        answeredQuestionsByChapter[classId][chapterId][questionKey] = correct;
-        if (correct) {
-          cumulativeScores[classId][chapterId].correct++;
-        } else {
-          cumulativeScores[classId][chapterId].correct--;
-          if (cumulativeScores[classId][chapterId].correct < 0) cumulativeScores[classId][chapterId].correct = 0;
-        }
-      }
-    }
-    saveScores();
-  }
-
+  // ========== UI population ==========
   function updateChapters() {
-    const classSelect = document.getElementById('classSelect');
-    const chapterSelect = document.getElementById('chapterSelect');
-    const sectionSelect = document.getElementById('sectionSelect');
     chapterSelect.innerHTML = '<option value="">Select Chapter</option>';
     sectionSelect.innerHTML = '<option value="">Select Section</option>';
     sectionSelect.disabled = true;
 
-    if (classSelect.value) {
-      chapterSelect.disabled = false;
-      chapterData[classSelect.value].forEach(chap => {
-        const opt = document.createElement('option');
-        opt.value = chap.id;
-        opt.textContent = `Chapter ${chap.id}: ${chap.name}`;
-        chapterSelect.appendChild(opt);
-      });
-    } else {
+    const cls = classSelect.value;
+    const chapters = safeGet(window.questionData, [cls], null);
+    if (!cls || !chapters) {
       chapterSelect.disabled = true;
+      renderNoSelection();
+      updateScoreCard();
+      return;
     }
-    clearContentAndScore();
+
+    numericSortKeys(Object.keys(chapters)).forEach(cid => {
+      const opt = document.createElement('option');
+      opt.value = cid;
+      opt.textContent = `${cid}. ${chapters[cid].title}`;
+      chapterSelect.appendChild(opt);
+    });
+
+    chapterSelect.disabled = false;
+    renderNoSelection();
+    updateScoreCard();
   }
 
   function updateSections() {
-    const classSelect = document.getElementById('classSelect');
-    const chapterSelect = document.getElementById('chapterSelect');
-    const sectionSelect = document.getElementById('sectionSelect');
-    sectionSelect.innerHTML = '';
+    sectionSelect.innerHTML = '<option value="">Select Section</option>';
 
-    if (classSelect.value && chapterSelect.value) {
-      sectionSelect.disabled = false;
-      const c = classSelect.value;
-      const ch = chapterSelect.value;
+    const { cls, ch } = getSelectionKeys();
+    if (!cls || !ch) {
+      sectionSelect.disabled = true;
+      renderNoSelection();
+      updateScoreCard();
+      return;
+    }
 
-      const chapterSections = questionData[c]?.[ch]?.sections || [];
-
-      chapterSections.forEach(section => {
-        let opt = document.createElement('option');
-        opt.value = section.id;
-        opt.textContent = `${section.id}: ${section.name}`;
+    const sections = safeGet(window.questionData, [cls, ch, 'sections'], []);
+    sections
+      .slice()
+      .sort((a, b) => {
+        // sort by numeric prefix of id (e.g., "2.10" vs "2.2")
+        const aParts = a.id.split('.').map(Number);
+        const bParts = b.id.split('.').map(Number);
+        return aParts[0] - bParts[0] || aParts[1] - bParts[1];
+      })
+      .forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id;
+        opt.textContent = `${s.id} — ${s.name}`;
         sectionSelect.appendChild(opt);
       });
 
-      // Auto-select first section if available
-      if (chapterSections.length > 0) {
-        sectionSelect.selectedIndex = 0;
-        sectionSelect.value = chapterSections[0].id;
-        
-        // Automatically show questions for first section
-        setTimeout(() => {
-          showQuestions();
-        }, 100);
-      }
-    } else {
-      sectionSelect.disabled = true;
-      sectionSelect.innerHTML = '<option value="">Select Section</option>';
-    }
-    clearContentAndScore();
+    sectionSelect.disabled = sections.length === 0;
+    renderNoSelection();
+    updateScoreCard();
   }
 
-  function clearContentAndScore() {
-    document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
-    updateScoreDisplay();
-  }
-
-  function updateScoreDisplay() {
-    const classSelect = document.getElementById('classSelect');
-    const chapterSelect = document.getElementById('chapterSelect');
-    const sectionSelect = document.getElementById('sectionSelect');
-    const scoreCard = document.getElementById('scoreCard');
-
-    if (!classSelect.value || !chapterSelect.value || !sectionSelect.value) {
-      scoreCard.textContent = 'Section score: x / y';
-      return;
-    }
-    const c = classSelect.value;
-    const ch = chapterSelect.value;
-    const section = sectionSelect.value;
-
-    let sectionKey = `${c}_${ch}_${section}`;
-
-    let totalSectionQuestions = 0;
-    if(questionData[c] && questionData[c][ch] && questionData[c][ch].questions[section]){
-      totalSectionQuestions = questionData[c][ch].questions[section].length;
-    }
-    if(!answeredQuestionsBySection[sectionKey]){
-      answeredQuestionsBySection[sectionKey] = {};
-    }
-    let correctSectionCount = Object.values(answeredQuestionsBySection[sectionKey]).filter(corr=>corr).length;
-    if(totalSectionQuestions === 0){
-      scoreCard.textContent = 'Section score: x / y';
-    } else {
-      scoreCard.textContent = `Section score: ${correctSectionCount} / ${totalSectionQuestions}`;
-    }
-  }
-
+  // ========== Rendering ==========
   function showQuestions() {
-    const c = document.getElementById('classSelect').value;
-    const ch = document.getElementById('chapterSelect').value;
-    const section = document.getElementById('sectionSelect').value;
-    const contentArea = document.getElementById('contentArea');
+    const { cls, ch, sec } = getSelectionKeys();
+    const allQs = safeGet(window.questionData, [cls, ch, 'questions', sec], []);
+    contentArea.innerHTML = '';
 
-    if (!c || !ch || !section) {
-      contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
-      updateScoreDisplay();
+    if (!cls || !ch || !sec) {
+      renderNoSelection();
+      updateScoreCard();
       return;
     }
 
-    const questions = questionData[c]?.[ch]?.questions?.[section] || [];
-    if (!questions.length) {
-      contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
-      updateScoreDisplay();
+    if (!allQs || allQs.length === 0) {
+      const div = document.createElement('div');
+      div.className = 'no-questions';
+      div.textContent = 'No questions available in this section.';
+      contentArea.appendChild(div);
+      updateScoreCard();
       return;
     }
 
-    initScore(c, ch, questions.length);
+    const qc = document.createElement('div');
+    qc.className = 'question-count';
+    qc.textContent = `Questions: ${allQs.length}`;
+    contentArea.appendChild(qc);
 
-    let questionCounter = 1;
-    const allSections = questionData[c][ch].sections;
-    for (let i = 0; i < allSections.length; i++) {
-      if (allSections[i].id === section) break;
-      const qCountPrevSection = (questionData[c][ch].questions[allSections[i].id]?.length) || 0;
-      questionCounter += qCountPrevSection;
-    }
+    const answeredMap = readSectionAnswered({ cls, ch, sec });
+    const stored = readSectionScore({ cls, ch, sec });
 
-    let html = `<div class="question-count">No. of questions found: ${questions.length}</div>`;
-    questions.forEach((q, i) => {
-      const qNum = questionCounter + i;
-      html += `<div class="question-item" id="question-item-${qNum}">
-        <div class="question-header">
-          <span class="question-number">Q${qNum}.</span>
-          <span class="question-year">${q.year}</span>
-        </div>
-        <div class="question-text">${q.question}</div>
-        <div class="options" id="options-${qNum}">
-          ${q.options.map((o, idx) => `<div class="option" role="button" tabindex="0" 
-            data-qnum="${qNum}" data-index="${idx}">${o}</div>`).join('')}
-        </div>
-        <div class="button-group">
-          <button class="btn btn-answer" onclick="toggleAnswer(${qNum})" aria-expanded="false" aria-controls="answer-${qNum}">Answer</button>
-          <button class="btn btn-copy" onclick="copyQuestion(${qNum})">Copy Question</button>
-          <button class="btn btn-chatgpt" onclick="openChatGPT(${qNum})">ChatGPT Explain</button>
-        </div>
-        <div class="answer-reveal" id="answer-${qNum}"><strong>Answer:</strong> ${q.answer}</div>
-      </div>`;
+    allQs.forEach((q, idx) => {
+      const qWrap = document.createElement('div');
+      qWrap.className = 'question-item';
+      qWrap.dataset.qid = q.id;
+
+      const header = document.createElement('div');
+      header.className = 'question-header';
+
+      const num = document.createElement('div');
+      num.className = 'question-number';
+      num.textContent = `Q${idx + 1}`;
+
+      const yr = document.createElement('div');
+      yr.className = 'question-year';
+      yr.textContent = q.year;
+
+      header.appendChild(num);
+      header.appendChild(yr);
+
+      const qText = document.createElement('div');
+      qText.className = 'question-text';
+      qText.innerHTML = q.question;
+
+      const optionsDiv = document.createElement('div');
+      optionsDiv.className = 'options';
+
+      q.options.forEach(optText => {
+        const opt = document.createElement('div');
+        opt.className = 'option';
+        opt.textContent = optText;
+        opt.addEventListener('click', () => handleOptionClick(opt, q, { cls, ch, sec }));
+        optionsDiv.appendChild(opt);
+      });
+
+      const btnRow = document.createElement('div');
+      btnRow.className = 'button-group';
+
+      const revealBtn = document.createElement('button');
+      revealBtn.className = 'btn btn-answer';
+      revealBtn.textContent = 'Reveal Answer';
+      const revealBox = document.createElement('div');
+      revealBox.className = 'answer-reveal';
+      revealBox.textContent = `Correct: ${q.answer}`;
+      revealBtn.addEventListener('click', () => {
+        revealBox.style.display = revealBox.style.display === 'block' ? 'none' : 'block';
+      });
+
+      const copyBtn = document.createElement('button');
+      copyBtn.className = 'btn btn-copy';
+      copyBtn.textContent = 'Copy';
+      copyBtn.addEventListener('click', async () => {
+        const text = [
+          `${q.year}`,
+          q.question.replace(/<br\s*\/?>/gi, '\n'),
+          ...q.options
+        ].join('\n');
+        try {
+          await navigator.clipboard.writeText(text);
+          transientPopup('✓', true);
+        } catch {
+          transientPopup('✗', false);
+        }
+      });
+
+      const askBtn = document.createElement('button');
+      askBtn.className = 'btn btn-chatgpt';
+      askBtn.textContent = 'Ask AI';
+      askBtn.addEventListener('click', () => {
+        alert('Stub: Integrate chat link or side panel as needed.');
+      });
+
+      btnRow.appendChild(revealBtn);
+      btnRow.appendChild(copyBtn);
+      btnRow.appendChild(askBtn);
+
+      qWrap.appendChild(header);
+      qWrap.appendChild(qText);
+      qWrap.appendChild(optionsDiv);
+      qWrap.appendChild(btnRow);
+      qWrap.appendChild(revealBox);
+
+      contentArea.appendChild(qWrap);
+
+      // Restore previous answered state (session)
+      const prev = answeredMap[q.id];
+      if (prev) {
+        const opts = qWrap.querySelectorAll('.option');
+        opts.forEach(o => {
+          if (prev.correct) {
+            if (o.textContent.trim() === q.answer.trim()) o.classList.add('correct-temp');
+          } else {
+            if (o.textContent.trim() === prev.selected.trim()) o.classList.add('incorrect-temp');
+          }
+          o.classList.add('disabled');
+        });
+        qWrap.dataset.answered = 'true';
+      } else if (stored.correctIds.includes(q.id)) {
+        // Restore known correct from persistent score
+        lockQuestionAsCorrect(qWrap, q.answer);
+      }
     });
-    contentArea.innerHTML = html;
 
-    questions.forEach((q, i) => {
-      const qNum = questionCounter + i;
-      const optionsContainer = document.getElementById(`options-${qNum}`);
-      optionsContainer.querySelectorAll('.option').forEach(optionDiv => {
-        optionDiv.addEventListener('click', e => handleOptionClick(e, c, ch, section, qNum, q.answer));
-        optionDiv.addEventListener('keydown', e => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            handleOptionClick(e, c, ch, section, qNum, q.answer);
+    updateScoreCard();
+  }
+
+  function handleOptionClick(element, q, keyParts) {
+    const qWrap = element.closest('.question-item');
+    if (!qWrap || qWrap.dataset.answered === 'true') return;
+
+    const isCorrect = element.textContent.trim() === q.answer.trim();
+
+    // Color only selected option
+    element.classList.add(isCorrect ? 'correct-temp' : 'incorrect-temp');
+
+    // Lock all options
+    qWrap.querySelectorAll('.option').forEach(o => o.classList.add('disabled'));
+    qWrap.dataset.answered = 'true';
+
+    // Center-only popup icon
+    transientPopup(isCorrect ? '✓' : '✗', isCorrect);
+
+    // Session persistence (so wrong stays until refresh)
+    const answeredMap = readSectionAnswered(keyParts);
+    answeredMap[q.id] = { selected: element.textContent.trim(), correct: isCorrect };
+    writeSectionAnswered(keyParts, answeredMap);
+
+    // Score persistence (only correct)
+    if (isCorrect) markCorrectForSection(keyParts, q.id);
+
+    updateScoreCard();
+  }
+
+  function lockQuestionAsCorrect(qWrap, correctAnswerText) {
+    qWrap.querySelectorAll('.option').forEach(o => {
+      if (o.textContent.trim() === correctAnswerText.trim()) o.classList.add('correct-temp');
+      o.classList.add('disabled');
+    });
+    qWrap.dataset.answered = 'true';
+  }
+
+  function transientPopup(symbol, positive) {
+    const t = document.createElement('div');
+    t.className = `tick-cross-popup ${positive ? 'correct' : 'incorrect'}`;
+    t.textContent = symbol;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 1500);
+  }
+
+  function updateScoreCard() {
+    const { cls, ch, sec } = getSelectionKeys();
+    if (!cls || !ch || !sec) {
+      scoreCard.textContent = 'Section score: 0 / 0';
+      return;
+    }
+    const questions = safeGet(window.questionData, [cls, ch, 'questions', sec], []) || [];
+    const total = questions.length;
+    const data = readSectionScore({ cls, ch, sec });
+    const correct = data.correctIds.filter(id => questions.some(q => q.id === id)).length;
+    scoreCard.textContent = `Section score: ${correct} / ${total}`;
+  }
+
+  function renderNoSelection() {
+    contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
+  }
+
+  // Refresh score button
+  refreshBtn.addEventListener('click', updateScoreCard);
+
+  // ========== Add-on / Merge API ==========
+  function mergeArraysUniqueById(baseArr, addArr) {
+    const map = new Map((baseArr || []).map(item => [item.id, item]));
+    (addArr || []).forEach(item => {
+      if (!map.has(item.id)) {
+        map.set(item.id, item);
+      } else {
+        const existing = map.get(item.id);
+        if (item.name && existing.name !== item.name) existing.name = item.name;
+      }
+    });
+    return Array.from(map.values());
+  }
+
+  window.mergeQuestionData = function(add) {
+    if (!add || typeof add !== 'object') return;
+
+    Object.keys(add).forEach(cls => {
+      if (!window.questionData[cls]) window.questionData[cls] = {};
+      const addChapters = add[cls];
+
+              Object.keys(addChapters).forEach(ch => {
+          const addChapterObj = addChapters[ch];
+
+          if (!window.questionData[cls][ch]) {
+            // New chapter entirely
+            window.questionData[cls][ch] = {
+              title: addChapterObj.title || `Chapter ${ch}`,
+              sections: Array.isArray(addChapterObj.sections) ? addChapterObj.sections.slice() : [],
+              questions: addChapterObj.questions ? { ...addChapterObj.questions } : {}
+            };
+          } else {
+            // Merge into existing chapter
+            if (addChapterObj.title) {
+              window.questionData[cls][ch].title = addChapterObj.title;
+            }
+
+            if (Array.isArray(addChapterObj.sections)) {
+              window.questionData[cls][ch].sections =
+                mergeArraysUniqueById(window.questionData[cls][ch].sections || [], addChapterObj.sections);
+            }
+
+            if (addChapterObj.questions && typeof addChapterObj.questions === 'object') {
+              const baseQ = window.questionData[cls][ch].questions || {};
+              Object.keys(addChapterObj.questions).forEach(secId => {
+                const addList = addChapterObj.questions[secId] || [];
+                const baseList = baseQ[secId] || [];
+                const qMap = new Map(baseList.map(q => [q.id, q]));
+                addList.forEach(q => { if (!qMap.has(q.id)) qMap.set(q.id, q); });
+                baseQ[secId] = Array.from(qMap.values());
+              });
+              window.questionData[cls][ch].questions = baseQ;
+            }
           }
         });
       });
-    });
 
-    updateScoreDisplay();
-  }
+      // Refresh UI while retaining current selections where possible
+      const { cls, ch, sec } = getSelectionKeys();
 
-  function showTickCrossPopup(isCorrect) {
-    const existingPopup = document.querySelector('.tick-cross-popup');
-    if (existingPopup) {
-      existingPopup.remove();
-    }
+      // Repopulate chapters if class is selected
+      if (cls) {
+        const prevCh = ch;
+        const prevSec = sec;
 
-    const popup = document.createElement('div');
-    popup.className = `tick-cross-popup ${isCorrect ? 'correct' : 'incorrect'}`;
-    popup.textContent = isCorrect ? '✓' : '✗';
-    
-    document.body.appendChild(popup);
-    
-    setTimeout(() => {
-      if (popup.parentNode) {
-        popup.parentNode.removeChild(popup);
-      }
-    }, 1500);
-  }
+        // Rebuild chapter list to include any newly added chapters
+        updateChapters();
 
-  function handleOptionClick(event, classId, chapterId, section, qNum, correctAnswer) {
-    const selectedOption = event.currentTarget;
-    const optionsContainer = selectedOption.parentNode;
-    const questionKey = `q${qNum}`;
-    const sectionKey = `${classId}_${chapterId}_${section}`;
+        // Restore chapter if it still exists
+        if (prevCh && safeGet(window.questionData, [cls, prevCh])) {
+          chapterSelect.value = prevCh;
 
-    if (answeredQuestionsBySection[sectionKey] && answeredQuestionsBySection[sectionKey][questionKey] !== undefined) {
-      return;
-    }
+          // Rebuild sections for restored chapter
+          updateSections();
 
-    optionsContainer.querySelectorAll('.option').forEach(o => {
-      o.classList.add('disabled');
-      o.style.cursor = 'default';
-      o.setAttribute('aria-disabled', 'true');
-      o.tabIndex = -1;
-    });
-
-    const selectedText = selectedOption.textContent.trim();
-    const isCorrect = selectedText === correctAnswer;
-
-    selectedOption.classList.add(isCorrect ? 'correct-temp' : 'incorrect-temp');
-
-    showTickCrossPopup(isCorrect);
-
-    markQuestionAnswered(classId, chapterId, sectionKey, questionKey, isCorrect);
-    updateScoreDisplay();
-  }
-
-  function toggleAnswer(qNum) {
-    const answerDiv = document.getElementById(`answer-${qNum}`);
-    const button = document.querySelector(`[aria-controls="answer-${qNum}"]`);
-    
-    if (answerDiv.style.display === 'block') {
-      answerDiv.style.display = 'none';
-      button.setAttribute('aria-expanded', 'false');
-    } else {
-      answerDiv.style.display = 'block';
-      button.setAttribute('aria-expanded', 'true');
-    }
-  }
-
-  function copyQuestion(qNum) {
-    const questionText = document.querySelector(`#question-item-${qNum} .question-text`).innerText;
-    const options = Array.from(document.querySelectorAll(`#question-item-${qNum} .option`)).map(opt => opt.innerText).join('\n');
-    const fullText = questionText + '\n\n' + options;
-    
-    navigator.clipboard.writeText(fullText).then(() => {
-      // Optional: Show a brief "Copied!" message
-    });
-  }
-
-  function openChatGPT(qNum) {
-    const questionText = document.querySelector(`#question-item-${qNum} .question-text`).innerText;
-    const options = Array.from(document.querySelectorAll(`#question-item-${qNum} .option`)).map(opt => opt.innerText).join('; ');
-    const query = encodeURIComponent(`Explain this NEET question: ${questionText} Options: ${options}`);
-    window.open(`https://chat.openai.com/?q=${query}`, '_blank');
-  }
-
-  // Per-section refresh functionality
-  document.addEventListener('DOMContentLoaded', function() {
-    const refreshBtn = document.getElementById('refreshChapterBtn');
-    
-    if (refreshBtn) {
-      const newBtn = refreshBtn.cloneNode(true);
-      refreshBtn.parentNode.replaceChild(newBtn, refreshBtn);
-      
-      newBtn.addEventListener('click', function() {
-        const classSelect = document.getElementById('classSelect');
-        const chapterSelect = document.getElementById('chapterSelect');
-        const sectionSelect = document.getElementById('sectionSelect');
-        
-        const c = classSelect?.value;
-        const ch = chapterSelect?.value;
-        const sec = sectionSelect?.value;
-        
-        if (!c || !ch || !sec) return;
-        
-        const sectionKey = `${c}_${ch}_${sec}`;
-        
-        if (answeredQuestionsBySection[sectionKey]) {
-          const sectionAnswers = answeredQuestionsBySection[sectionKey];
-          
-          Object.keys(sectionAnswers).forEach(questionKey => {
-            const wasCorrect = sectionAnswers[questionKey];
-            
-            if (answeredQuestionsByChapter[c] && answeredQuestionsByChapter[c][ch]) {
-              delete answeredQuestionsByChapter[c][ch][questionKey];
-            }
-            
-            if (wasCorrect && cumulativeScores[c] && cumulativeScores[c][ch]) {
-              cumulativeScores[c][ch].correct = Math.max(0, cumulativeScores[c][ch].correct - 1);
-            }
-          });
-          
-          delete answeredQuestionsBySection[sectionKey];
+          // Restore section if it still exists
+          const sections = safeGet(window.questionData, [cls, prevCh, 'sections'], []);
+          if (prevSec && sections.some(s => s.id === prevSec)) {
+            sectionSelect.value = prevSec;
+            showQuestions();
+          }
         }
-        
-        saveScores();
-        
-        document.querySelectorAll('.option').forEach(opt => {
-          opt.classList.remove('correct-temp', 'incorrect-temp', 'disabled');
-          const popup = opt.querySelector('.answer-popup');
-          if (popup) popup.remove();
-        });
-        
-        document.querySelectorAll('.answer-reveal').forEach(reveal => {
-          reveal.style.display = 'none';
-        });
-        
-        updateScoreDisplay();
-      });
-    }
-  });
-</script>
-
-<script>
-(function() {
-  const c = "11";
-  const ch = "2";
-  const section = "2.2";
-
-  const items = [
-    { year: "NEET/AIPMT 2014", question: "Five kingdom system of classification suggested by R. H. Whittaker is not based on which of the following criteria?", options: ["a) presence or absence of a well defined nucleus", "b) mode of reproduction", "c) mode of nutrition", "d) complexity of body organisation"], answer: "b) mode of reproduction", qno: 41 },
-    { year: "NEET/AIPMT 2012", question: "In the five kingdom classification, Chlamydomonas and Chlorella have been included in which kingdom?", options: ["a) protista", "b) algae", "c) plantae", "d) monera"], answer: "a) protista", qno: 42 },
-    { year: "NEET/AIPMT 2004", question: "Linnaeus system of plant classification falls under which type of system?", options: ["a) Artificial", "b) Natural", "c) Phylogenetic", "d) None of the above"], answer: "a) Artificial", qno: 43 },
-    { year: "NEET/AIPMT 2004/2002", question: "Who proposed natural classification of plants?", options: ["a) Carolus Linnaeus", "b) John Hutchinson", "c) Bentham and Hooker", "d) Oswald Tippo"], answer: "c) Bentham and Hooker", qno: 44 },
-    { year: "NEET/AIPMT 2004/1988", question: "Who proposed phylogenetic classification of plants?", options: ["a) Linnaeus", "b) Hutchinson", "c) Bentham and Hooker", "d) Mehta"], answer: "b) Hutchinson", qno: 45 },
-    { year: "NEET/AIPMT 2003", question: "In five kingdom system, archaea and nitrogen-fixing organisms are classified under which kingdom?", options: ["a) Plantae", "b) Fungi", "c) Protista", "d) Monera"], answer: "d) Monera", qno: 46 },
-    { year: "NEET/AIPMT 2002", question: "What is the main basis of classification in five kingdom system?", options: ["a) structure of nucleus", "b) mode of nutrition", "c) structure of cell wall", "d) asexual reproduction"], answer: "b) mode of nutrition", qno: 47 },
-    { year: "NEET/AIPMT 2002/2001/2000", question: "What is the basic unit of classification?", options: ["a) Genus", "b) Species", "c) Family", "d) Order"], answer: "b) Species", qno: 48 },
-    { year: "NEET/AIPMT 2000/1999", question: "Which taxonomical rank contains organisms least similar to each other?", options: ["a) Class", "b) Genus", "c) Family", "d) Species"], answer: "a) Class", qno: 49 },
-    { year: "NEET/AIPMT 2000/1997/1994", question: "Non-nucleated unicellular organisms in Whittaker's classification are placed in which kingdom?", options: ["a) Protista", "b) Monera", "c) Animalia", "d) Plantae"], answer: "b) Monera", qno: 50 },
-    { year: "NEET/AIPMT 1999/1996", question: "A classification system considering many traits is called:", options: ["a) Artificial system", "b) Synthetic system", "c) Natural system", "d) Phylogenetic system"], answer: "c) Natural system", qno: 51 },
-    { year: "NEET/AIPMT 1998", question: "Which kingdom includes blue-green algae, nitrogen fixing bacteria, and methanogenic archaebacteria?", options: ["a) Plantae", "b) Protista", "c) Monera", "d) Fungi"], answer: "c) Monera", qno: 52 },
-    { year: "NEET/AIPMT 1998", question: "Which classification system is based on evolution, order, and ancestry?", options: ["a) Natural system", "b) Analogous system", "c) Phylogenetic system", "d) Homologous system"], answer: "c) Phylogenetic system", qno: 53 },
-    { year: "NEET/AIPMT 1998", question: "Systema Naturae is focused on which field?", options: ["a) Solar system", "b) Ecosystem", "c) Classification of plants and animals", "d) Natural selection"], answer: "c) Classification of plants and animals", qno: 54 },
-    { year: "NEET/AIPMT 1994/1992", question: "Who coined the term 'phylum' in animal classification?", options: ["a) E. Haeckel", "b) John Ray", "c) G.L. Cuvier", "d) Carolus Linnaeus"], answer: "c) G.L. Cuvier", qno: 55 },
-    { year: "NEET/AIPMT 1994", question: "Who proposed the four kingdom classification system?", options: ["a) Whittaker", "b) Copeland", "c) Haeckel", "d) Linnaeus"], answer: "b) Copeland", qno: 56 }
-    // Add remaining questions 57 to 62 similarly with qno property
-  ];
-
-  // Add remaining questions from 57 to 62 below as per your records
-
-  if (!window.questionData) return;
-
-  if (!questionData[c]) questionData[c] = {};
-  if (!questionData[c][ch]) questionData[c][ch] = {sections: [], questions: {}};
-  if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
-
-  questionData[c][ch].questions[section] = items;
-
-  const classSelect = document.getElementById('classSelect');
-  const chapterSelect = document.getElementById('chapterSelect');
-  const sectionSelect = document.getElementById('sectionSelect');
-
-  if (classSelect?.value === c && chapterSelect?.value === ch) {
-    updateSections();
-    if (sectionSelect?.value !== section) {
-      sectionSelect.value = section;
-    }
-    showQuestions();
-  }
-})();
-</script>
-
-<script>
-// Enhanced ChatGPT functionality with two-version answer format
-function openChatGPT(qNum) {
-  const questionText = document.querySelector(`#question-item-${qNum} .question-text`).innerText;
-  const options = Array.from(document.querySelectorAll(`#question-item-${qNum} .option`)).map(opt => opt.innerText).join('; ');
-  const yearText = document.querySelector(`#question-item-${qNum} .question-year`).innerText;
-  
-  // Enhanced prompt with two-version answer requirement
-  const enhancedPrompt = `Explain this ${yearText} NEET question: 
-
-Question: ${questionText}
-
-Options: ${options}
-
-Give two versions of answer:
-Version 1: Brief explanation
-Version 2: NCERT based, quote the exact matching statement from NCERT biology textbook latest reprint and explain accordingly.`;
-  
-  const query = encodeURIComponent(enhancedPrompt);
-  window.open(`https://chat.openai.com/?q=${query}`, '_blank');
-}
-</script>
-
-<script>
-/* ===== Addon: Show small highlighted "Attempted" note after answering; clear on Refresh ===== */
-(function () {
-  // Inject minimal CSS once for the attempted note
-  function ensureAttemptedStyle() {
-    if (document.getElementById('attempted-note-style')) return;
-    const style = document.createElement('style');
-    style.id = 'attempted-note-style';
-    style.textContent = `
-      .attempted-note {
-        margin-top: 6px;
-        font-size: 12px;
-        line-height: 1.25;
-        color: #1d4ed8;              /* blue text */
-        background: #fff7cc;         /* light yellow highlight */
-        border: 1px dashed #f59e0b;  /* amber dashed border */
-        padding: 4px 8px;
-        border-radius: 6px;
-        display: inline-block;
+      } else {
+        // No class chosen; just reset the main area
+        renderNoSelection();
+        updateScoreCard();
       }
-    `;
-    document.head.appendChild(style);
-  }
-
-  // Add the "Attempted" note under the options for a given question number
-  function addAttemptedNote(qNum) {
-    const optionsWrap = document.getElementById(`options-${qNum}`);
-    if (!optionsWrap) return;
-
-    // Avoid duplicates
-    const item = document.getElementById(`question-item-${qNum}`);
-    if (!item) return;
-    if (item.querySelector('.attempted-note')) return;
-
-    const note = document.createElement('div');
-    note.className = 'attempted-note';
-    note.textContent = 'Attempted';
-    // Insert right after options block
-    optionsWrap.insertAdjacentElement('afterend', note);
-  }
-
-  // Patch handleOptionClick to append the note after original evaluation
-  function patchHandleOptionClick() {
-    if (typeof window.handleOptionClick !== 'function') return false;
-
-    // Prevent double-patching
-    if (window.handleOptionClick._attemptedPatched) return true;
-
-    const original = window.handleOptionClick;
-    window.handleOptionClick = function (event, classId, chapterId, section, qNum, correctAnswer) {
-      // Call original behavior first
-      original.call(this, event, classId, chapterId, section, qNum, correctAnswer);
-      // Then add the attempted note
-      addAttemptedNote(qNum);
     };
-    window.handleOptionClick._attemptedPatched = true;
-    return true;
-  }
 
-  // Clear all attempted notes (used on Refresh)
-  function clearAttemptedNotes() {
-    document.querySelectorAll('.attempted-note').forEach(n => n.remove());
-  }
-
-  // Bind clearing to the Refresh Section button
-  function bindRefreshClear() {
-    const btn = document.getElementById('refreshChapterBtn');
-    if (!btn) return false;
-
-    // Add an additional listener (complements existing refresh logic)
-    btn.addEventListener('click', () => {
-      // Remove any "Attempted" labels in the current view
-      clearAttemptedNotes();
-    });
-    return true;
-  }
-
-  // Try to prepare everything once DOM is ready
-  function initAddon(attemptsLeft = 40) {
-    ensureAttemptedStyle();
-
-    // Try patching now; if not yet defined, retry briefly
-    const patched = patchHandleOptionClick();
-    const bound = bindRefreshClear();
-
-    if (!patched && attemptsLeft > 0) {
-      return setTimeout(() => initAddon(attemptsLeft - 1), 100);
+    // Auto-apply add-on if a global object is present
+    if (window.__NEET_ADDON__ && typeof window.__NEET_ADDON__ === 'object') {
+      window.mergeQuestionData(window.__NEET_ADDON__);
     }
-    if (!bound && attemptsLeft > 0) {
-      return setTimeout(() => initAddon(attemptsLeft - 1), 100);
-    }
-  }
+  </script>
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => initAddon(), { once: true });
-  } else {
-    initAddon();
-  }
-})();
-</script>
-
-<script>
-/* ===== Addon: Persist selected option highlight (red/green) until Refresh; suppress tick/cross popup; keep "Attempted" label until Refresh ===== */
-(function () {
-  // 1) CSS for persistent highlight (separate from your existing -temp classes)
-  function ensurePersistStyles() {
-    if (document.getElementById('persist-highlight-style')) return;
-    const style = document.createElement('style');
-    style.id = 'persist-highlight-style';
-    style.textContent = `
-      .option.correct-persist {
-        background-color: rgba(25, 135, 84, 0.25);
-        border-color: rgba(25, 135, 84, 0.35);
-        color: #2e7d32;
-      }
-      .option.incorrect-persist {
-        background-color: rgba(220, 53, 69, 0.20);
-        border-color: rgba(220, 53, 69, 0.35);
-        color: #b02a37;
-      }
-      .attempted-note {
-        margin-top: 6px;
-        font-size: 12px;
-        line-height: 1.25;
-        color: #1d4ed8;
-        background: #fff7cc;
-        border: 1px dashed #f59e0b;
-        padding: 4px 8px;
-        border-radius: 6px;
-        display: inline-block;
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  // 2) Suppress the transient tick/cross popup impression
-  function suppressTickPopup() {
-    // Replace popup function with no-op while keeping reference name intact
-    window.showTickCrossPopup = function () { /* suppressed */ };
-  }
-
-  // 3) Add the Attempted note under a question (id uses existing markup)
-  function addAttemptedNote(qNum) {
-    const optionsWrap = document.getElementById(`options-${qNum}`);
-    if (!optionsWrap) return;
-    const item = document.getElementById(`question-item-${qNum}`);
-    if (!item) return;
-    if (item.querySelector('.attempted-note')) return;
-    const note = document.createElement('div');
-    note.className = 'attempted-note';
-    note.textContent = 'Attempted';
-    optionsWrap.insertAdjacentElement('afterend', note);
-  }
-
-  // 4) Patch handleOptionClick to persistently color the chosen option and show Attempted
-  function patchHandleOptionClick() {
-    if (typeof window.handleOptionClick !== 'function') return false;
-    if (window.handleOptionClick._persistPatched) return true;
-
-    const original = window.handleOptionClick;
-    window.handleOptionClick = function (event, classId, chapterId, section, qNum, correctAnswer) {
-      // Compute correctness from the clicked element before original alters DOM
-      const target = event?.currentTarget;
-      const selectedText = (target?.textContent || '').trim();
-      const isCorrect = (selectedText === correctAnswer);
-
-      // Run original logic (disables options, stores scores, etc.)
-      original.call(this, event, classId, chapterId, section, qNum, correctAnswer);
-
-      // Remove transient highlight and apply persistent highlight to the selected option
-      if (target) {
-        target.classList.remove('correct-temp', 'incorrect-temp');
-        target.classList.add(isCorrect ? 'correct-persist' : 'incorrect-persist');
-      }
-
-      // Ensure Attempted label is visible
-      addAttemptedNote(qNum);
-    };
-    window.handleOptionClick._persistPatched = true;
-    return true;
-  }
-
-  // 5) Clear persistent state on Refresh (works with your existing per-section refresh)
-  function bindRefreshClear() {
-    const btn = document.getElementById('refreshChapterBtn');
-    if (!btn) return false;
-    // Add an additional listener without touching existing logic
-    btn.addEventListener('click', () => {
-      // Remove persistent highlights
-      document.querySelectorAll('.option.correct-persist, .option.incorrect-persist')
-        .forEach(el => el.classList.remove('correct-persist', 'incorrect-persist'));
-      // Remove any Attempted notes
-      document.querySelectorAll('.attempted-note').forEach(n => n.remove());
-    });
-    return true;
-  }
-
-  // 6) Initialize with retries to ensure functions/elements are available
-  function init(attemptsLeft = 40) {
-    ensurePersistStyles();
-    suppressTickPopup();
-    const patched = patchHandleOptionClick();
-    const bound = bindRefreshClear();
-
-    if ((!patched || !bound) && attemptsLeft > 0) {
-      setTimeout(() => init(attemptsLeft - 1), 100);
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => init(), { once: true });
-  } else {
-    init();
-  }
-})();
-</script>
-<script>
-/* ===== Addon: persistent red/green highlight + persistent "Attempted" label (survives section switch; clears on Refresh) ===== */
-(function () {
-  const STORAGE_KEY = 'attemptedSelections_v1'; // persists across section switches
-
-  // Load/save persisted selections { [sectionKey]: { [qKey]: { index:number, correct:boolean } } }
-  function loadAttempted() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; }
-  }
-  function saveAttempted(obj) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); } catch(e) {}
-  }
-  let attemptedSelections = loadAttempted();
-
-  // CSS for persistent states and attempted label
-  function ensureStyles() {
-    if (document.getElementById('persist-attempt-style')) return;
-    const style = document.createElement('style');
-    style.id = 'persist-attempt-style';
-    style.textContent = `
-      .option.correct-persist {
-        background-color: rgba(25, 135, 84, 0.25);
-        border-color: rgba(25, 135, 84, 0.35);
-        color: #2e7d32;
-      }
-      .option.incorrect-persist {
-        background-color: rgba(220, 53, 69, 0.20);
-        border-color: rgba(220, 53, 69, 0.35);
-        color: #b02a37;
-      }
-      .attempted-note {
-        margin-top: 6px;
-        font-size: 12px;
-        line-height: 1.25;
-        color: #1d4ed8;
-        background: #fff7cc;
-        border: 1px dashed #f59e0b;
-        padding: 4px 8px;
-        border-radius: 6px;
-        display: inline-block;
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  // Ensure an "Attempted" label exists for this question
-  function addAttemptedNote(qNum) {
-    const item = document.getElementById(`question-item-${qNum}`);
-    if (!item) return;
-    if (item.querySelector('.attempted-note')) return;
-    const optionsWrap = document.getElementById(`options-${qNum}`);
-    if (!optionsWrap) return;
-    const note = document.createElement('div');
-    note.className = 'attempted-note';
-    note.textContent = 'Attempted';
-    optionsWrap.insertAdjacentElement('afterend', note);
-  }
-
-  // Apply persistent highlight and disabling to a single question based on stored selection
-  function applyPersistToQuestion(qNum, selIndex, isCorrect) {
-    const optionsWrap = document.getElementById(`options-${qNum}`);
-    if (!optionsWrap) return;
-    const opts = optionsWrap.querySelectorAll('.option');
-    opts.forEach(o => {
-      o.classList.add('disabled');
-      o.style.cursor = 'default';
-      o.setAttribute('aria-disabled', 'true');
-      o.tabIndex = -1;
-    });
-    const chosen = optionsWrap.querySelector(`.option[data-index="${selIndex}"]`);
-    if (chosen) {
-      chosen.classList.remove('correct-temp', 'incorrect-temp');
-      chosen.classList.add(isCorrect ? 'correct-persist' : 'incorrect-persist');
-    }
-    addAttemptedNote(qNum);
-  }
-
-  // Repaint all persisted states for the current c, ch, section after showQuestions renders DOM
-  function repaintPersistedForCurrentSection() {
-    const classSelect = document.getElementById('classSelect');
-    const chapterSelect = document.getElementById('chapterSelect');
-    const sectionSelect = document.getElementById('sectionSelect');
-    if (!classSelect || !chapterSelect || !sectionSelect) return;
-    const c = classSelect.value, ch = chapterSelect.value, sec = sectionSelect.value;
-    if (!c || !ch || !sec) return;
-    const sectionKey = `${c}_${ch}_${sec}`;
-    const entries = attemptedSelections[sectionKey];
-    if (!entries) return;
-
-    // entries: { q123: {index, correct}, ...}
-    Object.keys(entries).forEach(qKey => {
-      const qNum = Number(String(qKey).replace(/^q/, ''));
-      const { index, correct } = entries[qKey] || {};
-      if (Number.isFinite(qNum) && Number.isFinite(index)) {
-        applyPersistToQuestion(qNum, index, !!correct);
+  <!-- ========= Paste your add-on script block BELOW this line and ABOVE </body> =========
+  Example usage (remove the surrounding comment and edit):
+  <script>
+    window.mergeQuestionData({
+      "11": {
+        "3": {
+          sections: [
+            { id: "3.3", name: "Pteridophytes (Add-on)" }
+          ],
+          questions: {
+            "3.3": [
+              {
+                id: "3.3-EX1",
+                year: "NEET 2018",
+                question: "Example add-on question text?",
+                options: ["a) A", "b) B", "c) C", "d) D"],
+                answer: "b) B"
+              }
+            ]
+          }
+        }
+      },
+      "12": {
+        "2": {
+          questions: {
+            "2.1": [
+              {
+                id: "12-2.1-EX2",
+                year: "NEET 2017",
+                question: "Another add-on question?",
+                options: ["a) A", "b) B", "c) C", "d) D"],
+                answer: "a) A"
+              }
+            ]
+          }
+        }
       }
     });
-  }
 
-  // Suppress transient tick/cross popup (green impression) entirely
-  window.showTickCrossPopup = function () { /* suppressed by addon */ };
-
-  // Patch handleOptionClick to also persist the visual state and the selection
-  function patchHandleOptionClick() {
-    if (typeof window.handleOptionClick !== 'function') return false;
-    if (window.handleOptionClick._persistPatched) return true;
-
-    const original = window.handleOptionClick;
-    window.handleOptionClick = function (event, classId, chapterId, section, qNum, correctAnswer) {
-      const target = event?.currentTarget;
-      const selectedText = (target?.textContent || '').trim();
-      // original will disable options and compute scoring
-      original.call(this, event, classId, chapterId, section, qNum, correctAnswer);
-
-      // compute selection index from data-index (present in your markup)
-      const optIndex = Number(target?.getAttribute('data-index'));
-      const isCorrect = (selectedText === correctAnswer);
-
-      // persist visually
-      if (target) {
-        target.classList.remove('correct-temp', 'incorrect-temp');
-        target.classList.add(isCorrect ? 'correct-persist' : 'incorrect-persist');
-      }
-      addAttemptedNote(qNum);
-
-      // persist logically across section switches
-      const sectionKey = `${classId}_${chapterId}_${section}`;
-      const qKey = `q${qNum}`;
-      if (!attemptedSelections[sectionKey]) attemptedSelections[sectionKey] = {};
-      attemptedSelections[sectionKey][qKey] = { index: optIndex, correct: isCorrect };
-      saveAttempted(attemptedSelections);
-    };
-    window.handleOptionClick._persistPatched = true;
-    return true;
-  }
-
-  // Patch showQuestions to repaint persisted states after it finishes rendering
-  function patchShowQuestions() {
-    if (typeof window.showQuestions !== 'function') return false;
-    if (window.showQuestions._persistPatched) return true;
-
-    const original = window.showQuestions;
-    window.showQuestions = function () {
-      const res = original.apply(this, arguments);
-      // wait a tick to ensure DOM nodes exist, then repaint persisted states
-      setTimeout(() => repaintPersistedForCurrentSection(), 0);
-      return res;
-    };
-    window.showQuestions._persistPatched = true;
-    return true;
-  }
-
-  // Bind clearing behavior to the existing Refresh button (per-section)
-  function bindRefreshClear() {
-    const btn = document.getElementById('refreshChapterBtn');
-    if (!btn) return false;
-
-    btn.addEventListener('click', () => {
-      const classSelect = document.getElementById('classSelect');
-      const chapterSelect = document.getElementById('chapterSelect');
-      const sectionSelect = document.getElementById('sectionSelect');
-      if (!classSelect || !chapterSelect || !sectionSelect) return;
-      const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
-
-      // Clear persistent selections for this section only
-      if (attemptedSelections[sectionKey]) {
-        delete attemptedSelections[sectionKey];
-        saveAttempted(attemptedSelections);
-      }
-
-      // Clear visual marks in current DOM
-      document.querySelectorAll('.option.correct-persist, .option.incorrect-persist')
-        .forEach(el => el.classList.remove('correct-persist', 'incorrect-persist'));
-      document.querySelectorAll('.attempted-note').forEach(n => n.remove());
-    });
-    return true;
-  }
-
-  // Init with retries to ensure functions and elements exist
-  function init(attemptsLeft = 40) {
-    ensureStyles();
-    const ok1 = patchHandleOptionClick();
-    const ok2 = patchShowQuestions();
-    const ok3 = bindRefreshClear();
-
-    if ((!ok1 || !ok2 || !ok3) && attemptsLeft > 0) {
-      setTimeout(() => init(attemptsLeft - 1), 100);
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => init(), { once: true });
-  } else {
-    init();
-  }
-})();
-</script>
-<script>
-/* ===== Addon: Fresh option-click logic with persistent green/red highlight until Refresh; no labels, no popup ===== */
-(function () {
-  const STORAGE_KEY = 'persistSelections_v2'; // per-section persistence across switches
-  let persisted = loadPersisted();
-
-  function loadPersisted() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; }
-  }
-  function savePersisted() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(persisted)); } catch(e) {}
-  }
-
-  // Styles for persistent state
-  function ensureStyles() {
-    if (document.getElementById('fresh-click-style')) return;
-    const style = document.createElement('style');
-    style.id = 'fresh-click-style';
-    style.textContent = `
-      .option.correct-persist {
-        background-color: rgba(25, 135, 84, 0.22);
-        border-color: rgba(25, 135, 84, 0.38);
-        color: #2e7d32;
-      }
-      .option.incorrect-persist {
-        background-color: rgba(220, 53, 69, 0.20);
-        border-color: rgba(220, 53, 69, 0.38);
-        color: #b02a37;
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  // Suppress any old tick/cross popup impressions entirely
-  window.showTickCrossPopup = function () { /* disabled by fresh addon */ };
-
-  // New click handler that fully replaces old logic
-  function freshHandleOptionClick(event, classId, chapterId, section, qNum, correctAnswer) {
-    const sel = event?.currentTarget;
-    if (!sel) return;
-
-    const optionsWrap = sel.parentNode;
-    const opts = optionsWrap?.querySelectorAll('.option') || [];
-    const selectedText = (sel.textContent || '').trim();
-    const isCorrect = (selectedText === correctAnswer);
-
-    // Disable all options for this question
-    opts.forEach(o => {
-      o.classList.add('disabled');
-      o.style.cursor = 'default';
-      o.setAttribute('aria-disabled', 'true');
-      o.tabIndex = -1;
-      // Remove any transient old classes if present
-      o.classList.remove('correct-temp', 'incorrect-temp');
-    });
-
-    // Apply persistent highlight on selected option
-    sel.classList.add(isCorrect ? 'correct-persist' : 'incorrect-persist');
-
-    // Persist selection across section switches
-    const sectionKey = `${classId}_${chapterId}_${section}`;
-    const qKey = `q${qNum}`;
-    const selIndex = Number(sel.getAttribute('data-index'));
-    if (!persisted[sectionKey]) persisted[sectionKey] = {};
-    persisted[sectionKey][qKey] = { index: selIndex, correct: isCorrect };
-    savePersisted();
-
-    // Keep existing scoring in sync
-    if (typeof window.markQuestionAnswered === 'function') {
-      window.markQuestionAnswered(classId, chapterId, sectionKey, qKey, isCorrect);
-    }
-    if (typeof window.updateScoreDisplay === 'function') {
-      window.updateScoreDisplay();
-    }
-  }
-
-  // Replace the old handleOptionClick universally
-  function overrideHandle() {
-    window.handleOptionClick = freshHandleOptionClick;
-  }
-
-  // After showQuestions renders, repaint all persistent selections for current section
-  function repaintCurrentSection() {
-    const classSelect = document.getElementById('classSelect');
-    const chapterSelect = document.getElementById('chapterSelect');
-    const sectionSelect = document.getElementById('sectionSelect');
-    if (!classSelect || !chapterSelect || !sectionSelect) return;
-    const c = classSelect.value, ch = chapterSelect.value, sec = sectionSelect.value;
-    if (!c || !ch || !sec) return;
-
-    const sectionKey = `${c}_${ch}_${sec}`;
-    const recs = persisted[sectionKey];
-    if (!recs) return;
-
-    Object.keys(recs).forEach(qKey => {
-      const qNum = Number(String(qKey).replace(/^q/, ''));
-      if (!Number.isFinite(qNum)) return;
-
-      const { index, correct } = recs[qKey] || {};
-      const optionsWrap = document.getElementById(`options-${qNum}`);
-      if (!optionsWrap) return;
-
-      // Disable all options
-      const opts = optionsWrap.querySelectorAll('.option');
-      opts.forEach(o => {
-        o.classList.add('disabled');
-        o.style.cursor = 'default';
-        o.setAttribute('aria-disabled', 'true');
-        o.tabIndex = -1;
-        o.classList.remove('correct-temp', 'incorrect-temp');
-        o.classList.remove('correct-persist', 'incorrect-persist');
-      });
-
-      // Reapply persistent highlight to the chosen index
-      const chosen = optionsWrap.querySelector(`.option[data-index="${index}"]`);
-      if (chosen) {
-        chosen.classList.add(correct ? 'correct-persist' : 'incorrect-persist');
-      }
-    });
-  }
-
-  // Patch showQuestions to repaint after DOM is built
-  function patchShowQuestions() {
-    if (typeof window.showQuestions !== 'function') return false;
-    if (window.showQuestions._freshPatched) return true;
-
-    const original = window.showQuestions;
-    window.showQuestions = function () {
-      const out = original.apply(this, arguments);
-      // repaint on next tick
-      setTimeout(repaintCurrentSection, 0);
-      return out;
-    };
-    window.showQuestions._freshPatched = true;
-    return true;
-  }
-
-  // Bind clearing persistent state to the existing Refresh button
-  function bindRefreshClear() {
-    const btn = document.getElementById('refreshChapterBtn');
-    if (!btn) return false;
-
-    btn.addEventListener('click', () => {
-      const classSelect = document.getElementById('classSelect');
-      const chapterSelect = document.getElementById('chapterSelect');
-      const sectionSelect = document.getElementById('sectionSelect');
-      if (!classSelect || !chapterSelect || !sectionSelect) return;
-
-      const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
-
-      // Remove persisted for this section only
-      if (persisted[sectionKey]) {
-        delete persisted[sectionKey];
-        savePersisted();
-      }
-
-      // Remove visual persists in current DOM
-      document.querySelectorAll('.option.correct-persist, .option.incorrect-persist')
-        .forEach(el => el.classList.remove('correct-persist', 'incorrect-persist'));
-
-      // Also re-enable options (since section is being refreshed)
-      document.querySelectorAll('.options .option').forEach(o => {
-        o.classList.remove('disabled');
-        o.style.cursor = '';
-        o.removeAttribute('aria-disabled');
-        o.tabIndex = 0;
-      });
-    });
-    return true;
-  }
-
-  // Initialize with retries until dependencies exist
-  function init(attempts = 40) {
-    ensureStyles();
-    overrideHandle();
-    const patched = patchShowQuestions();
-    const bound = bindRefreshClear();
-
-    if ((!patched || !bound) && attempts > 0) {
-      setTimeout(() => init(attempts - 1), 100);
-    } else {
-      // Initial repaint if a section is already visible
-      setTimeout(repaintCurrentSection, 0);
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => init(), { once: true });
-  } else {
-    init();
-  }
-})();
-</script>
-
+    // Or set a global and let auto-apply merge it:
+    // window.__NEET_ADDON__ = { ...same structure as above... };
+  </script>
+  ========= END add-on area ========= -->
 
 </body>
 </html>
