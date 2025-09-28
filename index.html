@@ -2443,6 +2443,48 @@ Version 2: NCERT based, quote the exact matching statement from NCERT biology te
   }
 })();
 </script>
+<script>
+(function() {
+  const c = "11";
+  const ch = "2";
+  const section = "2.6";
+
+  const items = [
+    { year: "NEET/AIPMT 1989/1992/2000", question: "Lichens are sensitive indicators of SO₂ pollution.", options: ["a) Association only explains it","b) Grow faster than others","c) Sensitive to SO₂","d) Flourish in SO₂-rich air"], answer: "c) Sensitive to SO₂" },
+    { year: "NEET/AIPMT 1994", question: "Genetic material in TMV is:", options: ["a) ssRNA","b) dsDNA","c) Protein only","d) dsRNA"], answer: "a) ssRNA" },
+    { year: "NEET/AIPMT 2010", question: "The term for viral envelope context (complete particle):", options: ["a) Capsid","b) Virion","c) Nucleoprotein","d) Core"], answer: "b) Virion" },
+    { year: "NEET/AIPMT 2012", question: "Identify the correct statement.", options: ["a) Paramecium & Plasmodium share kingdom with Penicillium","b) Lichen is alga + protozoan","c) Yeast used in bread/beer is a fungus","d) Nostoc and Anabaena are protists"], answer: "c) Yeast used in bread/beer is a fungus" },
+    { year: "NEET/AIPMT 2014", question: "Pick the wrong statement about milestones.", options: ["a) Beijerinck coined contagium vivum fluidum","b) Mosaic disease and AIDS are viral","c) Viroids discovered by Ivanowsky","d) W. M. Stanley crystallised viruses"], answer: "c) Viroids discovered by Ivanowsky" },
+    { year: "NEET/AIPMT 2016", question: "Which is true for viroids?", options: ["a) They cause infections","b) RNA of high molecular weight","c) Lack protein coat","d) Smaller than viruses"], answer: "b) RNA of high molecular weight" },
+    { year: "NEET/AIPMT 2017", question: "Viroids differ from viruses in having:", options: ["a) DNA without protein coat","b) RNA with protein coat","c) RNA without protein coat","d) DNA with protein coat"], answer: "c) RNA without protein coat" },
+    { year: "NEET/AIPMT 2019", question: "Prions are:", options: ["a) Inert crystals","b) Abnormally folded proteins","c) Free RNA without coat","d) Free DNA without coat"], answer: "b) Abnormally folded proteins" },
+    { year: "NEET/AIPMT 2003", question: "Viruses are:", options: ["a) Metabolically self-sufficient","b) Carry both DNA and RNA together","c) Obligate parasites","d) Nucleic acid called capsid"], answer: "c) Obligate parasites" },
+    { year: "NEET/AIPMT 2004", question: "Retroviruses carry gene for:", options: ["a) No DNA ever in life cycle","b) RNA-dependent DNA polymerase","c) Mature virion has DNA","d) Never cause cancers"], answer: "b) RNA-dependent DNA polymerase" },
+    { year: "NEET/AIPMT 2000/2001/2005", question: "Virus-mediated gene transfer in bacteria is:", options: ["a) Transduction","b) Transcription","c) Transformation","d) Translation"], answer: "a) Transduction" },
+    { year: "NEET/AIPMT 2010", question: "Name for the complete enveloped viral particle:", options: ["a) Capsid","b) Virion","c) Nucleoprotein","d) Core"], answer: "b) Virion" },
+    { year: "NEET/AIPMT 1996", question: "Wrong statement on lichens:", options: ["a) Some species eaten by reindeers","b) Lichens indicate pollution","c) Grow rapidly ~2 cm per day","d) Symbiosis of alga and fungus"], answer: "c) Grow rapidly ~2 cm per day" },
+    { year: "NEET/AIPMT 2001", question: "Genome in Cauliflower mosaic virus is:", options: ["a) ssRNA","b) dsRNA","c) dsDNA","d) ssDNA"], answer: "c) dsDNA" },
+    { year: "NEET/AIPMT 2003", question: "Size of TMV particle is roughly:", options: ["a) 300 × 10 nm","b) 300 × 5 nm","c) 300 × 20 nm","d) 700 × 30 nm"], answer: "c) 300 × 20 nm" },
+    { year: "NEET/AIPMT 1997", question: "Viruses possess:", options: ["a) Ribosomes","b) Organelles","c) Either DNA or RNA","d) None"], answer: "c) Either DNA or RNA" },
+    { year: "NEET/AIPMT 2005", question: "In lichens, the fungus primarily:", options: ["a) Provides protection/anchorage/absorption","b) Provides food","c) Fixes nitrogen","d) Releases oxygen"], answer: "a) Provides protection/anchorage/absorption" },
+    { year: "NEET/AIPMT 2012", question: "Which is correct about viruses?", options: ["a) All are parasites","b) All have helical symmetry","c) They have helical symmetry (some)","d) Antibiotics have no effect"], answer: "d) Antibiotics have no effect" },
+    { year: "NEET/AIPMT 2009", question: "T. O. Diener discovered:", options: ["a) Free infectious DNA","b) Infectious protein","c) Bacteriophage","d) Free infectious RNA"], answer: "d) Free infectious RNA" },
+    { year: "NEET/AIPMT 2010", question: "Bacteriophage parts in correct order:", options: ["a) Tail fibres, Head, Sheath, Collar","b) Sheath, Collar, Head, Tail fibres","c) Head, Sheath, Collar, Tail fibres","d) Collar, Tail fibres, Head, Sheath"], answer: "c) Head, Sheath, Collar, Tail fibres" }
+  ];
+
+  if (!window.questionData) return;
+  if (!questionData[c] || !questionData[c][ch]) return;
+  if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
+  questionData[c][ch].questions[section] = items;
+
+  const classSelect = document.getElementById('classSelect');
+  const chapterSelect = document.getElementById('chapterSelect');
+  const sectionSelect = document.getElementById('sectionSelect');
+  if (classSelect?.value === c && chapterSelect?.value === ch && sectionSelect?.value === section) {
+    setTimeout(() => { if (typeof showQuestions === 'function') showQuestions(); }, 100);
+  }
+})();
+</script>
 
 </body>
 </html>
