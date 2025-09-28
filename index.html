@@ -5,982 +5,288 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>NEET-PYQ</title>
 <style>
-  body {
-    font-family: 'Montserrat', Arial, sans-serif;
-    margin: 0;
-    padding: 20px 24px;
-    background-color: #f9fafb;
-    color: #1f2937;
-    overflow-x: hidden;
-  }
-  .header {
-    text-align: left;
-    background-color: #023047;
-    color: #ffb347;
-    padding: 48px 24px 32px 24px;
-    border-radius: 10px;
-    margin-bottom: 32px;
-    position: relative;
-    overflow: hidden;
-  }
-  .header::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at center, #4f59b0 0%, transparent 70%);
-    opacity: 0.3;
-    pointer-events: none;
-  }
-  .header h1 {
-    position: relative;
-    margin: 0 0 12px 0;
-    font-size: 3rem;
-    font-weight: 900;
-    letter-spacing: 2px;
-    line-height: 1.1;
-    transform: none !important;
-    color: #ffa726;
-    max-width: 100%;
-    white-space: nowrap;
-  }
-  .header .subtitle {
-    position: relative;
-    font-size: 18px;
-    font-weight: 600;
-    color: #b9fbc0;
-    letter-spacing: 0.6px;
-  }
-  .note {
-    max-width: 720px;
-    margin: 0 auto 24px auto;
-    font-style: italic;
-    font-size: 14px;
-    color: #4b6650;
-    background-color: #d7e7d0;
-    border-left: 6px solid #a8c77a;
-    padding: 12px 20px;
-    border-radius: 8px;
-  }
-  .controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 18px;
-    margin-bottom: 16px;
-    justify-content: center;
-    align-items: center;
-  }
-  .class-reload-group {
-    display: flex;
-    gap: 8px;
-    align-items: flex-end;
-    min-width: 180px;
-    flex: 1;
-  }
-  .dropdown-group {
-    min-width: 180px;
-    flex: 1;
-  }
-  .class-dropdown-part {
-    flex: 1;
-  }
-  label {
-    display: block;
-    font-weight: 700;
-    font-size: 15px;
-    margin-bottom: 6px;
-    color: #344e41;
-  }
-  select {
-    width: 100%;
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: 2px solid #028090;
-    font-size: 15px;
-    background-color: #ffffff;
-    color: #023047;
-    transition: 0.3s;
-  }
-  select:focus {
-    outline: none;
-    border-color: #023047;
-    background-color: #e0f7f4;
-  }
-  .reload-btn {
-    cursor: pointer;
-    background-color: #8b5cf6;
-    border: none;
-    color: #fff;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-weight: 700;
-    font-size: 12px;
-    transition: background-color 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    height: 36px;
-    white-space: nowrap;
-  }
-  .reload-btn:hover {
-    background-color: #7c3aed;
-  }
-  #scoreWrapper {
-    display: flex;
-    align-items: center;
-    margin-left: 12px;
-  }
-  #scoreCard {
-    display: flex;
-    align-items: center;
-    font-weight: 700;
-    font-size: 18px;
-    color: #116466;
-    border-left: 5px solid #028090;
-    padding-left: 14px;
-    white-space: nowrap;
-  }
-  .refreshBtn {
-    cursor: pointer;
-    background-color: #0d6efd;
-    border: none;
-    color: #fff;
-    padding: 4px 10px;
-    border-radius: 7px;
-    font-weight: 700;
-    font-size: 13px;
-    transition: background-color 0.3s ease;
-    margin-left: 8px;
-    height: 32px;
-    line-height: 24px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .refreshBtn:hover {
-    background-color: #084298;
-  }
-  .content-area {
-    background-color: #fff1e0;
-    padding: 28px 30px;
-    border-radius: 12px;
-    min-height: 300px;
-    color: #1f2937;
-    transition: background-color 0.4s ease;
-    max-width: 900px;
-    margin: 0 auto 30px auto;
-  }
-  .question-count {
-    font-weight: 700;
-    font-size: 18px;
-    color: #116466;
-    margin-bottom: 18px;
-    border-left: 5px solid #028090;
-    padding-left: 14px;
-  }
-  .question-item {
-    background-color: #fff8f0;
-    border-radius: 12px;
-    border: 1.5px solid #f0c49c;
-    margin-bottom: 26px;
-    padding: 20px 24px;
-    font-size: 15px;
-    max-width: 100%;
-    position: relative;
-  }
-  .question-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 14px;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .question-number {
-    font-weight: 700;
-    font-size: 18px;
-    color: #2a6f62;
-  }
-  .question-year {
-    background-color: #116466;
-    color: #e0f7f4;
-    padding: 5px 14px;
-    border-radius: 16px;
-    font-weight: 600;
-    font-size: 13px;
-    letter-spacing: 0.6px;
-    white-space: nowrap;
-  }
-  .question-text {
-    font-weight: 600;
-    font-size: 15px;
-    color: #255c4d;
-    margin-bottom: 14px;
-    max-width: 100%;
-    word-wrap: break-word;
-    word-break: break-word;
-  }
-  .options {
-    margin-bottom: 18px;
-  }
-  .option {
-    background-color: #ffffff;
-    border-radius: 6px;
-    border: 1.8px solid #b5d0c8;
-    padding: 11px 18px;
-    margin: 8px 0;
-    font-weight: 500;
-    font-size: 15px;
-    color: #244636;
-    cursor: pointer;
-    transition: background-color 0.25s, border-color 0.25s, color 0.25s;
-    user-select: none;
-    position: relative;
-    overflow: visible;
-  }
-  .option:hover:not(.disabled) {
-    background-color: #dceddb;
-    border-color: #71b280;
-  }
-  .option.disabled {
-    cursor: default;
-    opacity: 0.85;
-  }
-  .answer-reveal {
-    display: none;
-    margin-top: 14px;
-    background: #c7ddfa;
-    border: 2px solid #3b82f6;
-    border-radius: 10px;
-    color: #1e40af;
-    padding: 14px 18px;
-    font-weight: 700;
-  }
-  .no-questions {
-    text-align: center;
-    font-style: italic;
-    color: #4a5768;
-    font-size: 17px;
-    padding: 48px 10px;
-  }
-
-  /* Mobile adjustments */
-  @media (max-width: 900px) {
-    .controls { 
-      flex-direction: column; 
-      align-items: stretch;
-    }
-    .dropdown-group { 
-      min-width: unset; 
-      width: 100%;
-    }
-    .class-reload-group {
-      min-width: unset;
-      width: 100%;
-      flex-direction: row;
-    }
-    .class-dropdown-part {
-      flex: 1;
-    }
-    .reload-btn {
-      margin-left: 8px;
-      flex-shrink: 0;
-    }
-    .header h1 {
-      padding-left: 8px;
-      padding-right: 8px;
-      margin-left: 0;
-      max-width: 320px;
-      white-space: normal;
-    }
-    .content-area {
-      max-width: 100%;
-      padding: 20px 16px;
-      min-height: 300px;
-    }
-    .question-item {
-      max-width: 100%;
-      padding: 18px 12px;
-    }
-    .question-text {
-      font-size: 15px;
-    }
-  }
+/* CSS same as previously provided for base styles */
+body { font-family: Arial, sans-serif; margin: 24px; background:#f8fafc; color:#344050; }
+header { background:#0f172a; padding:40px; border-radius:12px; color:#ffcc55; }
+h1 { font-weight:900; margin:0 0 12px; }
+h2 { margin-bottom:20px; }
+.controls { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:24px; }
+.controls > div { flex:1; min-width:180px; }
+select { width:100%; padding:10px; font-size:16px; border:2px solid #028090; border-radius:9px; }
+select:disabled { background:#e5e7eb; }
+button { padding:8px 12px; border:none; border-radius:6px; background:#2dd4bf; color:#172c66; cursor:pointer; }
+button:focus { outline:3px solid #0f172a; outline-offset:2px; }
+.question { background:#fff; border-radius:10px; padding:20px; margin-bottom:28px; box-shadow: 0 0 8px #ccc; }
+.question h3 { margin-top:0; }
+.option { background:#e0f2f1; padding:12px 16px; border-radius:8px; margin:9px 0; cursor:pointer; position:relative; }
+.option:hover { background:#b2dfdb; }
+.option.disabled { pointer-events:none; opacity:0.7; cursor:default; }
+.option.correct { background:#d1fae5; border:2px solid #10b981; color:#065f46; }
+.option.wrong { background:#fee2e2; border:2px solid #ef4444; color:#991b1b; }
+.score { font-weight:700; font-size:18px; margin-bottom:20px; padding-left:10px; border-left:4px solid #028090; color:#065f46; }
 </style>
 </head>
 <body>
-<div class="header" role="banner">
+<header>
   <h1>NEET-PYQ</h1>
-  <div class="subtitle">NEET/AIPMT Biology Section Wise Analysis (1988-2025)</div>
-</div>
+  <p>Biology NEET section-wise question bank analysis (1988–2025)</p>
+</header>
 
-<div class="note" role="note">
-  <em>Note: Some questions from a particular section may appear in subsequent sections if the concept spans multiple areas.</em>
-</div>
-
-<div class="controls" role="region" aria-label="Filtering controls">
-  <div class="class-reload-group">
-    <div class="class-dropdown-part">
-      <label for="classSelect">Class:</label>
-      <select id="classSelect" aria-controls="chapterSelect sectionSelect" onchange="updateChapters()" aria-required="true">
-        <option value="">Select Class</option>
-        <option value="11">Class 11</option>
-        <option value="12">Class 12</option>
-      </select>
-    </div>
-    <button id="reloadBtn" class="reload-btn" onclick="window.location.reload()">
-      ↻ Reload
-    </button>
+<div class="controls" aria-label="Controls for filtering questions">
+  <div>
+    <label for="classSelect">Class</label>
+    <select id="classSelect" aria-controls="chapterSelect sectionSelect" aria-required="true">
+      <option value="">Select Class</option>
+      <option value="11">Class 11</option>
+      <option value="12">Class 12</option>
+    </select>
   </div>
-  <div class="dropdown-group">
-    <label for="chapterSelect">Chapter:</label>
-    <select id="chapterSelect" aria-controls="sectionSelect" onchange="updateSections()" disabled aria-required="true">
+  <div>
+    <label for="chapterSelect">Chapter</label>
+    <select id="chapterSelect" disabled aria-required="true" aria-controls="sectionSelect">
       <option value="">Select Chapter</option>
     </select>
   </div>
-  <div class="dropdown-group">
-    <label for="sectionSelect">Section:</label>
-    <select id="sectionSelect" onchange="showQuestions()" disabled aria-required="true">
+  <div>
+    <label for="sectionSelect">Section</label>
+    <select id="sectionSelect" disabled aria-required="true">
       <option value="">Select Section</option>
     </select>
   </div>
-  <div id="scoreWrapper">
-    <div id="scoreCard" class="scoreCard" aria-live="polite" role="region" aria-atomic="true" tabindex="0">
-      Section score: x / y
-    </div>
-    <button id="refreshChapterBtn" class="refreshBtn" aria-label="Refresh section">
-      <span>🔄</span> Refresh
-    </button>
+  <div>
+    <button id="refreshBtn" aria-label="Refresh current section questions">Refresh</button>
   </div>
 </div>
 
-<main class="content-area" id="contentArea" role="main" tabindex="-1">
-  <div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>
+<div id="scoreDisplay" class="score" aria-live="polite" aria-atomic="true">Score: 0 / 0</div>
+
+<main id="contentArea" role="main" aria-live="polite" aria-atomic="true" tabindex="-1">
+  Please select Class → Chapter → Section to view questions.
 </main>
 
 <script>
-  /* ===================== Core Data ===================== */
+  // ========== Core Data and Helpers ==========
   const questionData = {
     "11": {
-      "1": {
-        title: "The Living World", 
-        sections: [
-          {id: "1.0", name: "Introduction to Biology and Living Organisms"},
-          {id: "1.1", name: "Diversity in the Living World"},
-          {id: "1.2", name: "Taxonomic Categories"}
-        ], 
-        questions: {}
-      },
       "2": {
-        title: "Biological Classification", 
-        sections: [
-          {id: "2.0", name: "Evolution of Classification Systems"},
-          {id: "2.1", name: "Kingdom Monera"},
-          {id: "2.2", name: "Kingdom Protista"},
-          {id: "2.3", name: "Kingdom Fungi"},
-          {id: "2.4", name: "Kingdom Plantae"},
-          {id: "2.5", name: "Kingdom Animalia"},
-          {id: "2.6", name: "Viruses, Viroids, Prions and Lichens"}
+        title:"Biological Classification",
+        sections:[
+          {id:"2.0",name:"Evolution of Classification Systems"},
+          {id:"2.1",name:"Kingdom Monera"},
+          // Further sections excluded by request
         ],
-        questions: {}
-      },
-      "3": {
-        title: "Plant Kingdom", 
-        sections: [
-          {id: "3.0", name: "Understanding Plant Kingdom and Classification Systems"},
-          {id: "3.1", name: "Algae"},
-          {id: "3.2", name: "Bryophytes"},
-          {id: "3.3", name: "Pteridophytes"},
-          {id: "3.4", name: "Gymnosperms"},
-          {id: "3.5", name: "Angiosperms"}
-        ],
-        questions: {}
-      },
-      "4": {
-        title: "Animal Kingdom", 
-        sections: [
-          {id: "4.0", name: "Animal Diversity and Classification Basis"},
-          {id: "4.1", name: "Basis of Classification"},
-          {id: "4.2", name: "Classification of Animals"}
-        ],
-        questions: {}
-      },
-      /* ... other chapters unchanged ... */
-      "19": {
-        title: "Chemical Coordination and Integration", 
-        sections: [
-          {id: "19.0", name: "Endocrine System and Hormonal Coordination"},
-          {id: "19.1", name: "Endocrine Glands and Hormones"},
-          {id: "19.2", name: "Human Endocrine System"},
-          {id: "19.3", name: "Hormones of Heart, Kidney and Gastrointestinal Tract"},
-          {id: "19.4", name: "Mechanism of Hormone Action"}
-        ],
-        questions: {}
-      }
-    },
-    "12": {
-      "1": {
-        title: "Sexual Reproduction in Flowering Plants", 
-        sections: [
-          {id: "1.0", name: "Reproduction as a Vital Life Process"},
-          {id: "1.1", name: "Flower - A Fascinating Organ of Angiosperms"},
-          {id: "1.2", name: "Pre-fertilisation: Structures and Events"},
-          {id: "1.3", name: "Double Fertilisation"},
-          {id: "1.4", name: "Post-fertilisation: Structures and Events"},
-          {id: "1.5", name: "Apomixis and Polyembryony"}
-        ],
-        questions: {}
-      },
-      /* ... other Class 12 chapters omitted for brevity ... */
-      "13": {
-        title: "Biodiversity and Conservation", 
-        sections: [
-          {id: "13.0", name: "Life's Diversity and Conservation Challenges"},
-          {id: "13.1", name: "Biodiversity"},
-          {id: "13.2", name: "Biodiversity Conservation"}
-        ],
-        questions: {}
+        questions:{}
       }
     }
   };
 
-  const chapterData = {
-    "11": [
-      {id:"1",name:"The Living World"},
-      {id:"2",name:"Biological Classification"},
-      {id:"3",name:"Plant Kingdom"},
-      {id:"4",name:"Animal Kingdom"},
-      {id:"5",name:"Morphology of Flowering Plants"},
-      {id:"6",name:"Anatomy of Flowering Plants"},
-      {id:"7",name:"Structural Organisation in Animals"},
-      {id:"8",name:"Cell - The Unit of Life"},
-      {id:"9",name:"Biomolecules"},
-      {id:"10",name:"Cell Cycle and Cell Division"},
-      {id:"11",name:"Photosynthesis in Higher Plants"},
-      {id:"12",name:"Respiration in Plants"},
-      {id:"13",name:"Plant Growth and Development"},
-      {id:"14",name:"Breathing and Exchange of Gases"},
-      {id:"15",name:"Body Fluids and Circulation"},
-      {id:"16",name:"Excretory Products and their Elimination"},
-      {id:"17",name:"Locomotion and Movement"},
-      {id:"18",name:"Neural Control and Coordination"},
-      {id:"19",name:"Chemical Coordination and Integration"}
-    ],
-    "12": [
-      {id:"1",name:"Sexual Reproduction in Flowering Plants"},
-      {id:"2",name:"Human Reproduction"},
-      {id:"3",name:"Reproductive Health"},
-      {id:"4",name:"Principles of Inheritance and Variation"},
-      {id:"5",name:"Molecular Basis of Inheritance"},
-      {id:"6",name:"Evolution"},
-      {id:"7",name:"Human Health and Disease"},
-      {id:"8",name:"Microbes in Human Welfare"},
-      {id:"9",name:"Biotechnology - Principles and Processes"},
-      {id:"10",name:"Biotechnology and its Applications"},
-      {id:"11",name:"Organisms and Populations"},
-      {id:"12",name:"Ecosystem"},
-      {id:"13",name:"Biodiversity and Conservation"}
-    ]
-  };
+  // UI Elements
+  const classSelect = document.getElementById('classSelect');
+  const chapterSelect = document.getElementById('chapterSelect');
+  const sectionSelect = document.getElementById('sectionSelect');
+  const contentArea = document.getElementById('contentArea');
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  const refreshBtn = document.getElementById('refreshBtn');
 
-  // Use localStorage for persistent scores
-  let cumulativeScores = {};
-  let answeredQuestionsByChapter = {};
-  let answeredQuestionsBySection = {};
+  // State for answers persistence
+  let persisted = JSON.parse(localStorage.getItem("neetchoices_v3")||"{}");
 
-  function saveScores() {
-    localStorage.setItem('cumulativeScores', JSON.stringify(cumulativeScores));
-    localStorage.setItem('answeredQuestionsByChapter', JSON.stringify(answeredQuestionsByChapter));
-    localStorage.setItem('answeredQuestionsBySection', JSON.stringify(answeredQuestionsBySection));
-  }
-  function loadScores() {
-    const cs = localStorage.getItem('cumulativeScores');
-    const aqbc = localStorage.getItem('answeredQuestionsByChapter');
-    const aqbs = localStorage.getItem('answeredQuestionsBySection');
-    cumulativeScores = cs ? JSON.parse(cs) : {};
-    answeredQuestionsByChapter = aqbc ? JSON.parse(aqbc) : {};
-    answeredQuestionsBySection = aqbs ? JSON.parse(aqbs) : {};
-  }
-  loadScores();
-
-  function getScore(classId, chapterId) {
-    if (cumulativeScores[classId] && cumulativeScores[classId][chapterId]) {
-      return cumulativeScores[classId][chapterId];
-    }
-    return null;
+  // Register options event handlers with new standard handler
+  function registerOptionsEventHandlers() {
+    document.querySelectorAll(".option").forEach(opt => {
+      opt.onclick = handleOptionClick;
+      opt.onkeypress = (e) => { if(e.key==="Enter" || e.key===" ") { e.preventDefault(); handleOptionClick(e); }};
+    });
   }
 
-  function initScore(classId, chapterId, totalQuestions) {
-    if (!cumulativeScores[classId]) cumulativeScores[classId] = {};
-    if (!cumulativeScores[classId][chapterId]) {
-      cumulativeScores[classId][chapterId] = {
-        correct: 0,
-        total: totalQuestions
-      };
+  // Handle selection with persistent highlight and scoring
+  function handleOptionClick(e) {
+    const opt = e.currentTarget;
+    const qId = +opt.closest(".question").dataset.qnum;
+    if(!qId) return;
+    if(opt.classList.contains("disabled")) return; // prevent repeat clicks
+
+    // Disable all options of this question
+    const container = opt.parentElement;
+    container.querySelectorAll(".option").forEach(o=>{
+      o.classList.add("disabled");
+      o.style.pointerEvents="none";
+      o.tabIndex = -1;
+      o.classList.remove("correct","wrong");
+    });
+
+    // Mark selection correct or wrong
+    const correctAnswer = container.dataset.correct.toLowerCase().trim();
+    const selectedText = opt.textContent.toLowerCase().trim();
+    const isCorrect = selectedText === correctAnswer;
+
+    if(isCorrect) {
+      opt.classList.add("correct");
     } else {
-      cumulativeScores[classId][chapterId].total = totalQuestions;
-    }
-    saveScores();
-  }
-
-  function markQuestionAnswered(classId, chapterId, sectionKey, questionKey, correct) {
-    if (!answeredQuestionsByChapter[classId]) answeredQuestionsByChapter[classId] = {};
-    if (!answeredQuestionsByChapter[classId][chapterId]) answeredQuestionsByChapter[classId][chapterId] = {};
-    if (!answeredQuestionsBySection[sectionKey]) answeredQuestionsBySection[sectionKey] = {};
-
-    let prevCorrectSection = answeredQuestionsBySection[sectionKey][questionKey];
-    if (prevCorrectSection === undefined) {
-      answeredQuestionsBySection[sectionKey][questionKey] = correct;
-    } else {
-      answeredQuestionsBySection[sectionKey][questionKey] = correct;
+      opt.classList.add("wrong");
     }
 
-    let prevCorrect = answeredQuestionsByChapter[classId][chapterId][questionKey];
-    if (prevCorrect === undefined) {
-      answeredQuestionsByChapter[classId][chapterId][questionKey] = correct;
-      if (correct) cumulativeScores[classId][chapterId].correct++;
-    } else {
-      if (prevCorrect !== correct) {
-        answeredQuestionsByChapter[classId][chapterId][questionKey] = correct;
-        if (correct) {
-          cumulativeScores[classId][chapterId].correct++;
-        } else {
-          cumulativeScores[classId][chapterId].correct--;
-          if (cumulativeScores[classId][chapterId].correct < 0) cumulativeScores[classId][chapterId].correct = 0;
+    // Persist user's choice
+    const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
+    persisted[sectionKey] = persisted[sectionKey] || {};
+    persisted[sectionKey][qId] = {selected: opt.dataset.index, correct: isCorrect};
+    localStorage.setItem("neetchoices_v3", JSON.stringify(persisted));
+
+    updateScore();
+  }
+
+  // Update Score
+  function updateScore() {
+    const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
+    const sel = persisted[sectionKey] || {};
+    const total = questionData[classSelect.value][chapterSelect.value].questions[sectionSelect.value].length||0;
+    let corrects = Object.values(sel).filter(x=>x.correct).length;
+    scoreDisplay.textContent = `Score: ${corrects} / ${total}`;
+  }
+
+  // Repaint persistent choices after questions render
+  function repaintPersistentChoices() {
+    const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
+    const sel = persisted[sectionKey] || {};
+    Object.entries(sel).forEach(([qIdStr,data]) => {
+      const qId = +qIdStr;
+      const container = document.querySelector(`.question[data-qnum="${qId}"] .options`);
+      if(!container) return;
+      container.querySelectorAll('.option').forEach(opt=>{
+        opt.classList.add("disabled");
+        opt.style.pointerEvents = "none";
+        opt.tabIndex = -1;
+        opt.classList.remove("correct","wrong");
+        if(+opt.dataset.index === +data.selected){
+          opt.classList.add(data.correct ? "correct" : "wrong");
         }
-      }
-    }
-    saveScores();
+      });
+    });
   }
 
-  /* ===================== UI Builders ===================== */
+  // Populate Chapters based on class
   function updateChapters() {
-    const classSelect = document.getElementById('classSelect');
-    const chapterSelect = document.getElementById('chapterSelect');
-    const sectionSelect = document.getElementById('sectionSelect');
-    chapterSelect.innerHTML = '<option value="">Select Chapter</option>';
-    sectionSelect.innerHTML = '<option value="">Select Section</option>';
-    sectionSelect.disabled = true;
-
-    if (classSelect.value) {
-      chapterSelect.disabled = false;
-      (chapterData[classSelect.value] || []).forEach(chap => {
-        const opt = document.createElement('option');
-        opt.value = chap.id;
-        opt.textContent = `Chapter ${chap.id}: ${chap.name}`;
-        chapterSelect.appendChild(opt);
-      });
-    } else {
-      chapterSelect.disabled = true;
-    }
-    clearContentAndScore();
+    clearDropdown(chapterSelect);
+    clearDropdown(sectionSelect,true);
+    clearContent();
+    if(!classSelect.value) return;
+    const chs = Object.entries(questionData[classSelect.value]||{});
+    chs.forEach(([k,v]) => {
+      const opt = document.createElement("option");
+      opt.value = k;
+      opt.textContent = `Chapter ${k}: ${v.title}`;
+      chapterSelect.appendChild(opt);
+    });
+    chapterSelect.disabled = false;
   }
 
+  // Populate Sections based on chapter
   function updateSections() {
-    const classSelect = document.getElementById('classSelect');
-    const chapterSelect = document.getElementById('chapterSelect');
-    const sectionSelect = document.getElementById('sectionSelect');
-
-    // Clear early
-    if (sectionSelect) {
-      sectionSelect.disabled = true;
-      sectionSelect.innerHTML = '<option value="">Select Section</option>';
-    }
-    const contentArea = document.getElementById('contentArea');
-    if (contentArea) {
-      contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
-    }
-
-    if (classSelect.value && chapterSelect.value) {
-      sectionSelect.disabled = false;
-      const c = classSelect.value;
-      const ch = chapterSelect.value;
-      const chapterSections = questionData[c]?.[ch]?.sections || [];
-
-      chapterSections.forEach(section => {
-        let opt = document.createElement('option');
-        opt.value = section.id;
-        opt.textContent = `${section.id}: ${section.name}`;
-        sectionSelect.appendChild(opt);
-      });
-
-      // Auto-select first available section and show
-      if (chapterSections.length > 0) {
-        sectionSelect.selectedIndex = 0;
-        sectionSelect.value = chapterSections[0].id;
-        setTimeout(() => showQuestions(), 0);
-      }
-    }
-    updateScoreDisplay();
-  }
-
-  function clearContentAndScore() {
-    document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
-    updateScoreDisplay();
-  }
-
-  function updateScoreDisplay() {
-    const classSelect = document.getElementById('classSelect');
-    const chapterSelect = document.getElementById('chapterSelect');
-    const sectionSelect = document.getElementById('sectionSelect');
-    const scoreCard = document.getElementById('scoreCard');
-
-    if (!classSelect.value || !chapterSelect.value || !sectionSelect.value) {
-      scoreCard.textContent = 'Section score: x / y';
-      return;
-    }
-    const c = classSelect.value;
-    const ch = chapterSelect.value;
-    const section = sectionSelect.value;
-
-    let sectionKey = `${c}_${ch}_${section}`;
-
-    let totalSectionQuestions = 0;
-    if (questionData[c] && questionData[c][ch] && questionData[c][ch].questions[section]) {
-      totalSectionQuestions = questionData[c][ch].questions[section].length;
-    }
-    if (!answeredQuestionsBySection[sectionKey]) {
-      answeredQuestionsBySection[sectionKey] = {};
-    }
-    let correctSectionCount = Object.values(answeredQuestionsBySection[sectionKey]).filter(corr => corr).length;
-    if (totalSectionQuestions === 0) {
-      scoreCard.textContent = 'Section score: x / y';
-    } else {
-      scoreCard.textContent = `Section score: ${correctSectionCount} / ${totalSectionQuestions}`;
+    clearDropdown(sectionSelect);
+    clearContent();
+    if(!classSelect.value || !chapterSelect.value) return;
+    const chObj = questionData[classSelect.value]?.[chapterSelect.value];
+    if(!chObj || !chObj.sections) return;
+    chObj.sections.forEach(s => {
+      const opt = document.createElement("option");
+      opt.value = s.id;
+      opt.textContent = `${s.id}: ${s.name}`;
+      sectionSelect.appendChild(opt);
+    });
+    sectionSelect.disabled = false;
+    if(chObj.sections.length>0){
+      sectionSelect.selectedIndex = 0;
+      showQuestions();
     }
   }
 
+  // Clear dropdown options
+  function clearDropdown(ele,disable=false){
+    ele.innerHTML = `<option value="">Select ${ele.id.replace("Select","")}</option>`;
+    if(disable) ele.disabled = true;
+  }
+
+  // Clear content area and reset score
+  function clearContent(){
+    contentArea.innerHTML = "Please select Class → Chapter → Section to view questions.";
+    scoreDisplay.textContent = "Score: 0 / 0";
+  }
+
+  // Display questions for selected section
   function showQuestions() {
-    const c = document.getElementById('classSelect').value;
-    const ch = document.getElementById('chapterSelect').value;
-    const section = document.getElementById('sectionSelect').value;
-    const contentArea = document.getElementById('contentArea');
-
-    if (!c || !ch || !section) {
-      contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
-      updateScoreDisplay();
+    clearContent();
+    if(!classSelect.value || !chapterSelect.value || !sectionSelect.value) return;
+    const questions = questionData[classSelect.value]?.[chapterSelect.value]?.questions?.[sectionSelect.value]||[];
+    if(questions.length === 0){
+      contentArea.innerHTML = "<p>No questions found in this section.</p>";
+      scoreDisplay.textContent = "Score: 0 / 0";
       return;
     }
-
-    const questions = questionData[c]?.[ch]?.questions?.[section] || [];
-    if (!questions.length) {
-      contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
-      updateScoreDisplay();
-      return;
-    }
-
-    initScore(c, ch, questions.length);
-
-    // Compute serial number offset by summing previous sections in this chapter
-    let questionCounter = 1;
-    const allSections = questionData[c][ch].sections || [];
-    for (let i = 0; i < allSections.length; i++) {
-      if (allSections[i].id === section) break;
-      const qCountPrevSection = (questionData[c][ch].questions[allSections[i].id]?.length) || 0;
-      questionCounter += qCountPrevSection;
-    }
-
-    let html = `<div class="question-count">No. of questions found: ${questions.length}</div>`;
-    questions.forEach((q, i) => {
-      const qNum = questionCounter + i;
-      html += `<div class="question-item" id="question-item-${qNum}">
-        <div class="question-header">
-          <span class="question-number">Q${qNum}.</span>
-          <span class="question-year">${q.year}</span>
-        </div>
+    let html = '';
+    questions.forEach((q,i) => {
+      const qnum = i+1;
+      html += `<div class="question" data-qnum="${qnum}">
+        <h3>Q${qnum}. [${q.year}]</h3>
         <div class="question-text">${q.question}</div>
-        <div class="options" id="options-${qNum}">
-          ${q.options.map((o, idx) => `<div class="option" role="button" tabindex="0" 
-            data-qnum="${qNum}" data-index="${idx}">${o}</div>`).join('')}
-        </div>
-        <div class="button-group">
-          <button class="btn btn-answer" onclick="toggleAnswer(${qNum})" aria-expanded="false" aria-controls="answer-${qNum}" style="background-color:#198754;">Answer</button>
-          <button class="btn btn-copy" onclick="copyQuestion(${qNum})" style="background-color:#0d6efd;">Copy Question</button>
-        </div>
-        <div class="answer-reveal" id="answer-${qNum}"><strong>Answer:</strong> ${q.answer}</div>
+        <div class="options" data-correct="${q.answer.trim()}">`;
+      q.options.forEach((opt,idx) => {
+        html += `<div class="option" data-index="${idx}" role="button" tabindex="0">${opt}</div>`;
+      });
+      html += `</div><div class="answer" style="display:none;"><strong>Answer:</strong> ${q.answer}</div>
       </div>`;
     });
     contentArea.innerHTML = html;
-
-    // Attach handlers (these will be overridden by fresh addon for persistence)
-    questions.forEach((q, i) => {
-      const qNum = questionCounter + i;
-      const optionsContainer = document.getElementById(`options-${qNum}`);
-      optionsContainer.querySelectorAll('.option').forEach(optionDiv => {
-        optionDiv.addEventListener('click', e => handleOptionClick(e, c, ch, section, qNum, q.answer));
-        optionDiv.addEventListener('keydown', e => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            handleOptionClick(e, c, ch, section, qNum, q.answer);
-          }
-        });
-      });
-    });
-
-    updateScoreDisplay();
+    registerOptionsEventHandlers();
+    repaintPersistentChoices();
+    updateScore();
   }
 
-  function toggleAnswer(qNum) {
-    const answerDiv = document.getElementById(`answer-${qNum}`);
-    const button = document.querySelector(`[aria-controls="answer-${qNum}"]`);
-    if (answerDiv.style.display === 'block') {
-      answerDiv.style.display = 'none';
-      button.setAttribute('aria-expanded', 'false');
-    } else {
-      answerDiv.style.display = 'block';
-      button.setAttribute('aria-expanded', 'true');
-    }
-  }
+  classSelect.addEventListener('change',()=>{
+    updateChapters();
+    clearContent();
+  });
+  chapterSelect.addEventListener('change',()=>{
+    updateSections();
+    clearContent();
+  });
+  sectionSelect.addEventListener('change',()=>{
+    showQuestions();
+  });
+  refreshBtn.addEventListener('click',()=>{
+    const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
+    delete persisted[sectionKey];
+    localStorage.setItem("neetchoices_v3", JSON.stringify(persisted));
+    showQuestions();
+  });
 
-  function copyQuestion(qNum) {
-    const questionText = document.querySelector(`#question-item-${qNum} .question-text`).innerText;
-    const options = Array.from(document.querySelectorAll(`#question-item-${qNum} .option`)).map(opt => opt.innerText).join('\n');
-    const fullText = questionText + '\n\n' + options;
-    navigator.clipboard.writeText(fullText).then(()=>{});
-  }
-
-  // Default (will be replaced by fresh addon)
-  function showTickCrossPopup(isCorrect) { /* default no-op */ }
-
-  // Default click handler (will be replaced by fresh addon)
-  function handleOptionClick(event, classId, chapterId, section, qNum, correctAnswer) {
-    const selectedOption = event.currentTarget;
-    const optionsContainer = selectedOption.parentNode;
-    const questionKey = `q${qNum}`;
-    const sectionKey = `${classId}_${chapterId}_${section}`;
-
-    // Prevent re-attempt
-    if (answeredQuestionsBySection[sectionKey] && answeredQuestionsBySection[sectionKey][questionKey] !== undefined) {
-      return;
-    }
-
-    // Disable all options for that question
-    optionsContainer.querySelectorAll('.option').forEach(o => {
-      o.classList.add('disabled');
-      o.style.cursor = 'default';
-      o.setAttribute('aria-disabled', 'true');
-      o.tabIndex = -1;
-    });
-
-    const selectedText = selectedOption.textContent.trim();
-    const isCorrect = selectedText === correctAnswer;
-
-    // Temporary visual (will be replaced by persist addon)
-    selectedOption.classList.add(isCorrect ? 'correct-temp' : 'incorrect-temp');
-
-    // popup feedback (suppressed by addon)
-    showTickCrossPopup(isCorrect);
-
-    // scoring
-    markQuestionAnswered(classId, chapterId, sectionKey, questionKey, isCorrect);
-    updateScoreDisplay();
-  }
-</script>
-
-<!-- ===================== Fresh Addon: Persistent red/green highlight (no labels, clears on Refresh) ===================== -->
-<script>
-(function () {
-  const STORAGE_KEY = 'persistSelections_v2';
-  let persisted = loadPersisted();
-
-  function loadPersisted() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; }
-  }
-  function savePersisted() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(persisted)); } catch(e) {}
-  }
-
-  function ensureStyles() {
-    if (document.getElementById('fresh-click-style')) return;
-    const style = document.createElement('style');
-    style.id = 'fresh-click-style';
-    style.textContent = `
-      .option.correct-persist {
-        background-color: rgba(25, 135, 84, 0.22);
-        border-color: rgba(25, 135, 84, 0.38);
-        color: #2e7d32;
+  // Inject mandatory initial data (2.0 and 2.1)
+  (function injectInitialSections(){
+    // use meaningful section names for dropdown display
+    function addSection(classId, chapterId, sectionId, sectionName, questions){
+      if(!questionData[classId]) questionData[classId] = {};
+      if(!questionData[classId][chapterId]) questionData[classId][chapterId] = {sections:[], questions:{}};
+      const ch = questionData[classId][chapterId];
+      const sectionExists = ch.sections.find(s=>s.id===sectionId);
+      if(!sectionExists){
+        ch.sections.push({id:sectionId, name: sectionName});
       }
-      .option.incorrect-persist {
-        background-color: rgba(220, 53, 69, 0.20);
-        border-color: rgba(220, 53, 69, 0.38);
-        color: #b02a37;
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  // Disable transient popup
-  window.showTickCrossPopup = function () { /* disabled */ };
-
-  // New, clean click handler
-  function freshHandleOptionClick(event, classId, chapterId, section, qNum, correctAnswer) {
-    const sel = event?.currentTarget;
-    if (!sel) return;
-
-    const optionsWrap = sel.parentNode;
-    const opts = optionsWrap?.querySelectorAll('.option') || [];
-    const selectedText = (sel.textContent || '').trim();
-    const isCorrect = (selectedText === correctAnswer);
-
-    // disable all opts
-    opts.forEach(o => {
-      o.classList.add('disabled');
-      o.style.cursor = 'default';
-      o.setAttribute('aria-disabled', 'true');
-      o.tabIndex = -1;
-      o.classList.remove('correct-temp', 'incorrect-temp', 'correct-persist', 'incorrect-persist');
-    });
-
-    // persist visual
-    sel.classList.add(isCorrect ? 'correct-persist' : 'incorrect-persist');
-
-    // store selection for persistence across section switches
-    const sectionKey = `${classId}_${chapterId}_${section}`;
-    const qKey = `q${qNum}`;
-    const selIndex = Number(sel.getAttribute('data-index'));
-    if (!persisted[sectionKey]) persisted[sectionKey] = {};
-    persisted[sectionKey][qKey] = { index: selIndex, correct: isCorrect };
-    savePersisted();
-
-    // scoring consistency
-    if (typeof window.markQuestionAnswered === 'function') {
-      window.markQuestionAnswered(classId, chapterId, sectionKey, qKey, isCorrect);
+      ch.questions[sectionId] = questions;
     }
-    if (typeof window.updateScoreDisplay === 'function') {
-      window.updateScoreDisplay();
-    }
-  }
 
-  // Override
-  window.handleOptionClick = freshHandleOptionClick;
-
-  // Re-apply persisted states after rendering
-  function repaintCurrentSection() {
-    const classSelect = document.getElementById('classSelect');
-    const chapterSelect = document.getElementById('chapterSelect');
-    const sectionSelect = document.getElementById('sectionSelect');
-    if (!classSelect || !chapterSelect || !sectionSelect) return;
-    const c = classSelect.value, ch = chapterSelect.value, sec = sectionSelect.value;
-    if (!c || !ch || !sec) return;
-
-    const sectionKey = `${c}_${ch}_${sec}`;
-    const recs = persisted[sectionKey];
-    if (!recs) return;
-
-    Object.keys(recs).forEach(qKey => {
-      const qNum = Number(String(qKey).replace(/^q/, ''));
-      if (!Number.isFinite(qNum)) return;
-
-      const { index, correct } = recs[qKey] || {};
-      const optionsWrap = document.getElementById(`options-${qNum}`);
-      if (!optionsWrap) return;
-
-      const opts = optionsWrap.querySelectorAll('.option');
-      opts.forEach(o => {
-        o.classList.add('disabled');
-        o.style.cursor = 'default';
-        o.setAttribute('aria-disabled', 'true');
-        o.tabIndex = -1;
-        o.classList.remove('correct-temp', 'incorrect-temp', 'correct-persist', 'incorrect-persist');
-      });
-
-      const chosen = optionsWrap.querySelector(`.option[data-index="${index}"]`);
-      if (chosen) chosen.classList.add(correct ? 'correct-persist' : 'incorrect-persist');
-    });
-  }
-
-  // Patch showQuestions to repaint persisted state
-  (function patchShowQuestions() {
-    if (typeof window.showQuestions !== 'function') return;
-    if (window.showQuestions._freshPatched) return;
-    const original = window.showQuestions;
-    window.showQuestions = function () {
-      const out = original.apply(this, arguments);
-      setTimeout(repaintCurrentSection, 0);
-      return out;
-    };
-    window.showQuestions._freshPatched = true;
+    addSection("11","2","2.0","Evolution of Classification Systems",[
+      /* add questions array here as per your 2.0 */
+    ]);
+    addSection("11","2","2.1","Kingdom Monera",[
+      /* add questions array here as per your 2.1 */
+    ]);
   })();
 
-  // Bind per-section refresh to clear only current section’s persisted state
-  function bindRefreshClear() {
-    const btn = document.getElementById('refreshChapterBtn');
-    if (!btn) return;
-    btn.addEventListener('click', () => {
-      const classSelect = document.getElementById('classSelect');
-      const chapterSelect = document.getElementById('chapterSelect');
-      const sectionSelect = document.getElementById('sectionSelect');
-      if (!classSelect || !chapterSelect || !sectionSelect) return;
-      const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
-
-      if (persisted[sectionKey]) {
-        delete persisted[sectionKey];
-        savePersisted();
-      }
-
-      document.querySelectorAll('.option.correct-persist, .option.incorrect-persist')
-        .forEach(el => el.classList.remove('correct-persist', 'incorrect-persist'));
-
-      document.querySelectorAll('.options .option').forEach(o => {
-        o.classList.remove('disabled');
-        o.style.cursor = '';
-        o.removeAttribute('aria-disabled');
-        o.tabIndex = 0;
-      });
-    });
-  }
-
-  function init(attempts = 40) {
-    ensureStyles();
-    if (document.getElementById('refreshChapterBtn')) {
-      bindRefreshClear();
-      repaintCurrentSection();
-    } else if (attempts > 0) {
-      setTimeout(() => init(attempts - 1), 100);
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => init(), { once: true });
-  } else {
-    init();
-  }
-})();
+  // Initial display setup
+  window.onload = () => {
+    // Attach events safely then update views
+    updateChapters();
+  };
 </script>
-
-<!-- ===================== Robust Section Display Helper (for new future addons) ===================== -->
-<script>
-/* Ensures new section addons display reliably:
-   - Waits until questionData + DOM exist
-   - After injection, if Class 11 → Chapter 2 already selected, repopulates sections and shows the injected section
-   - Auto-selects the first available section when changing chapters
-*/
-(function () {
-  function ensureSectionVisibleAfterInjection(targetClass, targetChapter, targetSection) {
-    const classSelect = document.getElementById('classSelect');
-    const chapterSelect = document.getElementById('chapterSelect');
-    const sectionSelect = document.getElementById('sectionSelect');
-    if (!classSelect || !chapterSelect || !sectionSelect) return;
-
-    if (classSelect.value === targetClass && chapterSelect.value === targetChapter) {
-      if (typeof updateSections === 'function') updateSections();
-      // Try to select the injected section if present, else remain on first
-      const opt = Array.from(sectionSelect.options).find(o => o.value === targetSection);
-      if (opt) {
-        sectionSelect.value = targetSection;
-      }
-      if (typeof showQuestions === 'function') setTimeout(() => showQuestions(), 0);
-    }
-  }
-
-  // Expose globally for addons to call post-injection
-  window.__ensureSectionVisibleAfterInjection = ensureSectionVisibleAfterInjection;
-})();
-</script>
-
-<!-- ===================== MODEL ADDON: Section 2.0 (Evolution of Classification Systems) ===================== -->
 
 <script>
 /* ===== Display Foundation: register sections + ensure visibility + robust refresh ===== */
@@ -1051,39 +357,32 @@
   }
 })();
 </script>
+
 <script>
-/* ===== Addon: Class 11 → Chapter 2 → Section 2.1 (Kingdom Monera) ===== */
+/* ===== Addon: Class 11 → Chapter 2 → Section 2.0 (Evolution of Classification Systems) ===== */
 (function () {
   const c = "11";
   const ch = "2";
-  const section = "2.1";
-  const sectionName = "Kingdom Monera";
+  const section = "2.0";
+  const sectionName = "Evolution of Classification Systems";
 
   const items = [
-    { year: "NEET/AIPMT 2019", question: "Match Column I (groups) with Column II (typical habitats) and choose the correct option: A) Halophiles, B) Thermoacidophiles, C) Methanogens, D) Cyanobacteria", options: ["a) A-4, B-1, C-3, D-2","b) A-1, B-2, C-3, D-4","c) A-3, B-4, C-2, D-1","d) A-2, B-4, C-3, D-1"], answer: "a) A-4, B-1, C-3, D-2" },
-    { year: "NEET/AIPMT 2017", question: "The smallest living cells, without a definite cell wall, pathogenic to plants and animals, and able to survive without oxygen are:", options: ["a) Pseudomonas","b) Mycoplasma","c) Nostoc","d) Bacillus"], answer: "b) Mycoplasma" },
-    { year: "NEET/AIPMT 2017", question: "Which component provides sticky character to the bacterial cell?", options: ["a) Nuclear membrane","b) Plasma membrane","c) Glycocalyx","d) Cell wall"], answer: "c) Glycocalyx" },
-    { year: "NEET/AIPMT 2017", question: "DNA replication in bacteria occurs:", options: ["a) Within nucleus","b) Prior to fission","c) Just before transcription","d) During S phase"], answer: "b) Prior to fission" },
-    { year: "NEET/AIPMT 2016", question: "Methanogens belong to:", options: ["a) Eubacteria","b) Archaebacteria","c) Dinoflagellates","d) Slime moulds"], answer: "b) Archaebacteria" },
-    { year: "NEET/AIPMT 2014", question: "Pigment‑containing membranous extensions in some cyanobacteria are:", options: ["a) Pneumatophores","b) Chromatophores","c) Heterocysts","d) Basal bodies"], answer: "b) Chromatophores" },
-    { year: "NEET/AIPMT 2013", question: "Archaebacteria differ from eubacteria in:", options: ["a) Cell membrane structure","b) Mode of nutrition","c) Cell shape","d) Mode of reproduction"], answer: "a) Cell membrane structure" },
-    { year: "NEET/AIPMT 2013", question: "Which of the following are likely to be present in deep sea water?", options: ["a) Blue‑green algae","b) Saprophytic fungi","c) Archaebacteria","d) Eubacteria"], answer: "c) Archaebacteria" },
-    { year: "NEET/AIPMT 2012", question: "The most abundant prokaryotes helpful to humans in curd formation and antibiotics production are:", options: ["a) Cyanobacteria","b) Archaebacteria","c) Chemosynthetic autotrophs","d) Heterotrophic bacteria"], answer: "d) Heterotrophic bacteria" },
-    { year: "NEET/AIPMT 2012", question: "Cyanobacteria are also called:", options: ["a) Protists","b) Golden algae","c) Slime moulds","d) Blue green algae"], answer: "d) Blue green algae" },
-    { year: "NEET/AIPMT 2011", question: "In eubacteria, a component similar to eukaryotic cells is:", options: ["a) Plasma membrane","b) Nucleus","c) Ribosomes","d) Cell wall"], answer: "a) Plasma membrane" },
-    { year: "NEET/AIPMT 2010", question: "Some hyperthermophiles growing in highly acidic habitats belong to:", options: ["a) Eubacteria and archaea","b) Cyanobacteria and diatoms","c) Protists and mosses","d) Liverworts and yeasts"], answer: "a) Eubacteria and archaea" },
-    { year: "NEET/AIPMT 2008", question: "In the three-domain system, which is true about archaea?", options: ["a) Completely differ from both prokaryotes and eukaryotes","b) Completely differ from prokaryotes","c) Resemble eukarya in all respects","d) Have novel features absent in other prokaryotes and eukaryotes"], answer: "d) Have novel features absent in other prokaryotes and eukaryotes" },
-    { year: "NEET/AIPMT 2008", question: "Thermococcus, Methanococcus and Methanobacterium exemplify:", options: ["a) Bacteria with mitochondria","b) Bacteria with cytoskeleton and ribosomes","c) Archaebacteria with eukaryote‑like core histone homologues","d) Archaebacteria with negatively supercoiled DNA lacking eukaryote‑like histones"], answer: "c) Archaebacteria with eukaryote‑like core histone homologues" },
-    { year: "NEET/AIPMT 2008", question: "Bacterial leaf blight of rice is caused by:", options: ["a) Alternaria","b) Erwinia","c) Xanthomonas","d) Pseudomonas"], answer: "c) Xanthomonas" },
-    { year: "NEET/AIPMT 2006", question: "Curing of tea leaves is brought about by the activity of:", options: ["a) Fungi","b) Bacteria","c) Mycorrhiza","d) Viruses"], answer: "b) Bacteria" },
-    { year: "NEET/AIPMT 2005", question: "For retting of jute the fermenting microbe used is:", options: ["a) Methanophilic bacteria","b) Butyric acid bacteria","c) Helicobacter pylori","d) Streptococcus lactis"], answer: "b) Butyric acid bacteria" },
-    { year: "NEET/AIPMT 2002", question: "Which statement is correct for bacterial transduction?", options: ["a) Gene transfer through virus between bacteria","b) Gene transfer by conjugation","c) DNA inherited directly from mother cell","d) DNA uptake from external source"], answer: "a) Gene transfer through virus between bacteria" },
-    { year: "NEET/AIPMT 2001", question: "What is true for archaebacteria?", options: ["a) All halophiles","b) All photosynthetics","c) All fossils","d) Oldest living beings"], answer: "d) Oldest living beings" },
-    { year: "NEET/AIPMT 2001", question: "Difference in Gram positive and Gram negative bacteria is due to:", options: ["a) Cell wall","b) Cell membrane","c) Ribosome","d) Cytoplasm"], answer: "a) Cell wall" },
-    { year: "NEET/AIPMT 1998", question: "Genes for antibiotic resistance are located in:", options: ["a) Chromosome","b) Nucleus","c) Cell wall","d) Plasmid"], answer: "d) Plasmid" },
-    { year: "NEET/AIPMT 1998", question: "Which one can utilise molecular nitrogen (N₂) for growth?", options: ["a) Rhizobium","b) Spirogyra","c) Mucor","d) Methanococcus"], answer: "d) Methanococcus" },
-    { year: "NEET/AIPMT 1990", question: "Which one belongs to Monera?", options: ["a) Amoeba","b) Escherichia","c) Gelidium","d) Spirogyra"], answer: "b) Escherichia" },
-    { year: "NEET/AIPMT 1990", question: "Main difference in Gram (+)ve and Gram (-)ve bacteria is in their:", options: ["a) Cell wall","b) Cell membrane","c) Cytoplasm","d) Flagella"], answer: "a) Cell wall" }
+    { year: "NEET/AIPMT 2014", question: "Five kingdom system of classification suggested by R. H. Whittaker is NOT based on which of the following criteria?", options: ["a) Presence or absence of a well-defined nucleus","b) Mode of reproduction","c) Mode of nutrition","d) Complexity of body organisation"], answer: "b) Mode of reproduction" },
+    { year: "NEET/AIPMT 2012", question: "In the five kingdom classification, Chlamydomonas and Chlorella have been included in which kingdom?", options: ["a) Protista","b) Algae","c) Plantae","d) Monera"], answer: "a) Protista" },
+    { year: "NEET/AIPMT 2004", question: "Linnaeus system of plant classification is considered which type of system?", options: ["a) Artificial","b) Natural","c) Phylogenetic","d) None of the above"], answer: "a) Artificial" },
+    { year: "NEET/AIPMT 2004/2002", question: "Who proposed natural classification of plants?", options: ["a) Carolus Linnaeus","b) John Hutchinson","c) Bentham and Hooker","d) Oswald Tippo"], answer: "c) Bentham and Hooker" },
+    { year: "NEET/AIPMT 2004/1988", question: "Who proposed phylogenetic classification of plants?", options: ["a) Linnaeus","b) Hutchinson","c) Bentham and Hooker","d) Mehta"], answer: "b) Hutchinson" },
+    { year: "NEET/AIPMT 2003", question: "In which kingdom would you classify archaea and nitrogen‑fixing organisms, if the five kingdom system is used?", options: ["a) Plantae","b) Fungi","c) Protista","d) Monera"], answer: "d) Monera" },
+    { year: "NEET/AIPMT 2002", question: "In five kingdom system, the main basis of classification is:", options: ["a) Structure of nucleus","b) Mode of nutrition","c) Structure of cell wall","d) Asexual reproduction"], answer: "b) Mode of nutrition" },
+    { year: "NEET/AIPMT 2002/2001/2000", question: "The basic unit of classification (taxonomy) is:", options: ["a) Genus","b) Species","c) Family","d) Order"], answer: "b) Species" },
+    { year: "NEET/AIPMT 2000/1999", question: "Which of the following taxonomical ranks contains organisms least similar to one another?", options: ["a) Class","b) Genus","c) Family","d) Species"], answer: "a) Class" },
+    { year: "NEET/AIPMT 2000/1997/1994", question: "The non‑nucleated, unicellular organisms of Whittaker's classification (1969) are included in which kingdom?", options: ["a) Protista","b) Monera","c) Animalia","d) Plantae"], answer: "b) Monera" },
+    { year: "NEET/AIPMT 1999/1996", question: "A system of classification in which a large number of traits are considered is termed:", options: ["a) Artificial system","b) Synthetic system","c) Natural system","d) Phylogenetic system"], answer: "c) Natural system" },
+    { year: "NEET/AIPMT 1998", question: "In the five kingdom system, which single kingdom can include blue‑green algae, nitrogen‑fixing bacteria and methanogenic archaebacteria?", options: ["a) Plantae","b) Protista","c) Monera","d) Fungi"], answer: "c) Monera" },
+    { year: "NEET/AIPMT 1998", question: "A system of classification that is based on evolution, order and ancestry is known as:", options: ["a) Natural system","b) Analogous system","c) Phylogenetic system","d) Homologous system"], answer: "c) Phylogenetic system" },
+    { year: "NEET/AIPMT 1998", question: "Systema Naturae is concerned with:", options: ["a) Solar system","b) Ecosystem","c) Classification of plants and animals","d) Natural selection"], answer: "c) Classification of plants and animals" },
+    { year: "NEET/AIPMT 1994/1992", question: "The term 'phylum' in animal classification was coined by:", options: ["a) E. Haeckel","b) John Ray","c) G.L. Cuvier","d) Carolus Linnaeus"], answer: "c) G.L. Cuvier" },
+    { year: "NEET/AIPMT 1994", question: "Four kingdom classification was proposed by:", options: ["a) Whittaker","b) Copeland","c) Haeckel","d) Linnaeus"], answer: "b) Copeland" }
   ];
 
   function inject() {
@@ -1093,6 +392,7 @@
     if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
     questionData[c][ch].questions[section] = items;
 
+    // Register section (in case the base chapter.sections list is missing/older) and show
     if (typeof window.__ensureSectionVisible === 'function') {
       window.__ensureSectionVisible(c, ch, section, sectionName);
     }
@@ -1105,6 +405,5 @@
   }
 })();
 </script>
-
 </body>
 </html>
