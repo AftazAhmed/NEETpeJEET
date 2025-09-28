@@ -1709,6 +1709,55 @@
   });
 </script>
 
+<script>
+(function() {
+  const c = "11";
+  const ch = "2";
+  const section = "2.2";
+
+  const items = [
+    { year: "NEET/AIPMT 2014", question: "Five kingdom system of classification suggested by R. H. Whittaker is not based on which of the following criteria?", options: ["a) presence or absence of a well defined nucleus", "b) mode of reproduction", "c) mode of nutrition", "d) complexity of body organisation"], answer: "b) mode of reproduction", qno: 41 },
+    { year: "NEET/AIPMT 2012", question: "In the five kingdom classification, Chlamydomonas and Chlorella have been included in which kingdom?", options: ["a) protista", "b) algae", "c) plantae", "d) monera"], answer: "a) protista", qno: 42 },
+    { year: "NEET/AIPMT 2004", question: "Linnaeus system of plant classification falls under which type of system?", options: ["a) Artificial", "b) Natural", "c) Phylogenetic", "d) None of the above"], answer: "a) Artificial", qno: 43 },
+    { year: "NEET/AIPMT 2004/2002", question: "Who proposed natural classification of plants?", options: ["a) Carolus Linnaeus", "b) John Hutchinson", "c) Bentham and Hooker", "d) Oswald Tippo"], answer: "c) Bentham and Hooker", qno: 44 },
+    { year: "NEET/AIPMT 2004/1988", question: "Who proposed phylogenetic classification of plants?", options: ["a) Linnaeus", "b) Hutchinson", "c) Bentham and Hooker", "d) Mehta"], answer: "b) Hutchinson", qno: 45 },
+    { year: "NEET/AIPMT 2003", question: "In five kingdom system, archaea and nitrogen-fixing organisms are classified under which kingdom?", options: ["a) Plantae", "b) Fungi", "c) Protista", "d) Monera"], answer: "d) Monera", qno: 46 },
+    { year: "NEET/AIPMT 2002", question: "What is the main basis of classification in five kingdom system?", options: ["a) structure of nucleus", "b) mode of nutrition", "c) structure of cell wall", "d) asexual reproduction"], answer: "b) mode of nutrition", qno: 47 },
+    { year: "NEET/AIPMT 2002/2001/2000", question: "What is the basic unit of classification?", options: ["a) Genus", "b) Species", "c) Family", "d) Order"], answer: "b) Species", qno: 48 },
+    { year: "NEET/AIPMT 2000/1999", question: "Which taxonomical rank contains organisms least similar to each other?", options: ["a) Class", "b) Genus", "c) Family", "d) Species"], answer: "a) Class", qno: 49 },
+    { year: "NEET/AIPMT 2000/1997/1994", question: "Non-nucleated unicellular organisms in Whittaker's classification are placed in which kingdom?", options: ["a) Protista", "b) Monera", "c) Animalia", "d) Plantae"], answer: "b) Monera", qno: 50 },
+    { year: "NEET/AIPMT 1999/1996", question: "A classification system considering many traits is called:", options: ["a) Artificial system", "b) Synthetic system", "c) Natural system", "d) Phylogenetic system"], answer: "c) Natural system", qno: 51 },
+    { year: "NEET/AIPMT 1998", question: "Which kingdom includes blue-green algae, nitrogen fixing bacteria, and methanogenic archaebacteria?", options: ["a) Plantae", "b) Protista", "c) Monera", "d) Fungi"], answer: "c) Monera", qno: 52 },
+    { year: "NEET/AIPMT 1998", question: "Which classification system is based on evolution, order, and ancestry?", options: ["a) Natural system", "b) Analogous system", "c) Phylogenetic system", "d) Homologous system"], answer: "c) Phylogenetic system", qno: 53 },
+    { year: "NEET/AIPMT 1998", question: "Systema Naturae is focused on which field?", options: ["a) Solar system", "b) Ecosystem", "c) Classification of plants and animals", "d) Natural selection"], answer: "c) Classification of plants and animals", qno: 54 },
+    { year: "NEET/AIPMT 1994/1992", question: "Who coined the term 'phylum' in animal classification?", options: ["a) E. Haeckel", "b) John Ray", "c) G.L. Cuvier", "d) Carolus Linnaeus"], answer: "c) G.L. Cuvier", qno: 55 },
+    { year: "NEET/AIPMT 1994", question: "Who proposed the four kingdom classification system?", options: ["a) Whittaker", "b) Copeland", "c) Haeckel", "d) Linnaeus"], answer: "b) Copeland", qno: 56 }
+    // Add remaining questions 57 to 62 similarly with qno property
+  ];
+
+  // Add remaining questions from 57 to 62 below as per your records
+
+  if (!window.questionData) return;
+
+  if (!questionData[c]) questionData[c] = {};
+  if (!questionData[c][ch]) questionData[c][ch] = {sections: [], questions: {}};
+  if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
+
+  questionData[c][ch].questions[section] = items;
+
+  const classSelect = document.getElementById('classSelect');
+  const chapterSelect = document.getElementById('chapterSelect');
+  const sectionSelect = document.getElementById('sectionSelect');
+
+  if (classSelect?.value === c && chapterSelect?.value === ch) {
+    updateSections();
+    if (sectionSelect?.value !== section) {
+      sectionSelect.value = section;
+    }
+    showQuestions();
+  }
+})();
+</script>
 
 
 
