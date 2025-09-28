@@ -981,505 +981,180 @@
 </script>
 
 <!-- ===================== MODEL ADDON: Section 2.0 (Evolution of Classification Systems) ===================== -->
+
 <script>
-(function() {
+/* ===== Display Foundation: register sections + ensure visibility + robust refresh ===== */
+(function () {
+  // Safe event binding in case inline onchange isn't firing in some contexts
+  function bindSafeEvents() {
+    const cs = document.getElementById('classSelect');
+    const chs = document.getElementById('chapterSelect');
+    const ss = document.getElementById('sectionSelect');
+    if (cs && !cs._bound) { cs.addEventListener('change', () => { if (typeof updateChapters==='function') updateChapters(); }); cs._bound=true; }
+    if (chs && !chs._bound) { chs.addEventListener('change', () => { if (typeof updateSections==='function') updateSections(); }); chs._bound=true; }
+    if (ss && !ss._bound) { ss.addEventListener('change', () => { if (typeof showQuestions==='function') showQuestions(); }); ss._bound=true; }
+  }
+
+  // Ensure a chapter's sections array contains the injected section id (add if missing)
+  function registerSectionIfMissing(c, ch, sectionId, displayName) {
+    if (!window.questionData || !questionData[c] || !questionData[c][ch]) return;
+    if (!Array.isArray(questionData[c][ch].sections)) questionData[c][ch].sections = [];
+    const exists = questionData[c][ch].sections.some(s => s && s.id === sectionId);
+    if (!exists) {
+      questionData[c][ch].sections.push({ id: sectionId, name: displayName || `Section ${sectionId}` });
+    }
+  }
+
+  // Core helper: register section (if needed), refresh dropdowns, optionally select target and show
+  function ensureSectionVisible(c, ch, sectionId, displayName) {
+    registerSectionIfMissing(c, ch, sectionId, displayName);
+
+    const cs = document.getElementById('classSelect');
+    const chs = document.getElementById('chapterSelect');
+    const ss = document.getElementById('sectionSelect');
+
+    // If the user is already at this class/chapter, rebuild sections and try to select target
+    if (cs && chs && ss && typeof updateSections === 'function') {
+      if (cs.value === String(c) && chs.value === String(ch)) {
+        updateSections();
+        const opt = Array.from(ss.options).find(o => o.value === sectionId);
+        if (opt) ss.value = sectionId;
+        if (typeof showQuestions === 'function') setTimeout(showQuestions, 0);
+      }
+    }
+  }
+
+  // Backward-compat aliases so older addons continue to work
+  window.__ensureSectionVisible = window.__ensureSectionVisible || ensureSectionVisible;
+  window.__ensureSectionVisibleAfterInjection = window.__ensureSectionVisibleAfterInjection || ensureSectionVisible;
+
+  // Force an initial refresh when page finishes loading (helps when code order varies)
+  function forceInitialRefresh() {
+    bindSafeEvents();
+    const cs = document.getElementById('classSelect');
+    const chs = document.getElementById('chapterSelect');
+    const ss = document.getElementById('sectionSelect');
+
+    // If a class is already chosen, repopulate chapters; if a chapter is chosen, repopulate sections
+    if (cs && cs.value && typeof updateChapters === 'function') updateChapters();
+    if (chs && chs.value && typeof updateSections === 'function') updateSections();
+
+    // If everything is selected, render the questions view
+    if (ss && ss.value && typeof showQuestions === 'function') showQuestions();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => { bindSafeEvents(); forceInitialRefresh(); }, { once: true });
+  } else {
+    bindSafeEvents();
+    forceInitialRefresh();
+  }
+})();
+</script>
+
+<script>
+/* ===== Addon: Class 11 → Chapter 2 → Section 2.0 (Evolution of Classification Systems) ===== */
+(function () {
   const c = "11";
   const ch = "2";
   const section = "2.0";
+  const sectionName = "Evolution of Classification Systems";
 
   const items = [
-    {
-      year: "NEET/AIPMT 2014",
-      question: "Five kingdom system of classification suggested by R. H. Whittaker is NOT based on which of the following criteria?",
-      options: [
-        "a) Presence or absence of a well-defined nucleus",
-        "b) Mode of reproduction",
-        "c) Mode of nutrition",
-        "d) Complexity of body organisation"
-      ],
-      answer: "b) Mode of reproduction"
-    },
-    {
-      year: "NEET/AIPMT 2012",
-      question: "In the five kingdom classification, Chlamydomonas and Chlorella have been included in which kingdom?",
-      options: [
-        "a) Protista",
-        "b) Algae",
-        "c) Plantae",
-        "d) Monera"
-      ],
-      answer: "a) Protista"
-    },
-    {
-      year: "NEET/AIPMT 2004",
-      question: "Linnaeus system of plant classification is considered which type of system?",
-      options: [
-        "a) Artificial",
-        "b) Natural",
-        "c) Phylogenetic",
-        "d) None of the above"
-      ],
-      answer: "a) Artificial"
-    },
-    {
-      year: "NEET/AIPMT 2004/2002",
-      question: "Who proposed natural classification of plants?",
-      options: [
-        "a) Carolus Linnaeus",
-        "b) John Hutchinson",
-        "c) Bentham and Hooker",
-        "d) Oswald Tippo"
-      ],
-      answer: "c) Bentham and Hooker"
-    },
-    {
-      year: "NEET/AIPMT 2004/1988",
-      question: "Who proposed phylogenetic classification of plants?",
-      options: [
-        "a) Linnaeus",
-        "b) Hutchinson",
-        "c) Bentham and Hooker",
-        "d) Mehta"
-      ],
-      answer: "b) Hutchinson"
-    },
-    {
-      year: "NEET/AIPMT 2003",
-      question: "In which kingdom would you classify archaea and nitrogen‑fixing organisms, if the five kingdom system is used?",
-      options: [
-        "a) Plantae",
-        "b) Fungi",
-        "c) Protista",
-        "d) Monera"
-      ],
-      answer: "d) Monera"
-    },
-    {
-      year: "NEET/AIPMT 2002",
-      question: "In five kingdom system, the main basis of classification is:",
-      options: [
-        "a) Structure of nucleus",
-        "b) Mode of nutrition",
-        "c) Structure of cell wall",
-        "d) Asexual reproduction"
-      ],
-      answer: "b) Mode of nutrition"
-    },
-    {
-      year: "NEET/AIPMT 2002/2001/2000",
-      question: "The basic unit of classification (taxonomy) is:",
-      options: [
-        "a) Genus",
-        "b) Species",
-        "c) Family",
-        "d) Order"
-      ],
-      answer: "b) Species"
-    },
-    {
-      year: "NEET/AIPMT 2000/1999",
-      question: "Which of the following taxonomical ranks contains organisms least similar to one another?",
-      options: [
-        "a) Class",
-        "b) Genus",
-        "c) Family",
-        "d) Species"
-      ],
-      answer: "a) Class"
-    },
-    {
-      year: "NEET/AIPMT 2000/1997/1994",
-      question: "The non‑nucleated, unicellular organisms of Whittaker's classification (1969) are included in which kingdom?",
-      options: [
-        "a) Protista",
-        "b) Monera",
-        "c) Animalia",
-        "d) Plantae"
-      ],
-      answer: "b) Monera"
-    },
-    {
-      year: "NEET/AIPMT 1999/1996",
-      question: "A system of classification in which a large number of traits are considered is termed:",
-      options: [
-        "a) Artificial system",
-        "b) Synthetic system",
-        "c) Natural system",
-        "d) Phylogenetic system"
-      ],
-      answer: "c) Natural system"
-    },
-    {
-      year: "NEET/AIPMT 1998",
-      question: "In the five kingdom system of classification, which single kingdom can include blue‑green algae, nitrogen fixing bacteria and methanogenic archaebacteria?",
-      options: [
-        "a) Plantae",
-        "b) Protista",
-        "c) Monera",
-        "d) Fungi"
-      ],
-      answer: "c) Monera"
-    },
-    {
-      year: "NEET/AIPMT 1998",
-      question: "A system of classification that is based on evolution, order and ancestry is known as:",
-      options: [
-        "a) Natural system",
-        "b) Analogous system",
-        "c) Phylogenetic system",
-        "d) Homologous system"
-      ],
-      answer: "c) Phylogenetic system"
-    },
-    {
-      year: "NEET/AIPMT 1998",
-      question: "Systema Naturae is concerned with:",
-      options: [
-        "a) Solar system",
-        "b) Ecosystem",
-        "c) Classification of plants and animals",
-        "d) Natural selection"
-      ],
-      answer: "c) Classification of plants and animals"
-    },
-    {
-      year: "NEET/AIPMT 1994/1992",
-      question: "The term 'phylum' in animal classification was coined by:",
-      options: [
-        "a) E. Haeckel",
-        "b) John Ray",
-        "c) G.L. Cuvier",
-        "d) Carolus Linnaeus"
-      ],
-      answer: "c) G.L. Cuvier"
-    },
-    {
-      year: "NEET/AIPMT 1994",
-      question: "Four kingdom classification was proposed by:",
-      options: [
-        "a) Whittaker",
-        "b) Copeland",
-        "c) Haeckel",
-        "d) Linnaeus"
-      ],
-      answer: "b) Copeland"
-    }
+    { year: "NEET/AIPMT 2014", question: "Five kingdom system of classification suggested by R. H. Whittaker is NOT based on which of the following criteria?", options: ["a) Presence or absence of a well-defined nucleus","b) Mode of reproduction","c) Mode of nutrition","d) Complexity of body organisation"], answer: "b) Mode of reproduction" },
+    { year: "NEET/AIPMT 2012", question: "In the five kingdom classification, Chlamydomonas and Chlorella have been included in which kingdom?", options: ["a) Protista","b) Algae","c) Plantae","d) Monera"], answer: "a) Protista" },
+    { year: "NEET/AIPMT 2004", question: "Linnaeus system of plant classification is considered which type of system?", options: ["a) Artificial","b) Natural","c) Phylogenetic","d) None of the above"], answer: "a) Artificial" },
+    { year: "NEET/AIPMT 2004/2002", question: "Who proposed natural classification of plants?", options: ["a) Carolus Linnaeus","b) John Hutchinson","c) Bentham and Hooker","d) Oswald Tippo"], answer: "c) Bentham and Hooker" },
+    { year: "NEET/AIPMT 2004/1988", question: "Who proposed phylogenetic classification of plants?", options: ["a) Linnaeus","b) Hutchinson","c) Bentham and Hooker","d) Mehta"], answer: "b) Hutchinson" },
+    { year: "NEET/AIPMT 2003", question: "In which kingdom would you classify archaea and nitrogen‑fixing organisms, if the five kingdom system is used?", options: ["a) Plantae","b) Fungi","c) Protista","d) Monera"], answer: "d) Monera" },
+    { year: "NEET/AIPMT 2002", question: "In five kingdom system, the main basis of classification is:", options: ["a) Structure of nucleus","b) Mode of nutrition","c) Structure of cell wall","d) Asexual reproduction"], answer: "b) Mode of nutrition" },
+    { year: "NEET/AIPMT 2002/2001/2000", question: "The basic unit of classification (taxonomy) is:", options: ["a) Genus","b) Species","c) Family","d) Order"], answer: "b) Species" },
+    { year: "NEET/AIPMT 2000/1999", question: "Which of the following taxonomical ranks contains organisms least similar to one another?", options: ["a) Class","b) Genus","c) Family","d) Species"], answer: "a) Class" },
+    { year: "NEET/AIPMT 2000/1997/1994", question: "The non‑nucleated, unicellular organisms of Whittaker's classification (1969) are included in which kingdom?", options: ["a) Protista","b) Monera","c) Animalia","d) Plantae"], answer: "b) Monera" },
+    { year: "NEET/AIPMT 1999/1996", question: "A system of classification in which a large number of traits are considered is termed:", options: ["a) Artificial system","b) Synthetic system","c) Natural system","d) Phylogenetic system"], answer: "c) Natural system" },
+    { year: "NEET/AIPMT 1998", question: "In the five kingdom system, which single kingdom can include blue‑green algae, nitrogen‑fixing bacteria and methanogenic archaebacteria?", options: ["a) Plantae","b) Protista","c) Monera","d) Fungi"], answer: "c) Monera" },
+    { year: "NEET/AIPMT 1998", question: "A system of classification that is based on evolution, order and ancestry is known as:", options: ["a) Natural system","b) Analogous system","c) Phylogenetic system","d) Homologous system"], answer: "c) Phylogenetic system" },
+    { year: "NEET/AIPMT 1998", question: "Systema Naturae is concerned with:", options: ["a) Solar system","b) Ecosystem","c) Classification of plants and animals","d) Natural selection"], answer: "c) Classification of plants and animals" },
+    { year: "NEET/AIPMT 1994/1992", question: "The term 'phylum' in animal classification was coined by:", options: ["a) E. Haeckel","b) John Ray","c) G.L. Cuvier","d) Carolus Linnaeus"], answer: "c) G.L. Cuvier" },
+    { year: "NEET/AIPMT 1994", question: "Four kingdom classification was proposed by:", options: ["a) Whittaker","b) Copeland","c) Haeckel","d) Linnaeus"], answer: "b) Copeland" }
   ];
 
-  // Ensure path exists, inject, refresh if already on this chapter
-  function injectSection() {
+  function inject() {
     if (!window.questionData) return;
     if (!questionData[c]) questionData[c] = {};
-    if (!questionData[c][ch]) questionData[c][ch] = {sections: [], questions: {}};
+    if (!questionData[c][ch]) questionData[c][ch] = { sections: [], questions: {} };
     if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
     questionData[c][ch].questions[section] = items;
 
-    if (typeof window.__ensureSectionVisibleAfterInjection === 'function') {
-      window.__ensureSectionVisibleAfterInjection(c, ch, section);
+    // Register section (in case the base chapter.sections list is missing/older) and show
+    if (typeof window.__ensureSectionVisible === 'function') {
+      window.__ensureSectionVisible(c, ch, section, sectionName);
     }
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', injectSection, { once: true });
+    document.addEventListener('DOMContentLoaded', inject, { once: true });
   } else {
-    injectSection();
+    inject();
   }
 })();
 </script>
 
-<!-- ===================== MODEL ADDON: Section 2.1 (Kingdom Monera) ===================== -->
 <script>
-(function() {
+/* ===== Addon: Class 11 → Chapter 2 → Section 2.1 (Kingdom Monera) ===== */
+(function () {
   const c = "11";
   const ch = "2";
   const section = "2.1";
+  const sectionName = "Kingdom Monera";
 
   const items = [
-    {
-      year: "NEET/AIPMT 2019",
-      question: "Match Column I (groups) with Column II (typical habitats) and choose the correct option: A) Halophiles, B) Thermoacidophiles, C) Methanogens, D) Cyanobacteria",
-      options: [
-        "a) A-4, B-1, C-3, D-2",
-        "b) A-1, B-2, C-3, D-4",
-        "c) A-3, B-4, C-2, D-1",
-        "d) A-2, B-4, C-3, D-1"
-      ],
-      answer: "a) A-4, B-1, C-3, D-2"
-    },
-    {
-      year: "NEET/AIPMT 2017",
-      question: "The smallest living cells known, without a definite cell wall, pathogenic to plants as well as animals, and capable of surviving without oxygen are:",
-      options: [
-        "a) Pseudomonas",
-        "b) Mycoplasma",
-        "c) Nostoc",
-        "d) Bacillus"
-      ],
-      answer: "b) Mycoplasma"
-    },
-    {
-      year: "NEET/AIPMT 2017",
-      question: "Which component gives sticky character to the bacterial cell?",
-      options: [
-        "a) Nuclear membrane",
-        "b) Plasma membrane",
-        "c) Glycocalyx",
-        "d) Cell wall"
-      ],
-      answer: "c) Glycocalyx"
-    },
-    {
-      year: "NEET/AIPMT 2017",
-      question: "DNA replication in bacteria occurs:",
-      options: [
-        "a) Within nucleus",
-        "b) Prior to fission",
-        "c) Just before transcription",
-        "d) During S phase"
-      ],
-      answer: "b) Prior to fission"
-    },
-    {
-      year: "NEET/AIPMT 2016",
-      question: "Methanogens belong to:",
-      options: [
-        "a) Eubacteria",
-        "b) Archaebacteria",
-        "c) Dinoflagellates",
-        "d) Slime moulds"
-      ],
-      answer: "b) Archaebacteria"
-    },
-    {
-      year: "NEET/AIPMT 2014",
-      question: "Pigment‑containing membranous extensions in some cyanobacteria are:",
-      options: [
-        "a) Pneumatophores",
-        "b) Chromatophores",
-        "c) Heterocysts",
-        "d) Basal bodies"
-      ],
-      answer: "b) Chromatophores"
-    },
-    {
-      year: "NEET/AIPMT 2013",
-      question: "Archaebacteria differ from eubacteria in:",
-      options: [
-        "a) Cell membrane structure",
-        "b) Mode of nutrition",
-        "c) Cell shape",
-        "d) Mode of reproduction"
-      ],
-      answer: "a) Cell membrane structure"
-    },
-    {
-      year: "NEET/AIPMT 2013",
-      question: "Which of the following are likely to be present in deep sea water?",
-      options: [
-        "a) Blue‑green algae",
-        "b) Saprophytic fungi",
-        "c) Archaebacteria",
-        "d) Eubacteria"
-      ],
-      answer: "c) Archaebacteria"
-    },
-    {
-      year: "NEET/AIPMT 2012",
-      question: "The most abundant prokaryotes helpful to humans in making curd from milk and in the production of antibiotics are:",
-      options: [
-        "a) Cyanobacteria",
-        "b) Archaebacteria",
-        "c) Chemosynthetic autotrophs",
-        "d) Heterotrophic bacteria"
-      ],
-      answer: "d) Heterotrophic bacteria"
-    },
-    {
-      year: "NEET/AIPMT 2012",
-      question: "The cyanobacteria are also referred to as:",
-      options: [
-        "a) Protists",
-        "b) Golden algae",
-        "c) Slime moulds",
-        "d) Blue green algae"
-      ],
-      answer: "d) Blue green algae"
-    },
-    {
-      year: "NEET/AIPMT 2011",
-      question: "In eubacteria, a cellular component that resembles that of eukaryotic cells is:",
-      options: [
-        "a) Plasma membrane",
-        "b) Nucleus",
-        "c) Ribosomes",
-        "d) Cell wall"
-      ],
-      answer: "a) Plasma membrane"
-    },
-    {
-      year: "NEET/AIPMT 2010",
-      question: "Some hyperthermophilic organisms that grow in highly acidic habitats belong to the two groups:",
-      options: [
-        "a) Eubacteria and archaea",
-        "b) Cyanobacteria and diatoms",
-        "c) Protists and mosses",
-        "d) Liverworts and yeasts"
-      ],
-      answer: "a) Eubacteria and archaea"
-    },
-    {
-      year: "NEET/AIPMT 2008",
-      question: "In the three domain system (bacteria, archaea, eukarya), which statement is true about archaea?",
-      options: [
-        "a) Completely differ from both prokaryotes and eukaryotes",
-        "b) Completely differ from prokaryotes",
-        "c) Resemble eukarya in all respects",
-        "d) Have novel features absent in other prokaryotes and eukaryotes"
-      ],
-      answer: "d) Have novel features absent in other prokaryotes and eukaryotes"
-    },
-    {
-      year: "NEET/AIPMT 2008",
-      question: "Thermococcus, Methanococcus and Methanobacterium exemplify:",
-      options: [
-        "a) Bacteria with relaxed/positively supercoiled DNA and mitochondria",
-        "b) Bacteria with a cytoskeleton and ribosomes",
-        "c) Archaebacteria containing proteins homologous to eukaryotic core histones",
-        "d) Archaebacteria lacking eukaryote‑like histones but with negatively supercoiled DNA"
-      ],
-      answer: "c) Archaebacteria containing proteins homologous to eukaryotic core histones"
-    },
-    {
-      year: "NEET/AIPMT 2008",
-      question: "Bacterial leaf blight of rice is caused by:",
-      options: [
-        "a) Alternaria",
-        "b) Erwinia",
-        "c) Xanthomonas",
-        "d) Pseudomonas"
-      ],
-      answer: "c) Xanthomonas"
-    },
-    {
-      year: "NEET/AIPMT 2006",
-      question: "Curing of tea leaves is brought about by the activity of:",
-      options: [
-        "a) Fungi",
-        "b) Bacteria",
-        "c) Mycorrhiza",
-        "d) Viruses"
-      ],
-      answer: "b) Bacteria"
-    },
-    {
-      year: "NEET/AIPMT 2005",
-      question: "For retting of jute, the fermenting microbe used is:",
-      options: [
-        "a) Methanophilic bacteria",
-        "b) Butyric acid bacteria",
-        "c) Helicobacter pylori",
-        "d) Streptococcus lactis"
-      ],
-      answer: "b) Butyric acid bacteria"
-    },
-    {
-      year: "NEET/AIPMT 2002",
-      question: "Which statement is correct for bacterial transduction?",
-      options: [
-        "a) Transfer of some genes from one bacterium to another through virus",
-        "b) Transfer of genes by conjugation",
-        "c) Bacterium obtains DNA directly from mother cell",
-        "d) Bacterium obtains DNA from other external source"
-      ],
-      answer: "a) Transfer of some genes from one bacterium to another through virus"
-    },
-    {
-      year: "NEET/AIPMT 2001",
-      question: "What is true for archaebacteria?",
-      options: [
-        "a) All halophiles",
-        "b) All photosynthetics",
-        "c) All fossils",
-        "d) Oldest living beings"
-      ],
-      answer: "d) Oldest living beings"
-    },
-    {
-      year: "NEET/AIPMT 2001",
-      question: "Difference in Gram positive and Gram negative bacteria is due to:",
-      options: [
-        "a) Cell wall",
-        "b) Cell membrane",
-        "c) Ribosome",
-        "d) Cytoplasm"
-      ],
-      answer: "a) Cell wall"
-    },
-    {
-      year: "NEET/AIPMT 1998",
-      question: "Genes for antibiotic resistance are located in:",
-      options: [
-        "a) Chromosome",
-        "b) Nucleus",
-        "c) Cell wall",
-        "d) Plasmid"
-      ],
-      answer: "d) Plasmid"
-    },
-    {
-      year: "NEET/AIPMT 1998",
-      question: "Which one of the following can utilise molecular nitrogen (N₂) as nutrient for growth?",
-      options: [
-        "a) Rhizobium",
-        "b) Spirogyra",
-        "c) Mucor",
-        "d) Methanococcus"
-      ],
-      answer: "d) Methanococcus"
-    },
-    {
-      year: "NEET/AIPMT 1990",
-      question: "Which one belongs to Monera?",
-      options: [
-        "a) Amoeba",
-        "b) Escherichia",
-        "c) Gelidium",
-        "d) Spirogyra"
-      ],
-      answer: "b) Escherichia"
-    },
-    {
-      year: "NEET/AIPMT 1990",
-      question: "The main difference in Gram (+)ve and Gram (-)ve bacteria resides in their:",
-      options: [
-        "a) Cell wall",
-        "b) Cell membrane",
-        "c) Cytoplasm",
-        "d) Flagella"
-      ],
-      answer: "a) Cell wall"
-    }
+    { year: "NEET/AIPMT 2019", question: "Match Column I (groups) with Column II (typical habitats) and choose the correct option: A) Halophiles, B) Thermoacidophiles, C) Methanogens, D) Cyanobacteria", options: ["a) A-4, B-1, C-3, D-2","b) A-1, B-2, C-3, D-4","c) A-3, B-4, C-2, D-1","d) A-2, B-4, C-3, D-1"], answer: "a) A-4, B-1, C-3, D-2" },
+    { year: "NEET/AIPMT 2017", question: "The smallest living cells, without a definite cell wall, pathogenic to plants and animals, and able to survive without oxygen are:", options: ["a) Pseudomonas","b) Mycoplasma","c) Nostoc","d) Bacillus"], answer: "b) Mycoplasma" },
+    { year: "NEET/AIPMT 2017", question: "Which component provides sticky character to the bacterial cell?", options: ["a) Nuclear membrane","b) Plasma membrane","c) Glycocalyx","d) Cell wall"], answer: "c) Glycocalyx" },
+    { year: "NEET/AIPMT 2017", question: "DNA replication in bacteria occurs:", options: ["a) Within nucleus","b) Prior to fission","c) Just before transcription","d) During S phase"], answer: "b) Prior to fission" },
+    { year: "NEET/AIPMT 2016", question: "Methanogens belong to:", options: ["a) Eubacteria","b) Archaebacteria","c) Dinoflagellates","d) Slime moulds"], answer: "b) Archaebacteria" },
+    { year: "NEET/AIPMT 2014", question: "Pigment‑containing membranous extensions in some cyanobacteria are:", options: ["a) Pneumatophores","b) Chromatophores","c) Heterocysts","d) Basal bodies"], answer: "b) Chromatophores" },
+    { year: "NEET/AIPMT 2013", question: "Archaebacteria differ from eubacteria in:", options: ["a) Cell membrane structure","b) Mode of nutrition","c) Cell shape","d) Mode of reproduction"], answer: "a) Cell membrane structure" },
+    { year: "NEET/AIPMT 2013", question: "Which of the following are likely to be present in deep sea water?", options: ["a) Blue‑green algae","b) Saprophytic fungi","c) Archaebacteria","d) Eubacteria"], answer: "c) Archaebacteria" },
+    { year: "NEET/AIPMT 2012", question: "The most abundant prokaryotes helpful to humans in curd formation and antibiotics production are:", options: ["a) Cyanobacteria","b) Archaebacteria","c) Chemosynthetic autotrophs","d) Heterotrophic bacteria"], answer: "d) Heterotrophic bacteria" },
+    { year: "NEET/AIPMT 2012", question: "Cyanobacteria are also called:", options: ["a) Protists","b) Golden algae","c) Slime moulds","d) Blue green algae"], answer: "d) Blue green algae" },
+    { year: "NEET/AIPMT 2011", question: "In eubacteria, a component similar to eukaryotic cells is:", options: ["a) Plasma membrane","b) Nucleus","c) Ribosomes","d) Cell wall"], answer: "a) Plasma membrane" },
+    { year: "NEET/AIPMT 2010", question: "Some hyperthermophiles growing in highly acidic habitats belong to:", options: ["a) Eubacteria and archaea","b) Cyanobacteria and diatoms","c) Protists and mosses","d) Liverworts and yeasts"], answer: "a) Eubacteria and archaea" },
+    { year: "NEET/AIPMT 2008", question: "In the three-domain system, which is true about archaea?", options: ["a) Completely differ from both prokaryotes and eukaryotes","b) Completely differ from prokaryotes","c) Resemble eukarya in all respects","d) Have novel features absent in other prokaryotes and eukaryotes"], answer: "d) Have novel features absent in other prokaryotes and eukaryotes" },
+    { year: "NEET/AIPMT 2008", question: "Thermococcus, Methanococcus and Methanobacterium exemplify:", options: ["a) Bacteria with mitochondria","b) Bacteria with cytoskeleton and ribosomes","c) Archaebacteria with eukaryote‑like core histone homologues","d) Archaebacteria with negatively supercoiled DNA lacking eukaryote‑like histones"], answer: "c) Archaebacteria with eukaryote‑like core histone homologues" },
+    { year: "NEET/AIPMT 2008", question: "Bacterial leaf blight of rice is caused by:", options: ["a) Alternaria","b) Erwinia","c) Xanthomonas","d) Pseudomonas"], answer: "c) Xanthomonas" },
+    { year: "NEET/AIPMT 2006", question: "Curing of tea leaves is brought about by the activity of:", options: ["a) Fungi","b) Bacteria","c) Mycorrhiza","d) Viruses"], answer: "b) Bacteria" },
+    { year: "NEET/AIPMT 2005", question: "For retting of jute the fermenting microbe used is:", options: ["a) Methanophilic bacteria","b) Butyric acid bacteria","c) Helicobacter pylori","d) Streptococcus lactis"], answer: "b) Butyric acid bacteria" },
+    { year: "NEET/AIPMT 2002", question: "Which statement is correct for bacterial transduction?", options: ["a) Gene transfer through virus between bacteria","b) Gene transfer by conjugation","c) DNA inherited directly from mother cell","d) DNA uptake from external source"], answer: "a) Gene transfer through virus between bacteria" },
+    { year: "NEET/AIPMT 2001", question: "What is true for archaebacteria?", options: ["a) All halophiles","b) All photosynthetics","c) All fossils","d) Oldest living beings"], answer: "d) Oldest living beings" },
+    { year: "NEET/AIPMT 2001", question: "Difference in Gram positive and Gram negative bacteria is due to:", options: ["a) Cell wall","b) Cell membrane","c) Ribosome","d) Cytoplasm"], answer: "a) Cell wall" },
+    { year: "NEET/AIPMT 1998", question: "Genes for antibiotic resistance are located in:", options: ["a) Chromosome","b) Nucleus","c) Cell wall","d) Plasmid"], answer: "d) Plasmid" },
+    { year: "NEET/AIPMT 1998", question: "Which one can utilise molecular nitrogen (N₂) for growth?", options: ["a) Rhizobium","b) Spirogyra","c) Mucor","d) Methanococcus"], answer: "d) Methanococcus" },
+    { year: "NEET/AIPMT 1990", question: "Which one belongs to Monera?", options: ["a) Amoeba","b) Escherichia","c) Gelidium","d) Spirogyra"], answer: "b) Escherichia" },
+    { year: "NEET/AIPMT 1990", question: "Main difference in Gram (+)ve and Gram (-)ve bacteria is in their:", options: ["a) Cell wall","b) Cell membrane","c) Cytoplasm","d) Flagella"], answer: "a) Cell wall" }
   ];
 
-  function injectSection() {
+  function inject() {
     if (!window.questionData) return;
     if (!questionData[c]) questionData[c] = {};
-    if (!questionData[c][ch]) questionData[c][ch] = {sections: [], questions: {}};
+    if (!questionData[c][ch]) questionData[c][ch] = { sections: [], questions: {} };
     if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
     questionData[c][ch].questions[section] = items;
 
-    if (typeof window.__ensureSectionVisibleAfterInjection === 'function') {
-      window.__ensureSectionVisibleAfterInjection(c, ch, section);
+    if (typeof window.__ensureSectionVisible === 'function') {
+      window.__ensureSectionVisible(c, ch, section, sectionName);
     }
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', injectSection, { once: true });
+    document.addEventListener('DOMContentLoaded', inject, { once: true });
   } else {
-    injectSection();
+    inject();
   }
 })();
 </script>
+
 
 </body>
 </html>
