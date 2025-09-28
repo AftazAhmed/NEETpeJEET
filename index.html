@@ -359,7 +359,6 @@ button:focus { outline:3px solid #0f172a; outline-offset:2px; }
 </script>
 
 <script>
-/* ===== Addon: Class 11 → Chapter 2 → Section 2.0 (Evolution of Classification Systems) ===== */
 (function () {
   const c = "11";
   const ch = "2";
@@ -367,22 +366,28 @@ button:focus { outline:3px solid #0f172a; outline-offset:2px; }
   const sectionName = "Evolution of Classification Systems";
 
   const items = [
-    { year: "NEET/AIPMT 2014", question: "Five kingdom system of classification suggested by R. H. Whittaker is NOT based on which of the following criteria?", options: ["a) Presence or absence of a well-defined nucleus","b) Mode of reproduction","c) Mode of nutrition","d) Complexity of body organisation"], answer: "b) Mode of reproduction" },
-    { year: "NEET/AIPMT 2012", question: "In the five kingdom classification, Chlamydomonas and Chlorella have been included in which kingdom?", options: ["a) Protista","b) Algae","c) Plantae","d) Monera"], answer: "a) Protista" },
-    { year: "NEET/AIPMT 2004", question: "Linnaeus system of plant classification is considered which type of system?", options: ["a) Artificial","b) Natural","c) Phylogenetic","d) None of the above"], answer: "a) Artificial" },
-    { year: "NEET/AIPMT 2004/2002", question: "Who proposed natural classification of plants?", options: ["a) Carolus Linnaeus","b) John Hutchinson","c) Bentham and Hooker","d) Oswald Tippo"], answer: "c) Bentham and Hooker" },
-    { year: "NEET/AIPMT 2004/1988", question: "Who proposed phylogenetic classification of plants?", options: ["a) Linnaeus","b) Hutchinson","c) Bentham and Hooker","d) Mehta"], answer: "b) Hutchinson" },
-    { year: "NEET/AIPMT 2003", question: "In which kingdom would you classify archaea and nitrogen‑fixing organisms, if the five kingdom system is used?", options: ["a) Plantae","b) Fungi","c) Protista","d) Monera"], answer: "d) Monera" },
-    { year: "NEET/AIPMT 2002", question: "In five kingdom system, the main basis of classification is:", options: ["a) Structure of nucleus","b) Mode of nutrition","c) Structure of cell wall","d) Asexual reproduction"], answer: "b) Mode of nutrition" },
-    { year: "NEET/AIPMT 2002/2001/2000", question: "The basic unit of classification (taxonomy) is:", options: ["a) Genus","b) Species","c) Family","d) Order"], answer: "b) Species" },
-    { year: "NEET/AIPMT 2000/1999", question: "Which of the following taxonomical ranks contains organisms least similar to one another?", options: ["a) Class","b) Genus","c) Family","d) Species"], answer: "a) Class" },
-    { year: "NEET/AIPMT 2000/1997/1994", question: "The non‑nucleated, unicellular organisms of Whittaker's classification (1969) are included in which kingdom?", options: ["a) Protista","b) Monera","c) Animalia","d) Plantae"], answer: "b) Monera" },
-    { year: "NEET/AIPMT 1999/1996", question: "A system of classification in which a large number of traits are considered is termed:", options: ["a) Artificial system","b) Synthetic system","c) Natural system","d) Phylogenetic system"], answer: "c) Natural system" },
-    { year: "NEET/AIPMT 1998", question: "In the five kingdom system, which single kingdom can include blue‑green algae, nitrogen‑fixing bacteria and methanogenic archaebacteria?", options: ["a) Plantae","b) Protista","c) Monera","d) Fungi"], answer: "c) Monera" },
-    { year: "NEET/AIPMT 1998", question: "A system of classification that is based on evolution, order and ancestry is known as:", options: ["a) Natural system","b) Analogous system","c) Phylogenetic system","d) Homologous system"], answer: "c) Phylogenetic system" },
-    { year: "NEET/AIPMT 1998", question: "Systema Naturae is concerned with:", options: ["a) Solar system","b) Ecosystem","c) Classification of plants and animals","d) Natural selection"], answer: "c) Classification of plants and animals" },
-    { year: "NEET/AIPMT 1994/1992", question: "The term 'phylum' in animal classification was coined by:", options: ["a) E. Haeckel","b) John Ray","c) G.L. Cuvier","d) Carolus Linnaeus"], answer: "c) G.L. Cuvier" },
-    { year: "NEET/AIPMT 1994", question: "Four kingdom classification was proposed by:", options: ["a) Whittaker","b) Copeland","c) Haeckel","d) Linnaeus"], answer: "b) Copeland" }
+    {
+      year: "NEET 2014",
+      question: "Five kingdom system of classification suggested by R. H. Whittaker is NOT based on which of the following criteria?",
+      options: [
+        "a) Presence or absence of a well-defined nucleus",
+        "b) Mode of reproduction",
+        "c) Mode of nutrition",
+        "d) Complexity of body organisation"
+      ],
+      answer: "b) Mode of reproduction"
+    },
+    {
+      year: "NEET 2012",
+      question: "In the five kingdom classification, Chlamydomonas and Chlorella have been included in which kingdom?",
+      options: [
+        "a) Protista",
+        "b) Algae",
+        "c) Plantae",
+        "d) Monera"
+      ],
+      answer: "a) Protista"
+    }
   ];
 
   function inject() {
@@ -390,20 +395,31 @@ button:focus { outline:3px solid #0f172a; outline-offset:2px; }
     if (!questionData[c]) questionData[c] = {};
     if (!questionData[c][ch]) questionData[c][ch] = { sections: [], questions: {} };
     if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
+
+    // Inject questions
     questionData[c][ch].questions[section] = items;
 
-    // Register section (in case the base chapter.sections list is missing/older) and show
-    if (typeof window.__ensureSectionVisible === 'function') {
+    // Register section if missing to show in dropdown
+    if (!questionData[c][ch].sections.find(s => s.id === section)) {
+      questionData[c][ch].sections.push({ id: section, name: sectionName });
+    }
+
+    // Refresh UI
+    if (typeof window.__ensureSectionVisible === "function") {
       window.__ensureSectionVisible(c, ch, section, sectionName);
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', inject, { once: true });
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", inject);
   } else {
     inject();
   }
 })();
 </script>
+
+
+
+
 </body>
 </html>
