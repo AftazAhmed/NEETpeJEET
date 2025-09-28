@@ -63,7 +63,6 @@
 </main>
 
 <script>
-  // Core question Data
   const questionData = {
     "11": {
       "2": {
@@ -74,34 +73,32 @@
     }
   };
 
-  // Elements
-  const classSelect = document.getElementById('classSelect');
-  const chapterSelect = document.getElementById('chapterSelect');
-  const sectionSelect = document.getElementById('sectionSelect');
-  const contentArea = document.getElementById('contentArea');
-  const scoreDisplay = document.getElementById('scoreDisplay');
-  const refreshBtn = document.getElementById('refreshBtn');
+  const classSelect = document.getElementById("classSelect");
+  const chapterSelect = document.getElementById("chapterSelect");
+  const sectionSelect = document.getElementById("sectionSelect");
+  const contentArea = document.getElementById("contentArea");
+  const scoreDisplay = document.getElementById("scoreDisplay");
+  const refreshBtn = document.getElementById("refreshBtn");
 
   let persisted = JSON.parse(localStorage.getItem("neetchoices_v3") || "{}");
 
-  // Utility functions
-  function clearDropdown(select, disable = false) {
-    select.innerHTML = `<option value="">Select ${select.id.replace("Select","")}</option>`;
-    if (disable) select.disabled = true;
+  function clearDropdown(ele, disable = false) {
+    ele.innerHTML = `<option value="">Select ${ele.id.replace("Select", "")}</option>`;
+    if (disable) ele.disabled = true;
   }
+
   function clearContent() {
     contentArea.innerHTML = "Please select Class → Chapter → Section to view questions.";
     scoreDisplay.textContent = "Score: 0 / 0";
   }
 
-  // UI update functions
   function updateChapters() {
     clearDropdown(chapterSelect);
     clearDropdown(sectionSelect, true);
     clearContent();
-    if(!classSelect.value) return;
+    if (!classSelect.value) return;
     const chs = Object.entries(questionData[classSelect.value] || {});
-    chs.forEach(([k,v]) => {
+    chs.forEach(([k, v]) => {
       const opt = document.createElement("option");
       opt.value = k;
       opt.textContent = `Chapter ${k}: ${v.title}`;
@@ -113,48 +110,53 @@
   function updateSections() {
     clearDropdown(sectionSelect);
     clearContent();
-    if(!classSelect.value || !chapterSelect.value) return;
+    if (!classSelect.value || !chapterSelect.value) return;
     const chObj = questionData[classSelect.value]?.[chapterSelect.value];
-    if(!chObj || !chObj.sections) return;
-    chObj.sections.forEach(s => {
+    if (!chObj || !chObj.sections) return;
+    chObj.sections.forEach((s) => {
       const opt = document.createElement("option");
       opt.value = s.id;
       opt.textContent = `${s.id}: ${s.name}`;
       sectionSelect.appendChild(opt);
     });
     sectionSelect.disabled = false;
-    if(chObj.sections.length > 0){
+    if (chObj.sections.length > 0) {
       sectionSelect.selectedIndex = 0;
       showQuestions();
     }
   }
 
   function registerOptionsEventHandlers() {
-    document.querySelectorAll(".option").forEach(opt => {
+    document.querySelectorAll(".option").forEach((opt) => {
       opt.onclick = handleOptionClick;
-      opt.onkeypress = (e) => { if(e.key==="Enter" || e.key===" ") { e.preventDefault(); handleOptionClick(e); }};
+      opt.onkeypress = (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          handleOptionClick(e);
+        }
+      };
     });
   }
 
   function handleOptionClick(e) {
     const opt = e.currentTarget;
     const qId = +opt.closest(".question").dataset.qnum;
-    if(!qId) return;
-    if(opt.classList.contains("disabled")) return; // prevent repeat clicks
+    if (!qId) return;
+    if (opt.classList.contains("disabled")) return;
 
     const container = opt.parentElement;
-    container.querySelectorAll(".option").forEach(o=>{
+    container.querySelectorAll(".option").forEach((o) => {
       o.classList.add("disabled");
-      o.style.pointerEvents="none";
+      o.style.pointerEvents = "none";
       o.tabIndex = -1;
-      o.classList.remove("correct","wrong");
+      o.classList.remove("correct", "wrong");
     });
 
     const correctAnswer = container.dataset.correct.toLowerCase().trim();
     const selectedText = opt.textContent.toLowerCase().trim();
     const isCorrect = selectedText === correctAnswer;
 
-    if(isCorrect) {
+    if (isCorrect) {
       opt.classList.add("correct");
     } else {
       opt.classList.add("wrong");
@@ -162,7 +164,7 @@
 
     const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
     persisted[sectionKey] = persisted[sectionKey] || {};
-    persisted[sectionKey][qId] = {selected: opt.dataset.index, correct: isCorrect};
+    persisted[sectionKey][qId] = { selected: opt.dataset.index, correct: isCorrect };
     localStorage.setItem("neetchoices_v3", JSON.stringify(persisted));
 
     updateScore();
@@ -171,16 +173,16 @@
   function repaintPersistentChoices() {
     const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
     const sel = persisted[sectionKey] || {};
-    Object.entries(sel).forEach(([qIdStr,data]) => {
+    Object.entries(sel).forEach(([qIdStr, data]) => {
       const qId = +qIdStr;
       const container = document.querySelector(`.question[data-qnum="${qId}"] .options`);
-      if(!container) return;
-      container.querySelectorAll('.option').forEach(opt=>{
+      if (!container) return;
+      container.querySelectorAll(".option").forEach((opt) => {
         opt.classList.add("disabled");
         opt.style.pointerEvents = "none";
         opt.tabIndex = -1;
-        opt.classList.remove("correct","wrong");
-        if(+opt.dataset.index === +data.selected){
+        opt.classList.remove("correct", "wrong");
+        if (+opt.dataset.index === +data.selected) {
           opt.classList.add(data.correct ? "correct" : "wrong");
         }
       });
@@ -190,28 +192,34 @@
   function updateScore() {
     const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
     const sel = persisted[sectionKey] || {};
-    const total = questionData[classSelect.value]?.[chapterSelect.value]?.questions?.[sectionSelect.value]?.length || 0;
-    let corrects = Object.values(sel).filter(x=>x.correct).length;
+    const total =
+      questionData[classSelect.value]?.[chapterSelect.value]?.questions?.[
+        sectionSelect.value
+      ]?.length || 0;
+    let corrects = Object.values(sel).filter((x) => x.correct).length;
     scoreDisplay.textContent = `Score: ${corrects} / ${total}`;
   }
 
   function showQuestions() {
     clearContent();
-    if(!classSelect.value || !chapterSelect.value || !sectionSelect.value) return;
-    const questions = questionData[classSelect.value]?.[chapterSelect.value]?.questions?.[sectionSelect.value]||[];
-    if(questions.length === 0){
+    if (!classSelect.value || !chapterSelect.value || !sectionSelect.value) return;
+    const questions =
+      questionData[classSelect.value]?.[chapterSelect.value]?.questions?.[
+        sectionSelect.value
+      ] || [];
+    if (questions.length === 0) {
       contentArea.innerHTML = "<p>No questions found in this section.</p>";
       scoreDisplay.textContent = "Score: 0 / 0";
       return;
     }
-    let html = '';
-    questions.forEach((q,i) => {
-      const qnum = i+1;
+    let html = "";
+    questions.forEach((q, i) => {
+      const qnum = i + 1;
       html += `<div class="question" data-qnum="${qnum}">
         <h3>Q${qnum}. [${q.year}]</h3>
         <div class="question-text">${q.question}</div>
         <div class="options" data-correct="${q.answer.trim()}">`;
-      q.options.forEach((opt,idx) => {
+      q.options.forEach((opt, idx) => {
         html += `<div class="option" data-index="${idx}" role="button" tabindex="0">${opt}</div>`;
       });
       html += `</div></div>`;
@@ -222,136 +230,179 @@
     updateScore();
   }
 
-  classSelect.addEventListener('change', ()=>{
+  classSelect.addEventListener("change", () => {
     updateChapters();
     clearContent();
   });
-  chapterSelect.addEventListener('change', ()=>{
+  chapterSelect.addEventListener("change", () => {
     updateSections();
     clearContent();
   });
-  sectionSelect.addEventListener('change', ()=>{
+  sectionSelect.addEventListener("change", () => {
     showQuestions();
   });
 
-  refreshBtn.addEventListener('click', ()=>{
+  refreshBtn.addEventListener("click", () => {
     const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
     delete persisted[sectionKey];
     localStorage.setItem("neetchoices_v3", JSON.stringify(persisted));
     showQuestions();
   });
-
 </script>
 
 <script>
-/* ===== Display Foundation: register sections and enforce UI refresh ===== */
-(function () {
-  function bindSafeEvents() {
-    const cs = document.getElementById('classSelect');
-    const chs = document.getElementById('chapterSelect');
-    const ss = document.getElementById('sectionSelect');
-    if (cs && !cs._bound) { cs.addEventListener('change', () => { if (typeof updateChapters==='function') updateChapters(); }); cs._bound=true; }
-    if (chs && !chs._bound) { chs.addEventListener('change', () => { if (typeof updateSections==='function') updateSections(); }); chs._bound=true; }
-    if (ss && !ss._bound) { ss.addEventListener('change', () => { if (typeof showQuestions==='function') showQuestions(); }); ss._bound=true; }
-  }
-  function registerSectionIfMissing(c, ch, sectionId, displayName) {
-    if (!window.questionData || !questionData[c] || !questionData[c][ch]) return;
-    if (!Array.isArray(questionData[c][ch].sections)) questionData[c][ch].sections = [];
-    const exists = questionData[c][ch].sections.some(s => s && s.id === sectionId);
-    if (!exists) {
-      questionData[c][ch].sections.push({ id: sectionId, name: displayName || `Section ${sectionId}` });
-    }
-  }
-  function ensureSectionVisible(c, ch, sectionId, displayName) {
-    registerSectionIfMissing(c, ch, sectionId, displayName);
-    const cs = document.getElementById('classSelect');
-    const chs = document.getElementById('chapterSelect');
-    const ss = document.getElementById('sectionSelect');
-    if (cs && chs && ss && typeof updateSections === 'function') {
-      if (cs.value === String(c) && chs.value === String(ch)) {
-        updateSections();
-        const opt = Array.from(ss.options).find(o => o.value === sectionId);
-        if (opt) ss.value = sectionId;
-        if (typeof showQuestions === 'function') setTimeout(showQuestions,0);
+  /* ===== Display Foundation: register sections and enforce UI refresh ===== */
+  (function () {
+    function bindSafeEvents() {
+      const cs = document.getElementById("classSelect");
+      const chs = document.getElementById("chapterSelect");
+      const ss = document.getElementById("sectionSelect");
+      if (cs && !cs._bound) {
+        cs.addEventListener("change", () => {
+          if (typeof updateChapters === "function") updateChapters();
+        });
+        cs._bound = true;
+      }
+      if (chs && !chs._bound) {
+        chs.addEventListener("change", () => {
+          if (typeof updateSections === "function") updateSections();
+        });
+        chs._bound = true;
+      }
+      if (ss && !ss._bound) {
+        ss.addEventListener("change", () => {
+          if (typeof showQuestions === "function") showQuestions();
+        });
+        ss._bound = true;
       }
     }
-  }
-  window.__ensureSectionVisible = window.__ensureSectionVisible || ensureSectionVisible;
-  window.__ensureSectionVisibleAfterInjection = window.__ensureSectionVisibleAfterInjection || ensureSectionVisible;
-  function forceInitialRefresh() {
-    bindSafeEvents();
-    const cs = document.getElementById('classSelect');
-    const chs = document.getElementById('chapterSelect');
-    const ss = document.getElementById('sectionSelect');
-    if (cs && cs.value && typeof updateChapters === 'function') updateChapters();
-    if (chs && chs.value && typeof updateSections === 'function') updateSections();
-    if (ss && ss.value && typeof showQuestions === 'function') showQuestions();
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => { bindSafeEvents(); forceInitialRefresh(); }, { once: true });
-  } else {
-    bindSafeEvents();
-    forceInitialRefresh();
-  }
-})();
+    function registerSectionIfMissing(c, ch, sectionId, displayName) {
+      if (
+        !window.questionData ||
+        !questionData[c] ||
+        !questionData[c][ch]
+      )
+        return;
+      if (!Array.isArray(questionData[c][ch].sections))
+        questionData[c][ch].sections = [];
+      const exists = questionData[c][ch].sections.some(
+        (s) => s && s.id === sectionId
+      );
+      if (!exists) {
+        questionData[c][ch].sections.push({
+          id: sectionId,
+          name: displayName || `Section ${sectionId}`,
+        });
+      }
+    }
+    function ensureSectionVisible(c, ch, sectionId, displayName) {
+      registerSectionIfMissing(c, ch, sectionId, displayName);
+      const cs = document.getElementById("classSelect");
+      const chs = document.getElementById("chapterSelect");
+      const ss = document.getElementById("sectionSelect");
+      if (
+        cs &&
+        chs &&
+        ss &&
+        typeof updateSections === "function"
+      ) {
+        if (cs.value === String(c) && chs.value === String(ch)) {
+          updateSections();
+          const opt = Array.from(ss.options).find(
+            (o) => o.value === sectionId
+          );
+          if (opt) ss.value = sectionId;
+          if (typeof showQuestions === "function")
+            setTimeout(showQuestions, 0);
+        }
+      }
+    }
+    window.__ensureSectionVisible =
+      window.__ensureSectionVisible || ensureSectionVisible;
+    window.__ensureSectionVisibleAfterInjection =
+      window.__ensureSectionVisibleAfterInjection || ensureSectionVisible;
+    function forceInitialRefresh() {
+      bindSafeEvents();
+      const cs = document.getElementById("classSelect");
+      const chs = document.getElementById("chapterSelect");
+      const ss = document.getElementById("sectionSelect");
+      if (cs && cs.value && typeof updateChapters === "function")
+        updateChapters();
+      if (chs && chs.value && typeof updateSections === "function")
+        updateSections();
+      if (ss && ss.value && typeof showQuestions === "function")
+        showQuestions();
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", () => {
+        bindSafeEvents();
+        forceInitialRefresh();
+      }, {once: true});
+    } else {
+      bindSafeEvents();
+      forceInitialRefresh();
+    }
+  })();
 </script>
 
 <script>
-/* ===== Section Addon: 2.0 Evolution of Classification Systems ===== */
-(function () {
-  const c = "11";
-  const ch = "2";
-  const section = "2.0";
-  const sectionName = "Evolution of Classification Systems";
+  /* ===== Section Addon: 2.0 Evolution of Classification Systems ===== */
+  (function () {
+    const c = "11";
+    const ch = "2";
+    const section = "2.0";
+    const sectionName = "Evolution of Classification Systems";
 
-  const items = [
-    {
-      year: "NEET 2014",
-      question: "Five kingdom system of classification suggested by R. H. Whittaker is NOT based on which of the following criteria?",
-      options: [
-        "a) Presence or absence of a well-defined nucleus",
-        "b) Mode of reproduction",
-        "c) Mode of nutrition",
-        "d) Complexity of body organisation"
-      ],
-      answer: "b) Mode of reproduction"
-    },
-    {
-      year: "NEET 2012",
-      question: "In the five kingdom classification, Chlamydomonas and Chlorella have been included in which kingdom?",
-      options: [
-        "a) Protista",
-        "b) Algae",
-        "c) Plantae",
-        "d) Monera"
-      ],
-      answer: "a) Protista"
+    const items = [
+      {
+        year: "NEET 2014",
+        question:
+          "Five kingdom system of classification suggested by R. H. Whittaker is NOT based on which of the following criteria?",
+        options: [
+          "a) Presence or absence of a well-defined nucleus",
+          "b) Mode of reproduction",
+          "c) Mode of nutrition",
+          "d) Complexity of body organisation",
+        ],
+        answer: "b) Mode of reproduction",
+      },
+      {
+        year: "NEET 2012",
+        question:
+          "In the five kingdom classification, Chlamydomonas and Chlorella have been included in which kingdom?",
+        options: ["a) Protista", "b) Algae", "c) Plantae", "d) Monera"],
+        answer: "a) Protista",
+      },
+    ];
+
+    function inject() {
+      if (!window.questionData) return;
+      if (!questionData[c]) questionData[c] = {};
+      if (!questionData[c][ch]) questionData[c][ch] = { sections: [], questions: {} };
+      if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
+
+      questionData[c][ch].questions[section] = items;
+
+      if (!questionData[c][ch].sections.find((s) => s.id === section)) {
+        questionData[c][ch].sections.push({ id: section, name: sectionName });
+      }
+
+      // Explicit calls to update dropdowns/selects and show questions
+      if (typeof updateChapters === "function") updateChapters();
+      if (chapterSelect) chapterSelect.value = ch;
+      if (typeof updateSections === "function") updateSections();
+      if (sectionSelect) {
+        sectionSelect.value = section;
+        if (typeof showQuestions === "function") showQuestions();
+      }
     }
-  ];
 
-  function inject() {
-    if (!window.questionData) return;
-    if (!questionData[c]) questionData[c] = {};
-    if (!questionData[c][ch]) questionData[c][ch] = { sections: [], questions: {} };
-    if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
-
-    questionData[c][ch].questions[section] = items;
-
-    if (!questionData[c][ch].sections.find(s => s.id === section)) {
-      questionData[c][ch].sections.push({ id: section, name: sectionName });
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", inject);
+    } else {
+      inject();
     }
-
-    if (typeof window.__ensureSectionVisible === "function") {
-      window.__ensureSectionVisible(c, ch, section, sectionName);
-    }
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", inject);
-  } else {
-    inject();
-  }
-})();
+  })();
 </script>
 
 </body>
