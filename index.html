@@ -3,33 +3,31 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NEET-PYQ</title>
+<title>NEET-PYQ Test</title>
 <style>
-/* CSS same as previously provided for base styles */
-body { font-family: Arial, sans-serif; margin: 24px; background:#f8fafc; color:#344050; }
-header { background:#0f172a; padding:40px; border-radius:12px; color:#ffcc55; }
-h1 { font-weight:900; margin:0 0 12px; }
-h2 { margin-bottom:20px; }
-.controls { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:24px; }
-.controls > div { flex:1; min-width:180px; }
-select { width:100%; padding:10px; font-size:16px; border:2px solid #028090; border-radius:9px; }
-select:disabled { background:#e5e7eb; }
-button { padding:8px 12px; border:none; border-radius:6px; background:#2dd4bf; color:#172c66; cursor:pointer; }
-button:focus { outline:3px solid #0f172a; outline-offset:2px; }
-.question { background:#fff; border-radius:10px; padding:20px; margin-bottom:28px; box-shadow: 0 0 8px #ccc; }
-.question h3 { margin-top:0; }
-.option { background:#e0f2f1; padding:12px 16px; border-radius:8px; margin:9px 0; cursor:pointer; position:relative; }
-.option:hover { background:#b2dfdb; }
-.option.disabled { pointer-events:none; opacity:0.7; cursor:default; }
-.option.correct { background:#d1fae5; border:2px solid #10b981; color:#065f46; }
-.option.wrong { background:#fee2e2; border:2px solid #ef4444; color:#991b1b; }
-.score { font-weight:700; font-size:18px; margin-bottom:20px; padding-left:10px; border-left:4px solid #028090; color:#065f46; }
+  body { font-family: Arial, sans-serif; margin: 24px; background:#f8fafc; color:#344050; }
+  header { background:#0f172a; padding:40px; border-radius:12px; color:#ffcc55; }
+  h1 { font-weight:900; margin:0 0 12px; }
+  .controls { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:24px; }
+  .controls > div { flex:1; min-width:180px; }
+  select { width:100%; padding:10px; font-size:16px; border:2px solid #028090; border-radius:9px; }
+  select:disabled { background:#e5e7eb; }
+  button { padding:8px 12px; border:none; border-radius:6px; background:#2dd4bf; color:#172c66; cursor:pointer; }
+  button:focus { outline:3px solid #0f172a; outline-offset:2px; }
+  .question { background:#fff; border-radius:10px; padding:20px; margin-bottom:28px; box-shadow: 0 0 8px #ccc; }
+  .question h3 { margin-top:0; }
+  .option { background:#e0f2f1; padding:12px 16px; border-radius:8px; margin:9px 0; cursor:pointer; position:relative; }
+  .option:hover { background:#b2dfdb; }
+  .option.disabled { pointer-events:none; opacity:0.7; cursor:default; }
+  .option.correct { background:#d1fae5; border:2px solid #10b981; color:#065f46; }
+  .option.wrong { background:#fee2e2; border:2px solid #ef4444; color:#991b1b; }
+  .score { font-weight:700; font-size:18px; margin-bottom:20px; padding-left:10px; border-left:4px solid #028090; color:#065f46; }
 </style>
 </head>
 <body>
 <header>
-  <h1>NEET-PYQ</h1>
-  <p>Biology NEET section-wise question bank analysis (1988–2025)</p>
+  <h1>NEET-PYQ Test</h1>
+  <p>Biology NEET section-wise question bank test</p>
 </header>
 
 <div class="controls" aria-label="Controls for filtering questions">
@@ -65,22 +63,18 @@ button:focus { outline:3px solid #0f172a; outline-offset:2px; }
 </main>
 
 <script>
-  // ========== Core Data and Helpers ==========
+  // Core question Data
   const questionData = {
     "11": {
       "2": {
-        title:"Biological Classification",
-        sections:[
-          {id:"2.0",name:"Evolution of Classification Systems"},
-          {id:"2.1",name:"Kingdom Monera"},
-          // Further sections excluded by request
-        ],
-        questions:{}
+        title: "Biological Classification",
+        sections: [],
+        questions: {}
       }
     }
   };
 
-  // UI Elements
+  // Elements
   const classSelect = document.getElementById('classSelect');
   const chapterSelect = document.getElementById('chapterSelect');
   const sectionSelect = document.getElementById('sectionSelect');
@@ -88,10 +82,53 @@ button:focus { outline:3px solid #0f172a; outline-offset:2px; }
   const scoreDisplay = document.getElementById('scoreDisplay');
   const refreshBtn = document.getElementById('refreshBtn');
 
-  // State for answers persistence
-  let persisted = JSON.parse(localStorage.getItem("neetchoices_v3")||"{}");
+  let persisted = JSON.parse(localStorage.getItem("neetchoices_v3") || "{}");
 
-  // Register options event handlers with new standard handler
+  // Utility functions
+  function clearDropdown(select, disable = false) {
+    select.innerHTML = `<option value="">Select ${select.id.replace("Select","")}</option>`;
+    if (disable) select.disabled = true;
+  }
+  function clearContent() {
+    contentArea.innerHTML = "Please select Class → Chapter → Section to view questions.";
+    scoreDisplay.textContent = "Score: 0 / 0";
+  }
+
+  // UI update functions
+  function updateChapters() {
+    clearDropdown(chapterSelect);
+    clearDropdown(sectionSelect, true);
+    clearContent();
+    if(!classSelect.value) return;
+    const chs = Object.entries(questionData[classSelect.value] || {});
+    chs.forEach(([k,v]) => {
+      const opt = document.createElement("option");
+      opt.value = k;
+      opt.textContent = `Chapter ${k}: ${v.title}`;
+      chapterSelect.appendChild(opt);
+    });
+    chapterSelect.disabled = false;
+  }
+
+  function updateSections() {
+    clearDropdown(sectionSelect);
+    clearContent();
+    if(!classSelect.value || !chapterSelect.value) return;
+    const chObj = questionData[classSelect.value]?.[chapterSelect.value];
+    if(!chObj || !chObj.sections) return;
+    chObj.sections.forEach(s => {
+      const opt = document.createElement("option");
+      opt.value = s.id;
+      opt.textContent = `${s.id}: ${s.name}`;
+      sectionSelect.appendChild(opt);
+    });
+    sectionSelect.disabled = false;
+    if(chObj.sections.length > 0){
+      sectionSelect.selectedIndex = 0;
+      showQuestions();
+    }
+  }
+
   function registerOptionsEventHandlers() {
     document.querySelectorAll(".option").forEach(opt => {
       opt.onclick = handleOptionClick;
@@ -99,14 +136,12 @@ button:focus { outline:3px solid #0f172a; outline-offset:2px; }
     });
   }
 
-  // Handle selection with persistent highlight and scoring
   function handleOptionClick(e) {
     const opt = e.currentTarget;
     const qId = +opt.closest(".question").dataset.qnum;
     if(!qId) return;
     if(opt.classList.contains("disabled")) return; // prevent repeat clicks
 
-    // Disable all options of this question
     const container = opt.parentElement;
     container.querySelectorAll(".option").forEach(o=>{
       o.classList.add("disabled");
@@ -115,7 +150,6 @@ button:focus { outline:3px solid #0f172a; outline-offset:2px; }
       o.classList.remove("correct","wrong");
     });
 
-    // Mark selection correct or wrong
     const correctAnswer = container.dataset.correct.toLowerCase().trim();
     const selectedText = opt.textContent.toLowerCase().trim();
     const isCorrect = selectedText === correctAnswer;
@@ -126,7 +160,6 @@ button:focus { outline:3px solid #0f172a; outline-offset:2px; }
       opt.classList.add("wrong");
     }
 
-    // Persist user's choice
     const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
     persisted[sectionKey] = persisted[sectionKey] || {};
     persisted[sectionKey][qId] = {selected: opt.dataset.index, correct: isCorrect};
@@ -135,16 +168,6 @@ button:focus { outline:3px solid #0f172a; outline-offset:2px; }
     updateScore();
   }
 
-  // Update Score
-  function updateScore() {
-    const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
-    const sel = persisted[sectionKey] || {};
-    const total = questionData[classSelect.value][chapterSelect.value].questions[sectionSelect.value].length||0;
-    let corrects = Object.values(sel).filter(x=>x.correct).length;
-    scoreDisplay.textContent = `Score: ${corrects} / ${total}`;
-  }
-
-  // Repaint persistent choices after questions render
   function repaintPersistentChoices() {
     const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
     const sel = persisted[sectionKey] || {};
@@ -164,55 +187,14 @@ button:focus { outline:3px solid #0f172a; outline-offset:2px; }
     });
   }
 
-  // Populate Chapters based on class
-  function updateChapters() {
-    clearDropdown(chapterSelect);
-    clearDropdown(sectionSelect,true);
-    clearContent();
-    if(!classSelect.value) return;
-    const chs = Object.entries(questionData[classSelect.value]||{});
-    chs.forEach(([k,v]) => {
-      const opt = document.createElement("option");
-      opt.value = k;
-      opt.textContent = `Chapter ${k}: ${v.title}`;
-      chapterSelect.appendChild(opt);
-    });
-    chapterSelect.disabled = false;
+  function updateScore() {
+    const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
+    const sel = persisted[sectionKey] || {};
+    const total = questionData[classSelect.value]?.[chapterSelect.value]?.questions?.[sectionSelect.value]?.length || 0;
+    let corrects = Object.values(sel).filter(x=>x.correct).length;
+    scoreDisplay.textContent = `Score: ${corrects} / ${total}`;
   }
 
-  // Populate Sections based on chapter
-  function updateSections() {
-    clearDropdown(sectionSelect);
-    clearContent();
-    if(!classSelect.value || !chapterSelect.value) return;
-    const chObj = questionData[classSelect.value]?.[chapterSelect.value];
-    if(!chObj || !chObj.sections) return;
-    chObj.sections.forEach(s => {
-      const opt = document.createElement("option");
-      opt.value = s.id;
-      opt.textContent = `${s.id}: ${s.name}`;
-      sectionSelect.appendChild(opt);
-    });
-    sectionSelect.disabled = false;
-    if(chObj.sections.length>0){
-      sectionSelect.selectedIndex = 0;
-      showQuestions();
-    }
-  }
-
-  // Clear dropdown options
-  function clearDropdown(ele,disable=false){
-    ele.innerHTML = `<option value="">Select ${ele.id.replace("Select","")}</option>`;
-    if(disable) ele.disabled = true;
-  }
-
-  // Clear content area and reset score
-  function clearContent(){
-    contentArea.innerHTML = "Please select Class → Chapter → Section to view questions.";
-    scoreDisplay.textContent = "Score: 0 / 0";
-  }
-
-  // Display questions for selected section
   function showQuestions() {
     clearContent();
     if(!classSelect.value || !chapterSelect.value || !sectionSelect.value) return;
@@ -232,8 +214,7 @@ button:focus { outline:3px solid #0f172a; outline-offset:2px; }
       q.options.forEach((opt,idx) => {
         html += `<div class="option" data-index="${idx}" role="button" tabindex="0">${opt}</div>`;
       });
-      html += `</div><div class="answer" style="display:none;"><strong>Answer:</strong> ${q.answer}</div>
-      </div>`;
+      html += `</div></div>`;
     });
     contentArea.innerHTML = html;
     registerOptionsEventHandlers();
@@ -241,57 +222,30 @@ button:focus { outline:3px solid #0f172a; outline-offset:2px; }
     updateScore();
   }
 
-  classSelect.addEventListener('change',()=>{
+  classSelect.addEventListener('change', ()=>{
     updateChapters();
     clearContent();
   });
-  chapterSelect.addEventListener('change',()=>{
+  chapterSelect.addEventListener('change', ()=>{
     updateSections();
     clearContent();
   });
-  sectionSelect.addEventListener('change',()=>{
+  sectionSelect.addEventListener('change', ()=>{
     showQuestions();
   });
-  refreshBtn.addEventListener('click',()=>{
+
+  refreshBtn.addEventListener('click', ()=>{
     const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
     delete persisted[sectionKey];
     localStorage.setItem("neetchoices_v3", JSON.stringify(persisted));
     showQuestions();
   });
 
-  // Inject mandatory initial data (2.0 and 2.1)
-  (function injectInitialSections(){
-    // use meaningful section names for dropdown display
-    function addSection(classId, chapterId, sectionId, sectionName, questions){
-      if(!questionData[classId]) questionData[classId] = {};
-      if(!questionData[classId][chapterId]) questionData[classId][chapterId] = {sections:[], questions:{}};
-      const ch = questionData[classId][chapterId];
-      const sectionExists = ch.sections.find(s=>s.id===sectionId);
-      if(!sectionExists){
-        ch.sections.push({id:sectionId, name: sectionName});
-      }
-      ch.questions[sectionId] = questions;
-    }
-
-    addSection("11","2","2.0","Evolution of Classification Systems",[
-      /* add questions array here as per your 2.0 */
-    ]);
-    addSection("11","2","2.1","Kingdom Monera",[
-      /* add questions array here as per your 2.1 */
-    ]);
-  })();
-
-  // Initial display setup
-  window.onload = () => {
-    // Attach events safely then update views
-    updateChapters();
-  };
 </script>
 
 <script>
-/* ===== Display Foundation: register sections + ensure visibility + robust refresh ===== */
+/* ===== Display Foundation: register sections and enforce UI refresh ===== */
 (function () {
-  // Safe event binding in case inline onchange isn't firing in some contexts
   function bindSafeEvents() {
     const cs = document.getElementById('classSelect');
     const chs = document.getElementById('chapterSelect');
@@ -300,8 +254,6 @@ button:focus { outline:3px solid #0f172a; outline-offset:2px; }
     if (chs && !chs._bound) { chs.addEventListener('change', () => { if (typeof updateSections==='function') updateSections(); }); chs._bound=true; }
     if (ss && !ss._bound) { ss.addEventListener('change', () => { if (typeof showQuestions==='function') showQuestions(); }); ss._bound=true; }
   }
-
-  // Ensure a chapter's sections array contains the injected section id (add if missing)
   function registerSectionIfMissing(c, ch, sectionId, displayName) {
     if (!window.questionData || !questionData[c] || !questionData[c][ch]) return;
     if (!Array.isArray(questionData[c][ch].sections)) questionData[c][ch].sections = [];
@@ -310,45 +262,31 @@ button:focus { outline:3px solid #0f172a; outline-offset:2px; }
       questionData[c][ch].sections.push({ id: sectionId, name: displayName || `Section ${sectionId}` });
     }
   }
-
-  // Core helper: register section (if needed), refresh dropdowns, optionally select target and show
   function ensureSectionVisible(c, ch, sectionId, displayName) {
     registerSectionIfMissing(c, ch, sectionId, displayName);
-
     const cs = document.getElementById('classSelect');
     const chs = document.getElementById('chapterSelect');
     const ss = document.getElementById('sectionSelect');
-
-    // If the user is already at this class/chapter, rebuild sections and try to select target
     if (cs && chs && ss && typeof updateSections === 'function') {
       if (cs.value === String(c) && chs.value === String(ch)) {
         updateSections();
         const opt = Array.from(ss.options).find(o => o.value === sectionId);
         if (opt) ss.value = sectionId;
-        if (typeof showQuestions === 'function') setTimeout(showQuestions, 0);
+        if (typeof showQuestions === 'function') setTimeout(showQuestions,0);
       }
     }
   }
-
-  // Backward-compat aliases so older addons continue to work
   window.__ensureSectionVisible = window.__ensureSectionVisible || ensureSectionVisible;
   window.__ensureSectionVisibleAfterInjection = window.__ensureSectionVisibleAfterInjection || ensureSectionVisible;
-
-  // Force an initial refresh when page finishes loading (helps when code order varies)
   function forceInitialRefresh() {
     bindSafeEvents();
     const cs = document.getElementById('classSelect');
     const chs = document.getElementById('chapterSelect');
     const ss = document.getElementById('sectionSelect');
-
-    // If a class is already chosen, repopulate chapters; if a chapter is chosen, repopulate sections
     if (cs && cs.value && typeof updateChapters === 'function') updateChapters();
     if (chs && chs.value && typeof updateSections === 'function') updateSections();
-
-    // If everything is selected, render the questions view
     if (ss && ss.value && typeof showQuestions === 'function') showQuestions();
   }
-
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => { bindSafeEvents(); forceInitialRefresh(); }, { once: true });
   } else {
@@ -359,6 +297,7 @@ button:focus { outline:3px solid #0f172a; outline-offset:2px; }
 </script>
 
 <script>
+/* ===== Section Addon: 2.0 Evolution of Classification Systems ===== */
 (function () {
   const c = "11";
   const ch = "2";
@@ -396,15 +335,12 @@ button:focus { outline:3px solid #0f172a; outline-offset:2px; }
     if (!questionData[c][ch]) questionData[c][ch] = { sections: [], questions: {} };
     if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
 
-    // Inject questions
     questionData[c][ch].questions[section] = items;
 
-    // Register section if missing to show in dropdown
     if (!questionData[c][ch].sections.find(s => s.id === section)) {
       questionData[c][ch].sections.push({ id: section, name: sectionName });
     }
 
-    // Refresh UI
     if (typeof window.__ensureSectionVisible === "function") {
       window.__ensureSectionVisible(c, ch, section, sectionName);
     }
@@ -417,9 +353,6 @@ button:focus { outline:3px solid #0f172a; outline-offset:2px; }
   }
 })();
 </script>
-
-
-
 
 </body>
 </html>
