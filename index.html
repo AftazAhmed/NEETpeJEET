@@ -1782,7 +1782,106 @@ Version 2: NCERT based, quote the exact matching statement from NCERT biology te
 }
 </script>
 
+<script>
+/* ===== Addon: Show small highlighted "Attempted" note after answering; clear on Refresh ===== */
+(function () {
+  // Inject minimal CSS once for the attempted note
+  function ensureAttemptedStyle() {
+    if (document.getElementById('attempted-note-style')) return;
+    const style = document.createElement('style');
+    style.id = 'attempted-note-style';
+    style.textContent = `
+      .attempted-note {
+        margin-top: 6px;
+        font-size: 12px;
+        line-height: 1.25;
+        color: #1d4ed8;              /* blue text */
+        background: #fff7cc;         /* light yellow highlight */
+        border: 1px dashed #f59e0b;  /* amber dashed border */
+        padding: 4px 8px;
+        border-radius: 6px;
+        display: inline-block;
+      }
+    `;
+    document.head.appendChild(style);
+  }
 
+  // Add the "Attempted" note under the options for a given question number
+  function addAttemptedNote(qNum) {
+    const optionsWrap = document.getElementById(`options-${qNum}`);
+    if (!optionsWrap) return;
+
+    // Avoid duplicates
+    const item = document.getElementById(`question-item-${qNum}`);
+    if (!item) return;
+    if (item.querySelector('.attempted-note')) return;
+
+    const note = document.createElement('div');
+    note.className = 'attempted-note';
+    note.textContent = 'Attempted';
+    // Insert right after options block
+    optionsWrap.insertAdjacentElement('afterend', note);
+  }
+
+  // Patch handleOptionClick to append the note after original evaluation
+  function patchHandleOptionClick() {
+    if (typeof window.handleOptionClick !== 'function') return false;
+
+    // Prevent double-patching
+    if (window.handleOptionClick._attemptedPatched) return true;
+
+    const original = window.handleOptionClick;
+    window.handleOptionClick = function (event, classId, chapterId, section, qNum, correctAnswer) {
+      // Call original behavior first
+      original.call(this, event, classId, chapterId, section, qNum, correctAnswer);
+      // Then add the attempted note
+      addAttemptedNote(qNum);
+    };
+    window.handleOptionClick._attemptedPatched = true;
+    return true;
+  }
+
+  // Clear all attempted notes (used on Refresh)
+  function clearAttemptedNotes() {
+    document.querySelectorAll('.attempted-note').forEach(n => n.remove());
+  }
+
+  // Bind clearing to the Refresh Section button
+  function bindRefreshClear() {
+    const btn = document.getElementById('refreshChapterBtn');
+    if (!btn) return false;
+
+    // Add an additional listener (complements existing refresh logic)
+    btn.addEventListener('click', () => {
+      // Remove any "Attempted" labels in the current view
+      clearAttemptedNotes();
+    });
+    return true;
+  }
+
+  // Try to prepare everything once DOM is ready
+  function initAddon(attemptsLeft = 40) {
+    ensureAttemptedStyle();
+
+    // Try patching now; if not yet defined, retry briefly
+    const patched = patchHandleOptionClick();
+    const bound = bindRefreshClear();
+
+    if (!patched && attemptsLeft > 0) {
+      return setTimeout(() => initAddon(attemptsLeft - 1), 100);
+    }
+    if (!bound && attemptsLeft > 0) {
+      return setTimeout(() => initAddon(attemptsLeft - 1), 100);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => initAddon(), { once: true });
+  } else {
+    initAddon();
+  }
+})();
+</script>
 
 </body>
 </html>
