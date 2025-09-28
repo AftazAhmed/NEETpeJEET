@@ -2195,6 +2195,198 @@ Version 2: NCERT based, quote the exact matching statement from NCERT biology te
   }
 })();
 </script>
+<script>
+/* ===== Addon: Fresh option-click logic with persistent green/red highlight until Refresh; no labels, no popup ===== */
+(function () {
+  const STORAGE_KEY = 'persistSelections_v2'; // per-section persistence across switches
+  let persisted = loadPersisted();
 
+  function loadPersisted() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; }
+  }
+  function savePersisted() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(persisted)); } catch(e) {}
+  }
+
+  // Styles for persistent state
+  function ensureStyles() {
+    if (document.getElementById('fresh-click-style')) return;
+    const style = document.createElement('style');
+    style.id = 'fresh-click-style';
+    style.textContent = `
+      .option.correct-persist {
+        background-color: rgba(25, 135, 84, 0.22);
+        border-color: rgba(25, 135, 84, 0.38);
+        color: #2e7d32;
+      }
+      .option.incorrect-persist {
+        background-color: rgba(220, 53, 69, 0.20);
+        border-color: rgba(220, 53, 69, 0.38);
+        color: #b02a37;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // Suppress any old tick/cross popup impressions entirely
+  window.showTickCrossPopup = function () { /* disabled by fresh addon */ };
+
+  // New click handler that fully replaces old logic
+  function freshHandleOptionClick(event, classId, chapterId, section, qNum, correctAnswer) {
+    const sel = event?.currentTarget;
+    if (!sel) return;
+
+    const optionsWrap = sel.parentNode;
+    const opts = optionsWrap?.querySelectorAll('.option') || [];
+    const selectedText = (sel.textContent || '').trim();
+    const isCorrect = (selectedText === correctAnswer);
+
+    // Disable all options for this question
+    opts.forEach(o => {
+      o.classList.add('disabled');
+      o.style.cursor = 'default';
+      o.setAttribute('aria-disabled', 'true');
+      o.tabIndex = -1;
+      // Remove any transient old classes if present
+      o.classList.remove('correct-temp', 'incorrect-temp');
+    });
+
+    // Apply persistent highlight on selected option
+    sel.classList.add(isCorrect ? 'correct-persist' : 'incorrect-persist');
+
+    // Persist selection across section switches
+    const sectionKey = `${classId}_${chapterId}_${section}`;
+    const qKey = `q${qNum}`;
+    const selIndex = Number(sel.getAttribute('data-index'));
+    if (!persisted[sectionKey]) persisted[sectionKey] = {};
+    persisted[sectionKey][qKey] = { index: selIndex, correct: isCorrect };
+    savePersisted();
+
+    // Keep existing scoring in sync
+    if (typeof window.markQuestionAnswered === 'function') {
+      window.markQuestionAnswered(classId, chapterId, sectionKey, qKey, isCorrect);
+    }
+    if (typeof window.updateScoreDisplay === 'function') {
+      window.updateScoreDisplay();
+    }
+  }
+
+  // Replace the old handleOptionClick universally
+  function overrideHandle() {
+    window.handleOptionClick = freshHandleOptionClick;
+  }
+
+  // After showQuestions renders, repaint all persistent selections for current section
+  function repaintCurrentSection() {
+    const classSelect = document.getElementById('classSelect');
+    const chapterSelect = document.getElementById('chapterSelect');
+    const sectionSelect = document.getElementById('sectionSelect');
+    if (!classSelect || !chapterSelect || !sectionSelect) return;
+    const c = classSelect.value, ch = chapterSelect.value, sec = sectionSelect.value;
+    if (!c || !ch || !sec) return;
+
+    const sectionKey = `${c}_${ch}_${sec}`;
+    const recs = persisted[sectionKey];
+    if (!recs) return;
+
+    Object.keys(recs).forEach(qKey => {
+      const qNum = Number(String(qKey).replace(/^q/, ''));
+      if (!Number.isFinite(qNum)) return;
+
+      const { index, correct } = recs[qKey] || {};
+      const optionsWrap = document.getElementById(`options-${qNum}`);
+      if (!optionsWrap) return;
+
+      // Disable all options
+      const opts = optionsWrap.querySelectorAll('.option');
+      opts.forEach(o => {
+        o.classList.add('disabled');
+        o.style.cursor = 'default';
+        o.setAttribute('aria-disabled', 'true');
+        o.tabIndex = -1;
+        o.classList.remove('correct-temp', 'incorrect-temp');
+        o.classList.remove('correct-persist', 'incorrect-persist');
+      });
+
+      // Reapply persistent highlight to the chosen index
+      const chosen = optionsWrap.querySelector(`.option[data-index="${index}"]`);
+      if (chosen) {
+        chosen.classList.add(correct ? 'correct-persist' : 'incorrect-persist');
+      }
+    });
+  }
+
+  // Patch showQuestions to repaint after DOM is built
+  function patchShowQuestions() {
+    if (typeof window.showQuestions !== 'function') return false;
+    if (window.showQuestions._freshPatched) return true;
+
+    const original = window.showQuestions;
+    window.showQuestions = function () {
+      const out = original.apply(this, arguments);
+      // repaint on next tick
+      setTimeout(repaintCurrentSection, 0);
+      return out;
+    };
+    window.showQuestions._freshPatched = true;
+    return true;
+  }
+
+  // Bind clearing persistent state to the existing Refresh button
+  function bindRefreshClear() {
+    const btn = document.getElementById('refreshChapterBtn');
+    if (!btn) return false;
+
+    btn.addEventListener('click', () => {
+      const classSelect = document.getElementById('classSelect');
+      const chapterSelect = document.getElementById('chapterSelect');
+      const sectionSelect = document.getElementById('sectionSelect');
+      if (!classSelect || !chapterSelect || !sectionSelect) return;
+
+      const sectionKey = `${classSelect.value}_${chapterSelect.value}_${sectionSelect.value}`;
+
+      // Remove persisted for this section only
+      if (persisted[sectionKey]) {
+        delete persisted[sectionKey];
+        savePersisted();
+      }
+
+      // Remove visual persists in current DOM
+      document.querySelectorAll('.option.correct-persist, .option.incorrect-persist')
+        .forEach(el => el.classList.remove('correct-persist', 'incorrect-persist'));
+
+      // Also re-enable options (since section is being refreshed)
+      document.querySelectorAll('.options .option').forEach(o => {
+        o.classList.remove('disabled');
+        o.style.cursor = '';
+        o.removeAttribute('aria-disabled');
+        o.tabIndex = 0;
+      });
+    });
+    return true;
+  }
+
+  // Initialize with retries until dependencies exist
+  function init(attempts = 40) {
+    ensureStyles();
+    overrideHandle();
+    const patched = patchShowQuestions();
+    const bound = bindRefreshClear();
+
+    if ((!patched || !bound) && attempts > 0) {
+      setTimeout(() => init(attempts - 1), 100);
+    } else {
+      // Initial repaint if a section is already visible
+      setTimeout(repaintCurrentSection, 0);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => init(), { once: true });
+  } else {
+    init();
+  }
+})();
+</script>
 </body>
 </html>
