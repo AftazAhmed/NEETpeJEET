@@ -376,26 +376,33 @@
     ];
 
     function inject() {
-      if (!window.questionData) return;
-      if (!questionData[c]) questionData[c] = {};
-      if (!questionData[c][ch]) questionData[c][ch] = { sections: [], questions: {} };
-      if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
+  if (!window.questionData) return;
+  if (!questionData[c]) questionData[c] = {};
+  if (!questionData[c][ch]) questionData[c][ch] = { sections: [], questions: {} };
+  if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
 
-      questionData[c][ch].questions[section] = items;
+  questionData[c][ch].questions[section] = items;
 
-      if (!questionData[c][ch].sections.find((s) => s.id === section)) {
-        questionData[c][ch].sections.push({ id: section, name: sectionName });
-      }
+  if (!questionData[c][ch].sections.find(s => s.id === section)) {
+    questionData[c][ch].sections.push({ id: section, name: sectionName });
+  }
 
-      // Explicit calls to update dropdowns/selects and show questions
-      if (typeof updateChapters === "function") updateChapters();
-      if (chapterSelect) chapterSelect.value = ch;
-      if (typeof updateSections === "function") updateSections();
-      if (sectionSelect) {
-        sectionSelect.value = section;
-        if (typeof showQuestions === "function") showQuestions();
-      }
-    }
+  if (typeof updateChapters === "function") {
+    updateChapters();
+  }
+  if (chapterSelect) {
+    chapterSelect.value = ch;
+  }
+  if (typeof updateSections === "function") {
+    updateSections();
+  }
+  if (sectionSelect) {
+    sectionSelect.value = section;
+  }
+  if (typeof showQuestions === "function") {
+    showQuestions();
+  }
+}
 
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", inject);
