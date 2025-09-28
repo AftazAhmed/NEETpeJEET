@@ -2388,5 +2388,164 @@ Version 2: NCERT based, quote the exact matching statement from NCERT biology te
   }
 })();
 </script>
+
+<script>
+/* ==== Addon: Sections 2.2–2.6 (Biological Classification) — Class 11, Chapter 2 ==== */
+(function () {
+  const c = "11";
+  const ch = "2";
+
+  // Wait until questionData and DOM are ready, then inject and refresh
+  function ready(fn) {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", fn, { once: true });
+    } else {
+      fn();
+    }
+  }
+
+  function waitForDataAndInject(attempts = 40) {
+    if (!window.questionData || !questionData[c] || !questionData[c][ch]) {
+      if (attempts <= 0) return;
+      return setTimeout(() => waitForDataAndInject(attempts - 1), 100);
+    }
+    if (!questionData[c][ch].questions) questionData[c][ch].questions = {};
+
+    /* ---------------- Section 2.2 (Kingdom Protista) — Q41–Q62 ---------------- */
+    questionData[c][ch].questions["2.2"] = [
+      { year: "NEET/AIPMT 2018", question: "Ciliates are distinctive because they possess two types of nuclei within one cell.", options: ["a) Move with flagella", "b) Possess a contractile vacuole", "c) Capture food via pseudopodia", "d) Have two forms of nuclei"], answer: "d) Have two forms of nuclei" },
+      { year: "NEET/AIPMT 2018", question: "In marine ecosystems, the chief primary producers among Protista are generally:", options: ["a) Dinoflagellates", "b) Diatoms", "c) Cyanobacteria", "d) Euglenoids"], answer: "b) Diatoms" },
+      { year: "NEET/AIPMT 2016", question: "Chrysophytes, euglenoids, dinoflagellates and slime moulds are placed together in:", options: ["a) Fungi", "b) Animalia", "c) Monera", "d) Protista"], answer: "d) Protista" },
+      { year: "NEET/AIPMT 2016", question: "Pick the incorrect statement about diatoms.", options: ["a) Their siliceous walls are easily destroyed", "b) Their walls contribute to diatomaceous earth", "c) They serve as chief producers in oceans", "d) They drift passively and are microscopic"], answer: "a) Their siliceous walls are easily destroyed" },
+      { year: "NEET/AIPMT 2015", question: "Which group has a wall of two thin overlapping halves fitting like a box and lid?", options: ["a) Dinoflagellates", "b) Slime moulds", "c) Chrysophytes (diatoms)", "d) Euglenoids"], answer: "c) Chrysophytes (diatoms)" },
+      { year: "NEET/AIPMT 2011", question: "Which organism listed is not eukaryotic?", options: ["a) Paramecium caudatum", "b) Escherichia coli", "c) Euglena viridis", "d) Amoeba proteus"], answer: "b) Escherichia coli" },
+      { year: "NEET/AIPMT 2007", question: "Select the correctly identified slime mould.", options: ["a) Physarum", "b) Thiobacillus", "c) Anabaena", "d) Rhizopus"], answer: "a) Physarum" },
+      { year: "NEET/AIPMT 2005", question: "Auxospores and hormogonia are formed by which groups respectively?", options: ["a) Some diatoms; several cyanobacteria", "b) Some cyanobacteria; many diatoms", "c) Several cyanobacteria; several diatoms", "d) Several diatoms; few cyanobacteria"], answer: "a) Some diatoms; several cyanobacteria" },
+      { year: "NEET/AIPMT 2004", question: "A freshwater protozoan with a contractile vacuole when placed in seawater will show the vacuole:", options: ["a) Increasing in number", "b) Disappearing", "c) Increasing in size", "d) Decreasing in size"], answer: "b) Disappearing" },
+      { year: "NEET/AIPMT 2003", question: "Encystment in Amoeba primarily helps in:", options: ["a) Surviving adverse conditions", "b) Prolonged fasting", "c) Avoiding predators", "d) Removing wastes"], answer: "a) Surviving adverse conditions" },
+      { year: "NEET/AIPMT 2002", question: "Which organism carries two morphologically distinct nuclei in a single cell?", options: ["a) Amoeba proteus", "b) Trypanosoma gambiense", "c) Plasmodium vivax", "d) Paramecium caudatum"], answer: "d) Paramecium caudatum" },
+      { year: "NEET/AIPMT 2002", question: "Osmoregulation in Amoeba and Paramecium is mainly by:", options: ["a) Contractile vacuole", "b) Nucleus", "c) Mitochondria", "d) Food vacuole"], answer: "a) Contractile vacuole" },
+      { year: "NEET/AIPMT 2000/1992", question: "Malarial parasite is best described as:", options: ["a) Polygenetic", "b) Digenetic", "c) Monogenetic", "d) Monomorphic"], answer: "b) Digenetic" },
+      { year: "NEET/AIPMT 1999", question: "The motile, elongated zygote (ookinete) of Plasmodium occurs in the:", options: ["a) Human RBCs", "b) Human liver", "c) Mosquito salivary glands", "d) Mosquito gut"], answer: "d) Mosquito gut" },
+      { year: "NEET/AIPMT 1998", question: "After a bite by an infected female Anopheles, malarial symptoms generally appear after:", options: ["a) 2–8 days", "b) 8–10 days", "c) 10–20 days", "d) 20–30 days"], answer: "c) 10–20 days" },
+      { year: "NEET/AIPMT 1997", question: "The infective stage of Entamoeba histolytica for humans is the:", options: ["a) Trophozoite", "b) Precyst", "c) Uninucleate cyst", "d) Tetranucleate cyst"], answer: "d) Tetranucleate cyst" },
+      { year: "NEET/AIPMT 1995", question: "Which organism exhibits both plant‑like and animal‑like features?", options: ["a) Euglena", "b) Paramecium", "c) Mycoplasma", "d) Bacteria"], answer: "a) Euglena" },
+      { year: "NEET/AIPMT 1995", question: "In protozoa, the contractile vacuole primarily functions in:", options: ["a) Osmoregulation", "b) Reproduction", "c) Locomotion", "d) Digestion"], answer: "a) Osmoregulation" },
+      { year: "NEET/AIPMT 1993", question: "The transverse groove in dinoflagellates is called the:", options: ["a) Sulcus", "b) Cingulum", "c) Annulus", "d) Both (b) and (c)"], answer: "b) Cingulum" },
+      { year: "NEET/AIPMT 1993", question: "In cellular slime moulds, the spore‑producing structure is the:", options: ["a) Pseudoplasmodium", "b) Plasmodium", "c) Sporangium", "d) Sporophore"], answer: "c) Sporangium" },
+      { year: "NEET/AIPMT 1992", question: "The part of the life cycle of Plasmodium vivax completed in the female Anopheles is the:", options: ["a) Sexual cycle", "b) Pre‑erythrocytic schizogony", "c) Exoerythrocytic schizogony", "d) Post‑erythrocytic schizogony"], answer: "a) Sexual cycle" },
+      { year: "NEET/AIPMT 1990", question: "Plasmodium (malarial parasite) belongs to the class:", options: ["a) Sarcodina", "b) Ciliata", "c) Sporozoa", "d) Dinophyceae"], answer: "c) Sporozoa" }
+    ];
+
+    /* ---------------- Section 2.3 (Kingdom Fungi) — Q63–Q84 ---------------- */
+    questionData[c][ch].questions["2.3"] = [
+      { year: "NEET/AIPMT 1992/1989", question: "In yeast, the enzyme system causing alcoholic fermentation is termed:", options: ["a) Aldolase", "b) Dehydrogenase", "c) Invertase", "d) Zymase"], answer: "d) Zymase" },
+      { year: "NEET/AIPMT 1993", question: "In Mucor, asexual reproduction commonly occurs through non‑motile spores in sporangia.", options: ["a) Motile zoospores", "b) Spores", "c) Zoogametes", "d) Zygospores"], answer: "b) Spores" },
+      { year: "NEET/AIPMT 1995", question: "The causal agent of black rust (stem rust) of wheat is:", options: ["a) Albugo candida", "b) Puccinia graminis tritici", "c) Melampsora lini", "d) Claviceps purpurea"], answer: "b) Puccinia graminis tritici" },
+      { year: "NEET/AIPMT 1995", question: "Assertion: Mycorrhiza is a symbiosis; Reason: It is a partnership of a fungus with an alga.", options: ["a) A and R true; R explains A", "b) A and R true; R not explanation", "c) A true; R false", "d) A false; R true"], answer: "c) A true; R false" },
+      { year: "NEET/AIPMT 1996", question: "Mycorrhiza is a mutualistic association between:", options: ["a) Parasitic roots and fungi", "b) Plant roots and fungi", "c) Algae and fungi", "d) Ants and plants"], answer: "b) Plant roots and fungi" },
+      { year: "NEET/AIPMT 1997", question: "The group earlier called ‘algal fungi’ corresponds to:", options: ["a) Ascomycetes", "b) Basidiomycetes", "c) Phycomycetes", "d) Deuteromycetes"], answer: "c) Phycomycetes" },
+      { year: "NEET/AIPMT 1998", question: "In Puccinia life cycle, which structure appears on wheat leaves?", options: ["a) Telia on wheat leaves", "b) Aecia on barberry leaves", "c) Pycnia on barberry leaves", "d) Aecia on wheat leaves"], answer: "a) Telia on wheat leaves" },
+      { year: "NEET/AIPMT 1999", question: "A dome‑like columella is present inside the sporangium of:", options: ["a) Spirogyra", "b) Ulothrix", "c) Rhizopus", "d) None of these"], answer: "c) Rhizopus" },
+      { year: "NEET/AIPMT 2000", question: "Black rust of wheat is caused by:", options: ["a) Puccinia", "b) Ustilago", "c) Albugo", "d) Phytophthora"], answer: "a) Puccinia" },
+      { year: "NEET/AIPMT 2002", question: "Storage moulds chiefly responsible for toxin contamination of grains are:", options: ["a) Aspergillus", "b) Penicillium", "c) Fusarium", "d) Colletotrichum"], answer: "a) Aspergillus" },
+      { year: "NEET/AIPMT 2002", question: "The fungal disease spreading via seeds and floral parts is:", options: ["a) Loose smut of wheat", "b) Corn smut", "c) Covered smut of barley", "d) Soft rot of potato"], answer: "a) Loose smut of wheat" },
+      { year: "NEET/AIPMT 1998/2002", question: "Mycorrhiza represents which ecological interaction?", options: ["a) Antagonism", "b) Endemism", "c) Parasitism", "d) Symbiosis"], answer: "d) Symbiosis" },
+      { year: "NEET/AIPMT 1997/2005", question: "Ergot disease of rye is caused by:", options: ["a) Claviceps", "b) Penicillium", "c) Aspergillus", "d) Rhizobium"], answer: "a) Claviceps" },
+      { year: "NEET/AIPMT 1997/2000/2005", question: "Late blight of potato is caused by:", options: ["a) Colletotrichum falcatum", "b) Phytophthora infestans", "c) Potato mosaic virus", "d) Alternaria solani"], answer: "b) Phytophthora infestans" },
+      { year: "NEET/AIPMT 2006", question: "Mucor grows best on moist bread at about 25°C with high humidity and shade.", options: ["a) B, C and F only", "b) A, C and E only", "c) A, D and E only", "d) B, D and E only"], answer: "c) A, D and E only" },
+      { year: "NEET/AIPMT 2007", question: "Both birds’ nest fungi and puffballs belong to:", options: ["a) Puffballs and Claviceps", "b) Peziza and stink horns", "c) Morchella and mushrooms", "d) Basidiomycetes (birds’ nest fungi and puffballs)"], answer: "d) Basidiomycetes (birds’ nest fungi and puffballs)" },
+      { year: "NEET/AIPMT 2009", question: "Identify the incorrect pairing:", options: ["a) Black rust of wheat — Puccinia graminis", "b) Loose smut of wheat — Ustilago nuda", "c) Root knot — Meloidogyne sp.", "d) Late blight of potato — Alternaria solani"], answer: "d) Late blight of potato — Alternaria solani" },
+      { year: "NEET/AIPMT 2011", question: "The ringworm pathogen Microsporum belongs to the same kingdom as:", options: ["a) Taenia", "b) Wuchereria", "c) Rhizopus", "d) Ascaris"], answer: "c) Rhizopus" },
+      { year: "NEET/AIPMT 2013", question: "Choose the correct statement about fungi:", options: ["a) Lack a rigid cell wall", "b) Are heterotrophs", "c) Lack nuclear membrane", "d) Feed by phagocytosis"], answer: "b) Are heterotrophs" },
+      { year: "NEET/AIPMT 2014", question: "The mushroom Amanita muscaria contains:", options: ["a) Edible proteins", "b) Hallucinogenic compounds", "c) Antibiotics", "d) Vitamins chiefly"], answer: "b) Hallucinogenic compounds" },
+      { year: "NEET/AIPMT 2015", question: "Identify the correct match:", options: ["a) Mucor — conjugation — Ascomycetes", "b) Agaricus — parasitic — Basidiomycetes", "c) Phytophthora — aseptate — Basidiomycetes", "d) Alternaria — sexual stage absent — Deuteromycetes"], answer: "d) Alternaria — sexual stage absent — Deuteromycetes" },
+      { year: "NEET/AIPMT 2016/2018/2019", question: "Select the correct fungal feature/process:", options: ["a) Fungal walls mainly cellulose", "b) Basidia form spores endogenously in Agaricus", "c) Plasmogamy is nuclei fusion", "d) Chitin predominates in fungal cell walls"], answer: "d) Chitin predominates in fungal cell walls" }
+    ];
+
+    /* ---------------- Section 2.4 (Kingdom Plantae) — Q85–Q98 ---------------- */
+    questionData[c][ch].questions["2.4"] = [
+      { year: "NEET/AIPMT 1989", question: "In Cycas, the ovule attaches to the megasporophyll at which position?", options: ["a) Laterally", "b) Dorsally", "c) Ventrally", "d) Apically"], answer: "a) Laterally" },
+      { year: "NEET/AIPMT 1988/1989", question: "Algae are considered important for future human diet because they:", options: ["a) Are best for basic experiments", "b) Can be cultivated at large scale", "c) May become significant in diet", "d) Release oxygen and organic acids"], answer: "c) May become significant in diet" },
+      { year: "NEET/AIPMT 1990", question: "In ferns, antherozoids are:", options: ["a) Coiled and multiflagellate", "b) Coiled and biflagellate", "c) Sickle‑shaped and biflagellate", "d) Sickle‑shaped and multiflagellate"], answer: "a) Coiled and multiflagellate" },
+      { year: "NEET/AIPMT 1990", question: "Secondary growth in Cycas stem occurs mainly due to:", options: ["a) One persistent cambium", "b) Short‑lived cambium only", "c) Several successive cambia", "d) Only isolated cambial strips"], answer: "c) Several successive cambia" },
+      { year: "NEET/AIPMT 1991", question: "Most gymnosperms possess:", options: ["a) Only antheridia", "b) Both antheridia and archegonia", "c) Archegonia but no antheridia", "d) Neither antheridia nor archegonia"], answer: "c) Archegonia but no antheridia" },
+      { year: "NEET/AIPMT 1989/1991", question: "In Cycas, the endosperm is:", options: ["a) Sporophytic", "b) Gametophytic", "c) A new tissue", "d) Always post‑fertilisation"], answer: "b) Gametophytic" },
+      { year: "NEET/AIPMT 1993", question: "In Pinus, a dwarf shoot (spur) may bear:", options: ["a) One needle", "b) Two needles", "c) Three needles", "d) Any of these depending on species"], answer: "d) Any of these depending on species" },
+      { year: "NEET/AIPMT 1994", question: "Common stele type in ferns:", options: ["a) Dictyostele", "b) Siphonostele", "c) Protostele", "d) None"], answer: "a) Dictyostele" },
+      { year: "NEET/AIPMT 1994", question: "In Riccia, the sporophyte is:", options: ["a) Parasitic on gametophyte", "b) Gametophyte parasitic on sporophyte", "c) Completely independent", "d) Semi‑parasitic"], answer: "a) Parasitic on gametophyte" },
+      { year: "NEET/AIPMT 1999/2005", question: "Peristome of Funaria capsule commonly shows:", options: ["a) 4 teeth in one ring", "b) 32 teeth in two rings", "c) 16 teeth in one ring", "d) 16 teeth in two rings"], answer: "d) 16 teeth in two rings" },
+      { year: "NEET/AIPMT 2001", question: "Spirogyra typically exhibits:", options: ["a) Morph. anisogamy; physio. isogamy", "b) Morph. isogamy; physio. isogamy", "c) Morph. and physio. anisogamy", "d) Morph. isogamy; physio. anisogamy"], answer: "b) Morph. isogamy; physio. isogamy" },
+      { year: "NEET/AIPMT 1995/1993/2002", question: "In Ulothrix, meiosis occurs during:", options: ["a) Zoospore formation", "b) Gamete formation", "c) Zygote germination", "d) Zoospore germination"], answer: "c) Zygote germination" },
+      { year: "NEET/AIPMT 1996", question: "Among green algae, which is prominent for research and as single‑cell protein?", options: ["a) Mycoplasma", "b) Spirogyra", "c) Chlorella", "d) Blue‑green algae"], answer: "c) Chlorella" },
+      { year: "NEET/AIPMT 1998/1997/2000", question: "Commercial agar‑agar is obtained chiefly from:", options: ["a) Gigartina", "b) Gelidium", "c) Gracilaria", "d) All of these"], answer: "b) Gelidium" }
+    ];
+
+    /* ---------------- Section 2.5 (Kingdom Animalia) — Q99–Q112 ---------------- */
+    questionData[c][ch].questions["2.5"] = [
+      { year: "NEET/AIPMT 1988", question: "Peripatus is a connecting link between:", options: ["a) Annelida and Arthropoda", "b) Mollusca and Arthropoda", "c) Annelida and Mollusca", "d) Coelenterata and Platyhelminthes"], answer: "a) Annelida and Arthropoda" },
+      { year: "NEET/AIPMT 1988", question: "Platyhelminthes are commonly called:", options: ["a) Round worms", "b) Flat worms", "c) Blind worms", "d) Tubicolous worms"], answer: "b) Flat worms" },
+      { year: "NEET/AIPMT 1988", question: "In Hydra, the body wall contains which contractile cell type aiding movement?", options: ["a) Nutritive cells", "b) Epithelio‑muscular cells", "c) Gland cells", "d) Sensory cells"], answer: "b) Epithelio‑muscular cells" },
+      { year: "NEET/AIPMT 1988", question: "Asexual resistant propagules in freshwater sponges are called:", options: ["a) Gemmules", "b) Planulae", "c) Stereoblastulae", "d) Amphiblastulae"], answer: "a) Gemmules" },
+      { year: "NEET/AIPMT 1990", question: "Penetrant, volvent and glutinant types belong to:", options: ["a) Nematocysts of Hydra", "b) Tentacles of Hydra", "c) Zooids of Obelia", "d) Tentacles of Obelia"], answer: "a) Nematocysts of Hydra" },
+      { year: "NEET/AIPMT 1991/2000", question: "A suctorial mouth adapted for sucking fluids occurs in:", options: ["a) Butterfly", "b) Leech", "c) Taenia", "d) Cockroach"], answer: "b) Leech" },
+      { year: "NEET/AIPMT 1998", question: "The central digestive cavity of Hydra is the:", options: ["a) Gastrovascular cavity", "b) Schizocoel", "c) Haemocoel", "d) Pseudocoelom"], answer: "a) Gastrovascular cavity" },
+      { year: "NEET/AIPMT 1990/1996/2003", question: "Clitellum of earthworm is:", options: ["a) Non‑glandular around 14–16", "b) Glandular around 14–16", "c) Glandular around 16–18", "d) Non‑glandular around 16–18"], answer: "b) Glandular around 14–16" },
+      { year: "NEET/AIPMT 1990/2002/2005", question: "The primary function of clitellum is:", options: ["a) Cocoon formation", "b) Locomotion", "c) Excretion", "d) Copulation"], answer: "a) Cocoon formation" },
+      { year: "NEET/AIPMT 2014", question: "Which of the following lacks a cell wall?", options: ["a) Cyanobacteria", "b) Sea‑fan (Gorgonia)", "c) Saccharomyces", "d) Blue‑green algae"], answer: "b) Sea‑fan (Gorgonia)" },
+      { year: "NEET/AIPMT 1989/1993", question: "In cockroach, ventral nerve cord ganglia are:", options: ["a) Two thoracic + four abdominal", "b) Three thoracic + six abdominal", "c) Three thoracic + five abdominal", "d) Two thoracic + six abdominal"], answer: "b) Three thoracic + six abdominal" },
+      { year: "NEET/AIPMT 1996", question: "Bird cervical vertebrae are typically:", options: ["a) Heterocoelous", "b) Acoelous", "c) Opisthocoelous", "d) Amphicoelous"], answer: "a) Heterocoelous" },
+      { year: "NEET/AIPMT 1989/2002", question: "‘Forest of nephridia’ in earthworm occurs in the:", options: ["a) Clitellar region", "b) Pharyngeal region", "c) Typhlosolar region", "d) Intestinal region"], answer: "d) Intestinal region" },
+      { year: "NEET/AIPMT 2015", question: "Pick the incorrect statement:", options: ["a) Some fungi are edible", "b) Nuclear membrane is present in Monera", "c) Cell wall is absent in Animalia", "d) Protists may be photo‑ or heterotrophic"], answer: "b) Nuclear membrane is present in Monera" }
+    ];
+
+    /* -------- Section 2.6 (Viruses, Viroids, Prions, Lichens) — Q113–Q132 -------- */
+    questionData[c][ch].questions["2.6"] = [
+      { year: "NEET/AIPMT 1989/1992/2000", question: "Lichens are sensitive to sulphur dioxide (SO₂) and serve as indicators of air pollution.", options: ["a) Association alone explains sensitivity", "b) They grow faster than others", "c) They are sensitive to SO₂", "d) They flourish in SO₂‑rich air"], answer: "c) They are sensitive to SO₂" },
+      { year: "NEET/AIPMT 1994", question: "The genetic material in Tobacco mosaic virus (TMV) is:", options: ["a) Single-stranded RNA", "b) Double-stranded DNA", "c) Protein only", "d) Double-stranded RNA"], answer: "a) Single-stranded RNA" },
+      { year: "NEET/AIPMT 2010", question: "A complete enveloped virus particle is termed:", options: ["a) Capsid", "b) Virion", "c) Nucleoprotein", "d) Core"], answer: "b) Virion" },
+      { year: "NEET/AIPMT 2012", question: "Identify the correct statement:", options: ["a) Paramecium & Plasmodium share kingdom with Penicillium", "b) Lichen is alga + protozoan", "c) Yeast used in bread/beer is a fungus", "d) Nostoc and Anabaena are protists"], answer: "c) Yeast used in bread/beer is a fungus" },
+      { year: "NEET/AIPMT 2014", question: "Pick the incorrect pairing about subcellular pathogens:", options: ["a) Beijerinck coined ‘contagium vivum fluidum’", "b) Mosaic disease and AIDS are viral", "c) Viroids discovered by Ivanowsky", "d) W. M. Stanley crystallised viruses"], answer: "c) Viroids discovered by Ivanowsky" },
+      { year: "NEET/AIPMT 2016", question: "Which statement is true for viroids?", options: ["a) They cause infections", "b) They contain high molecular weight RNA", "c) They lack a protein coat", "d) They are smaller than viruses"], answer: "b) They contain high molecular weight RNA" },
+      { year: "NEET/AIPMT 2017", question: "Viroids differ from viruses in having:", options: ["a) DNA without protein coat", "b) RNA with protein coat", "c) RNA without protein coat", "d) DNA with protein coat"], answer: "c) RNA without protein coat" },
+      { year: "NEET/AIPMT 2019", question: "Prions are infectious agents composed of:", options: ["a) Inert crystals", "b) Abnormally folded proteins", "c) Free RNA without coat", "d) Free DNA without coat"], answer: "b) Abnormally folded proteins" },
+      { year: "NEET/AIPMT 2003", question: "Viruses are best described as:", options: ["a) Metabolically self-sufficient", "b) Particles with both RNA and DNA", "c) Obligate intracellular parasites", "d) Nucleic acid called capsid"], answer: "c) Obligate intracellular parasites" },
+      { year: "NEET/AIPMT 2004", question: "Retroviruses carry the gene encoding:", options: ["a) No DNA stage in life cycle", "b) RNA-dependent DNA polymerase", "c) DNA in mature virions", "d) Protease only"], answer: "b) RNA-dependent DNA polymerase" },
+      { year: "NEET/AIPMT 2000/2001/2005", question: "Virus-mediated transfer of bacterial genes is:", options: ["a) Transduction", "b) Transcription", "c) Transformation", "d) Translation"], answer: "a) Transduction" },
+      { year: "NEET/AIPMT 2010", question: "The complete enveloped viral particle is named:", options: ["a) Capsid", "b) Virion", "c) Nucleoprotein", "d) Core"], answer: "b) Virion" },
+      { year: "NEET/AIPMT 1996", question: "Choose the incorrect statement on lichens:", options: ["a) Some are reindeer food", "b) Indicate pollution", "c) Grow ~2 cm per day", "d) Alga–fungus symbiosis"], answer: "c) Grow ~2 cm per day" },
+      { year: "NEET/AIPMT 2001", question: "Genome of Cauliflower mosaic virus (CaMV) is:", options: ["a) ssRNA", "b) dsRNA", "c) dsDNA", "d) ssDNA"], answer: "c) dsDNA" },
+      { year: "NEET/AIPMT 2003", question: "Approximate size of TMV particle:", options: ["a) 300 × 10 nm", "b) 300 × 5 nm", "c) 300 × 20 nm", "d) 700 × 30 nm"], answer: "c) 300 × 20 nm" },
+      { year: "NEET/AIPMT 1997", question: "Viruses contain as genetic material:", options: ["a) Ribosomes", "b) Organelles", "c) Either DNA or RNA", "d) Both DNA and RNA"], answer: "c) Either DNA or RNA" },
+      { year: "NEET/AIPMT 2005", question: "In lichens, the fungal partner primarily:", options: ["a) Provides food", "b) Provides protection, anchorage, and absorbs water/minerals", "c) Fixes nitrogen", "d) Releases oxygen"], answer: "b) Provides protection, anchorage, and absorbs water/minerals" },
+      { year: "NEET/AIPMT 2012", question: "Which is correct about viruses?", options: ["a) All are parasites", "b) All have helical symmetry", "c) They have helical symmetry invariably", "d) Antibiotics have no effect on viruses"], answer: "d) Antibiotics have no effect on viruses" },
+      { year: "NEET/AIPMT 2009", question: "Viroids (free infectious RNA) were discovered by:", options: ["a) Free infectious DNA discoverer", "b) Infectious protein discoverer", "c) Bacteriophage discoverer", "d) T. O. Diener"], answer: "d) T. O. Diener" },
+      { year: "NEET/AIPMT 2010", question: "Correct order of labelled parts in a tailed bacteriophage is:", options: ["a) Tail fibres; Head; Sheath; Collar", "b) Sheath; Collar; Head; Tail fibres", "c) Head; Sheath; Collar; Tail fibres", "d) Collar; Tail fibres; Head; Sheath"], answer: "c) Head; Sheath; Collar; Tail fibres" }
+    ];
+
+    // After injecting, refresh dropdowns and show questions if 11→2 is selected
+    const classSelect = document.getElementById("classSelect");
+    const chapterSelect = document.getElementById("chapterSelect");
+    const sectionSelect = document.getElementById("sectionSelect");
+
+    // Refresh chapter/section lists once
+    if (typeof updateSections === "function" && classSelect && chapterSelect) {
+      if (classSelect.value === c && chapterSelect.value === ch) {
+        updateSections();
+        // If 2.2 exists, select it by default to reflect newly added content
+        if (sectionSelect) {
+          sectionSelect.value = "2.2";
+        }
+        if (typeof showQuestions === "function") {
+          setTimeout(() => showQuestions(), 50);
+        }
+      }
+    }
+  }
+
+  ready(() => waitForDataAndInject());
+})();
+</script>
+
 </body>
 </html>
