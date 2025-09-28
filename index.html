@@ -1883,5 +1883,122 @@ Version 2: NCERT based, quote the exact matching statement from NCERT biology te
 })();
 </script>
 
+<script>
+/* ===== Addon: Persist selected option highlight (red/green) until Refresh; suppress tick/cross popup; keep "Attempted" label until Refresh ===== */
+(function () {
+  // 1) CSS for persistent highlight (separate from your existing -temp classes)
+  function ensurePersistStyles() {
+    if (document.getElementById('persist-highlight-style')) return;
+    const style = document.createElement('style');
+    style.id = 'persist-highlight-style';
+    style.textContent = `
+      .option.correct-persist {
+        background-color: rgba(25, 135, 84, 0.25);
+        border-color: rgba(25, 135, 84, 0.35);
+        color: #2e7d32;
+      }
+      .option.incorrect-persist {
+        background-color: rgba(220, 53, 69, 0.20);
+        border-color: rgba(220, 53, 69, 0.35);
+        color: #b02a37;
+      }
+      .attempted-note {
+        margin-top: 6px;
+        font-size: 12px;
+        line-height: 1.25;
+        color: #1d4ed8;
+        background: #fff7cc;
+        border: 1px dashed #f59e0b;
+        padding: 4px 8px;
+        border-radius: 6px;
+        display: inline-block;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // 2) Suppress the transient tick/cross popup impression
+  function suppressTickPopup() {
+    // Replace popup function with no-op while keeping reference name intact
+    window.showTickCrossPopup = function () { /* suppressed */ };
+  }
+
+  // 3) Add the Attempted note under a question (id uses existing markup)
+  function addAttemptedNote(qNum) {
+    const optionsWrap = document.getElementById(`options-${qNum}`);
+    if (!optionsWrap) return;
+    const item = document.getElementById(`question-item-${qNum}`);
+    if (!item) return;
+    if (item.querySelector('.attempted-note')) return;
+    const note = document.createElement('div');
+    note.className = 'attempted-note';
+    note.textContent = 'Attempted';
+    optionsWrap.insertAdjacentElement('afterend', note);
+  }
+
+  // 4) Patch handleOptionClick to persistently color the chosen option and show Attempted
+  function patchHandleOptionClick() {
+    if (typeof window.handleOptionClick !== 'function') return false;
+    if (window.handleOptionClick._persistPatched) return true;
+
+    const original = window.handleOptionClick;
+    window.handleOptionClick = function (event, classId, chapterId, section, qNum, correctAnswer) {
+      // Compute correctness from the clicked element before original alters DOM
+      const target = event?.currentTarget;
+      const selectedText = (target?.textContent || '').trim();
+      const isCorrect = (selectedText === correctAnswer);
+
+      // Run original logic (disables options, stores scores, etc.)
+      original.call(this, event, classId, chapterId, section, qNum, correctAnswer);
+
+      // Remove transient highlight and apply persistent highlight to the selected option
+      if (target) {
+        target.classList.remove('correct-temp', 'incorrect-temp');
+        target.classList.add(isCorrect ? 'correct-persist' : 'incorrect-persist');
+      }
+
+      // Ensure Attempted label is visible
+      addAttemptedNote(qNum);
+    };
+    window.handleOptionClick._persistPatched = true;
+    return true;
+  }
+
+  // 5) Clear persistent state on Refresh (works with your existing per-section refresh)
+  function bindRefreshClear() {
+    const btn = document.getElementById('refreshChapterBtn');
+    if (!btn) return false;
+    // Add an additional listener without touching existing logic
+    btn.addEventListener('click', () => {
+      // Remove persistent highlights
+      document.querySelectorAll('.option.correct-persist, .option.incorrect-persist')
+        .forEach(el => el.classList.remove('correct-persist', 'incorrect-persist'));
+      // Remove any Attempted notes
+      document.querySelectorAll('.attempted-note').forEach(n => n.remove());
+    });
+    return true;
+  }
+
+  // 6) Initialize with retries to ensure functions/elements are available
+  function init(attemptsLeft = 40) {
+    ensurePersistStyles();
+    suppressTickPopup();
+    const patched = patchHandleOptionClick();
+    const bound = bindRefreshClear();
+
+    if ((!patched || !bound) && attemptsLeft > 0) {
+      setTimeout(() => init(attemptsLeft - 1), 100);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => init(), { once: true });
+  } else {
+    init();
+  }
+})();
+</script>
+
+
 </body>
 </html>
