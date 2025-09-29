@@ -1211,7 +1211,7 @@
       "6": {
         title: "Evolution", 
         sections: [
-          {id: "6.0", name: "Origin and Evolution of Life"},
+          {id: "6.0", name: "History of Life Forms and Evolutionary Biology"},
           {id: "6.1", name: "Origin of Life"},
           {id: "6.2", name: "Evolution of Life Forms – A Theory"},
           {id: "6.3", name: "What are the Evidences for Evolution?"},
@@ -1227,7 +1227,7 @@
       "7": {
         title: "Human Health and Disease", 
         sections: [
-          {id: "7.0", name: "Health and Disease in Human Populations"},
+          {id: "7.0", name: "Biology and Human Welfare Applications"},
           {id: "7.1", name: "Common Diseases in Humans"},
           {id: "7.2", name: "Immunity"},
           {id: "7.3", name: "AIDS"},
@@ -1239,7 +1239,7 @@
       "8": {
         title: "Microbes in Human Welfare", 
         sections: [
-          {id: "8.0", name: "Beneficial Microorganisms and Human Applications"},
+          {id: "8.0", name: "Microbial Diversity and Applications"},
           {id: "8.1", name: "Microbes in Household Products"},
           {id: "8.2", name: "Microbes in Industrial Products"},
           {id: "8.3", name: "Microbes in Sewage Treatment"},
@@ -1252,7 +1252,7 @@
       "9": {
         title: "Biotechnology - Principles and Processes", 
         sections: [
-          {id: "9.0", name: "Modern Biotechnology and Genetic Engineering"},
+          {id: "9.0", name: "Biotechnology and Genetic Engineering"},
           {id: "9.1", name: "Principles of Biotechnology"},
           {id: "9.2", name: "Tools of Recombinant DNA Technology"},
           {id: "9.3", name: "Processes of Recombinant DNA Technology"}
@@ -1262,7 +1262,7 @@
       "10": {
         title: "Biotechnology and its Applications", 
         sections: [
-          {id: "10.0", name: "Applications of Biotechnology in Various Fields"},
+          {id: "10.0", name: "Biotechnology Applications and Human Welfare"},
           {id: "10.1", name: "Biotechnological Applications in Agriculture"},
           {id: "10.2", name: "Biotechnological Applications in Medicine"},
           {id: "10.3", name: "Transgenic Animals"},
@@ -1273,291 +1273,441 @@
       "11": {
         title: "Organisms and Populations", 
         sections: [
-          {id: "11.0", name: "Ecology: Study of Interrelationships"},
-          {id: "11.1", name: "Organism and Its Environment"},
-          {id: "11.2", name: "Populations"}
+          {id: "11.0", name: "Ecological Perspective and Biological Understanding"},
+          {id: "11.1", name: "Populations"}
         ], 
         questions: {}
       },
       "12": {
         title: "Ecosystem", 
         sections: [
-          {id: "12.0", name: "Structure and Function of Ecosystems"},
+          {id: "12.0", name: "Ecosystem as a Functional Unit of Nature"},
           {id: "12.1", name: "Ecosystem – Structure and Function"},
           {id: "12.2", name: "Productivity"},
           {id: "12.3", name: "Decomposition"},
           {id: "12.4", name: "Energy Flow"},
-          {id: "12.5", name: "Ecological Pyramids"},
-          {id: "12.6", name: "Ecological Succession"},
-          {id: "12.7", name: "Nutrient Cycling"}
+          {id: "12.5", name: "Ecological Pyramids"}
         ], 
         questions: {}
       },
       "13": {
         title: "Biodiversity and Conservation", 
         sections: [
-          {id: "13.0", name: "Biological Diversity and its Conservation"},
+          {id: "13.0", name: "Life's Diversity and Conservation Challenges"},
           {id: "13.1", name: "Biodiversity"},
           {id: "13.2", name: "Biodiversity Conservation"}
-        ], 
-        questions: {}
-      },
-      "14": {
-        title: "Environmental Issues", 
-        sections: [
-          {id: "14.0", name: "Environmental Problems and Solutions"},
-          {id: "14.1", name: "Air Pollution and Its Control"},
-          {id: "14.2", name: "Water Pollution and Its Control"},
-          {id: "14.3", name: "Solid Wastes"},
-          {id: "14.4", name: "Agro-chemicals and their Effects"},
-          {id: "14.5", name: "Radioactive Wastes"},
-          {id: "14.6", name: "Greenhouse Effect and Global Warming"},
-          {id: "14.7", name: "Ozone Depletion"},
-          {id: "14.8", name: "Deforestation"}
         ], 
         questions: {}
       }
     }
   };
 
-  let currentQuestions = [];
-  let userAnswers = [];
-  let score = { correct: 0, total: 0 };
+  const chapterData = {
+    "11": [
+      {id:"1",name:"The Living World"},
+      {id:"2",name:"Biological Classification"},
+      {id:"3",name:"Plant Kingdom"},
+      {id:"4",name:"Animal Kingdom"},
+      {id:"5",name:"Morphology of Flowering Plants"},
+      {id:"6",name:"Anatomy of Flowering Plants"},
+      {id:"7",name:"Structural Organisation in Animals"},
+      {id:"8",name:"Cell - The Unit of Life"},
+      {id:"9",name:"Biomolecules"},
+      {id:"10",name:"Cell Cycle and Cell Division"},
+      {id:"11",name:"Photosynthesis in Higher Plants"},
+      {id:"12",name:"Respiration in Plants"},
+      {id:"13",name:"Plant Growth and Development"},
+      {id:"14",name:"Breathing and Exchange of Gases"},
+      {id:"15",name:"Body Fluids and Circulation"},
+      {id:"16",name:"Excretory Products and their Elimination"},
+      {id:"17",name:"Locomotion and Movement"},
+      {id:"18",name:"Neural Control and Coordination"},
+      {id:"19",name:"Chemical Coordination and Integration"}
+    ],
+    "12": [
+      {id:"1",name:"Sexual Reproduction in Flowering Plants"},
+      {id:"2",name:"Human Reproduction"},
+      {id:"3",name:"Reproductive Health"},
+      {id:"4",name:"Principles of Inheritance and Variation"},
+      {id:"5",name:"Molecular Basis of Inheritance"},
+      {id:"6",name:"Evolution"},
+      {id:"7",name:"Human Health and Disease"},
+      {id:"8",name:"Microbes in Human Welfare"},
+      {id:"9",name:"Biotechnology - Principles and Processes"},
+      {id:"10",name:"Biotechnology and its Applications"},
+      {id:"11",name:"Organisms and Populations"},
+      {id:"12",name:"Ecosystem"},
+      {id:"13",name:"Biodiversity and Conservation"}
+    ]
+  };
+
+  // Use localStorage for persistent scores
+  let cumulativeScores = {};
+  let answeredQuestionsByChapter = {};
+  let answeredQuestionsBySection = {};
+
+  function saveScores() {
+    localStorage.setItem('cumulativeScores', JSON.stringify(cumulativeScores));
+    localStorage.setItem('answeredQuestionsByChapter', JSON.stringify(answeredQuestionsByChapter));
+    localStorage.setItem('answeredQuestionsBySection', JSON.stringify(answeredQuestionsBySection));
+  }
+  function loadScores() {
+    const cs = localStorage.getItem('cumulativeScores');
+    const aqbc = localStorage.getItem('answeredQuestionsByChapter');
+    const aqbs = localStorage.getItem('answeredQuestionsBySection');
+    cumulativeScores = cs ? JSON.parse(cs) : {};
+    answeredQuestionsByChapter = aqbc ? JSON.parse(aqbc) : {};
+    answeredQuestionsBySection = aqbs ? JSON.parse(aqbs) : {};
+  }
+  loadScores();
+
+  function getScore(classId, chapterId) {
+    if (cumulativeScores[classId] && cumulativeScores[classId][chapterId]) {
+      return cumulativeScores[classId][chapterId];
+    }
+    return null;
+  }
+
+  function initScore(classId, chapterId, totalQuestions) {
+    if (!cumulativeScores[classId]) cumulativeScores[classId] = {};
+    if (!cumulativeScores[classId][chapterId]) {
+      cumulativeScores[classId][chapterId] = {
+        correct: 0,
+        total: totalQuestions
+      };
+    } else {
+      cumulativeScores[classId][chapterId].total = totalQuestions;
+    }
+    saveScores();
+  }
+
+  function markQuestionAnswered(classId, chapterId, sectionKey, questionKey, correct) {
+    if (!answeredQuestionsByChapter[classId]) answeredQuestionsByChapter[classId] = {};
+    if (!answeredQuestionsByChapter[classId][chapterId]) answeredQuestionsByChapter[classId][chapterId] = {};
+    if (!answeredQuestionsBySection[sectionKey]) answeredQuestionsBySection[sectionKey] = {};
+
+    let prevCorrectSection = answeredQuestionsBySection[sectionKey][questionKey];
+    if (prevCorrectSection === undefined) {
+      answeredQuestionsBySection[sectionKey][questionKey] = correct;
+    } else {
+      answeredQuestionsBySection[sectionKey][questionKey] = correct;
+    }
+
+    let prevCorrect = answeredQuestionsByChapter[classId][chapterId][questionKey];
+    if (prevCorrect === undefined) {
+      answeredQuestionsByChapter[classId][chapterId][questionKey] = correct;
+      if (correct) cumulativeScores[classId][chapterId].correct++;
+    } else {
+      if (prevCorrect !== correct) {
+        answeredQuestionsByChapter[classId][chapterId][questionKey] = correct;
+        if (correct) {
+          cumulativeScores[classId][chapterId].correct++;
+        } else {
+          cumulativeScores[classId][chapterId].correct--;
+          if (cumulativeScores[classId][chapterId].correct < 0) cumulativeScores[classId][chapterId].correct = 0;
+        }
+      }
+    }
+    saveScores();
+  }
 
   function updateChapters() {
     const classSelect = document.getElementById('classSelect');
     const chapterSelect = document.getElementById('chapterSelect');
     const sectionSelect = document.getElementById('sectionSelect');
-    
-    const selectedClass = classSelect.value;
-    
-    // Clear chapters and sections
     chapterSelect.innerHTML = '<option value="">Select Chapter</option>';
     sectionSelect.innerHTML = '<option value="">Select Section</option>';
-    
-    if (selectedClass && questionData[selectedClass]) {
+    sectionSelect.disabled = true;
+
+    if (classSelect.value) {
       chapterSelect.disabled = false;
-      
-      Object.keys(questionData[selectedClass]).forEach(chapterNum => {
-        const chapter = questionData[selectedClass][chapterNum];
-        const option = document.createElement('option');
-        option.value = chapterNum;
-        option.textContent = `Chapter ${chapterNum}: ${chapter.title}`;
-        chapterSelect.appendChild(option);
+      chapterData[classSelect.value].forEach(chap => {
+        const opt = document.createElement('option');
+        opt.value = chap.id;
+        opt.textContent = `Chapter ${chap.id}: ${chap.name}`;
+        chapterSelect.appendChild(opt);
       });
     } else {
       chapterSelect.disabled = true;
-      sectionSelect.disabled = true;
     }
-    
-    clearContent();
+    clearContentAndScore();
   }
 
   function updateSections() {
     const classSelect = document.getElementById('classSelect');
     const chapterSelect = document.getElementById('chapterSelect');
     const sectionSelect = document.getElementById('sectionSelect');
-    
-    const selectedClass = classSelect.value;
-    const selectedChapter = chapterSelect.value;
-    
-    // Clear sections
-    sectionSelect.innerHTML = '<option value="">Select Section</option>';
-    
-    if (selectedClass && selectedChapter && questionData[selectedClass][selectedChapter]) {
+    sectionSelect.innerHTML = '';
+
+    if (classSelect.value && chapterSelect.value) {
       sectionSelect.disabled = false;
-      
-      const chapter = questionData[selectedClass][selectedChapter];
-      chapter.sections.forEach(section => {
-        const option = document.createElement('option');
-        option.value = section.id;
-        option.textContent = section.name;
-        sectionSelect.appendChild(option);
+      const c = classSelect.value;
+      const ch = chapterSelect.value;
+
+      const chapterSections = questionData[c]?.[ch]?.sections || [];
+
+      chapterSections.forEach(section => {
+        let opt = document.createElement('option');
+        opt.value = section.id;
+        opt.textContent = `${section.id}: ${section.name}`;
+        sectionSelect.appendChild(opt);
       });
+
+      // Auto-select first section if available
+      if (chapterSections.length > 0) {
+        sectionSelect.selectedIndex = 0;
+        sectionSelect.value = chapterSections[0].id;
+        
+        // Automatically show questions for first section
+        setTimeout(() => {
+          showQuestions();
+        }, 100);
+      }
     } else {
       sectionSelect.disabled = true;
+      sectionSelect.innerHTML = '<option value="">Select Section</option>';
     }
-    
-    clearContent();
+    clearContentAndScore();
   }
 
-  function showQuestions() {
+  function clearContentAndScore() {
+    document.getElementById('contentArea').innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
+    updateScoreDisplay();
+  }
+
+  function updateScoreDisplay() {
     const classSelect = document.getElementById('classSelect');
     const chapterSelect = document.getElementById('chapterSelect');
     const sectionSelect = document.getElementById('sectionSelect');
-    
-    const selectedClass = classSelect.value;
-    const selectedChapter = chapterSelect.value;
-    const selectedSection = sectionSelect.value;
-    
-    if (selectedClass && selectedChapter && selectedSection) {
-      const chapter = questionData[selectedClass][selectedChapter];
-      const questions = chapter.questions[selectedSection] || [];
-      
-      displayQuestions(questions, selectedSection);
-      resetScore();
+    const scoreCard = document.getElementById('scoreCard');
+
+    if (!classSelect.value || !chapterSelect.value || !sectionSelect.value) {
+      scoreCard.textContent = 'Section score: x / y';
+      return;
+    }
+    const c = classSelect.value;
+    const ch = chapterSelect.value;
+    const section = sectionSelect.value;
+
+    let sectionKey = `${c}_${ch}_${section}`;
+
+    let totalSectionQuestions = 0;
+    if(questionData[c] && questionData[c][ch] && questionData[c][ch].questions[section]){
+      totalSectionQuestions = questionData[c][ch].questions[section].length;
+    }
+    if(!answeredQuestionsBySection[sectionKey]){
+      answeredQuestionsBySection[sectionKey] = {};
+    }
+    let correctSectionCount = Object.values(answeredQuestionsBySection[sectionKey]).filter(corr=>corr).length;
+    if(totalSectionQuestions === 0){
+      scoreCard.textContent = 'Section score: x / y';
     } else {
-      clearContent();
+      scoreCard.textContent = `Section score: ${correctSectionCount} / ${totalSectionQuestions}`;
     }
   }
 
-  function displayQuestions(questions, sectionId) {
+  function showQuestions() {
+    const c = document.getElementById('classSelect').value;
+    const ch = document.getElementById('chapterSelect').value;
+    const section = document.getElementById('sectionSelect').value;
     const contentArea = document.getElementById('contentArea');
-    
-    if (questions.length === 0) {
-      contentArea.innerHTML = '<div class="no-questions">No questions available for this section yet.</div>';
-      return;
-    }
-    
-    currentQuestions = questions;
-    userAnswers = new Array(questions.length).fill(null);
-    
-    let html = `<div class="question-count">Section Questions: ${questions.length}</div>`;
-    
-    questions.forEach((q, index) => {
-      html += `
-        <div class="question-item" id="question-${index}">
-          <div class="question-header">
-            <div class="question-number">Question ${index + 1}</div>
-            <div class="question-year">${q.year}</div>
-          </div>
-          <div class="question-text">${q.question}</div>
-          <div class="options" id="options-${index}">
-            ${q.options.map((option, optionIndex) => `
-              <div class="option" onclick="selectOption(${index}, ${optionIndex}, '${option}', '${q.answer}')" id="option-${index}-${optionIndex}">
-                ${option}
-              </div>
-            `).join('')}
-          </div>
-          <div class="button-group">
-            <button class="btn btn-answer" onclick="showAnswer(${index})">Show Answer</button>
-            <button class="btn btn-copy" onclick="copyQuestion(${index})">Copy Question</button>
-            <button class="btn btn-chatgpt" onclick="explainWithChatGPT(${index})">Ask ChatGPT</button>
-          </div>
-          <div class="answer-reveal" id="answer-${index}">
-            <strong>Correct Answer:</strong> ${q.answer}
-          </div>
-        </div>
-      `;
-    });
-    
-    contentArea.innerHTML = html;
-  }
 
-  function selectOption(questionIndex, optionIndex, selectedOption, correctAnswer) {
-    const optionsContainer = document.getElementById(`options-${questionIndex}`);
-    const allOptions = optionsContainer.querySelectorAll('.option');
-    
-    // If already answered, don't allow re-answering
-    if (allOptions[0].classList.contains('disabled')) {
+    if (!c || !ch || !section) {
+      contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
+      updateScoreDisplay();
       return;
     }
-    
-    userAnswers[questionIndex] = selectedOption;
-    
-    const isCorrect = selectedOption === correctAnswer;
-    
-    // Mark all options as disabled and show correct/incorrect
-    allOptions.forEach((option, idx) => {
-      option.classList.add('disabled');
-      if (option.textContent === correctAnswer) {
-        option.classList.add('correct-temp');
-      } else if (idx === optionIndex) {
-        option.classList.add('incorrect-temp');
-      }
-      
-      // Add popup animation
-      if (idx === optionIndex) {
-        const popup = document.createElement('div');
-        popup.className = `answer-popup ${isCorrect ? 'correct' : 'incorrect'}`;
-        popup.textContent = isCorrect ? '✓' : '✗';
-        option.appendChild(popup);
-      }
+
+    const questions = questionData[c]?.[ch]?.questions?.[section] || [];
+    if (!questions.length) {
+      contentArea.innerHTML = '<div class="question-count">No questions detected.</div>';
+      updateScoreDisplay();
+      return;
+    }
+
+    initScore(c, ch, questions.length);
+
+    let questionCounter = 1;
+    const allSections = questionData[c][ch].sections;
+    for (let i = 0; i < allSections.length; i++) {
+      if (allSections[i].id === section) break;
+      const qCountPrevSection = (questionData[c][ch].questions[allSections[i].id]?.length) || 0;
+      questionCounter += qCountPrevSection;
+    }
+
+    let html = `<div class="question-count">No. of questions found: ${questions.length}</div>`;
+    questions.forEach((q, i) => {
+      const qNum = questionCounter + i;
+      html += `<div class="question-item" id="question-item-${qNum}">
+        <div class="question-header">
+          <span class="question-number">Q${qNum}.</span>
+          <span class="question-year">${q.year}</span>
+        </div>
+        <div class="question-text">${q.question}</div>
+        <div class="options" id="options-${qNum}">
+          ${q.options.map((o, idx) => `<div class="option" role="button" tabindex="0" 
+            data-qnum="${qNum}" data-index="${idx}">${o}</div>`).join('')}
+        </div>
+        <div class="button-group">
+          <button class="btn btn-answer" onclick="toggleAnswer(${qNum})" aria-expanded="false" aria-controls="answer-${qNum}">Answer</button>
+          <button class="btn btn-copy" onclick="copyQuestion(${qNum})">Copy Question</button>
+          <button class="btn btn-chatgpt" onclick="openChatGPT(${qNum})">ChatGPT Explain</button>
+        </div>
+        <div class="answer-reveal" id="answer-${qNum}"><strong>Answer:</strong> ${q.answer}</div>
+      </div>`;
     });
-    
-    // Show tick/cross popup
-    showTickCrossPopup(isCorrect);
-    
-    // Update score
-    updateScore(isCorrect);
+    contentArea.innerHTML = html;
+
+    questions.forEach((q, i) => {
+      const qNum = questionCounter + i;
+      const optionsContainer = document.getElementById(`options-${qNum}`);
+      optionsContainer.querySelectorAll('.option').forEach(optionDiv => {
+        optionDiv.addEventListener('click', e => handleOptionClick(e, c, ch, section, qNum, q.answer));
+        optionDiv.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleOptionClick(e, c, ch, section, qNum, q.answer);
+          }
+        });
+      });
+    });
+
+    updateScoreDisplay();
   }
 
   function showTickCrossPopup(isCorrect) {
+    const existingPopup = document.querySelector('.tick-cross-popup');
+    if (existingPopup) {
+      existingPopup.remove();
+    }
+
     const popup = document.createElement('div');
     popup.className = `tick-cross-popup ${isCorrect ? 'correct' : 'incorrect'}`;
     popup.textContent = isCorrect ? '✓' : '✗';
+    
     document.body.appendChild(popup);
     
     setTimeout(() => {
-      document.body.removeChild(popup);
+      if (popup.parentNode) {
+        popup.parentNode.removeChild(popup);
+      }
     }, 1500);
   }
 
-  function updateScore(isCorrect) {
-    if (isCorrect) {
-      score.correct++;
+  function handleOptionClick(event, classId, chapterId, section, qNum, correctAnswer) {
+    const selectedOption = event.currentTarget;
+    const optionsContainer = selectedOption.parentNode;
+    const questionKey = `q${qNum}`;
+    const sectionKey = `${classId}_${chapterId}_${section}`;
+
+    if (answeredQuestionsBySection[sectionKey] && answeredQuestionsBySection[sectionKey][questionKey] !== undefined) {
+      return;
     }
-    score.total++;
+
+    optionsContainer.querySelectorAll('.option').forEach(o => {
+      o.classList.add('disabled');
+      o.style.cursor = 'default';
+      o.setAttribute('aria-disabled', 'true');
+      o.tabIndex = -1;
+    });
+
+    const selectedText = selectedOption.textContent.trim();
+    const isCorrect = selectedText === correctAnswer;
+
+    selectedOption.classList.add(isCorrect ? 'correct-temp' : 'incorrect-temp');
+
+    showTickCrossPopup(isCorrect);
+
+    markQuestionAnswered(classId, chapterId, sectionKey, questionKey, isCorrect);
+    updateScoreDisplay();
+  }
+
+  function toggleAnswer(qNum) {
+    const answerDiv = document.getElementById(`answer-${qNum}`);
+    const button = document.querySelector(`[aria-controls="answer-${qNum}"]`);
     
-    document.getElementById('scoreCard').textContent = `Section score: ${score.correct} / ${score.total}`;
+    if (answerDiv.style.display === 'block') {
+      answerDiv.style.display = 'none';
+      button.setAttribute('aria-expanded', 'false');
+    } else {
+      answerDiv.style.display = 'block';
+      button.setAttribute('aria-expanded', 'true');
+    }
   }
 
-  function resetScore() {
-    score = { correct: 0, total: 0 };
-    document.getElementById('scoreCard').textContent = 'Section score: 0 / 0';
-  }
-
-  function showAnswer(questionIndex) {
-    const answerDiv = document.getElementById(`answer-${questionIndex}`);
-    answerDiv.style.display = answerDiv.style.display === 'block' ? 'none' : 'block';
-  }
-
-  function copyQuestion(questionIndex) {
-    const question = currentQuestions[questionIndex];
-    const text = `${question.year}\n\n${question.question}\n\n${question.options.join('\n')}\n\nAnswer: ${question.answer}`;
+  function copyQuestion(qNum) {
+    const questionText = document.querySelector(`#question-item-${qNum} .question-text`).innerText;
+    const options = Array.from(document.querySelectorAll(`#question-item-${qNum} .option`)).map(opt => opt.innerText).join('\n');
+    const fullText = questionText + '\n\n' + options;
     
-    navigator.clipboard.writeText(text).then(() => {
-      // Could add a toast notification here
+    navigator.clipboard.writeText(fullText).then(() => {
+      // Optional: Show a brief "Copied!" message
     });
   }
 
-  function explainWithChatGPT(questionIndex) {
-    const question = currentQuestions[questionIndex];
-    const prompt = `Explain this NEET Biology question in detail:\n\n${question.question}\n\n${question.options.join('\n')}\n\nCorrect Answer: ${question.answer}`;
-    
-    const chatGPTUrl = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
-    window.open(chatGPTUrl, '_blank');
+  function openChatGPT(qNum) {
+    const questionText = document.querySelector(`#question-item-${qNum} .question-text`).innerText;
+    const options = Array.from(document.querySelectorAll(`#question-item-${qNum} .option`)).map(opt => opt.innerText).join('; ');
+    const query = encodeURIComponent(`Explain this NEET question: ${questionText} Options: ${options}`);
+    window.open(`https://chat.openai.com/?q=${query}`, '_blank');
   }
 
-  function clearContent() {
-    const contentArea = document.getElementById('contentArea');
-    contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
-    resetScore();
-  }
-
-  // Refresh score functionality
-  document.getElementById('refreshChapterBtn').addEventListener('click', function() {
-    resetScore();
-    // Re-enable all options
-    const allOptions = document.querySelectorAll('.option');
-    allOptions.forEach(option => {
-      option.classList.remove('disabled', 'correct-temp', 'incorrect-temp');
-      // Remove any popup elements
-      const popup = option.querySelector('.answer-popup');
-      if (popup) {
-        option.removeChild(popup);
-      }
-    });
+  // Per-section refresh functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const refreshBtn = document.getElementById('refreshChapterBtn');
     
-    // Reset user answers
-    userAnswers = new Array(currentQuestions.length).fill(null);
-    
-    // Hide all answer reveals
-    const answerReveals = document.querySelectorAll('.answer-reveal');
-    answerReveals.forEach(reveal => {
-      reveal.style.display = 'none';
-    });
+    if (refreshBtn) {
+      const newBtn = refreshBtn.cloneNode(true);
+      refreshBtn.parentNode.replaceChild(newBtn, refreshBtn);
+      
+      newBtn.addEventListener('click', function() {
+        const classSelect = document.getElementById('classSelect');
+        const chapterSelect = document.getElementById('chapterSelect');
+        const sectionSelect = document.getElementById('sectionSelect');
+        
+        const c = classSelect?.value;
+        const ch = chapterSelect?.value;
+        const sec = sectionSelect?.value;
+        
+        if (!c || !ch || !sec) return;
+        
+        const sectionKey = `${c}_${ch}_${sec}`;
+        
+        if (answeredQuestionsBySection[sectionKey]) {
+          const sectionAnswers = answeredQuestionsBySection[sectionKey];
+          
+          Object.keys(sectionAnswers).forEach(questionKey => {
+            const wasCorrect = sectionAnswers[questionKey];
+            
+            if (answeredQuestionsByChapter[c] && answeredQuestionsByChapter[c][ch]) {
+              delete answeredQuestionsByChapter[c][ch][questionKey];
+            }
+            
+            if (wasCorrect && cumulativeScores[c] && cumulativeScores[c][ch]) {
+              cumulativeScores[c][ch].correct = Math.max(0, cumulativeScores[c][ch].correct - 1);
+            }
+          });
+          
+          delete answeredQuestionsBySection[sectionKey];
+        }
+        
+        saveScores();
+        
+        document.querySelectorAll('.option').forEach(opt => {
+          opt.classList.remove('correct-temp', 'incorrect-temp', 'disabled');
+          const popup = opt.querySelector('.answer-popup');
+          if (popup) popup.remove();
+        });
+        
+        document.querySelectorAll('.answer-reveal').forEach(reveal => {
+          reveal.style.display = 'none';
+        });
+        
+        updateScoreDisplay();
+      });
+    }
   });
 </script>
 </body>
 </html>
+
