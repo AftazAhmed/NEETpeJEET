@@ -1312,27 +1312,13 @@
           {id: "13.3", name: "Biodiversity Conservation"}
         ], 
         questions: {}
-      },
-      "14": {
-        title: "Environmental Issues", 
-        sections: [
-          {id: "14.0", name: "Air Pollution and Its Control"},
-          {id: "14.1", name: "Water Pollution and Its Control"},
-          {id: "14.2", name: "Solid Wastes"},
-          {id: "14.3", name: "Agro-chemicals and their Effects"},
-          {id: "14.4", name: "Radioactive Wastes"},
-          {id: "14.5", name: "Greenhouse Effect and Global Warming"},
-          {id: "14.6", name: "Ozone Depletion"},
-          {id: "14.7", name: "Deforestation"}
-        ], 
-        questions: {}
       }
     }
   };
 
   let currentQuestions = [];
   let sectionScores = {};
-  let questionStates = {}; // NEW: Store persistent clicked states
+  let questionStates = {}; // Store persistent clicked states
 
   function updateChapters() {
     const classValue = document.getElementById('classSelect').value;
@@ -1418,7 +1404,7 @@
             ${q.options.map((option, optIndex) => {
               let optionClass = 'option';
               
-              // NEW: Apply persistent styling based on stored state
+              // Apply persistent styling based on stored state
               if (questionState) {
                 if (questionState.selectedIndex === optIndex) {
                   optionClass += questionState.isCorrect ? ' answered-correct' : ' answered-incorrect';
@@ -1447,7 +1433,7 @@
   }
 
   function selectOption(questionIndex, optionIndex, correctAnswer, questionId) {
-    // NEW: Check if already answered
+    // Check if already answered
     if (questionStates[questionId]) {
       return; // Already answered, do nothing
     }
@@ -1455,7 +1441,7 @@
     const selectedOption = currentQuestions[questionIndex].options[optionIndex];
     const isCorrect = selectedOption === correctAnswer;
     
-    // NEW: Store the persistent state
+    // Store the persistent state
     questionStates[questionId] = {
       selectedIndex: optionIndex,
       isCorrect: isCorrect
@@ -1465,7 +1451,6 @@
     const options = document.querySelectorAll(`.question-item:nth-child(${questionIndex + 2}) .option`);
     options.forEach((option, index) => {
       if (index === optionIndex) {
-        // NEW: Apply persistent styling
         option.classList.add(isCorrect ? 'answered-correct' : 'answered-incorrect');
         option.classList.remove('correct-temp', 'incorrect-temp');
       } else {
@@ -1554,7 +1539,7 @@
 
   function openChatGPT(index) {
     const question = currentQuestions[index];
-    // MODIFIED: Enhanced prompt with 3 versions and smaller version font
+    // CORRECTED: ChatGPT prompt with proper 3-version format and removed correct answer
     const prompt = `${question.question}
 
 ${question.options.join('\n')}
@@ -1578,7 +1563,7 @@ version 3: detailed explanation along with option analysis. (show this answer if
     
     if (!classValue || !chapterValue || !sectionValue) return;
 
-    // NEW: Clear persistent states for current section
+    // Clear persistent states for current section
     const sectionKey = `${classValue}-${chapterValue}-${sectionValue}`;
     Object.keys(questionStates).forEach(key => {
       if (key.startsWith(`${classValue}-${chapterValue}-${sectionValue}-`)) {
