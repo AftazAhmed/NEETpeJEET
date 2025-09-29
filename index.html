@@ -1581,6 +1581,165 @@ version 3: detailed explanation along with option analysis. (show this answer if
 
   // Initialize
   updateChapters();
+
+// 1. FIX: Persistent score storage using localStorage
+function saveScoresToStorage() {
+  localStorage.setItem('neet-pyq-scores', JSON.stringify(sectionScores));
+  localStorage.setItem('neet-pyq-states', JSON.stringify(questionStates));
+}
+
+function loadScoresFromStorage() {
+  const savedScores = localStorage.getItem('neet-pyq-scores');
+  const savedStates = localStorage.getItem('neet-pyq-states');
+  
+  if (savedScores) {
+    sectionScores = JSON.parse(savedScores);
+  }
+  
+  if (savedStates) {
+    questionStates = JSON.parse(savedStates);
+  }
+}
+
+// Load scores on page load
+window.addEventListener('load', function() {
+  loadScoresFromStorage();
+  updateScoreDisplay();
+});
+
+// Save scores whenever they change
+function updateScoreForSection() {
+  const classValue = document.getElementById('classSelect').value;
+  const chapterValue = document.getElementById('chapterSelect').value;
+  const sectionValue = document.getElementById('sectionSelect').value;
+  
+  if (!classValue || !chapterValue || !sectionValue) return;
+
+  const sectionKey = `${classValue}-${chapterValue}-${sectionValue}`;
+  let correct = 0;
+  let answered = 0;
+
+  currentQuestions.forEach((q, index) => {
+    const questionId = `${classValue}-${chapterValue}-${sectionValue}-${index}`;
+    const questionState = questionStates[questionId];
+    if (questionState) {
+      answered++;
+      if (questionState.isCorrect) {
+        correct++;
+      }
+    }
+  });
+
+  sectionScores[sectionKey] = { correct, answered, total: currentQuestions.length };
+  
+  // Save to localStorage after updating
+  saveScoresToStorage();
+}
+
+// 2. FIX: Corrected ChatGPT prompt function
+function openChatGPT(index) {
+  const question = currentQuestions[index];
+  
+  // CORRECTED: Proper version format without precursor and answer
+  const versionText = `
+version 1: brief explanation
+version 2: quote exact reference from ncert text book latest reprint and explain accordingly.
+version 3: detailed explanation along with option analysis. (show this answer if the user asks for it. prompt the user - do you want detailed answer with options analysis.)`;
+  
+  const prompt = `${question.question}
+
+${question.options.join('\n')}
+
+explain this question in 3 versions.
+${versionText}`;
+  
+  const encodedPrompt = encodeURIComponent(prompt);
+  const chatgptUrl = `https://chat.openai.com/?model=gpt-4&q=${encodedPrompt}`;
+  window.open(chatgptUrl, '_blank');
+}
+
+// Update the selectOption function to save states
+function selectOption(questionIndex, optionIndex, correctAnswer, questionId) {
+  // Check if already answered
+  if (questionStates[questionId]) {
+    return; // Already answered, do nothing
+  }
+
+  const selectedOption = currentQuestions[questionIndex].options[optionIndex];
+  const isCorrect = selectedOption === correctAnswer;
+  
+  // Store the persistent state
+  questionStates[questionId] = {
+    selectedIndex: optionIndex,
+    isCorrect: isCorrect
+  };
+
+  // Save to localStorage immediately after setting state
+  saveScoresToStorage();
+
+  // Update the visual state
+  const options = document.querySelectorAll(`.question-item:nth-child(${questionIndex + 2}) .option`);
+  options.forEach((option, index) => {
+    if (index === optionIndex) {
+      option.classList.add(isCorrect ? 'answered-correct' : 'answered-incorrect');
+      option.classList.remove('correct-temp', 'incorrect-temp');
+    } else {
+      option.classList.add('disabled');
+      option.classList.remove('correct-temp', 'incorrect-temp');
+    }
+  });
+
+  // Show answer popup on the clicked option exactly
+  const clickedOption = options[optionIndex];
+  const popup = document.createElement('div');
+  popup.className = `answer-popup ${isCorrect ? 'correct' : 'incorrect'}`;
+  popup.textContent = isCorrect ? '✓' : '✗';
+  clickedOption.appendChild(popup);
+  
+  setTimeout(() => {
+    if (clickedOption.contains(popup)) {
+      clickedOption.removeChild(popup);
+    }
+  }, 1200);
+
+  // Show tick/cross popup
+  const tickCrossPopup = document.createElement('div');
+  tickCrossPopup.className = `tick-cross-popup ${isCorrect ? 'correct' : 'incorrect'}`;
+  tickCrossPopup.textContent = isCorrect ? '✓' : '✗';
+  document.body.appendChild(tickCrossPopup);
+  setTimeout(() => document.body.removeChild(tickCrossPopup), 1500);
+
+  updateScoreForSection();
+  updateScoreDisplay();
+}
+
+// Update refresh button to also clear localStorage
+document.getElementById('refreshChapterBtn').addEventListener('click', function() {
+  const classValue = document.getElementById('classSelect').value;
+  const chapterValue = document.getElementById('chapterSelect').value;
+  const sectionValue = document.getElementById('sectionSelect').value;
+  
+  if (!classValue || !chapterValue || !sectionValue) return;
+
+  // Clear persistent states for current section
+  const sectionKey = `${classValue}-${chapterValue}-${sectionValue}`;
+  Object.keys(questionStates).forEach(key => {
+    if (key.startsWith(`${classValue}-${chapterValue}-${sectionValue}-`)) {
+      delete questionStates[key];
+    }
+  });
+  
+  // Clear section score
+  delete sectionScores[sectionKey];
+  
+  // Save cleared state to localStorage
+  saveScoresToStorage();
+  
+  // Refresh the display
+  showQuestions();
+  updateScoreDisplay();
+});
+
 </script>
 </body>
 </html>
