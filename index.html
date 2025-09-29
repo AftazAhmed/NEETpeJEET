@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NEET-PYQ (Main Build with Add-on)</title>
+<title>NEET-PYQ</title>
 <style>
   body {
     font-family: 'Montserrat', Arial, sans-serif;
@@ -37,23 +37,24 @@
   .header h1 {
     position: relative;
     margin: 0 0 12px 0;
-    font-size: 2.6rem;
+    font-size: 3rem;
     font-weight: 900;
     letter-spacing: 2px;
     line-height: 1.1;
+    transform: none !important;
     color: #ffa726;
     max-width: 100%;
     white-space: nowrap;
   }
   .header .subtitle {
     position: relative;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color: #b9fbc0;
     letter-spacing: 0.6px;
   }
   .note {
-    max-width: 900px;
+    max-width: 720px;
     margin: 0 auto 24px auto;
     font-style: italic;
     font-size: 14px;
@@ -123,8 +124,9 @@
     height: 36px;
     white-space: nowrap;
   }
-  .reload-btn:hover { background-color: #7c3aed; }
-
+  .reload-btn:hover {
+    background-color: #7c3aed;
+  }
   #scoreWrapper {
     display: flex;
     align-items: center;
@@ -157,8 +159,9 @@
     align-items: center;
     gap: 4px;
   }
-  .refreshBtn:hover { background-color: #084298; }
-
+  .refreshBtn:hover {
+    background-color: #084298;
+  }
   .content-area {
     background-color: #fff1e0;
     padding: 28px 30px;
@@ -219,7 +222,9 @@
     word-wrap: break-word;
     word-break: break-word;
   }
-  .options { margin-bottom: 18px; }
+  .options {
+    margin-bottom: 18px;
+  }
   .option {
     background-color: #ffffff;
     border-radius: 6px;
@@ -235,7 +240,10 @@
     position: relative;
     overflow: visible;
   }
-  .option:hover:not(.disabled) { background-color: #dceddb; border-color: #71b280; }
+  .option:hover:not(.disabled) {
+    background-color: #dceddb;
+    border-color: #71b280;
+  }
   .option.correct-temp {
     background-color: rgba(25, 135, 84, 0.15);
     border-color: rgba(25, 135, 84, 0.3);
@@ -249,12 +257,38 @@
   .option.disabled {
     cursor: default;
     opacity: 0.8;
-    pointer-events: none; /* hard-lock after answer */
   }
-
-  /* No inline "Correct!" / "Incorrect" overlay */
-  .answer-popup { display: none; }
-
+  .answer-popup {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    opacity: 0.95;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 900;
+    border-radius: 6px;
+    z-index: 5;
+    pointer-events: none;
+    animation: popup-fade 1.2s forwards;
+  }
+  .answer-popup.correct {
+    background-color: rgba(25, 135, 84, 0.25);
+    color: #18763b;
+  }
+  .answer-popup.incorrect {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #b02a37;
+  }
+  @keyframes popup-fade {
+    0% { opacity: 0; }
+    10% { opacity: 1;}
+    80% { opacity: 0.95;}
+    100% { opacity: 0; }
+  }
   .button-group {
     display: flex;
     gap: 14px;
@@ -271,13 +305,24 @@
     color: #f0f0f0;
     transition: background-color 0.3s ease;
   }
-  .btn-answer { background-color: #198754; }
-  .btn-answer:hover { background-color: #146c43; }
-  .btn-copy { background-color: #0d6efd; }
-  .btn-copy:hover { background-color: #084298; }
-  .btn-chatgpt { background-color: #ff0000; }
-  .btn-chatgpt:hover { background-color: #cc0000; }
-
+  .btn-answer {
+    background-color: #198754;
+  }
+  .btn-answer:hover {
+    background-color: #146c43;
+  }
+  .btn-copy {
+    background-color: #0d6efd;
+  }
+  .btn-copy:hover {
+    background-color: #084298;
+  }
+  .btn-chatgpt {
+    background-color: #ff0000;
+  }
+  .btn-chatgpt:hover {
+    background-color: #cc0000;
+  }
   .answer-reveal {
     display: none;
     margin-top: 14px;
@@ -288,92 +333,29 @@
     padding: 14px 18px;
     font-weight: 700;
   }
-
-  /* Answer feedback popup (kept for answer actions only) */
   .tick-cross-popup {
     position: fixed;
-    top: 50%; left: 50%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     font-size: 80px;
     font-weight: 900;
     z-index: 1000;
     pointer-events: none;
-    animation: tick-cross-fade 1.2s forwards;
+    animation: tick-cross-fade 1.5s forwards;
   }
-  .tick-cross-popup.correct { color: #198754; }
-  .tick-cross-popup.incorrect { color: #dc3545; }
+  .tick-cross-popup.correct {
+    color: #198754;
+  }
+  .tick-cross-popup.incorrect {
+    color: #dc3545;
+  }
   @keyframes tick-cross-fade {
     0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-    20% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+    20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
     40% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
     100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
   }
-
-  /* Copy toast */
-  .copy-toast {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #ffffff;
-    color: #1f2937;
-    border: 2px solid #028090;
-    border-radius: 10px;
-    padding: 12px 14px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    z-index: 2000;
-    font-weight: 700;
-    max-width: 360px;
-  }
-
-  /* AI Prompt Modal */
-  .modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(2, 48, 71, 0.55);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1500;
-  }
-  .modal.open { display: flex; }
-  .modal-box {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 18px;
-    width: min(780px, 92vw);
-    border: 2px solid #3b82f6;
-  }
-  .modal-title {
-    font-weight: 900;
-    font-size: 18px;
-    color: #1e40af;
-    margin-bottom: 10px;
-  }
-  .modal-textarea {
-    width: 100%;
-    min-height: 200px;
-    border: 1.8px solid #b5d0c8;
-    border-radius: 8px;
-    padding: 10px 12px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-size: 14px;
-    color: #244636;
-    box-sizing: border-box;
-    resize: vertical;
-  }
-  .modal-actions {
-    margin-top: 12px;
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-  }
-  .btn-outline {
-    background: #ffffff;
-    color: #0d6efd;
-    border: 2px solid #0d6efd;
-  }
-  .btn-outline:hover { background: #e6f0ff; }
-
   .no-questions {
     text-align: center;
     font-style: italic;
@@ -381,20 +363,46 @@
     font-size: 17px;
     padding: 48px 10px;
   }
-
   @media (max-width: 900px) {
-    .controls { flex-direction: column; align-items: stretch; }
-    .dropdown-group { min-width: unset; width: 100%; }
-    .class-reload-group { min-width: unset; width: 100%; flex-direction: row; }
-    .class-dropdown-part { flex: 1; }
-    .reload-btn { margin-left: 8px; flex-shrink: 0; }
-    .header h1 {
-      padding-left: 8px; padding-right: 8px; margin-left: 0;
-      max-width: 320px; white-space: normal;
+    .controls { 
+      flex-direction: column; 
+      align-items: stretch;
     }
-    .content-area { max-width: 100%; padding: 20px 16px; min-height: 300px; }
-    .question-item { max-width: 100%; padding: 18px 12px; }
-    .question-text { font-size: 15px; }
+    .dropdown-group { 
+      min-width: unset; 
+      width: 100%;
+    }
+    .class-reload-group {
+      min-width: unset;
+      width: 100%;
+      flex-direction: row;
+    }
+    .class-dropdown-part {
+      flex: 1;
+    }
+    .reload-btn {
+      margin-left: 8px;
+      flex-shrink: 0;
+    }
+    .header h1 {
+      padding-left: 8px;
+      padding-right: 8px;
+      margin-left: 0;
+      max-width: 320px;
+      white-space: normal;
+    }
+    .content-area {
+      max-width: 100%;
+      padding: 20px 16px;
+      min-height: 300px;
+    }
+    .question-item {
+      max-width: 100%;
+      padding: 18px 12px;
+    }
+    .question-text {
+      font-size: 15px;
+    }
   }
 </style>
 </head>
@@ -412,31 +420,33 @@
   <div class="class-reload-group">
     <div class="class-dropdown-part">
       <label for="classSelect">Class:</label>
-      <select id="classSelect" aria-controls="chapterSelect sectionSelect" aria-required="true" onchange="updateChapters()">
+      <select id="classSelect" aria-controls="chapterSelect sectionSelect" onchange="updateChapters()" aria-required="true">
         <option value="">Select Class</option>
         <option value="11">Class 11</option>
         <option value="12">Class 12</option>
       </select>
     </div>
-    <button id="reloadBtn" class="reload-btn" type="button">↻ Reload</button>
+    <button id="reloadBtn" class="reload-btn" onclick="window.location.reload()">
+      ↻ Reload
+    </button>
   </div>
   <div class="dropdown-group">
     <label for="chapterSelect">Chapter:</label>
-    <select id="chapterSelect" aria-controls="sectionSelect" aria-required="true" disabled onchange="updateSections()">
+    <select id="chapterSelect" aria-controls="sectionSelect" onchange="updateSections()" disabled aria-required="true">
       <option value="">Select Chapter</option>
     </select>
   </div>
   <div class="dropdown-group">
     <label for="sectionSelect">Section:</label>
-    <select id="sectionSelect" aria-required="true" disabled onchange="showQuestions()">
+    <select id="sectionSelect" onchange="showQuestions()" disabled aria-required="true">
       <option value="">Select Section</option>
     </select>
   </div>
   <div id="scoreWrapper">
     <div id="scoreCard" class="scoreCard" aria-live="polite" role="region" aria-atomic="true" tabindex="0">
-      Section score: 0 / 0
+      Section score: x / y
     </div>
-    <button id="refreshChapterBtn" class="refreshBtn" type="button" aria-label="Refresh section score">
+    <button id="refreshChapterBtn" class="refreshBtn" aria-label="Refresh section score">
       <span>🔄</span> Refresh
     </button>
   </div>
@@ -446,33 +456,20 @@
   <div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>
 </main>
 
-<!-- AI Prompt Modal -->
-<div id="aiModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="aiModalTitle">
-  <div class="modal-box">
-    <div id="aiModalTitle" class="modal-title">Copy AI Prompt</div>
-    <textarea id="aiPromptArea" class="modal-textarea" spellcheck="false"></textarea>
-    <div class="modal-actions">
-      <button id="copyAiPromptBtn" class="btn btn-copy" type="button">Copy prompt</button>
-      <button id="closeAiPromptBtn" class="btn btn-outline" type="button">Close</button>
-    </div>
-  </div>
-</div>
-
 <script>
-  // ========== Dataset ==========
-  // Class 11: Chapters 1–19; questions only for 2.0 and 2.1.
-  // Class 12: Chapters 1–15 fully listed; no questions yet (open for add-ons).
-
-  window.questionData = {
+  const questionData = {
     "11": {
-      "1": { title: "The Living World",
+      "1": {
+        title: "The Living World", 
         sections: [
           {id: "1.0", name: "Introduction to Biology and Living Organisms"},
           {id: "1.1", name: "Diversity in the Living World"},
           {id: "1.2", name: "Taxonomic Categories"}
-        ],
-        questions: {} },
-      "2": { title: "Biological Classification",
+        ], 
+        questions: {}
+      },
+      "2": {
+        title: "Biological Classification", 
         sections: [
           {id: "2.0", name: "Evolution of Classification Systems"},
           {id: "2.1", name: "Kingdom Monera"},
@@ -481,174 +478,457 @@
           {id: "2.4", name: "Kingdom Plantae"},
           {id: "2.5", name: "Kingdom Animalia"},
           {id: "2.6", name: "Viruses, Viroids, Prions and Lichens"}
-        ],
+        ], 
         questions: {
           "2.0": [
-            { id: "2.0-2014-1", year: "NEET/AIPMT 2014",
+            {
+              year: "NEET/AIPMT 2014",
               question: "Five kingdom system of classification suggested by R. H. Whittaker is not based on which of the following criteria?",
-              options: ["a) presence or absence of a well defined nucleus","b) mode of reproduction","c) mode of nutrition","d) complexity of body organisation"],
-              answer: "b) mode of reproduction" },
-            { id: "2.0-2012-1", year: "NEET/AIPMT 2012",
+              options: [
+                "a) presence or absence of a well defined nucleus",
+                "b) mode of reproduction",
+                "c) mode of nutrition",
+                "d) complexity of body organisation"
+              ],
+              answer: "b) mode of reproduction"
+            },
+            {
+              year: "NEET/AIPMT 2012",
               question: "In the five kingdom classification, Chlamydomonas and Chlorella have been included in which kingdom?",
-              options: ["a) protista","b) algae","c) plantae","d) monera"],
-              answer: "a) protista" },
-            { id: "2.0-2004-1", year: "NEET/AIPMT 2004",
+              options: [
+                "a) protista",
+                "b) algae",
+                "c) plantae",
+                "d) monera"
+              ],
+              answer: "a) protista"
+            },
+            {
+              year: "NEET/AIPMT 2004",
               question: "Linnaeus system of plant classification is considered which type of system?",
-              options: ["a) Artificial","b) Natural","c) Phylogenetic","d) None of the above"],
-              answer: "a) Artificial" },
-            { id: "2.0-2004-2", year: "NEET/AIPMT 2004/2002",
+              options: [
+                "a) Artificial",
+                "b) Natural",
+                "c) Phylogenetic",
+                "d) None of the above"
+              ],
+              answer: "a) Artificial"
+            },
+            {
+              year: "NEET/AIPMT 2004/2002",
               question: "Who did propose natural classification of plants?",
-              options: ["a) Carolus Linnaeus","b) John Hutchinson","c) Bentham and Hooker","d) Oswald Tippo"],
-              answer: "c) Bentham and Hooker" },
-            { id: "2.0-2004-3", year: "NEET/AIPMT 2004/1988",
+              options: [
+                "a) Carolus Linnaeus",
+                "b) John Hutchinson",
+                "c) Bentham and Hooker",
+                "d) Oswald Tippo"
+              ],
+              answer: "c) Bentham and Hooker"
+            },
+            {
+              year: "NEET/AIPMT 2004/1988",
               question: "Who proposed phylogenetic classification of plants?",
-              options: ["a) Linnaeus","b) Hutchinson","c) Bentham and Hooker","d) Mehta"],
-              answer: "b) Hutchinson" },
-            { id: "2.0-2003-1", year: "NEET/AIPMT 2003",
+              options: [
+                "a) Linnaeus",
+                "b) Hutchinson",
+                "c) Bentham and Hooker",
+                "d) Mehta"
+              ],
+              answer: "b) Hutchinson"
+            },
+            {
+              year: "NEET/AIPMT 2003",
               question: "In which kingdom would you classify the archaea and nitrogen‑fixing organisms, if the five kingdom system of classification is used?",
-              options: ["a) Plantae","b) Fungi","c) Protista","d) Monera"],
-              answer: "d) Monera" },
-            { id: "2.0-2002-1", year: "NEET/AIPMT 2002",
+              options: [
+                "a) Plantae",
+                "b) Fungi",
+                "c) Protista",
+                "d) Monera"
+              ],
+              answer: "d) Monera"
+            },
+            {
+              year: "NEET/AIPMT 2002",
               question: "In five kingdom system, the main basis of classification is based on which criterion?",
-              options: ["a) structure of nucleus","b) mode of nutrition","c) structure of cell wall","d) asexual reproduction"],
-              answer: "b) mode of nutrition" },
-            { id: "2.0-2002-2", year: "NEET/AIPMT 2002/2001/2000",
+              options: [
+                "a) structure of nucleus",
+                "b) mode of nutrition",
+                "c) structure of cell wall",
+                "d) asexual reproduction"
+              ],
+              answer: "b) mode of nutrition"
+            },
+            {
+              year: "NEET/AIPMT 2002/2001/2000",
               question: "The basic unit of classification/taxonomy is which rank?",
-              options: ["a) Genus","b) Species","c) Family","d) Order"],
-              answer: "b) Species" },
-            { id: "2.0-2000-1", year: "NEET/AIPMT 2000/1999",
+              options: [
+                "a) Genus",
+                "b) Species",
+                "c) Family",
+                "d) Order"
+              ],
+              answer: "b) Species"
+            },
+            {
+              year: "NEET/AIPMT 2000/1999",
               question: "Which of the following taxonomical ranks contain organisms least similar to one another?",
-              options: ["a) Class","b) Genus","c) Family","d) Species"],
-              answer: "a) Class" },
-            { id: "2.0-2000-2", year: "NEET/AIPMT 2000/1997/1994",
+              options: [
+                "a) Class",
+                "b) Genus",
+                "c) Family",
+                "d) Species"
+              ],
+              answer: "a) Class"
+            },
+            {
+              year: "NEET/AIPMT 2000/1997/1994",
               question: "The non‑nucleated, unicellular organisms of Whittaker's (1969) classification are included in which kingdom?",
-              options: ["a) Protista","b) Monera","c) Animalia","d) Plantae"],
-              answer: "b) Monera" },
-            { id: "2.0-1999-1", year: "NEET/AIPMT 1999/1996",
+              options: [
+                "a) Protista",
+                "b) Monera",
+                "c) Animalia",
+                "d) Plantae"
+              ],
+              answer: "b) Monera"
+            },
+            {
+              year: "NEET/AIPMT 1999/1996",
               question: "A system of classification in which a large number of traits are considered is termed which type?",
-              options: ["a) Artificial system","b) Synthetic system","c) Natural system","d) Phylogenetic system"],
-              answer: "c) Natural system" },
-            { id: "2.0-1998-1", year: "NEET/AIPMT 1998",
+              options: [
+                "a) Artificial system",
+                "b) Synthetic system",
+                "c) Natural system",
+                "d) Phylogenetic system"
+              ],
+              answer: "c) Natural system"
+            },
+            {
+              year: "NEET/AIPMT 1998",
               question: "In the five kingdom system of classification, which single kingdom can include blue‑green algae, nitrogen fixing bacteria and methanogenic archaebacteria?",
-              options: ["a) Plantae","b) Protista","c) Monera","d) Fungi"],
-              answer: "c) Monera" },
-            { id: "2.0-1998-2", year: "NEET/AIPMT 1998",
+              options: [
+                "a) Plantae",
+                "b) Protista",
+                "c) Monera",
+                "d) Fungi"
+              ],
+              answer: "c) Monera"
+            },
+            {
+              year: "NEET/AIPMT 1998",
               question: "A system of classification that is based on evolution, order and ancestry is known as which type?",
-              options: ["a) Natural system","b) Analogous system","c) Phylogenetic system","d) Homologous system"],
-              answer: "c) Phylogenetic system" },
-            { id: "2.0-1998-3", year: "NEET/AIPMT 1998",
+              options: [
+                "a) Natural system",
+                "b) Analogous system",
+                "c) Phylogenetic system",
+                "d) Homologous system"
+              ],
+              answer: "c) Phylogenetic system"
+            },
+            {
+              year: "NEET/AIPMT 1998",
               question: "Systema Naturae is concerned with which field?",
-              options: ["a) Solar system","b) Ecosystem","c) Classification of plants and animals","d) Natural selection"],
-              answer: "c) Classification of plants and animals" },
-            { id: "2.0-1994-1", year: "NEET/AIPMT 1994/1992",
+              options: [
+                "a) Solar system",
+                "b) Ecosystem",
+                "c) Classification of plants and animals",
+                "d) Natural selection"
+              ],
+              answer: "c) Classification of plants and animals"
+            },
+            {
+              year: "NEET/AIPMT 1994/1992",
               question: "The term \"phylum\" in animal classification was coined by whom?",
-              options: ["a) E. Haeckel","b) John Ray","c) G.L. Cuvier","d) Carolus Linnaeus"],
-              answer: "c) G.L. Cuvier" },
-            { id: "2.0-1994-2", year: "NEET/AIPMT 1994",
+              options: [
+                "a) E. Haeckel",
+                "b) John Ray",
+                "c) G.L. Cuvier",
+                "d) Carolus Linnaeus"
+              ],
+              answer: "c) G.L. Cuvier"
+            },
+            {
+              year: "NEET/AIPMT 1994",
               question: "Four kingdom classification was proposed by whom?",
-              options: ["a) Whittaker","b) Copeland","c) Haeckel","d) Linnaeus"],
-              answer: "b) Copeland" }
+              options: [
+                "a) Whittaker",
+                "b) Copeland",
+                "c) Haeckel",
+                "d) Linnaeus"
+              ],
+              answer: "b) Copeland"
+            }
           ],
           "2.1": [
-            { id: "2.1-2019-1", year: "NEET/AIPMT 2019",
+            {
+              year: "NEET/AIPMT 2019",
               question: "Match Column I (groups) with Column II (typical habitats) and choose the correct option:<br><br>Column I: A) Halophiles &nbsp; B) Thermoacidophiles &nbsp; C) Methanogens &nbsp; D) Cyanobacteria<br>Column II: 1) Hot springs &nbsp; 2) Aquatic environment &nbsp; 3) Guts of ruminants &nbsp; 4) Salty area",
-              options: ["a) A-4, B-1, C-3, D-2","b) A-1, B-2, C-3, D-4","c) A-3, B-4, C-2, D-1","d) A-2, B-4, C-3, D-1"],
-              answer: "a) A-4, B-1, C-3, D-2" },
-            { id: "2.1-2017-1", year: "NEET/AIPMT 2017",
+              options: [
+                "a) A-4, B-1, C-3, D-2",
+                "b) A-1, B-2, C-3, D-4",
+                "c) A-3, B-4, C-2, D-1",
+                "d) A-2, B-4, C-3, D-1"
+              ],
+              answer: "a) A-4, B-1, C-3, D-2"
+            },
+            {
+              year: "NEET/AIPMT 2017",
               question: "Which among the following are the smallest living cells, known without a definite cell wall, pathogenic to plants as well as animals and can survive without oxygen?",
-              options: ["a) Pseudomonas","b) Mycoplasma","c) Nostoc","d) Bacillus"],
-              answer: "b) Mycoplasma" },
-            { id: "2.1-2017-2", year: "NEET/AIPMT 2017",
+              options: [
+                "a) Pseudomonas",
+                "b) Mycoplasma",
+                "c) Nostoc",
+                "d) Bacillus"
+              ],
+              answer: "b) Mycoplasma"
+            },
+            {
+              year: "NEET/AIPMT 2017",
               question: "Which of the following components provides sticky character to the bacterial cell?",
-              options: ["a) Nuclear membrane","b) Plasma membrane","c) Glycocalyx","d) Cell wall"],
-              answer: "c) Glycocalyx" },
-            { id: "2.1-2017-3", year: "NEET/AIPMT 2017",
+              options: [
+                "a) Nuclear membrane",
+                "b) Plasma membrane",
+                "c) Glycocalyx",
+                "d) Cell wall"
+              ],
+              answer: "c) Glycocalyx"
+            },
+            {
+              year: "NEET/AIPMT 2017",
               question: "DNA replication in bacteria occurs:",
-              options: ["a) within nucleus","b) Prior to fission","c) just before transcription","d) during S phase"],
-              answer: "b) Prior to fission" },
-            { id: "2.1-2016-1", year: "NEET/AIPMT 2016",
+              options: [
+                "a) within nucleus",
+                "b) Prior to fission",
+                "c) just before transcription",
+                "d) during S phase"
+              ],
+              answer: "b) Prior to fission"
+            },
+            {
+              year: "NEET/AIPMT 2016",
               question: "Methanogens belong to:",
-              options: ["a) eubacteria","b) archaebacteria","c) dinoflagellates","d) slime moulds"],
-              answer: "b) archaebacteria" },
-            { id: "2.1-2014-1", year: "NEET/AIPMT 2014",
+              options: [
+                "a) eubacteria",
+                "b) archaebacteria",
+                "c) dinoflagellates",
+                "d) slime moulds"
+              ],
+              answer: "b) archaebacteria"
+            },
+            {
+              year: "NEET/AIPMT 2014",
               question: "Pigment containing membranous extensions in some cyanobacteria are:",
-              options: ["a) pneumatophores","b) chromatophores","c) heterocysts","d) basal bodies"],
-              answer: "b) chromatophores" },
-            { id: "2.1-2013-1", year: "NEET/AIPMT 2013",
+              options: [
+                "a) pneumatophores",
+                "b) chromatophores",
+                "c) heterocysts",
+                "d) basal bodies"
+              ],
+              answer: "b) chromatophores"
+            },
+            {
+              year: "NEET/AIPMT 2013",
               question: "Archaebacteria differ from eubacteria in:",
-              options: ["a) cell membrane structure","b) mode of nutrition","c) cell shape","d) mode of reproduction"],
-              answer: "a) cell membrane structure" },
-            { id: "2.1-2013-2", year: "NEET/AIPMT 2013",
+              options: [
+                "a) cell membrane structure",
+                "b) mode of nutrition",
+                "c) cell shape",
+                "d) mode of reproduction"
+              ],
+              answer: "a) cell membrane structure"
+            },
+            {
+              year: "NEET/AIPMT 2013",
               question: "Which of the following are likely to be present in deep sea water?",
-              options: ["a) Blue-green algae","b) Saprophytic fungi","c) Archaebacteria","d) Eubacteria"],
-              answer: "c) Archaebacteria" },
-            { id: "2.1-2012-1", year: "NEET/AIPMT 2012",
+              options: [
+                "a) Blue-green algae",
+                "b) Saprophytic fungi",
+                "c) Archaebacteria",
+                "d) Eubacteria"
+              ],
+              answer: "c) Archaebacteria"
+            },
+            {
+              year: "NEET/AIPMT 2012",
               question: "The most abundant prokaryotes helpful to humans in making curd from milk and in production of antibiotics are the ones categorized as:",
-              options: ["a) cyanobacteria","b) archaebacteria","c) chemosynthetic autotrophs","d) heterotrophic bacteria"],
-              answer: "d) heterotrophic bacteria" },
-            { id: "2.1-2012-2", year: "NEET/AIPMT 2012",
+              options: [
+                "a) cyanobacteria",
+                "b) archaebacteria",
+                "c) chemosynthetic autotrophs",
+                "d) heterotrophic bacteria"
+              ],
+              answer: "d) heterotrophic bacteria"
+            },
+            {
+              year: "NEET/AIPMT 2012",
               question: "The cyanobacteria are also referred to as:",
-              options: ["a) protists","b) golden algae","c) slime moulds","d) blue green algae"],
-              answer: "d) blue green algae" },
-            { id: "2.1-2011-1", year: "NEET/AIPMT 2011",
+              options: [
+                "a) protists",
+                "b) golden algae",
+                "c) slime moulds",
+                "d) blue green algae"
+              ],
+              answer: "d) blue green algae"
+            },
+            {
+              year: "NEET/AIPMT 2011",
               question: "In eubacteria, a cellular component that resembles eukaryotic cells is:",
-              options: ["a) plasma membrane","b) nucleus","c) ribosomes","d) cell wall"],
-              answer: "a) plasma membrane" },
-            { id: "2.1-2010-1", year: "NEET/AIPMT 2010",
+              options: [
+                "a) plasma membrane",
+                "b) nucleus",
+                "c) ribosomes",
+                "d) cell wall"
+              ],
+              answer: "a) plasma membrane"
+            },
+            {
+              year: "NEET/AIPMT 2010",
               question: "Some hyperthermophilic organisms that grow in highly acidic (pH₂) habitats belong to the two groups:",
-              options: ["a) eubacteria and archaea","b) cyanobacteria and diatoms","c) protists and mosses","d) liverworts and yeasts"],
-              answer: "a) eubacteria and archaea" },
-            { id: "2.1-2008-1", year: "NEET/AIPMT 2008",
+              options: [
+                "a) eubacteria and archaea",
+                "b) cyanobacteria and diatoms",
+                "c) protists and mosses",
+                "d) liverworts and yeasts"
+              ],
+              answer: "a) eubacteria and archaea"
+            },
+            {
+              year: "NEET/AIPMT 2008",
               question: "In the light of recent classification of living organisms into three domains of life (bacteria, archaea and eukarya), which one of the following statements is true about archaea?",
-              options: ["a) Archaea completely differ from both prokaryotes and eukaryotes","b) Archaea completely differ from prokaryotes","c) Archaea resemble eukarya in all respects","d) Archaea have some novel features that are absent in other prokaryotes and eukaryotes"],
-              answer: "d) Archaea have some novel features that are absent in other prokaryotes and eukaryotes" },
-            { id: "2.1-2008-2", year: "NEET/AIPMT 2008",
+              options: [
+                "a) Archaea completely differ from both prokaryotes and eukaryotes",
+                "b) Archaea completely differ from prokaryotes",
+                "c) Archaea resemble eukarya in all respects",
+                "d) Archaea have some novel features that are absent in other prokaryotes and eukaryotes"
+              ],
+              answer: "d) Archaea have some novel features that are absent in other prokaryotes and eukaryotes"
+            },
+            {
+              year: "NEET/AIPMT 2008",
               question: "Thermococcus, Methanococcus and Methanobacterium exemplify:",
-              options: ["a) bacteria whose DNA is relaxed or positively supercoiled but which have a cytoskeleton as well as mitochondria","b) bacteria that contain a cytoskeleton and ribosomes","c) archaebacteria that contain protein homologous to eukaryotic core histones","d) archaebacteria that lack any histones resembling those found in eukaryotes but whose DNA is negatively supercoiled"],
-              answer: "c) archaebacteria that contain protein homologous to eukaryotic core histones" },
-            { id: "2.1-2008-3", year: "NEET/AIPMT 2008",
+              options: [
+                "a) bacteria whose DNA is relaxed or positively supercoiled but which have a cytoskeleton as well as mitochondria",
+                "b) bacteria that contain a cytoskeleton and ribosomes",
+                "c) archaebacteria that contain protein homologous to eukaryotic core histones",
+                "d) archaebacteria that lack any histones resembling those found in eukaryotes but whose DNA is negatively supercoiled"
+              ],
+              answer: "c) archaebacteria that contain protein homologous to eukaryotic core histones"
+            },
+            {
+              year: "NEET/AIPMT 2008",
               question: "Bacterial leaf blight of rice is caused by species:",
-              options: ["a) Alternaria","b) Erwinia","c) Xanthomonas","d) Pseudomonas"],
-              answer: "c) Xanthomonas" },
-            { id: "2.1-2006-1", year: "NEET/AIPMT 2006",
+              options: [
+                "a) Alternaria",
+                "b) Erwinia",
+                "c) Xanthomonas",
+                "d) Pseudomonas"
+              ],
+              answer: "c) Xanthomonas"
+            },
+            {
+              year: "NEET/AIPMT 2006",
               question: "Curing of tea leaves is brought about by the activity of:",
-              options: ["a) fungi","b) bacteria","c) mycorrhiza","d) viruses"],
-              answer: "b) bacteria" },
-            { id: "2.1-2005-1", year: "NEET/AIPMT 2005",
+              options: [
+                "a) fungi",
+                "b) bacteria",
+                "c) mycorrhiza",
+                "d) viruses"
+              ],
+              answer: "b) bacteria"
+            },
+            {
+              year: "NEET/AIPMT 2005",
               question: "For retting of jute the fermenting microbe used is:",
-              options: ["a) methanophilic bacteria","b) butyric acid bacteria","c) Helicobacter pylori","d) Streptococcus lactis"],
-              answer: "b) butyric acid bacteria" },
-            { id: "2.1-2002-1", year: "NEET/AIPMT 2002",
+              options: [
+                "a) methanophilic bacteria",
+                "b) butyric acid bacteria",
+                "c) Helicobacter pylori",
+                "d) Streptococcus lactis"
+              ],
+              answer: "b) butyric acid bacteria"
+            },
+            {
+              year: "NEET/AIPMT 2002",
               question: "Which statement is correct for bacterial transduction?",
-              options: ["a) Transfer of some genes from one bacteria to another bacteria through virus","b) Transfer of genes from one bacteria to another bacteria by conjugation","c) Bacteria obtained its DNA directly from mother cell","d) Bacteria obtained DNA from other external source"],
-              answer: "a) Transfer of some genes from one bacteria to another bacteria through virus" },
-            { id: "2.1-2001-1", year: "NEET/AIPMT 2001",
+              options: [
+                "a) Transfer of some genes from one bacteria to another bacteria through virus",
+                "b) Transfer of genes from one bacteria to another bacteria by conjugation",
+                "c) Bacteria obtained its DNA directly from mother cell",
+                "d) Bacteria obtained DNA from other external source"
+              ],
+              answer: "a) Transfer of some genes from one bacteria to another bacteria through virus"
+            },
+            {
+              year: "NEET/AIPMT 2001",
               question: "What is true for archaebacteria?",
-              options: ["a) All halophiles","b) All photosynthetics","c) All fossils","d) Oldest living beings"],
-              answer: "d) Oldest living beings" },
-            { id: "2.1-2001-2", year: "NEET/AIPMT 2001",
+              options: [
+                "a) All halophiles",
+                "b) All photosynthetics",
+                "c) All fossils",
+                "d) Oldest living beings"
+              ],
+              answer: "d) Oldest living beings"
+            },
+            {
+              year: "NEET/AIPMT 2001",
               question: "Difference in Gram positive and Gram negative bacteria is due to:",
-              options: ["a) cell wall","b) cell membrane","c) ribosome","d) cytoplasm"],
-              answer: "a) cell wall" },
-            { id: "2.1-1998-1", year: "NEET/AIPMT 1998",
+              options: [
+                "a) cell wall",
+                "b) cell membrane",
+                "c) ribosome",
+                "d) cytoplasm"
+              ],
+              answer: "a) cell wall"
+            },
+            {
+              year: "NEET/AIPMT 1998",
               question: "Genes for antibiotic resistance are located in:",
-              options: ["a) Chromosome","b) Nucleus","c) Cell wall","d) Plasmid"],
-              answer: "d) Plasmid" },
-            { id: "2.1-1998-2", year: "NEET/AIPMT 1998",
+              options: [
+                "a) Chromosome",
+                "b) Nucleus",
+                "c) Cell wall",
+                "d) Plasmid"
+              ],
+              answer: "d) Plasmid"
+            },
+            {
+              year: "NEET/AIPMT 1998",
               question: "Which one of the following can utilize molecular nitrogen (N₂) as nutrient for growth?",
-              options: ["a) Rhizobium","b) Spirogyra","c) Mucor","d) Methanococcus"],
-              answer: "d) Methanococcus" },
-            { id: "2.1-1990-1", year: "NEET/AIPMT 1990",
+              options: [
+                "a) Rhizobium",
+                "b) Spirogyra",
+                "c) Mucor",
+                "d) Methanococcus"
+              ],
+              answer: "d) Methanococcus"
+            },
+            {
+              year: "NEET/AIPMT 1990",
               question: "Which one belongs to Monera?",
-              options: ["a) Amoeba","b) Escherichia","c) Gelidium","d) Spirogyra"],
-              answer: "b) Escherichia" },
-            { id: "2.1-1990-2", year: "NEET/AIPMT 1990",
+              options: [
+                "a) Amoeba",
+                "b) Escherichia",
+                "c) Gelidium",
+                "d) Spirogyra"
+              ],
+              answer: "b) Escherichia"
+            },
+            {
+              year: "NEET/AIPMT 1990",
               question: "The main difference in Gram (+)ve and Gram (-)ve bacteria resides in their:",
-              options: ["a) cell wall","b) cell membrane","c) cytoplasm","d) flagella"],
-              answer: "a) cell wall" }
+              options: [
+                "a) cell wall",
+                "b) cell membrane",
+                "c) cytoplasm",
+                "d) flagella"
+              ],
+              answer: "a) cell wall"
+            }
           ]
-        } },
-      "3": { title: "Plant Kingdom",
+        }
+      },
+      // Continue with other chapters...
+      "3": {
+        title: "Plant Kingdom", 
         sections: [
           {id: "3.0", name: "Understanding Plant Kingdom and Classification Systems"},
           {id: "3.1", name: "Algae"},
@@ -656,16 +936,20 @@
           {id: "3.3", name: "Pteridophytes"},
           {id: "3.4", name: "Gymnosperms"},
           {id: "3.5", name: "Angiosperms"}
-        ],
-        questions: {} },
-      "4": { title: "Animal Kingdom",
+        ], 
+        questions: {}
+      },
+      "4": {
+        title: "Animal Kingdom", 
         sections: [
           {id: "4.0", name: "Animal Diversity and Classification Basis"},
           {id: "4.1", name: "Basis of Classification"},
           {id: "4.2", name: "Classification of Animals"}
-        ],
-        questions: {} },
-      "5": { title: "Morphology of Flowering Plants",
+        ], 
+        questions: {}
+      },
+      "5": {
+        title: "Morphology of Flowering Plants", 
         sections: [
           {id: "5.0", name: "External Structure and Variations in Plants"},
           {id: "5.1", name: "The Root"},
@@ -677,23 +961,29 @@
           {id: "5.7", name: "The Seed"},
           {id: "5.8", name: "Semi-technical Description of a Typical Flowering Plant"},
           {id: "5.9", name: "Description of Some Important Families"}
-        ],
-        questions: {} },
-      "6": { title: "Anatomy of Flowering Plants",
+        ], 
+        questions: {}
+      },
+      "6": {
+        title: "Anatomy of Flowering Plants", 
         sections: [
           {id: "6.0", name: "Internal Structure and Functional Organisation"},
           {id: "6.1", name: "The Tissue System"},
           {id: "6.2", name: "Anatomy of Dicotyledonous and Monocotyledonous Plants"}
-        ],
-        questions: {} },
-      "7": { title: "Structural Organisation in Animals",
+        ], 
+        questions: {}
+      },
+      "7": {
+        title: "Structural Organisation in Animals", 
         sections: [
           {id: "7.0", name: "Multicellular Organisation and Organ Systems"},
           {id: "7.1", name: "Organ and Organ System"},
           {id: "7.2", name: "Frogs"}
-        ],
-        questions: {} },
-      "8": { title: "Cell - The Unit of Life",
+        ], 
+        questions: {}
+      },
+      "8": {
+        title: "Cell - The Unit of Life", 
         sections: [
           {id: "8.0", name: "Cell Theory and Cellular Organisation"},
           {id: "8.1", name: "What is a Cell?"},
@@ -701,9 +991,11 @@
           {id: "8.3", name: "An Overview of Cell"},
           {id: "8.4", name: "Prokaryotic Cells"},
           {id: "8.5", name: "Eukaryotic Cells"}
-        ],
-        questions: {} },
-      "9": { title: "Biomolecules",
+        ], 
+        questions: {}
+      },
+      "9": {
+        title: "Biomolecules", 
         sections: [
           {id: "9.0", name: "Chemical Composition of Living Organisms"},
           {id: "9.1", name: "How to Analyse Chemical Composition?"},
@@ -714,9 +1006,11 @@
           {id: "9.6", name: "Nucleic Acids"},
           {id: "9.7", name: "Structure of Proteins"},
           {id: "9.8", name: "Enzymes"}
-        ],
-        questions: {} },
-      "10": { title: "Cell Cycle and Cell Division",
+        ], 
+        questions: {}
+      },
+      "10": {
+        title: "Cell Cycle and Cell Division", 
         sections: [
           {id: "10.0", name: "Cell Growth and Reproduction"},
           {id: "10.1", name: "Cell Cycle"},
@@ -724,9 +1018,11 @@
           {id: "10.3", name: "Significance of Mitosis"},
           {id: "10.4", name: "Meiosis"},
           {id: "10.5", name: "Significance of Meiosis"}
-        ],
-        questions: {} },
-      "11": { title: "Photosynthesis in Higher Plants",
+        ], 
+        questions: {}
+      },
+      "11": {
+        title: "Photosynthesis in Higher Plants", 
         sections: [
           {id: "11.0", name: "Plant Metabolism and Energy Conversion"},
           {id: "11.1", name: "What do we Know?"},
@@ -739,9 +1035,11 @@
           {id: "11.8", name: "The C₄ Pathway"},
           {id: "11.9", name: "Photorespiration"},
           {id: "11.10", name: "Factors affecting Photosynthesis"}
-        ],
-        questions: {} },
-      "12": { title: "Respiration in Plants",
+        ], 
+        questions: {}
+      },
+      "12": {
+        title: "Respiration in Plants", 
         sections: [
           {id: "12.0", name: "Energy Requirements in Living Organisms"},
           {id: "12.1", name: "Do Plants Breathe?"},
@@ -751,18 +1049,22 @@
           {id: "12.5", name: "The Respiratory Balance Sheet"},
           {id: "12.6", name: "Amphibolic Pathway"},
           {id: "12.7", name: "Respiratory Quotient"}
-        ],
-        questions: {} },
-      "13": { title: "Plant Growth and Development",
+        ], 
+        questions: {}
+      },
+      "13": {
+        title: "Plant Growth and Development", 
         sections: [
           {id: "13.0", name: "Growth Patterns and Development in Plants"},
           {id: "13.1", name: "Growth"},
           {id: "13.2", name: "Differentiation, Dedifferentiation and Redifferentiation"},
           {id: "13.3", name: "Development"},
           {id: "13.4", name: "Plant Growth Regulators"}
-        ],
-        questions: {} },
-      "14": { title: "Breathing and Exchange of Gases",
+        ], 
+        questions: {}
+      },
+      "14": {
+        title: "Breathing and Exchange of Gases", 
         sections: [
           {id: "14.0", name: "Coordination and Homeostasis in Human Body"},
           {id: "14.1", name: "Respiratory Organs"},
@@ -771,9 +1073,11 @@
           {id: "14.4", name: "Transport of Gases"},
           {id: "14.5", name: "Regulation of Respiration"},
           {id: "14.6", name: "Disorders of Respiratory System"}
-        ],
-        questions: {} },
-      "15": { title: "Body Fluids and Circulation",
+        ], 
+        questions: {}
+      },
+      "15": {
+        title: "Body Fluids and Circulation", 
         sections: [
           {id: "15.0", name: "Transport of Materials in Living Organisms"},
           {id: "15.1", name: "Blood"},
@@ -782,9 +1086,11 @@
           {id: "15.4", name: "Double Circulation"},
           {id: "15.5", name: "Regulation of Cardiac Activity"},
           {id: "15.6", name: "Disorders of Circulatory System"}
-        ],
-        questions: {} },
-      "16": { title: "Excretory Products and their Elimination",
+        ], 
+        questions: {}
+      },
+      "16": {
+        title: "Excretory Products and their Elimination", 
         sections: [
           {id: "16.0", name: "Waste Removal and Homeostasis"},
           {id: "16.1", name: "Human Excretory System"},
@@ -795,9 +1101,11 @@
           {id: "16.6", name: "Micturition"},
           {id: "16.7", name: "Role of other Organs in Excretion"},
           {id: "16.8", name: "Disorders of the Excretory System"}
-        ],
-        questions: {} },
-      "17": { title: "Locomotion and Movement",
+        ], 
+        questions: {}
+      },
+      "17": {
+        title: "Locomotion and Movement", 
         sections: [
           {id: "17.0", name: "Movement as a Characteristic of Life"},
           {id: "17.1", name: "Types of Movement"},
@@ -805,39 +1113,47 @@
           {id: "17.3", name: "Skeletal System"},
           {id: "17.4", name: "Joints"},
           {id: "17.5", name: "Disorders of Muscular and Skeletal System"}
-        ],
-        questions: {} },
-      "18": { title: "Neural Control and Coordination",
+        ], 
+        questions: {}
+      },
+      "18": {
+        title: "Neural Control and Coordination", 
         sections: [
           {id: "18.0", name: "Coordination and Integration in Multicellular Organisms"},
           {id: "18.1", name: "Neural System"},
           {id: "18.2", name: "Human Neural System"},
           {id: "18.3", name: "Neuron as Structural and Functional Unit of Neural System"},
           {id: "18.4", name: "Central Neural System"}
-        ],
-        questions: {} },
-      "19": { title: "Chemical Coordination and Integration",
+        ], 
+        questions: {}
+      },
+      "19": {
+        title: "Chemical Coordination and Integration", 
         sections: [
           {id: "19.0", name: "Endocrine System and Hormonal Coordination"},
           {id: "19.1", name: "Endocrine Glands and Hormones"},
           {id: "19.2", name: "Human Endocrine System"},
           {id: "19.3", name: "Hormones of Heart, Kidney and Gastrointestinal Tract"},
           {id: "19.4", name: "Mechanism of Hormone Action"}
-        ],
-        questions: {} }
+        ], 
+        questions: {}
+      }
     },
     "12": {
-      "1": { title: "Sexual Reproduction in Flowering Plants",
+      "1": {
+        title: "Sexual Reproduction in Flowering Plants", 
         sections: [
           {id: "1.0", name: "Reproduction as a Vital Life Process"},
-          {id: "1.1", name: "Flower – A Fascinating Organ"},
+          {id: "1.1", name: "Flower - A Fascinating Organ of Angiosperms"},
           {id: "1.2", name: "Pre-fertilisation: Structures and Events"},
           {id: "1.3", name: "Double Fertilisation"},
           {id: "1.4", name: "Post-fertilisation: Structures and Events"},
           {id: "1.5", name: "Apomixis and Polyembryony"}
-        ],
-        questions: {} },
-      "2": { title: "Human Reproduction",
+        ], 
+        questions: {}
+      },
+      "2": {
+        title: "Human Reproduction", 
         sections: [
           {id: "2.0", name: "Sexual Reproduction in Humans"},
           {id: "2.1", name: "The Male Reproductive System"},
@@ -847,9 +1163,11 @@
           {id: "2.5", name: "Fertilisation and Implantation"},
           {id: "2.6", name: "Pregnancy and Embryonic Development"},
           {id: "2.7", name: "Parturition and Lactation"}
-        ],
-        questions: {} },
-      "3": { title: "Reproductive Health",
+        ], 
+        questions: {}
+      },
+      "3": {
+        title: "Reproductive Health", 
         sections: [
           {id: "3.0", name: "Reproductive Health and Well-being"},
           {id: "3.1", name: "Reproductive Health – Problems and Strategies"},
@@ -857,9 +1175,11 @@
           {id: "3.3", name: "Medical Termination of Pregnancy"},
           {id: "3.4", name: "Sexually Transmitted Infections (STIs)"},
           {id: "3.5", name: "Infertility"}
-        ],
-        questions: {} },
-      "4": { title: "Principles of Inheritance and Variation",
+        ], 
+        questions: {}
+      },
+      "4": {
+        title: "Principles of Inheritance and Variation", 
         sections: [
           {id: "4.0", name: "Heredity and Genetic Basis of Inheritance"},
           {id: "4.1", name: "Mendel's Laws of Inheritance"},
@@ -868,9 +1188,11 @@
           {id: "4.4", name: "Sex Determination"},
           {id: "4.5", name: "Mutation"},
           {id: "4.6", name: "Genetic Disorders"}
-        ],
-        questions: {} },
-      "5": { title: "Molecular Basis of Inheritance",
+        ], 
+        questions: {}
+      },
+      "5": {
+        title: "Molecular Basis of Inheritance", 
         sections: [
           {id: "5.0", name: "Genetic Material and Molecular Biology"},
           {id: "5.1", name: "The DNA"},
@@ -883,594 +1205,359 @@
           {id: "5.8", name: "Regulation of Gene Expression"},
           {id: "5.9", name: "Human Genome Project"},
           {id: "5.10", name: "DNA Fingerprinting"}
-        ],
-        questions: {} },
-      "6": { title: "Evolution",
+        ], 
+        questions: {}
+      },
+      "6": {
+        title: "Evolution", 
         sections: [
-          {id: "6.0", name: "Origin of Life"},
-          {id: "6.1", name: "Evidences of Evolution"},
-          {id: "6.2", name: "Theories of Evolution"},
-          {id: "6.3", name: "Hardy-Weinberg Principle"},
-          {id: "6.4", name: "Adaptive Radiation"}
-        ],
-        questions: {} },
-      "7": { title: "Human Health and Disease",
+          {id: "6.0", name: "Origin and Evolution of Life"},
+          {id: "6.1", name: "Origin of Life"},
+          {id: "6.2", name: "Evolution of Life Forms – A Theory"},
+          {id: "6.3", name: "What are the Evidences for Evolution?"},
+          {id: "6.4", name: "What is Adaptive Radiation?"},
+          {id: "6.5", name: "Biological Evolution"},
+          {id: "6.6", name: "Mechanism of Evolution"},
+          {id: "6.7", name: "Hardy-Weinberg Principle"},
+          {id: "6.8", name: "A Brief Account of Evolution"},
+          {id: "6.9", name: "Origin and Evolution of Man"}
+        ], 
+        questions: {}
+      },
+      "7": {
+        title: "Human Health and Disease", 
         sections: [
-          {id: "7.0", name: "Common Diseases"},
-          {id: "7.1", name: "Immunity"},
-          {id: "7.2", name: "AIDS and Cancer"},
-          {id: "7.3", name: "Drugs and Alcohol Abuse"}
-        ],
-        questions: {} },
-      "8": { title: "Strategies for Enhancement in Food Production",
+          {id: "7.0", name: "Health and Disease in Human Populations"},
+          {id: "7.1", name: "Common Diseases in Humans"},
+          {id: "7.2", name: "Immunity"},
+          {id: "7.3", name: "AIDS"},
+          {id: "7.4", name: "Cancer"},
+          {id: "7.5", name: "Drugs and Alcohol Abuse"}
+        ], 
+        questions: {}
+      },
+      "8": {
+        title: "Microbes in Human Welfare", 
         sections: [
-          {id: "8.0", name: "Animal Husbandry"},
-          {id: "8.1", name: "Plant Breeding"},
-          {id: "8.2", name: "Single Cell Protein"},
-          {id: "8.3", name: "Tissue Culture"}
-        ],
-        questions: {} },
-      "9": { title: "Microbes in Human Welfare",
+          {id: "8.0", name: "Beneficial Microorganisms and Human Applications"},
+          {id: "8.1", name: "Microbes in Household Products"},
+          {id: "8.2", name: "Microbes in Industrial Products"},
+          {id: "8.3", name: "Microbes in Sewage Treatment"},
+          {id: "8.4", name: "Microbes in Production of Biogas"},
+          {id: "8.5", name: "Microbes as Biocontrol Agents"},
+          {id: "8.6", name: "Microbes as Biofertilisers"}
+        ], 
+        questions: {}
+      },
+      "9": {
+        title: "Biotechnology - Principles and Processes", 
         sections: [
-          {id: "9.0", name: "Microbes in Household Products"},
-          {id: "9.1", name: "Microbes in Industrial Products"},
-          {id: "9.2", name: "Microbes in Biogas"},
-          {id: "9.3", name: "Microbes as Biofertilisers"}
-        ],
-        questions: {} },
-      "10": { title: "Biotechnology: Principles and Processes",
+          {id: "9.0", name: "Modern Biotechnology and Genetic Engineering"},
+          {id: "9.1", name: "Principles of Biotechnology"},
+          {id: "9.2", name: "Tools of Recombinant DNA Technology"},
+          {id: "9.3", name: "Processes of Recombinant DNA Technology"}
+        ], 
+        questions: {}
+      },
+      "10": {
+        title: "Biotechnology and its Applications", 
         sections: [
-          {id: "10.0", name: "Principles of Biotechnology"},
-          {id: "10.1", name: "Tools of rDNA Technology"},
-          {id: "10.2", name: "Processes of rDNA Technology"}
-        ],
-        questions: {} },
-      "11": { title: "Biotechnology and its Applications",
+          {id: "10.0", name: "Applications of Biotechnology in Various Fields"},
+          {id: "10.1", name: "Biotechnological Applications in Agriculture"},
+          {id: "10.2", name: "Biotechnological Applications in Medicine"},
+          {id: "10.3", name: "Transgenic Animals"},
+          {id: "10.4", name: "Ethical Issues"}
+        ], 
+        questions: {}
+      },
+      "11": {
+        title: "Organisms and Populations", 
         sections: [
-          {id: "11.0", name: "Biotechnological Applications in Agriculture"},
-          {id: "11.1", name: "Biotechnological Applications in Medicine"},
-          {id: "11.2", name: "Transgenics and Biosafety"}
-        ],
-        questions: {} },
-      "12": { title: "Organisms and Populations",
+          {id: "11.0", name: "Ecology: Study of Interrelationships"},
+          {id: "11.1", name: "Organism and Its Environment"},
+          {id: "11.2", name: "Populations"}
+        ], 
+        questions: {}
+      },
+      "12": {
+        title: "Ecosystem", 
         sections: [
-          {id: "12.0", name: "Organism and Its Environment"},
-          {id: "12.1", name: "Population Attributes"},
-          {id: "12.2", name: "Population Interactions"}
-        ],
-        questions: {} },
-      "13": { title: "Ecosystem",
+          {id: "12.0", name: "Structure and Function of Ecosystems"},
+          {id: "12.1", name: "Ecosystem – Structure and Function"},
+          {id: "12.2", name: "Productivity"},
+          {id: "12.3", name: "Decomposition"},
+          {id: "12.4", name: "Energy Flow"},
+          {id: "12.5", name: "Ecological Pyramids"},
+          {id: "12.6", name: "Ecological Succession"},
+          {id: "12.7", name: "Nutrient Cycling"}
+        ], 
+        questions: {}
+      },
+      "13": {
+        title: "Biodiversity and Conservation", 
         sections: [
-          {id: "13.0", name: "Ecosystem Structure and Function"},
-          {id: "13.1", name: "Productivity and Decomposition"},
-          {id: "13.2", name: "Energy Flow"},
-          {id: "13.3", name: "Ecological Pyramids"}
-        ],
-        questions: {} },
-      "14": { title: "Biodiversity and Conservation",
+          {id: "13.0", name: "Biological Diversity and its Conservation"},
+          {id: "13.1", name: "Biodiversity"},
+          {id: "13.2", name: "Biodiversity Conservation"}
+        ], 
+        questions: {}
+      },
+      "14": {
+        title: "Environmental Issues", 
         sections: [
-          {id: "14.0", name: "Biodiversity Concepts"},
-          {id: "14.1", name: "Patterns and Importance"},
-          {id: "14.2", name: "Loss of Biodiversity"},
-          {id: "14.3", name: "Conservation Strategies"}
-        ],
-        questions: {} },
-      "15": { title: "Environmental Issues",
-        sections: [
-          {id: "15.0", name: "Air Pollution and Its Control"},
-          {id: "15.1", name: "Water Pollution and Its Control"},
-          {id: "15.2", name: "Solid Wastes and Radioactive Wastes"},
-          {id: "15.3", name: "Greenhouse Effect and Global Warming"}
-        ],
-        questions: {} }
+          {id: "14.0", name: "Environmental Problems and Solutions"},
+          {id: "14.1", name: "Air Pollution and Its Control"},
+          {id: "14.2", name: "Water Pollution and Its Control"},
+          {id: "14.3", name: "Solid Wastes"},
+          {id: "14.4", name: "Agro-chemicals and their Effects"},
+          {id: "14.5", name: "Radioactive Wastes"},
+          {id: "14.6", name: "Greenhouse Effect and Global Warming"},
+          {id: "14.7", name: "Ozone Depletion"},
+          {id: "14.8", name: "Deforestation"}
+        ], 
+        questions: {}
+      }
     }
   };
 
-  // ========== DOM ==========
-  const classSelect = document.getElementById('classSelect');
-  const chapterSelect = document.getElementById('chapterSelect');
-  const sectionSelect = document.getElementById('sectionSelect');
-  const contentArea = document.getElementById('contentArea');
-  const scoreCard = document.getElementById('scoreCard');
-  const refreshBtn = document.getElementById('refreshChapterBtn');
-  const reloadBtn = document.getElementById('reloadBtn');
+  let currentQuestions = [];
+  let userAnswers = [];
+  let score = { correct: 0, total: 0 };
 
-  // Modal elements
-  const aiModal = document.getElementById('aiModal');
-  const aiPromptArea = document.getElementById('aiPromptArea');
-  const copyAiPromptBtn = document.getElementById('copyAiPromptBtn');
-  const closeAiPromptBtn = document.getElementById('closeAiPromptBtn');
-
-  // ========== Utilities ==========
-  function safeGet(obj, pathArr, fallback = undefined) {
-    return pathArr.reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), obj) ?? fallback;
-  }
-  function getSelectionKeys() {
-    return { cls: classSelect.value, ch: chapterSelect.value, sec: sectionSelect.value };
-  }
-  function numericSortKeys(keysArr) {
-    return keysArr.sort((a, b) => Number(a) - Number(b));
-  }
-
-  // ========== Persistence ==========
-  function sectionAnsweredKey({ cls, ch, sec }) {
-    return `answered:${cls}-${ch}-${sec}`;
-  }
-  function readSectionAnswered(keys) {
-    try {
-      const raw = sessionStorage.getItem(sectionAnsweredKey(keys));
-      if (!raw) return {};
-      const parsed = JSON.parse(raw);
-      return typeof parsed === 'object' && parsed ? parsed : {};
-    } catch { return {}; }
-  }
-  function writeSectionAnswered(keys, map) {
-    try { sessionStorage.setItem(sectionAnsweredKey(keys), JSON.stringify(map)); } catch {}
-  }
-
-  function sectionScoreKey({ cls, ch, sec }) {
-    return `score:${cls}-${ch}-${sec}`;
-  }
-  function readSectionScore(keys) {
-    try {
-      const raw = localStorage.getItem(sectionScoreKey(keys));
-      if (!raw) return { correctIds: [] };
-      const parsed = JSON.parse(raw);
-      return Array.isArray(parsed.correctIds) ? parsed : { correctIds: [] };
-    } catch { return { correctIds: [] }; }
-  }
-  function writeSectionScore(keys, data) {
-    try { localStorage.setItem(sectionScoreKey(keys), JSON.stringify(data)); } catch {}
-  }
-  function markCorrectForSection(keys, qid) {
-    const data = readSectionScore(keys);
-    if (!data.correctIds.includes(qid)) {
-      data.correctIds.push(qid);
-      writeSectionScore(keys, data);
-    }
-  }
-
-  // ========== UI population ==========
   function updateChapters() {
+    const classSelect = document.getElementById('classSelect');
+    const chapterSelect = document.getElementById('chapterSelect');
+    const sectionSelect = document.getElementById('sectionSelect');
+    
+    const selectedClass = classSelect.value;
+    
+    // Clear chapters and sections
     chapterSelect.innerHTML = '<option value="">Select Chapter</option>';
     sectionSelect.innerHTML = '<option value="">Select Section</option>';
-    sectionSelect.disabled = true;
-
-    const cls = classSelect.value;
-    const chapters = safeGet(window.questionData, [cls], null);
-    if (!cls || !chapters) {
+    
+    if (selectedClass && questionData[selectedClass]) {
+      chapterSelect.disabled = false;
+      
+      Object.keys(questionData[selectedClass]).forEach(chapterNum => {
+        const chapter = questionData[selectedClass][chapterNum];
+        const option = document.createElement('option');
+        option.value = chapterNum;
+        option.textContent = `Chapter ${chapterNum}: ${chapter.title}`;
+        chapterSelect.appendChild(option);
+      });
+    } else {
       chapterSelect.disabled = true;
-      renderNoSelection();
-      updateScoreCard();
-      return;
+      sectionSelect.disabled = true;
     }
-
-    numericSortKeys(Object.keys(chapters)).forEach(cid => {
-      const opt = document.createElement('option');
-      opt.value = cid;
-      opt.textContent = `${cid}. ${chapters[cid].title}`;
-      chapterSelect.appendChild(opt);
-    });
-    chapterSelect.disabled = false;
-    renderNoSelection();
-    updateScoreCard();
+    
+    clearContent();
   }
 
   function updateSections() {
+    const classSelect = document.getElementById('classSelect');
+    const chapterSelect = document.getElementById('chapterSelect');
+    const sectionSelect = document.getElementById('sectionSelect');
+    
+    const selectedClass = classSelect.value;
+    const selectedChapter = chapterSelect.value;
+    
+    // Clear sections
     sectionSelect.innerHTML = '<option value="">Select Section</option>';
-    const { cls, ch } = getSelectionKeys();
-    if (!cls || !ch) {
-      sectionSelect.disabled = true;
-      renderNoSelection();
-      updateScoreCard();
-      return;
-    }
-    const sections = safeGet(window.questionData, [cls, ch, 'sections'], []);
-    sections.slice().sort((a,b) => {
-      const A = a.id.split('.').map(Number), B = b.id.split('.').map(Number);
-      return (A[0]-B[0]) || (A[1]-B[1]) || 0;
-    }).forEach(s => {
-      const opt = document.createElement('option');
-      opt.value = s.id;
-      opt.textContent = `${s.id} — ${s.name}`;
-      sectionSelect.appendChild(opt);
-    });
-    sectionSelect.disabled = sections.length === 0;
-    renderNoSelection();
-    updateScoreCard();
-  }
-
-  // ========== Rendering ==========
-  function showQuestions() {
-    const { cls, ch, sec } = getSelectionKeys();
-    const allQs = safeGet(window.questionData, [cls, ch, 'questions', sec], []);
-    contentArea.innerHTML = '';
-
-    if (!cls || !ch || !sec) {
-      renderNoSelection();
-      updateScoreCard();
-      return;
-    }
-
-    if (!allQs || allQs.length === 0) {
-      const div = document.createElement('div');
-      div.className = 'no-questions';
-      div.textContent = 'No questions available in this section.';
-      contentArea.appendChild(div);
-      updateScoreCard();
-      return;
-    }
-
-    const qc = document.createElement('div');
-    qc.className = 'question-count';
-    qc.textContent = `Questions: ${allQs.length}`;
-    contentArea.appendChild(qc);
-
-    const answeredMap = readSectionAnswered({ cls, ch, sec });
-    const stored = readSectionScore({ cls, ch, sec });
-
-    allQs.forEach((q, idx) => {
-      const qWrap = document.createElement('div');
-      qWrap.className = 'question-item';
-      qWrap.dataset.qid = q.id;
-
-      const header = document.createElement('div');
-      header.className = 'question-header';
-
-      const num = document.createElement('div');
-      num.className = 'question-number';
-      num.textContent = `Q${idx + 1}`;
-
-      const yr = document.createElement('div');
-      yr.className = 'question-year';
-      yr.textContent = q.year;
-
-      header.appendChild(num);
-      header.appendChild(yr);
-
-      const qText = document.createElement('div');
-      qText.className = 'question-text';
-      qText.innerHTML = q.question;
-
-      const optionsDiv = document.createElement('div');
-      optionsDiv.className = 'options';
-
-      q.options.forEach(optText => {
-        const opt = document.createElement('div');
-        opt.className = 'option';
-        opt.textContent = optText;
-        opt.addEventListener('click', () => handleOptionClick(opt, q, { cls, ch, sec }));
-        optionsDiv.appendChild(opt);
+    
+    if (selectedClass && selectedChapter && questionData[selectedClass][selectedChapter]) {
+      sectionSelect.disabled = false;
+      
+      const chapter = questionData[selectedClass][selectedChapter];
+      chapter.sections.forEach(section => {
+        const option = document.createElement('option');
+        option.value = section.id;
+        option.textContent = section.name;
+        sectionSelect.appendChild(option);
       });
-
-      const btnRow = document.createElement('div');
-      btnRow.className = 'button-group';
-
-      const revealBtn = document.createElement('button');
-      revealBtn.className = 'btn btn-answer';
-      revealBtn.type = 'button';
-      revealBtn.textContent = 'Reveal Answer';
-      const revealBox = document.createElement('div');
-      revealBox.className = 'answer-reveal';
-      revealBox.textContent = `Correct: ${q.answer}`;
-      revealBtn.addEventListener('click', () => {
-        revealBox.style.display = revealBox.style.display === 'block' ? 'none' : 'block';
-      });
-
-      const copyBtn = document.createElement('button');
-      copyBtn.className = 'btn btn-copy';
-      copyBtn.type = 'button';
-      copyBtn.textContent = 'Copy';
-      copyBtn.addEventListener('click', async () => {
-        const text = [
-          `${q.year}`,
-          q.question.replace(/<br\s*\/?>/gi, '\n'),
-          ...q.options
-        ].join('\n');
-        try {
-          await navigator.clipboard.writeText(text);
-          showCopyToast('Copied, ready to paste in any browser, gemini, deepseek, perplexity, any other AI');
-        } catch {
-          showCopyToast('Copy failed. Please allow clipboard permissions and try again.');
-        }
-      });
-
-      const askBtn = document.createElement('button');
-      askBtn.className = 'btn btn-chatgpt';
-      askBtn.type = 'button';
-      askBtn.textContent = 'Ask AI';
-      askBtn.addEventListener('click', () => openAIModalWithQuestion(q, { cls, ch, sec }));
-
-      btnRow.appendChild(revealBtn);
-      btnRow.appendChild(copyBtn);
-      btnRow.appendChild(askBtn);
-
-      qWrap.appendChild(header);
-      qWrap.appendChild(qText);
-      qWrap.appendChild(optionsDiv);
-      qWrap.appendChild(btnRow);
-      qWrap.appendChild(revealBox);
-
-      contentArea.appendChild(qWrap);
-
-      // Restore previous answered state (session)
-      const prev = answeredMap[q.id];
-      if (prev) {
-        const opts = qWrap.querySelectorAll('.option');
-        opts.forEach(o => {
-          if (prev.correct) {
-            if (o.textContent.trim() === q.answer.trim()) o.classList.add('correct-temp');
-          } else {
-            if (o.textContent.trim() === prev.selected.trim()) o.classList.add('incorrect-temp');
-          }
-          o.classList.add('disabled');
-        });
-        qWrap.dataset.answered = 'true';
-      } else if (stored.correctIds.includes(q.id)) {
-        lockQuestionAsCorrect(qWrap, q.answer);
-      }
-    });
-
-    updateScoreCard();
-  }
-
-  function handleOptionClick(element, q, keyParts) {
-    const qWrap = element.closest('.question-item');
-    if (!qWrap || qWrap.dataset.answered === 'true') return;
-
-    const isCorrect = element.textContent.trim() === q.answer.trim();
-
-    // Color only selected option
-    element.classList.add(isCorrect ? 'correct-temp' : 'incorrect-temp');
-
-    // Lock all options
-    qWrap.querySelectorAll('.option').forEach(o => o.classList.add('disabled'));
-    qWrap.dataset.answered = 'true';
-
-    // Center tick/cross for answer only
-    transientPopup(isCorrect ? '✓' : '✗', isCorrect);
-
-    // Session persist
-    const answeredMap = readSectionAnswered(keyParts);
-    answeredMap[q.id] = { selected: element.textContent.trim(), correct: isCorrect };
-    writeSectionAnswered(keyParts, answeredMap);
-
-    // Score persist
-    if (isCorrect) markCorrectForSection(keyParts, q.id);
-
-    updateScoreCard();
-  }
-
-  function lockQuestionAsCorrect(qWrap, correctAnswerText) {
-    qWrap.querySelectorAll('.option').forEach(o => {
-      if (o.textContent.trim() === correctAnswerText.trim()) o.classList.add('correct-temp');
-      o.classList.add('disabled');
-    });
-    qWrap.dataset.answered = 'true';
-  }
-
-  function transientPopup(symbol, positive) {
-    const t = document.createElement('div');
-    t.className = `tick-cross-popup ${positive ? 'correct' : 'incorrect'}`;
-    t.textContent = symbol;
-    document.body.appendChild(t);
-    setTimeout(() => t.remove(), 900);
-  }
-
-  function showCopyToast(message) {
-    const toast = document.createElement('div');
-    toast.className = 'copy-toast';
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    setTimeout(() => { toast.remove(); }, 2200);
-  }
-
-    // Ask AI modal integration
-  function openAIModalWithQuestion(q, keys) {
-    const { cls, ch, sec } = keys || getSelectionKeys();
-    const chapterTitle = safeGet(window.questionData, [cls, ch, 'title'], `Chapter ${ch}`);
-    const sectionObj = (safeGet(window.questionData, [cls, ch, 'sections'], []) || []).find(s => s.id === sec) || { id: sec, name: '' };
-
-    const prompt = buildAiPromptForQuestion(q, {
-      classLabel: cls === '11' ? 'Class 11' : (cls === '12' ? 'Class 12' : `Class ${cls}`),
-      chapterTitle,
-      sectionId: sectionObj.id || sec || '',
-      sectionName: sectionObj.name || ''
-    });
-
-    aiPromptArea.value = prompt;
-    aiModal.classList.add('open');
-    aiPromptArea.focus();
-    aiPromptArea.select();
-  }
-
-  function buildAiPromptForQuestion(q, meta) {
-    const optionsJoined = q.options.join('\n');
-    return [
-      `Task: Solve the NEET/AIPMT Biology MCQ and provide a precise explanation.`,
-      `Exam Year: ${q.year}`,
-      `Class/Chapter/Section: ${meta.classLabel} — ${meta.chapterTitle} — ${meta.sectionId} ${meta.sectionName}`,
-      `Question: ${q.question.replace(/<br\\s*\\/?>(\\s*)/gi, '\\n')}`,
-      `Options:`,
-      `${optionsJoined}`,
-      ``,
-      `Instructions:`,
-      `1) Give the correct option letter and text.`,
-      `2) Then provide a concise 2–3 line reasoning aligned to NCERT.`,
-      `3) If possible, indicate relevant NCERT lines or page hints without quoting verbatim.`,
-      `4) Keep the answer crisp and exam-ready.`
-    ].join('\n');
-  }
-
-  function updateScoreCard() {
-    const { cls, ch, sec } = getSelectionKeys();
-    if (!cls || !ch || !sec) {
-      scoreCard.textContent = 'Section score: 0 / 0';
-      return;
-    }
-    const questions = safeGet(window.questionData, [cls, ch, 'questions', sec], []) || [];
-    const total = questions.length;
-    const data = readSectionScore({ cls, ch, sec });
-    const correct = data.correctIds.filter(id => questions.some(q => q.id === id)).length;
-    scoreCard.textContent = `Section score: ${correct} / ${total}`;
-  }
-
-  function renderNoSelection() {
-    contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
-  }
-
-  // Wire events (in addition to inline onchange for resilience)
-  classSelect.addEventListener('change', updateChapters);
-  chapterSelect.addEventListener('change', updateSections);
-  sectionSelect.addEventListener('change', showQuestions);
-  refreshBtn.addEventListener('click', updateScoreCard);
-  reloadBtn.addEventListener('click', () => window.location.reload());
-
-  // Modal actions
-  copyAiPromptBtn.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(aiPromptArea.value);
-      showCopyToast('Copied, ready to paste in any browser, gemini, deepseek, perplexity, any other AI');
-    } catch {
-      showCopyToast('Copy failed. Please allow clipboard permissions and try again.');
-    }
-  });
-  closeAiPromptBtn.addEventListener('click', () => aiModal.classList.remove('open'));
-  aiModal.addEventListener('click', (e) => {
-    if (e.target === aiModal) aiModal.classList.remove('open');
-  });
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') aiModal.classList.remove('open');
-  });
-
-  // ========== Add-on / Merge API ==========
-  function mergeArraysUniqueById(baseArr, addArr) {
-    const map = new Map((baseArr || []).map(item => [item.id, item]));
-    (addArr || []).forEach(item => {
-      if (!map.has(item.id)) {
-        map.set(item.id, item);
-      } else {
-        const existing = map.get(item.id);
-        if (item.name && existing.name !== item.name) existing.name = item.name;
-      }
-    });
-    return Array.from(map.values());
-  }
-
-  window.mergeQuestionData = function(add) {
-    if (!add || typeof add !== 'object') return;
-
-    Object.keys(add).forEach(cls => {
-      if (!window.questionData[cls]) window.questionData[cls] = {};
-      const addChapters = add[cls];
-
-      Object.keys(addChapters).forEach(ch => {
-        const addChapterObj = addChapters[ch];
-
-        if (!window.questionData[cls][ch]) {
-          // New chapter entirely
-          window.questionData[cls][ch] = {
-            title: addChapterObj.title || `Chapter ${ch}`,
-            sections: Array.isArray(addChapterObj.sections) ? addChapterObj.sections.slice() : [],
-            questions: addChapterObj.questions ? { ...addChapterObj.questions } : {}
-          };
-        } else {
-          // Merge into existing chapter
-          if (addChapterObj.title) {
-            window.questionData[cls][ch].title = addChapterObj.title;
-          }
-
-          if (Array.isArray(addChapterObj.sections)) {
-            window.questionData[cls][ch].sections =
-              mergeArraysUniqueById(window.questionData[cls][ch].sections || [], addChapterObj.sections);
-          }
-
-          if (addChapterObj.questions && typeof addChapterObj.questions === 'object') {
-            const baseQ = window.questionData[cls][ch].questions || {};
-            Object.keys(addChapterObj.questions).forEach(secId => {
-              const addList = addChapterObj.questions[secId] || [];
-              const baseList = baseQ[secId] || [];
-              const qMap = new Map(baseList.map(q => [q.id, q]));
-              addList.forEach(q => { if (!qMap.has(q.id)) qMap.set(q.id, q); });
-              baseQ[secId] = Array.from(qMap.values());
-            });
-            window.questionData[cls][ch].questions = baseQ;
-          }
-        }
-      });
-    });
-
-    // Refresh UI while retaining current selections where possible
-    const { cls, ch, sec } = getSelectionKeys();
-
-    if (cls) {
-      const prevCh = ch;
-      const prevSec = sec;
-
-      updateChapters();
-
-      if (prevCh && safeGet(window.questionData, [cls, prevCh])) {
-        chapterSelect.value = prevCh;
-        updateSections();
-
-        const sections = safeGet(window.questionData, [cls, prevCh, 'sections'], []);
-        if (prevSec && sections.some(s => s.id === prevSec)) {
-          sectionSelect.value = prevSec;
-          showQuestions();
-        }
-      }
     } else {
-      renderNoSelection();
-      updateScoreCard();
+      sectionSelect.disabled = true;
     }
-  };
-
-  // Auto-apply add-on if a global object is present
-  if (window.__NEET_ADDON__ && typeof window.__NEET_ADDON__ === 'object') {
-    window.mergeQuestionData(window.__NEET_ADDON__);
+    
+    clearContent();
   }
-</script>
 
-<!-- ========= Paste your add-on script block BELOW this line and ABOVE </body> =========
-Example:
-<script>
-  window.mergeQuestionData({
-    "11": {
-      "3": {
-        sections: [
-          { id: "3.6", name: "New Section Example" }
-        ],
-        questions: {
-          "3.6": [
-            {
-              id: "3.6-EX1",
-              year: "NEET 2020",
-              question: "Example add-on question?",
-              options: ["a) A", "b) B", "c) C", "d) D"],
-              answer: "b) B"
-            }
-          ]
-        }
-      }
-    },
-    "12": {
-      "2": {
-        questions: {
-          "2.1": [
-            {
-              id: "12-2.1-EX2",
-              year: "NEET 2017",
-              question: "Another add-on question?",
-              options: ["a) A", "b) B", "c) C", "d) D"],
-              answer: "a) A"
-            }
-          ]
-        }
-      }
+  function showQuestions() {
+    const classSelect = document.getElementById('classSelect');
+    const chapterSelect = document.getElementById('chapterSelect');
+    const sectionSelect = document.getElementById('sectionSelect');
+    
+    const selectedClass = classSelect.value;
+    const selectedChapter = chapterSelect.value;
+    const selectedSection = sectionSelect.value;
+    
+    if (selectedClass && selectedChapter && selectedSection) {
+      const chapter = questionData[selectedClass][selectedChapter];
+      const questions = chapter.questions[selectedSection] || [];
+      
+      displayQuestions(questions, selectedSection);
+      resetScore();
+    } else {
+      clearContent();
     }
+  }
+
+  function displayQuestions(questions, sectionId) {
+    const contentArea = document.getElementById('contentArea');
+    
+    if (questions.length === 0) {
+      contentArea.innerHTML = '<div class="no-questions">No questions available for this section yet.</div>';
+      return;
+    }
+    
+    currentQuestions = questions;
+    userAnswers = new Array(questions.length).fill(null);
+    
+    let html = `<div class="question-count">Section Questions: ${questions.length}</div>`;
+    
+    questions.forEach((q, index) => {
+      html += `
+        <div class="question-item" id="question-${index}">
+          <div class="question-header">
+            <div class="question-number">Question ${index + 1}</div>
+            <div class="question-year">${q.year}</div>
+          </div>
+          <div class="question-text">${q.question}</div>
+          <div class="options" id="options-${index}">
+            ${q.options.map((option, optionIndex) => `
+              <div class="option" onclick="selectOption(${index}, ${optionIndex}, '${option}', '${q.answer}')" id="option-${index}-${optionIndex}">
+                ${option}
+              </div>
+            `).join('')}
+          </div>
+          <div class="button-group">
+            <button class="btn btn-answer" onclick="showAnswer(${index})">Show Answer</button>
+            <button class="btn btn-copy" onclick="copyQuestion(${index})">Copy Question</button>
+            <button class="btn btn-chatgpt" onclick="explainWithChatGPT(${index})">Ask ChatGPT</button>
+          </div>
+          <div class="answer-reveal" id="answer-${index}">
+            <strong>Correct Answer:</strong> ${q.answer}
+          </div>
+        </div>
+      `;
+    });
+    
+    contentArea.innerHTML = html;
+  }
+
+  function selectOption(questionIndex, optionIndex, selectedOption, correctAnswer) {
+    const optionsContainer = document.getElementById(`options-${questionIndex}`);
+    const allOptions = optionsContainer.querySelectorAll('.option');
+    
+    // If already answered, don't allow re-answering
+    if (allOptions[0].classList.contains('disabled')) {
+      return;
+    }
+    
+    userAnswers[questionIndex] = selectedOption;
+    
+    const isCorrect = selectedOption === correctAnswer;
+    
+    // Mark all options as disabled and show correct/incorrect
+    allOptions.forEach((option, idx) => {
+      option.classList.add('disabled');
+      if (option.textContent === correctAnswer) {
+        option.classList.add('correct-temp');
+      } else if (idx === optionIndex) {
+        option.classList.add('incorrect-temp');
+      }
+      
+      // Add popup animation
+      if (idx === optionIndex) {
+        const popup = document.createElement('div');
+        popup.className = `answer-popup ${isCorrect ? 'correct' : 'incorrect'}`;
+        popup.textContent = isCorrect ? '✓' : '✗';
+        option.appendChild(popup);
+      }
+    });
+    
+    // Show tick/cross popup
+    showTickCrossPopup(isCorrect);
+    
+    // Update score
+    updateScore(isCorrect);
+  }
+
+  function showTickCrossPopup(isCorrect) {
+    const popup = document.createElement('div');
+    popup.className = `tick-cross-popup ${isCorrect ? 'correct' : 'incorrect'}`;
+    popup.textContent = isCorrect ? '✓' : '✗';
+    document.body.appendChild(popup);
+    
+    setTimeout(() => {
+      document.body.removeChild(popup);
+    }, 1500);
+  }
+
+  function updateScore(isCorrect) {
+    if (isCorrect) {
+      score.correct++;
+    }
+    score.total++;
+    
+    document.getElementById('scoreCard').textContent = `Section score: ${score.correct} / ${score.total}`;
+  }
+
+  function resetScore() {
+    score = { correct: 0, total: 0 };
+    document.getElementById('scoreCard').textContent = 'Section score: 0 / 0';
+  }
+
+  function showAnswer(questionIndex) {
+    const answerDiv = document.getElementById(`answer-${questionIndex}`);
+    answerDiv.style.display = answerDiv.style.display === 'block' ? 'none' : 'block';
+  }
+
+  function copyQuestion(questionIndex) {
+    const question = currentQuestions[questionIndex];
+    const text = `${question.year}\n\n${question.question}\n\n${question.options.join('\n')}\n\nAnswer: ${question.answer}`;
+    
+    navigator.clipboard.writeText(text).then(() => {
+      // Could add a toast notification here
+    });
+  }
+
+  function explainWithChatGPT(questionIndex) {
+    const question = currentQuestions[questionIndex];
+    const prompt = `Explain this NEET Biology question in detail:\n\n${question.question}\n\n${question.options.join('\n')}\n\nCorrect Answer: ${question.answer}`;
+    
+    const chatGPTUrl = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
+    window.open(chatGPTUrl, '_blank');
+  }
+
+  function clearContent() {
+    const contentArea = document.getElementById('contentArea');
+    contentArea.innerHTML = '<div class="no-questions">Please select Class, Chapter, and Section to view questions.</div>';
+    resetScore();
+  }
+
+  // Refresh score functionality
+  document.getElementById('refreshChapterBtn').addEventListener('click', function() {
+    resetScore();
+    // Re-enable all options
+    const allOptions = document.querySelectorAll('.option');
+    allOptions.forEach(option => {
+      option.classList.remove('disabled', 'correct-temp', 'incorrect-temp');
+      // Remove any popup elements
+      const popup = option.querySelector('.answer-popup');
+      if (popup) {
+        option.removeChild(popup);
+      }
+    });
+    
+    // Reset user answers
+    userAnswers = new Array(currentQuestions.length).fill(null);
+    
+    // Hide all answer reveals
+    const answerReveals = document.querySelectorAll('.answer-reveal');
+    answerReveals.forEach(reveal => {
+      reveal.style.display = 'none';
+    });
   });
 </script>
-========= END add-on area ========= -->
-
 </body>
 </html>
