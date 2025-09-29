@@ -240,51 +240,69 @@
     position: relative;
     overflow: visible;
   }
-  .option:hover:not(.disabled):not(.selected) {
+  .option:hover:not(.disabled):not(.answered-correct):not(.answered-incorrect) {
     background-color: #dceddb;
     border-color: #71b280;
   }
-  .option.correct {
-    background-color: rgba(25, 135, 84, 0.2);
+  /* Modified styles for persistent correct/incorrect options */
+  .option.answered-correct {
+    background-color: rgba(25, 135, 84, 0.25);
     border: 3px solid #198754;
-    color: #0d5932;
+    color: #0d4b21;
     font-weight: 700;
+    cursor: default;
   }
-  .option.incorrect {
-    background-color: rgba(220, 53, 69, 0.2);
+  .option.answered-incorrect {
+    background-color: rgba(220, 53, 69, 0.25);
     border: 3px solid #dc3545;
-    color: #842029;
+    color: #721c24;
     font-weight: 700;
+    cursor: default;
+  }
+  .option.correct-temp {
+    background-color: rgba(25, 135, 84, 0.15);
+    border-color: rgba(25, 135, 84, 0.3);
+    color: #2e7d32;
+  }
+  .option.incorrect-temp {
+    background-color: rgba(220, 53, 69, 0.15);
+    border-color: rgba(220, 53, 69, 0.3);
+    color: #b02a37;
   }
   .option.disabled {
     cursor: default;
-    opacity: 0.6;
+    opacity: 0.8;
   }
-  .option.selected {
-    pointer-events: none;
-  }
-  .tick-cross-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 80px;
+  .answer-popup {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    opacity: 0.95;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
     font-weight: 900;
-    z-index: 1000;
+    border-radius: 6px;
+    z-index: 5;
     pointer-events: none;
-    animation: tick-cross-fade 1.5s forwards;
+    animation: popup-fade 1.2s forwards;
   }
-  .tick-cross-popup.correct {
-    color: #198754;
+  .answer-popup.correct {
+    background-color: rgba(25, 135, 84, 0.25);
+    color: #18763b;
   }
-  .tick-cross-popup.incorrect {
-    color: #dc3545;
+  .answer-popup.incorrect {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #b02a37;
   }
-  @keyframes tick-cross-fade {
-    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-    20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
-    40% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+  @keyframes popup-fade {
+    0% { opacity: 0; }
+    10% { opacity: 1;}
+    80% { opacity: 0.95;}
+    100% { opacity: 0; }
   }
   .button-group {
     display: flex;
@@ -329,6 +347,29 @@
     color: #1e40af;
     padding: 14px 18px;
     font-weight: 700;
+  }
+  .tick-cross-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 80px;
+    font-weight: 900;
+    z-index: 1000;
+    pointer-events: none;
+    animation: tick-cross-fade 1.5s forwards;
+  }
+  .tick-cross-popup.correct {
+    color: #198754;
+  }
+  .tick-cross-popup.incorrect {
+    color: #dc3545;
+  }
+  @keyframes tick-cross-fade {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+    40% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
   }
   .no-questions {
     text-align: center;
@@ -476,20 +517,822 @@
                 "d) monera"
               ],
               answer: "a) protista"
+            },
+            {
+              year: "NEET/AIPMT 2004",
+              question: "Linnaeus system of plant classification is considered which type of system?",
+              options: [
+                "a) Artificial",
+                "b) Natural",
+                "c) Phylogenetic",
+                "d) None of the above"
+              ],
+              answer: "a) Artificial"
+            },
+            {
+              year: "NEET/AIPMT 2004/2002",
+              question: "Who did propose natural classification of plants?",
+              options: [
+                "a) Carolus Linnaeus",
+                "b) John Hutchinson",
+                "c) Bentham and Hooker",
+                "d) Oswald Tippo"
+              ],
+              answer: "c) Bentham and Hooker"
+            },
+            {
+              year: "NEET/AIPMT 2004/1988",
+              question: "Who proposed phylogenetic classification of plants?",
+              options: [
+                "a) Linnaeus",
+                "b) Hutchinson",
+                "c) Bentham and Hooker",
+                "d) Mehta"
+              ],
+              answer: "b) Hutchinson"
+            },
+            {
+              year: "NEET/AIPMT 2003",
+              question: "In which kingdom would you classify the archaea and nitrogen‑fixing organisms, if the five kingdom system of classification is used?",
+              options: [
+                "a) Plantae",
+                "b) Fungi",
+                "c) Protista",
+                "d) Monera"
+              ],
+              answer: "d) Monera"
+            },
+            {
+              year: "NEET/AIPMT 2002",
+              question: "In five kingdom system, the main basis of classification is based on which criterion?",
+              options: [
+                "a) structure of nucleus",
+                "b) mode of nutrition",
+                "c) structure of cell wall",
+                "d) asexual reproduction"
+              ],
+              answer: "b) mode of nutrition"
+            },
+            {
+              year: "NEET/AIPMT 2002/2001/2000",
+              question: "The basic unit of classification/taxonomy is which rank?",
+              options: [
+                "a) Genus",
+                "b) Species",
+                "c) Family",
+                "d) Order"
+              ],
+              answer: "b) Species"
+            },
+            {
+              year: "NEET/AIPMT 2000/1999",
+              question: "Which of the following taxonomical ranks contain organisms least similar to one another?",
+              options: [
+                "a) Class",
+                "b) Genus",
+                "c) Family",
+                "d) Species"
+              ],
+              answer: "a) Class"
+            },
+            {
+              year: "NEET/AIPMT 2000/1997/1994",
+              question: "The non‑nucleated, unicellular organisms of Whittaker's (1969) classification are included in which kingdom?",
+              options: [
+                "a) Protista",
+                "b) Monera",
+                "c) Animalia",
+                "d) Plantae"
+              ],
+              answer: "b) Monera"
+            },
+            {
+              year: "NEET/AIPMT 1999/1996",
+              question: "A system of classification in which a large number of traits are considered is termed which type?",
+              options: [
+                "a) Artificial system",
+                "b) Synthetic system",
+                "c) Natural system",
+                "d) Phylogenetic system"
+              ],
+              answer: "c) Natural system"
+            },
+            {
+              year: "NEET/AIPMT 1998",
+              question: "In the five kingdom system of classification, which single kingdom can include blue‑green algae, nitrogen fixing bacteria and methanogenic archaebacteria?",
+              options: [
+                "a) Plantae",
+                "b) Protista",
+                "c) Monera",
+                "d) Fungi"
+              ],
+              answer: "c) Monera"
+            },
+            {
+              year: "NEET/AIPMT 1998",
+              question: "A system of classification that is based on evolution, order and ancestry is known as which type?",
+              options: [
+                "a) Natural system",
+                "b) Analogous system",
+                "c) Phylogenetic system",
+                "d) Homologous system"
+              ],
+              answer: "c) Phylogenetic system"
+            },
+            {
+              year: "NEET/AIPMT 1998",
+              question: "Systema Naturae is concerned with which field?",
+              options: [
+                "a) Solar system",
+                "b) Ecosystem",
+                "c) Classification of plants and animals",
+                "d) Natural selection"
+              ],
+              answer: "c) Classification of plants and animals"
+            },
+            {
+              year: "NEET/AIPMT 1994/1992",
+              question: "The term \"phylum\" in animal classification was coined by whom?",
+              options: [
+                "a) E. Haeckel",
+                "b) John Ray",
+                "c) G.L. Cuvier",
+                "d) Carolus Linnaeus"
+              ],
+              answer: "c) G.L. Cuvier"
+            },
+            {
+              year: "NEET/AIPMT 1994",
+              question: "Four kingdom classification was proposed by whom?",
+              options: [
+                "a) Whittaker",
+                "b) Copeland",
+                "c) Haeckel",
+                "d) Linnaeus"
+              ],
+              answer: "b) Copeland"
             }
-            // ... other questions truncated for brevity
+          ],
+          "2.1": [
+            {
+              year: "NEET/AIPMT 2019",
+              question: "Match Column I (groups) with Column II (typical habitats) and choose the correct option:<br><br>Column I: A) Halophiles &nbsp; B) Thermoacidophiles &nbsp; C) Methanogens &nbsp; D) Cyanobacteria<br>Column II: 1) Hot springs &nbsp; 2) Aquatic environment &nbsp; 3) Guts of ruminants &nbsp; 4) Salty area",
+              options: [
+                "a) A-4, B-1, C-3, D-2",
+                "b) A-1, B-2, C-3, D-4",
+                "c) A-3, B-4, C-2, D-1",
+                "d) A-2, B-4, C-3, D-1"
+              ],
+              answer: "a) A-4, B-1, C-3, D-2"
+            },
+            {
+              year: "NEET/AIPMT 2017",
+              question: "Which among the following are the smallest living cells, known without a definite cell wall, pathogenic to plants as well as animals and can survive without oxygen?",
+              options: [
+                "a) Pseudomonas",
+                "b) Mycoplasma",
+                "c) Nostoc",
+                "d) Bacillus"
+              ],
+              answer: "b) Mycoplasma"
+            },
+            {
+              year: "NEET/AIPMT 2017",
+              question: "Which of the following components provides sticky character to the bacterial cell?",
+              options: [
+                "a) Nuclear membrane",
+                "b) Plasma membrane",
+                "c) Glycocalyx",
+                "d) Cell wall"
+              ],
+              answer: "c) Glycocalyx"
+            },
+            {
+              year: "NEET/AIPMT 2017",
+              question: "DNA replication in bacteria occurs:",
+              options: [
+                "a) within nucleus",
+                "b) Prior to fission",
+                "c) just before transcription",
+                "d) during S phase"
+              ],
+              answer: "b) Prior to fission"
+            },
+            {
+              year: "NEET/AIPMT 2016",
+              question: "Methanogens belong to:",
+              options: [
+                "a) eubacteria",
+                "b) archaebacteria",
+                "c) dinoflagellates",
+                "d) slime moulds"
+              ],
+              answer: "b) archaebacteria"
+            },
+            {
+              year: "NEET/AIPMT 2014",
+              question: "Pigment containing membranous extensions in some cyanobacteria are:",
+              options: [
+                "a) pneumatophores",
+                "b) chromatophores",
+                "c) heterocysts",
+                "d) basal bodies"
+              ],
+              answer: "b) chromatophores"
+            },
+            {
+              year: "NEET/AIPMT 2013",
+              question: "Archaebacteria differ from eubacteria in:",
+              options: [
+                "a) cell membrane structure",
+                "b) mode of nutrition",
+                "c) cell shape",
+                "d) mode of reproduction"
+              ],
+              answer: "a) cell membrane structure"
+            },
+            {
+              year: "NEET/AIPMT 2013",
+              question: "Which of the following are likely to be present in deep sea water?",
+              options: [
+                "a) Blue-green algae",
+                "b) Saprophytic fungi",
+                "c) Archaebacteria",
+                "d) Eubacteria"
+              ],
+              answer: "c) Archaebacteria"
+            },
+            {
+              year: "NEET/AIPMT 2012",
+              question: "The most abundant prokaryotes helpful to humans in making curd from milk and in production of antibiotics are the ones categorized as:",
+              options: [
+                "a) cyanobacteria",
+                "b) archaebacteria",
+                "c) chemosynthetic autotrophs",
+                "d) heterotrophic bacteria"
+              ],
+              answer: "d) heterotrophic bacteria"
+            },
+            {
+              year: "NEET/AIPMT 2012",
+              question: "The cyanobacteria are also referred to as:",
+              options: [
+                "a) protists",
+                "b) golden algae",
+                "c) slime moulds",
+                "d) blue green algae"
+              ],
+              answer: "d) blue green algae"
+            },
+            {
+              year: "NEET/AIPMT 2011",
+              question: "In eubacteria, a cellular component that resembles eukaryotic cells is:",
+              options: [
+                "a) plasma membrane",
+                "b) nucleus",
+                "c) ribosomes",
+                "d) cell wall"
+              ],
+              answer: "a) plasma membrane"
+            },
+            {
+              year: "NEET/AIPMT 2010",
+              question: "Some hyperthermophilic organisms that grow in highly acidic (pH₂) habitats belong to the two groups:",
+              options: [
+                "a) eubacteria and archaea",
+                "b) cyanobacteria and diatoms",
+                "c) protists and mosses",
+                "d) liverworts and yeasts"
+              ],
+              answer: "a) eubacteria and archaea"
+            },
+            {
+              year: "NEET/AIPMT 2008",
+              question: "In the light of recent classification of living organisms into three domains of life (bacteria, archaea and eukarya), which one of the following statements is true about archaea?",
+              options: [
+                "a) Archaea completely differ from both prokaryotes and eukaryotes",
+                "b) Archaea completely differ from prokaryotes",
+                "c) Archaea resemble eukarya in all respects",
+                "d) Archaea have some novel features that are absent in other prokaryotes and eukaryotes"
+              ],
+              answer: "d) Archaea have some novel features that are absent in other prokaryotes and eukaryotes"
+            },
+            {
+              year: "NEET/AIPMT 2008",
+              question: "Thermococcus, Methanococcus and Methanobacterium exemplify:",
+              options: [
+                "a) bacteria whose DNA is relaxed or positively supercoiled but which have a cytoskeleton as well as mitochondria",
+                "b) bacteria that contain a cytoskeleton and ribosomes",
+                "c) archaebacteria that contain protein homologous to eukaryotic core histones",
+                "d) archaebacteria that lack any histones resembling those found in eukaryotes but whose DNA is negatively supercoiled"
+              ],
+              answer: "c) archaebacteria that contain protein homologous to eukaryotic core histones"
+            },
+            {
+              year: "NEET/AIPMT 2008",
+              question: "Bacterial leaf blight of rice is caused by species:",
+              options: [
+                "a) Alternaria",
+                "b) Erwinia",
+                "c) Xanthomonas",
+                "d) Pseudomonas"
+              ],
+              answer: "c) Xanthomonas"
+            },
+            {
+              year: "NEET/AIPMT 2006",
+              question: "Curing of tea leaves is brought about by the activity of:",
+              options: [
+                "a) fungi",
+                "b) bacteria",
+                "c) mycorrhiza",
+                "d) viruses"
+              ],
+              answer: "b) bacteria"
+            },
+            {
+              year: "NEET/AIPMT 2005",
+              question: "For retting of jute the fermenting microbe used is:",
+              options: [
+                "a) methanophilic bacteria",
+                "b) butyric acid bacteria",
+                "c) Helicobacter pylori",
+                "d) Streptococcus lactis"
+              ],
+              answer: "b) butyric acid bacteria"
+            },
+            {
+              year: "NEET/AIPMT 2002",
+              question: "Which statement is correct for bacterial transduction?",
+              options: [
+                "a) Transfer of some genes from one bacteria to another bacteria through virus",
+                "b) Transfer of genes from one bacteria to another bacteria by conjugation",
+                "c) Bacteria obtained its DNA directly from mother cell",
+                "d) Bacteria obtained DNA from other external source"
+              ],
+              answer: "a) Transfer of some genes from one bacteria to another bacteria through virus"
+            },
+            {
+              year: "NEET/AIPMT 2001",
+              question: "What is true for archaebacteria?",
+              options: [
+                "a) All halophiles",
+                "b) All photosynthetics",
+                "c) All fossils",
+                "d) Oldest living beings"
+              ],
+              answer: "d) Oldest living beings"
+            },
+            {
+              year: "NEET/AIPMT 2001",
+              question: "Difference in Gram positive and Gram negative bacteria is due to:",
+              options: [
+                "a) cell wall",
+                "b) cell membrane",
+                "c) ribosome",
+                "d) cytoplasm"
+              ],
+              answer: "a) cell wall"
+            },
+            {
+              year: "NEET/AIPMT 1998",
+              question: "Genes for antibiotic resistance are located in:",
+              options: [
+                "a) Chromosome",
+                "b) Nucleus",
+                "c) Cell wall",
+                "d) Plasmid"
+              ],
+              answer: "d) Plasmid"
+            },
+            {
+              year: "NEET/AIPMT 1998",
+              question: "Which one of the following can utilize molecular nitrogen (N₂) as nutrient for growth?",
+              options: [
+                "a) Rhizobium",
+                "b) Spirogyra",
+                "c) Mucor",
+                "d) Methanococcus"
+              ],
+              answer: "d) Methanococcus"
+            },
+            {
+              year: "NEET/AIPMT 1990",
+              question: "Which one belongs to Monera?",
+              options: [
+                "a) Amoeba",
+                "b) Escherichia",
+                "c) Gelidium",
+                "d) Spirogyra"
+              ],
+              answer: "b) Escherichia"
+            },
+            {
+              year: "NEET/AIPMT 1990",
+              question: "The main difference in Gram (+)ve and Gram (-)ve bacteria resides in their:",
+              options: [
+                "a) cell wall",
+                "b) cell membrane",
+                "c) cytoplasm",
+                "d) flagella"
+              ],
+              answer: "a) cell wall"
+            }
           ]
         }
+      },
+      // Continue with other chapters...
+      "3": {
+        title: "Plant Kingdom", 
+        sections: [
+          {id: "3.0", name: "Understanding Plant Kingdom and Classification Systems"},
+          {id: "3.1", name: "Algae"},
+          {id: "3.2", name: "Bryophytes"},
+          {id: "3.3", name: "Pteridophytes"},
+          {id: "3.4", name: "Gymnosperms"},
+          {id: "3.5", name: "Angiosperms"}
+        ], 
+        questions: {}
+      },
+      "4": {
+        title: "Animal Kingdom", 
+        sections: [
+          {id: "4.0", name: "Animal Diversity and Classification Basis"},
+          {id: "4.1", name: "Basis of Classification"},
+          {id: "4.2", name: "Classification of Animals"}
+        ], 
+        questions: {}
+      },
+      "5": {
+        title: "Morphology of Flowering Plants", 
+        sections: [
+          {id: "5.0", name: "External Structure and Variations in Plants"},
+          {id: "5.1", name: "The Root"},
+          {id: "5.2", name: "The Stem"},
+          {id: "5.3", name: "The Leaf"},
+          {id: "5.4", name: "The Inflorescence"},
+          {id: "5.5", name: "The Flower"},
+          {id: "5.6", name: "The Fruit"},
+          {id: "5.7", name: "The Seed"},
+          {id: "5.8", name: "Semi-technical Description of a Typical Flowering Plant"},
+          {id: "5.9", name: "Description of Some Important Families"}
+        ], 
+        questions: {}
+      },
+      "6": {
+        title: "Anatomy of Flowering Plants", 
+        sections: [
+          {id: "6.0", name: "Internal Structure and Functional Organisation"},
+          {id: "6.1", name: "The Tissue System"},
+          {id: "6.2", name: "Anatomy of Dicotyledonous and Monocotyledonous Plants"}
+        ], 
+        questions: {}
+      },
+      "7": {
+        title: "Structural Organisation in Animals", 
+        sections: [
+          {id: "7.0", name: "Multicellular Organisation and Organ Systems"},
+          {id: "7.1", name: "Organ and Organ System"},
+          {id: "7.2", name: "Frogs"}
+        ], 
+        questions: {}
+      },
+      "8": {
+        title: "Cell - The Unit of Life", 
+        sections: [
+          {id: "8.0", name: "Cell Theory and Cellular Organisation"},
+          {id: "8.1", name: "What is a Cell?"},
+          {id: "8.2", name: "Cell Theory"},
+          {id: "8.3", name: "An Overview of Cell"},
+          {id: "8.4", name: "Prokaryotic Cells"},
+          {id: "8.5", name: "Eukaryotic Cells"}
+        ], 
+        questions: {}
+      },
+      "9": {
+        title: "Biomolecules", 
+        sections: [
+          {id: "9.0", name: "Chemical Composition of Living Organisms"},
+          {id: "9.1", name: "How to Analyse Chemical Composition?"},
+          {id: "9.2", name: "Primary and Secondary Metabolites"},
+          {id: "9.3", name: "Biomacromolecules"},
+          {id: "9.4", name: "Proteins"},
+          {id: "9.5", name: "Polysaccharides"},
+          {id: "9.6", name: "Nucleic Acids"},
+          {id: "9.7", name: "Structure of Proteins"},
+          {id: "9.8", name: "Enzymes"}
+        ], 
+        questions: {}
+      },
+      "10": {
+        title: "Cell Cycle and Cell Division", 
+        sections: [
+          {id: "10.0", name: "Cell Growth and Reproduction"},
+          {id: "10.1", name: "Cell Cycle"},
+          {id: "10.2", name: "M Phase"},
+          {id: "10.3", name: "Significance of Mitosis"},
+          {id: "10.4", name: "Meiosis"},
+          {id: "10.5", name: "Significance of Meiosis"}
+        ], 
+        questions: {}
+      },
+      "11": {
+        title: "Photosynthesis in Higher Plants", 
+        sections: [
+          {id: "11.0", name: "Plant Metabolism and Energy Conversion"},
+          {id: "11.1", name: "What do we Know?"},
+          {id: "11.2", name: "Early Experiments"},
+          {id: "11.3", name: "Where does Photosynthesis take place?"},
+          {id: "11.4", name: "How many Pigments are involved in Photosynthesis?"},
+          {id: "11.5", name: "What is Light Reaction?"},
+          {id: "11.6", name: "The Electron Transport"},
+          {id: "11.7", name: "Where are the ATP and NADPH Used?"},
+          {id: "11.8", name: "The C₄ Pathway"},
+          {id: "11.9", name: "Photorespiration"},
+          {id: "11.10", name: "Factors affecting Photosynthesis"}
+        ], 
+        questions: {}
+      },
+      "12": {
+        title: "Respiration in Plants", 
+        sections: [
+          {id: "12.0", name: "Energy Requirements in Living Organisms"},
+          {id: "12.1", name: "Do Plants Breathe?"},
+          {id: "12.2", name: "Glycolysis"},
+          {id: "12.3", name: "Fermentation"},
+          {id: "12.4", name: "Aerobic Respiration"},
+          {id: "12.5", name: "The Respiratory Balance Sheet"},
+          {id: "12.6", name: "Amphibolic Pathway"},
+          {id: "12.7", name: "Respiratory Quotient"}
+        ], 
+        questions: {}
+      },
+      "13": {
+        title: "Plant Growth and Development", 
+        sections: [
+          {id: "13.0", name: "Growth Patterns and Development in Plants"},
+          {id: "13.1", name: "Growth"},
+          {id: "13.2", name: "Differentiation, Dedifferentiation and Redifferentiation"},
+          {id: "13.3", name: "Development"},
+          {id: "13.4", name: "Plant Growth Regulators"}
+        ], 
+        questions: {}
+      },
+      "14": {
+        title: "Breathing and Exchange of Gases", 
+        sections: [
+          {id: "14.0", name: "Coordination and Homeostasis in Human Body"},
+          {id: "14.1", name: "Respiratory Organs"},
+          {id: "14.2", name: "Mechanism of Breathing"},
+          {id: "14.3", name: "Exchange of Gases"},
+          {id: "14.4", name: "Transport of Gases"},
+          {id: "14.5", name: "Regulation of Respiration"},
+          {id: "14.6", name: "Disorders of Respiratory System"}
+        ], 
+        questions: {}
+      },
+      "15": {
+        title: "Body Fluids and Circulation", 
+        sections: [
+          {id: "15.0", name: "Transport of Materials in Living Organisms"},
+          {id: "15.1", name: "Blood"},
+          {id: "15.2", name: "Lymph (Tissue Fluid)"},
+          {id: "15.3", name: "Circulatory Pathways"},
+          {id: "15.4", name: "Double Circulation"},
+          {id: "15.5", name: "Regulation of Cardiac Activity"},
+          {id: "15.6", name: "Disorders of Circulatory System"}
+        ], 
+        questions: {}
+      },
+      "16": {
+        title: "Excretory Products and their Elimination", 
+        sections: [
+          {id: "16.0", name: "Waste Removal and Homeostasis"},
+          {id: "16.1", name: "Human Excretory System"},
+          {id: "16.2", name: "Urine Formation"},
+          {id: "16.3", name: "Function of the Tubules"},
+          {id: "16.4", name: "Mechanism of Concentration of the Filtrate"},
+          {id: "16.5", name: "Regulation of Kidney Function"},
+          {id: "16.6", name: "Micturition"},
+          {id: "16.7", name: "Role of other Organs in Excretion"},
+          {id: "16.8", name: "Disorders of the Excretory System"}
+        ], 
+        questions: {}
+      },
+      "17": {
+        title: "Locomotion and Movement", 
+        sections: [
+          {id: "17.0", name: "Movement as a Characteristic of Life"},
+          {id: "17.1", name: "Types of Movement"},
+          {id: "17.2", name: "Muscle"},
+          {id: "17.3", name: "Skeletal System"},
+          {id: "17.4", name: "Joints"},
+          {id: "17.5", name: "Disorders of Muscular and Skeletal System"}
+        ], 
+        questions: {}
+      },
+      "18": {
+        title: "Neural Control and Coordination", 
+        sections: [
+          {id: "18.0", name: "Coordination and Integration in Multicellular Organisms"},
+          {id: "18.1", name: "Neural System"},
+          {id: "18.2", name: "Human Neural System"},
+          {id: "18.3", name: "Neuron as Structural and Functional Unit of Neural System"},
+          {id: "18.4", name: "Central Neural System"}
+        ], 
+        questions: {}
+      },
+      "19": {
+        title: "Chemical Coordination and Integration", 
+        sections: [
+          {id: "19.0", name: "Endocrine System and Hormonal Coordination"},
+          {id: "19.1", name: "Endocrine Glands and Hormones"},
+          {id: "19.2", name: "Human Endocrine System"},
+          {id: "19.3", name: "Hormones of Heart, Kidney and Gastrointestinal Tract"},
+          {id: "19.4", name: "Mechanism of Hormone Action"}
+        ], 
+        questions: {}
       }
     },
     "12": {
-      // ... Class 12 data structure same as original
+      "1": {
+        title: "Sexual Reproduction in Flowering Plants", 
+        sections: [
+          {id: "1.0", name: "Reproduction as a Vital Life Process"},
+          {id: "1.1", name: "Flower - A Fascinating Organ of Angiosperms"},
+          {id: "1.2", name: "Pre-fertilisation: Structures and Events"},
+          {id: "1.3", name: "Double Fertilisation"},
+          {id: "1.4", name: "Post-fertilisation: Structures and Events"},
+          {id: "1.5", name: "Apomixis and Polyembryony"}
+        ], 
+        questions: {}
+      },
+      "2": {
+        title: "Human Reproduction", 
+        sections: [
+          {id: "2.0", name: "Sexual Reproduction in Humans"},
+          {id: "2.1", name: "The Male Reproductive System"},
+          {id: "2.2", name: "The Female Reproductive System"},
+          {id: "2.3", name: "Gametogenesis"},
+          {id: "2.4", name: "Menstrual Cycle"},
+          {id: "2.5", name: "Fertilisation and Implantation"},
+          {id: "2.6", name: "Pregnancy and Embryonic Development"},
+          {id: "2.7", name: "Parturition and Lactation"}
+        ], 
+        questions: {}
+      },
+      "3": {
+        title: "Reproductive Health", 
+        sections: [
+          {id: "3.0", name: "Reproductive Health and Well-being"},
+          {id: "3.1", name: "Reproductive Health – Problems and Strategies"},
+          {id: "3.2", name: "Population Stabilisation and Birth Control"},
+          {id: "3.3", name: "Medical Termination of Pregnancy"},
+          {id: "3.4", name: "Sexually Transmitted Infections (STIs)"},
+          {id: "3.5", name: "Infertility"}
+        ], 
+        questions: {}
+      },
+      "4": {
+        title: "Principles of Inheritance and Variation", 
+        sections: [
+          {id: "4.0", name: "Heredity and Variation"},
+          {id: "4.1", name: "Mendel's Laws of Inheritance"},
+          {id: "4.2", name: "Inheritance of One Gene"},
+          {id: "4.3", name: "Inheritance of Two Genes"},
+          {id: "4.4", name: "Chromosomal Theory of Inheritance"},
+          {id: "4.5", name: "Linkage and Recombination"},
+          {id: "4.6", name: "Sex Determination"},
+          {id: "4.7", name: "Mutation"},
+          {id: "4.8", name: "Genetic Disorders"}
+        ], 
+        questions: {}
+      },
+      "5": {
+        title: "Molecular Basis of Inheritance", 
+        sections: [
+          {id: "5.0", name: "The DNA"},
+          {id: "5.1", name: "The Search for Genetic Material"},
+          {id: "5.2", name: "RNA World"},
+          {id: "5.3", name: "Replication"},
+          {id: "5.4", name: "Transcription"},
+          {id: "5.5", name: "Genetic Code"},
+          {id: "5.6", name: "Translation"},
+          {id: "5.7", name: "Regulation of Gene Expression"},
+          {id: "5.8", name: "Human Genome Project"},
+          {id: "5.9", name: "DNA Fingerprinting"}
+        ], 
+        questions: {}
+      },
+      "6": {
+        title: "Evolution", 
+        sections: [
+          {id: "6.0", name: "Origin of Life"},
+          {id: "6.1", name: "Evolution of Life Forms - A Theory"},
+          {id: "6.2", name: "What are the Evidences for Evolution?"},
+          {id: "6.3", name: "What is Adaptive Radiation?"},
+          {id: "6.4", name: "Biological Evolution"},
+          {id: "6.5", name: "Mechanism of Evolution"},
+          {id: "6.6", name: "Hardy-Weinberg Principle"},
+          {id: "6.7", name: "A Brief Account of Evolution"},
+          {id: "6.8", name: "Origin and Evolution of Man"}
+        ], 
+        questions: {}
+      },
+      "7": {
+        title: "Human Health and Disease", 
+        sections: [
+          {id: "7.0", name: "Common Diseases in Humans"},
+          {id: "7.1", name: "Immunity"},
+          {id: "7.2", name: "AIDS"},
+          {id: "7.3", name: "Cancer"},
+          {id: "7.4", name: "Drugs and Alcohol Abuse"}
+        ], 
+        questions: {}
+      },
+      "8": {
+        title: "Microbes in Human Welfare", 
+        sections: [
+          {id: "8.0", name: "Microbes in Household Products"},
+          {id: "8.1", name: "Microbes in Industrial Products"},
+          {id: "8.2", name: "Microbes in Sewage Treatment"},
+          {id: "8.3", name: "Microbes in Production of Biogas"},
+          {id: "8.4", name: "Microbes as Biocontrol Agents"},
+          {id: "8.5", name: "Microbes as Biofertilizers"}
+        ], 
+        questions: {}
+      },
+      "9": {
+        title: "Biotechnology - Principles and Processes", 
+        sections: [
+          {id: "9.0", name: "Principles of Biotechnology"},
+          {id: "9.1", name: "Tools of Recombinant DNA Technology"},
+          {id: "9.2", name: "Processes of Recombinant DNA Technology"}
+        ], 
+        questions: {}
+      },
+      "10": {
+        title: "Biotechnology and its Applications", 
+        sections: [
+          {id: "10.0", name: "Biotechnological Applications in Agriculture"},
+          {id: "10.1", name: "Biotechnological Applications in Medicine"},
+          {id: "10.2", name: "Transgenic Animals"},
+          {id: "10.3", name: "Ethical Issues"}
+        ], 
+        questions: {}
+      },
+      "11": {
+        title: "Organisms and Populations", 
+        sections: [
+          {id: "11.0", name: "Organism and Its Environment"},
+          {id: "11.1", name: "Populations"}
+        ], 
+        questions: {}
+      },
+      "12": {
+        title: "Ecosystem", 
+        sections: [
+          {id: "12.0", name: "Ecosystem - Structure and Function"},
+          {id: "12.1", name: "Productivity"},
+          {id: "12.2", name: "Decomposition"},
+          {id: "12.3", name: "Energy Flow"},
+          {id: "12.4", name: "Ecological Pyramids"},
+          {id: "12.5", name: "Ecological Succession"},
+          {id: "12.6", name: "Nutrient Cycling"},
+          {id: "12.7", name: "Ecosystem Services"}
+        ], 
+        questions: {}
+      },
+      "13": {
+        title: "Biodiversity and Conservation", 
+        sections: [
+          {id: "13.0", name: "Biodiversity"},
+          {id: "13.1", name: "Biodiversity Conservation"},
+          {id: "13.2", name: "The Evil Quartet"},
+          {id: "13.3", name: "Biodiversity Conservation"}
+        ], 
+        questions: {}
+      },
+      "14": {
+        title: "Environmental Issues", 
+        sections: [
+          {id: "14.0", name: "Air Pollution and Its Control"},
+          {id: "14.1", name: "Water Pollution and Its Control"},
+          {id: "14.2", name: "Solid Wastes"},
+          {id: "14.3", name: "Agro-chemicals and their Effects"},
+          {id: "14.4", name: "Radioactive Wastes"},
+          {id: "14.5", name: "Greenhouse Effect and Global Warming"},
+          {id: "14.6", name: "Ozone Depletion"},
+          {id: "14.7", name: "Deforestation"}
+        ], 
+        questions: {}
+      }
     }
   };
 
   let currentQuestions = [];
   let sectionScores = {};
-  let questionStates = {}; // Store clicked states for each question
+  let questionStates = {}; // NEW: Store persistent clicked states
 
   function updateChapters() {
     const classValue = document.getElementById('classSelect').value;
@@ -565,7 +1408,7 @@
       const questionState = questionStates[questionId];
       
       html += `
-        <div class="question-item" data-question-id="${questionId}">
+        <div class="question-item">
           <div class="question-header">
             <div class="question-number">Q${index + 1}.</div>
             <div class="question-year">${q.year}</div>
@@ -574,17 +1417,16 @@
           <div class="options">
             ${q.options.map((option, optIndex) => {
               let optionClass = 'option';
+              
+              // NEW: Apply persistent styling based on stored state
               if (questionState) {
                 if (questionState.selectedIndex === optIndex) {
-                  if (option === q.answer) {
-                    optionClass += ' correct selected';
-                  } else {
-                    optionClass += ' incorrect selected';
-                  }
+                  optionClass += questionState.isCorrect ? ' answered-correct' : ' answered-incorrect';
                 } else if (questionState.selectedIndex !== null) {
                   optionClass += ' disabled';
                 }
               }
+              
               return `<div class="${optionClass}" onclick="selectOption(${index}, ${optIndex}, '${q.answer}', '${questionId}')">${option}</div>`;
             }).join('')}
           </div>
@@ -605,43 +1447,52 @@
   }
 
   function selectOption(questionIndex, optionIndex, correctAnswer, questionId) {
-    const questionState = questionStates[questionId];
-    if (questionState && questionState.selectedIndex !== null) {
-      return; // Already answered
+    // NEW: Check if already answered
+    if (questionStates[questionId]) {
+      return; // Already answered, do nothing
     }
 
     const selectedOption = currentQuestions[questionIndex].options[optionIndex];
     const isCorrect = selectedOption === correctAnswer;
     
-    // Store the question state
+    // NEW: Store the persistent state
     questionStates[questionId] = {
       selectedIndex: optionIndex,
-      isCorrect: isCorrect,
-      answered: true
+      isCorrect: isCorrect
     };
 
-    // Update the visual state of options
-    const questionItem = document.querySelector(`[data-question-id="${questionId}"]`);
-    const options = questionItem.querySelectorAll('.option');
-    
+    // Update the visual state
+    const options = document.querySelectorAll(`.question-item:nth-child(${questionIndex + 2}) .option`);
     options.forEach((option, index) => {
       if (index === optionIndex) {
-        if (isCorrect) {
-          option.classList.add('correct', 'selected');
-        } else {
-          option.classList.add('incorrect', 'selected');
-        }
+        // NEW: Apply persistent styling
+        option.classList.add(isCorrect ? 'answered-correct' : 'answered-incorrect');
+        option.classList.remove('correct-temp', 'incorrect-temp');
       } else {
         option.classList.add('disabled');
+        option.classList.remove('correct-temp', 'incorrect-temp');
       }
     });
 
-    // Show tick/cross popup
+    // Show answer popup on the clicked option exactly
+    const clickedOption = options[optionIndex];
     const popup = document.createElement('div');
-    popup.className = `tick-cross-popup ${isCorrect ? 'correct' : 'incorrect'}`;
+    popup.className = `answer-popup ${isCorrect ? 'correct' : 'incorrect'}`;
     popup.textContent = isCorrect ? '✓' : '✗';
-    document.body.appendChild(popup);
-    setTimeout(() => document.body.removeChild(popup), 1500);
+    clickedOption.appendChild(popup);
+    
+    setTimeout(() => {
+      if (clickedOption.contains(popup)) {
+        clickedOption.removeChild(popup);
+      }
+    }, 1200);
+
+    // Show tick/cross popup
+    const tickCrossPopup = document.createElement('div');
+    tickCrossPopup.className = `tick-cross-popup ${isCorrect ? 'correct' : 'incorrect'}`;
+    tickCrossPopup.textContent = isCorrect ? '✓' : '✗';
+    document.body.appendChild(tickCrossPopup);
+    setTimeout(() => document.body.removeChild(tickCrossPopup), 1500);
 
     updateScoreForSection();
     updateScoreDisplay();
@@ -656,20 +1507,20 @@
 
     const sectionKey = `${classValue}-${chapterValue}-${sectionValue}`;
     let correct = 0;
-    let total = 0;
+    let answered = 0;
 
     currentQuestions.forEach((q, index) => {
       const questionId = `${classValue}-${chapterValue}-${sectionValue}-${index}`;
       const questionState = questionStates[questionId];
-      if (questionState && questionState.answered) {
-        total++;
+      if (questionState) {
+        answered++;
         if (questionState.isCorrect) {
           correct++;
         }
       }
     });
 
-    sectionScores[sectionKey] = { correct, total: currentQuestions.length };
+    sectionScores[sectionKey] = { correct, answered, total: currentQuestions.length };
   }
 
   function updateScoreDisplay() {
@@ -683,14 +1534,9 @@
     }
 
     const sectionKey = `${classValue}-${chapterValue}-${sectionValue}`;
-    const score = sectionScores[sectionKey] || { correct: 0, total: currentQuestions.length || 0 };
+    const score = sectionScores[sectionKey] || { correct: 0, answered: 0, total: currentQuestions.length || 0 };
     
-    const answered = Object.keys(questionStates).filter(key => 
-      key.startsWith(`${classValue}-${chapterValue}-${sectionValue}-`) && 
-      questionStates[key].answered
-    ).length;
-    
-    document.getElementById('scoreCard').textContent = `Section score: ${score.correct} / ${answered} answered (${score.total} total)`;
+    document.getElementById('scoreCard').textContent = `Section score: ${score.correct} / ${score.total}`;
   }
 
   function showAnswer(index) {
@@ -708,7 +1554,16 @@
 
   function openChatGPT(index) {
     const question = currentQuestions[index];
-    const prompt = `${question.question}\n\n${question.options.join('\n')}\n\nexplain this question in 3 versions.\n\nversion 1: brief explanation\nversion 2: quote exact reference from ncert text book latest reprint and explain accordingly.\nversion 3: detailed explanation along with option analysis. (show this answer if the user asks for it. prompt the user - do you want detailed answer with options analysis.)`;
+    // MODIFIED: Enhanced prompt with 3 versions and smaller version font
+    const prompt = `${question.question}
+
+${question.options.join('\n')}
+
+explain this question in 3 versions.
+
+version 1: brief explanation
+version 2: quote exact reference from ncert text book latest reprint and explain accordingly.
+version 3: detailed explanation along with option analysis. (show this answer if the user asks for it. prompt the user - do you want detailed answer with options analysis.)`;
     
     const encodedPrompt = encodeURIComponent(prompt);
     const chatgptUrl = `https://chat.openai.com/?model=gpt-4&q=${encodedPrompt}`;
@@ -723,7 +1578,7 @@
     
     if (!classValue || !chapterValue || !sectionValue) return;
 
-    // Clear states for current section
+    // NEW: Clear persistent states for current section
     const sectionKey = `${classValue}-${chapterValue}-${sectionValue}`;
     Object.keys(questionStates).forEach(key => {
       if (key.startsWith(`${classValue}-${chapterValue}-${sectionValue}-`)) {
