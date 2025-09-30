@@ -980,6 +980,242 @@ document.getElementById('refreshChapterBtn').addEventListener('click', function(
 // Initialize
 updateChapters();
 </script>
+<style>
+.chatgpt-btn {
+  background: linear-gradient(135deg, #74b9ff, #0984e3);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(116, 185, 255, 0.3);
+}
+
+.chatgpt-btn:hover {
+  background: linear-gradient(135deg, #0984e3, #74b9ff);
+}
+
+.copy-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #00b894;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  z-index: 10000;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  max-width: 300px;
+  font-size: 12px;
+}
+
+.copy-notification.show {
+  transform: translateX(0);
+}
+
+.question-preview {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 2px solid #74b9ff;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 500px;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 10001;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.question-preview h3 {
+  color: #0984e3;
+  margin-top: 0;
+}
+
+.question-preview button {
+  background: #0984e3;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 5px 0 0;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 10000;
+}
+</style>
+
+<script>
+// Copy to clipboard function
+async function copyToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch (err) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.select();
+    const successful = document.execCommand('copy');
+    document.body.removeChild(textArea);
+    return successful;
+  }
+}
+
+// Show what exactly is being copied
+function showQuestionPreview(prompt, questionIndex) {
+  // Create overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'overlay';
+  
+  // Create preview window
+  const preview = document.createElement('div');
+  preview.className = 'question-preview';
+  preview.innerHTML = `
+    <h3>Question ${questionIndex + 1} - Copy Preview</h3>
+    <div style="white-space: pre-line; background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 10px 0;">${prompt}</div>
+    <button onclick="copyAndClose('${encodeURIComponent(prompt)}')">Copy & Open ChatGPT</button>
+    <button onclick="closePreview()">Cancel</button>
+  `;
+  
+  document.body.appendChild(overlay);
+  document.body.appendChild(preview);
+  
+  // Close on overlay click
+  overlay.addEventListener('click', closePreview);
+}
+
+// Copy and close preview
+async function copyAndClose(encodedPrompt) {
+  const prompt = decodeURIComponent(encodedPrompt);
+  const success = await copyToClipboard(prompt);
+  
+  if (success) {
+    closePreview();
+    showCopyNotification(`Question copied! (${prompt.substring(0, 50)}...)`);
+    window.open('https://chat.openai.com/', '_blank');
+  } else {
+    alert('Failed to copy. Please try again.');
+  }
+}
+
+// Close preview window
+function closePreview() {
+  const overlay = document.querySelector('.overlay');
+  const preview = document.querySelector('.question-preview');
+  if (overlay) overlay.remove();
+  if (preview) preview.remove();
+}
+
+// Show copy notification with preview text
+function showCopyNotification(message) {
+  const existingNotification = document.querySelector('.copy-notification');
+  if (existingNotification) existingNotification.remove();
+  
+  const notification = document.createElement('div');
+  notification.className = 'copy-notification';
+  notification.textContent = message;
+  document.body.appendChild(notification);
+  
+  setTimeout(() => notification.classList.add('show'), 100);
+  setTimeout(() => {
+    notification.classList.remove('show');
+    setTimeout(() => notification.remove(), 300);
+  }, 4000);
+}
+
+// Build ChatGPT prompt using currentQuestions array
+function buildChatGPTPrompt(questionIndex) {
+  if (!currentQuestions || !currentQuestions[questionIndex]) {
+    return '';
+  }
+
+  const question = currentQuestions[questionIndex];
+  let prompt = '';
+  
+  // Add question text (strip HTML tags)
+  prompt += question.question.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ') + '
+
+';
+  
+  // Add options A, B, C, D
+  question.options.forEach((option, idx) => {
+    const optionLetter = String.fromCharCode(65 + idx); // A, B, C, D
+    prompt += optionLetter + ') ' + option.replace(/^[a-d])s*/, '') + '
+';
+  });
+
+  // Add 3-version instruction
+  prompt += '
+Answer and Explain this question in 3 versions:
+';
+  prompt += 'Version 1: brief explanation
+';
+  prompt += 'Version 2: quote exact reference from NCERT biology text latest reprint and answer it accordingly
+';
+  prompt += 'Version 3: detailed explanation with option analysis';
+
+  return prompt;
+}
+
+// Add ChatGPT buttons with preview
+function addChatGPTButtons() {
+  const questionItems = document.querySelectorAll('.question-item');
+  
+  questionItems.forEach((questionElement, index) => {
+    const buttonGroup = questionElement.querySelector('.button-group');
+    if (!buttonGroup) return;
+    if (buttonGroup.querySelector('.chatgpt-btn')) return;
+
+    const btn = document.createElement('button');
+    btn.className = 'chatgpt-btn';
+    btn.textContent = 'ChatGPT';
+
+    btn.addEventListener('click', () => {
+      const prompt = buildChatGPTPrompt(index);
+      if (!prompt) {
+        alert('Could not extract question content.');
+        return;
+      }
+      
+      // Show preview of what will be copied
+      showQuestionPreview(prompt, index);
+    });
+
+    buttonGroup.appendChild(btn);
+  });
+}
+
+// Override showQuestions to add buttons
+const originalShowQuestions = window.showQuestions;
+window.showQuestions = function() {
+  originalShowQuestions.apply(this, arguments);
+  setTimeout(addChatGPTButtons, 100);
+};
+
+// Initialize
+document.addEventListener('DOMContentLoaded', addChatGPTButtons);
+</script>
 
 </body>
 </html>
