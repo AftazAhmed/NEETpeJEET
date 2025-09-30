@@ -1636,7 +1636,7 @@ function showCopyNotification() {
   }, 3000);
 }
 
-// FIXED: Build ChatGPT prompt using currentQuestions array (eliminates root cause)
+// Build ChatGPT prompt using currentQuestions array
 function buildChatGPTPrompt(questionIndex) {
   if (!currentQuestions || !currentQuestions[questionIndex]) {
     return '';
@@ -1646,25 +1646,18 @@ function buildChatGPTPrompt(questionIndex) {
   let prompt = '';
   
   // Add question text (strip HTML tags and clean formatting)
-  prompt += question.question.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim() + '
-
-';
+  prompt += question.question.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim() + '\n\n';
   
   // Add options A, B, C, D
   question.options.forEach((option, idx) => {
     const optionLetter = String.fromCharCode(65 + idx); // A, B, C, D
-    prompt += optionLetter + ') ' + option.replace(/^[a-d])s*/, '').trim() + '
-';
+    prompt += optionLetter + ') ' + option.replace(/^[a-d]\)\s*/, '').trim() + '\n';
   });
 
   // Add your 3-version instruction
-  prompt += '
-Answer and Explain this question in 3 versions:
-';
-  prompt += 'Version 1: brief explanation
-';
-  prompt += 'Version 2: quote exact reference from NCERT biology text latest reprint and answer it accordingly
-';
+  prompt += '\nAnswer and Explain this question in 3 versions:\n';
+  prompt += 'Version 1: brief explanation\n';
+  prompt += 'Version 2: quote exact reference from NCERT biology text latest reprint and answer it accordingly\n';
   prompt += 'Version 3: detailed explanation with option analysis';
 
   return prompt;
@@ -1684,10 +1677,10 @@ function addChatGPTButtons() {
     btn.textContent = 'ChatGPT';
 
     btn.addEventListener('click', async () => {
-      // Clear clipboard first to ensure fresh copy
+      // Clear clipboard first
       await copyToClipboard('');
       
-      // Get FRESH prompt data using the question index from currentQuestions array
+      // Get current question prompt
       const prompt = buildChatGPTPrompt(index);
       if (!prompt) {
         alert('Could not extract question content.');
@@ -1700,18 +1693,17 @@ function addChatGPTButtons() {
       if (success) {
         showCopyNotification();
         
-        // Visual feedback on button
+        // Visual feedback
         const originalText = btn.textContent;
-        const originalBackground = btn.style.background;
         btn.textContent = 'Copied!';
         btn.style.background = '#27ae60';
         
         setTimeout(() => {
           btn.textContent = originalText;
-          btn.style.background = originalBackground || 'linear-gradient(135deg, #e74c3c, #c0392b)';
+          btn.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
         }, 1500);
         
-        // Open ChatGPT in new tab (fresh instance)
+        // Open ChatGPT
         window.open('https://chat.openai.com/', '_blank');
       } else {
         alert('Failed to copy. Please try again.');
@@ -1722,16 +1714,19 @@ function addChatGPTButtons() {
   });
 }
 
-// Override showQuestions to add ChatGPT buttons after questions load
-const originalShowQuestions = window.showQuestions;
-window.showQuestions = function() {
-  originalShowQuestions.apply(this, arguments);
+// CORRECT: Store and replace the showQuestions function properly
+const originalShowQuestions = showQuestions;
+showQuestions = function() {
+  originalShowQuestions();
   setTimeout(addChatGPTButtons, 100);
 };
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', addChatGPTButtons);
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(addChatGPTButtons, 500);
+});
 </script>
+
 
 
 
