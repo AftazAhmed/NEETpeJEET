@@ -980,6 +980,7 @@ document.getElementById('refreshChapterBtn').addEventListener('click', function(
 // Initialize
 updateChapters();
 </script>
+<!-- Add this CSS before </head> tag -->
 <style>
 .chatgpt-btn {
   background: linear-gradient(135deg, #74b9ff, #0984e3);
@@ -1011,58 +1012,14 @@ updateChapters();
   z-index: 10000;
   transform: translateX(100%);
   transition: transform 0.3s ease;
-  max-width: 300px;
-  font-size: 12px;
 }
 
 .copy-notification.show {
   transform: translateX(0);
 }
-
-.question-preview {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  border: 2px solid #74b9ff;
-  border-radius: 10px;
-  padding: 20px;
-  max-width: 500px;
-  max-height: 400px;
-  overflow-y: auto;
-  z-index: 10001;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.question-preview h3 {
-  color: #0984e3;
-  margin-top: 0;
-}
-
-.question-preview button {
-  background: #0984e3;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin: 10px 5px 0 0;
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  z-index: 10000;
-}
 </style>
 
+<!-- Add this JavaScript before </body> tag -->
 <script>
 // Copy to clipboard function
 async function copyToClipboard(text) {
@@ -1082,66 +1039,21 @@ async function copyToClipboard(text) {
   }
 }
 
-// Show what exactly is being copied
-function showQuestionPreview(prompt, questionIndex) {
-  // Create overlay
-  const overlay = document.createElement('div');
-  overlay.className = 'overlay';
-  
-  // Create preview window
-  const preview = document.createElement('div');
-  preview.className = 'question-preview';
-  preview.innerHTML = `
-    <h3>Question ${questionIndex + 1} - Copy Preview</h3>
-    <div style="white-space: pre-line; background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 10px 0;">${prompt}</div>
-    <button onclick="copyAndClose('${encodeURIComponent(prompt)}')">Copy & Open ChatGPT</button>
-    <button onclick="closePreview()">Cancel</button>
-  `;
-  
-  document.body.appendChild(overlay);
-  document.body.appendChild(preview);
-  
-  // Close on overlay click
-  overlay.addEventListener('click', closePreview);
-}
-
-// Copy and close preview
-async function copyAndClose(encodedPrompt) {
-  const prompt = decodeURIComponent(encodedPrompt);
-  const success = await copyToClipboard(prompt);
-  
-  if (success) {
-    closePreview();
-    showCopyNotification(`Question copied! (${prompt.substring(0, 50)}...)`);
-    window.open('https://chat.openai.com/', '_blank');
-  } else {
-    alert('Failed to copy. Please try again.');
-  }
-}
-
-// Close preview window
-function closePreview() {
-  const overlay = document.querySelector('.overlay');
-  const preview = document.querySelector('.question-preview');
-  if (overlay) overlay.remove();
-  if (preview) preview.remove();
-}
-
-// Show copy notification with preview text
-function showCopyNotification(message) {
+// Show copy notification
+function showCopyNotification() {
   const existingNotification = document.querySelector('.copy-notification');
   if (existingNotification) existingNotification.remove();
   
   const notification = document.createElement('div');
   notification.className = 'copy-notification';
-  notification.textContent = message;
+  notification.textContent = '✓ Question copied to clipboard!';
   document.body.appendChild(notification);
   
   setTimeout(() => notification.classList.add('show'), 100);
   setTimeout(() => {
     notification.classList.remove('show');
     setTimeout(() => notification.remove(), 300);
-  }, 4000);
+  }, 3000);
 }
 
 // Build ChatGPT prompt using currentQuestions array
@@ -1165,7 +1077,7 @@ function buildChatGPTPrompt(questionIndex) {
 ';
   });
 
-  // Add 3-version instruction
+  // Add your 3-version instruction
   prompt += '
 Answer and Explain this question in 3 versions:
 ';
@@ -1178,7 +1090,7 @@ Answer and Explain this question in 3 versions:
   return prompt;
 }
 
-// Add ChatGPT buttons with preview
+// Add ChatGPT buttons to each question
 function addChatGPTButtons() {
   const questionItems = document.querySelectorAll('.question-item');
   
@@ -1191,29 +1103,45 @@ function addChatGPTButtons() {
     btn.className = 'chatgpt-btn';
     btn.textContent = 'ChatGPT';
 
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', async () => {
       const prompt = buildChatGPTPrompt(index);
       if (!prompt) {
         alert('Could not extract question content.');
         return;
       }
       
-      // Show preview of what will be copied
-      showQuestionPreview(prompt, index);
+      // Copy to clipboard
+      const success = await copyToClipboard(prompt);
+      
+      if (success) {
+        showCopyNotification();
+        
+        // Visual feedback on button
+        const originalText = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.style.background = '#00b894';
+        
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = 'linear-gradient(135deg, #74b9ff, #0984e3)';
+        }, 1500);
+      } else {
+        alert('Failed to copy. Please try again.');
+      }
     });
 
     buttonGroup.appendChild(btn);
   });
 }
 
-// Override showQuestions to add buttons
+// Override showQuestions to add ChatGPT buttons after questions load
 const originalShowQuestions = window.showQuestions;
 window.showQuestions = function() {
   originalShowQuestions.apply(this, arguments);
   setTimeout(addChatGPTButtons, 100);
 };
 
-// Initialize
+// Initialize on page load
 document.addEventListener('DOMContentLoaded', addChatGPTButtons);
 </script>
 
