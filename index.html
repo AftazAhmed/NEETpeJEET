@@ -1559,10 +1559,10 @@
   // Initialize
   updateChapters();
 </script>
-<!-- Add this CSS before </head> tag -->
+
 <style>
 .chatgpt-btn {
-  background: linear-gradient(135deg, #74b9ff, #0984e3);
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
   color: white;
   border: none;
   padding: 6px 12px;
@@ -1572,18 +1572,20 @@
   cursor: pointer;
   margin-left: 8px;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(116, 185, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
 }
 
 .chatgpt-btn:hover {
-  background: linear-gradient(135deg, #0984e3, #74b9ff);
+  background: linear-gradient(135deg, #c0392b, #e74c3c);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
 }
 
 .copy-notification {
   position: fixed;
   top: 20px;
   right: 20px;
-  background: #00b894;
+  background: #27ae60;
   color: white;
   padding: 12px 20px;
   border-radius: 8px;
@@ -1598,7 +1600,6 @@
 }
 </style>
 
-<!-- Add this JavaScript before </body> tag -->
 <script>
 // Copy to clipboard function
 async function copyToClipboard(text) {
@@ -1635,7 +1636,7 @@ function showCopyNotification() {
   }, 3000);
 }
 
-// Build ChatGPT prompt using currentQuestions array
+// FIXED: Build ChatGPT prompt using currentQuestions array (eliminates root cause)
 function buildChatGPTPrompt(questionIndex) {
   if (!currentQuestions || !currentQuestions[questionIndex]) {
     return '';
@@ -1644,19 +1645,26 @@ function buildChatGPTPrompt(questionIndex) {
   const question = currentQuestions[questionIndex];
   let prompt = '';
   
-  // Add question text (strip HTML tags)
-  prompt += question.question.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ') + '\n\n';
+  // Add question text (strip HTML tags and clean formatting)
+  prompt += question.question.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim() + '
+
+';
   
   // Add options A, B, C, D
   question.options.forEach((option, idx) => {
     const optionLetter = String.fromCharCode(65 + idx); // A, B, C, D
-    prompt += optionLetter + ') ' + option.replace(/^[a-d]\)\s*/, '') + '\n';
+    prompt += optionLetter + ') ' + option.replace(/^[a-d])s*/, '').trim() + '
+';
   });
 
   // Add your 3-version instruction
-  prompt += '\nAnswer and Explain this question in 3 versions:\n';
-  prompt += 'Version 1: brief explanation\n';
-  prompt += 'Version 2: quote exact reference from NCERT biology text latest reprint and answer it accordingly\n';
+  prompt += '
+Answer and Explain this question in 3 versions:
+';
+  prompt += 'Version 1: brief explanation
+';
+  prompt += 'Version 2: quote exact reference from NCERT biology text latest reprint and answer it accordingly
+';
   prompt += 'Version 3: detailed explanation with option analysis';
 
   return prompt;
@@ -1676,6 +1684,10 @@ function addChatGPTButtons() {
     btn.textContent = 'ChatGPT';
 
     btn.addEventListener('click', async () => {
+      // Clear clipboard first to ensure fresh copy
+      await copyToClipboard('');
+      
+      // Get FRESH prompt data using the question index from currentQuestions array
       const prompt = buildChatGPTPrompt(index);
       if (!prompt) {
         alert('Could not extract question content.');
@@ -1690,13 +1702,17 @@ function addChatGPTButtons() {
         
         // Visual feedback on button
         const originalText = btn.textContent;
+        const originalBackground = btn.style.background;
         btn.textContent = 'Copied!';
-        btn.style.background = '#00b894';
+        btn.style.background = '#27ae60';
         
         setTimeout(() => {
           btn.textContent = originalText;
-          btn.style.background = 'linear-gradient(135deg, #74b9ff, #0984e3)';
+          btn.style.background = originalBackground || 'linear-gradient(135deg, #e74c3c, #c0392b)';
         }, 1500);
+        
+        // Open ChatGPT in new tab (fresh instance)
+        window.open('https://chat.openai.com/', '_blank');
       } else {
         alert('Failed to copy. Please try again.');
       }
@@ -1716,7 +1732,6 @@ window.showQuestions = function() {
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', addChatGPTButtons);
 </script>
-
 
 
 
