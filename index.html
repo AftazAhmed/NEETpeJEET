@@ -332,7 +332,12 @@
   .btn-copy:hover {
     background-color: #084298;
   }
-
+  .btn-chatgpt {
+    background-color: #ff0000;
+  }
+  .btn-chatgpt:hover {
+    background-color: #cc0000;
+  }
   .answer-reveal {
     display: none;
     margin-top: 14px;
@@ -936,7 +941,7 @@
           ]
         }
       },
-      // Continue with other chapters...
+      // Continue with all other chapters exactly as in original...
       "3": {
         title: "Plant Kingdom", 
         sections: [
@@ -1315,6 +1320,35 @@
   let sectionScores = {};
   let questionStates = {}; // Store persistent clicked states
 
+  // Load persistent data from localStorage on page load
+  function loadPersistentData() {
+    try {
+      const savedQuestionStates = localStorage.getItem('neet-pyq-questionStates');
+      const savedSectionScores = localStorage.getItem('neet-pyq-sectionScores');
+      
+      if (savedQuestionStates) {
+        questionStates = JSON.parse(savedQuestionStates);
+      }
+      if (savedSectionScores) {
+        sectionScores = JSON.parse(savedSectionScores);
+      }
+    } catch (error) {
+      console.error('Error loading persistent data:', error);
+      questionStates = {};
+      sectionScores = {};
+    }
+  }
+
+  // Save persistent data to localStorage
+  function savePersistentData() {
+    try {
+      localStorage.setItem('neet-pyq-questionStates', JSON.stringify(questionStates));
+      localStorage.setItem('neet-pyq-sectionScores', JSON.stringify(sectionScores));
+    } catch (error) {
+      console.error('Error saving persistent data:', error);
+    }
+  }
+
   function updateChapters() {
     const classValue = document.getElementById('classSelect').value;
     const chapterSelect = document.getElementById('chapterSelect');
@@ -1414,7 +1448,7 @@
           <div class="button-group">
             <button class="btn btn-answer" onclick="showAnswer(${index})">Show Answer</button>
             <button class="btn btn-copy" onclick="copyQuestion(${index})">Copy Question</button>
-            
+            <button class="btn btn-chatgpt" onclick="openChatGPT(${index})">Ask ChatGPT</button>
           </div>
           <div class="answer-reveal" id="answer-${index}">
             <strong>Correct Answer:</strong> ${q.answer}
@@ -1441,6 +1475,9 @@
       selectedIndex: optionIndex,
       isCorrect: isCorrect
     };
+
+    // Save to localStorage
+    savePersistentData();
 
     // Update the visual state
     const options = document.querySelectorAll(`.question-item:nth-child(${questionIndex + 2}) .option`);
@@ -1501,6 +1538,7 @@
     });
 
     sectionScores[sectionKey] = { correct, answered, total: currentQuestions.length };
+    savePersistentData();
   }
 
   function updateScoreDisplay() {
@@ -1532,7 +1570,42 @@
     });
   }
 
-  // Refresh button functionality
+  // FIXED: ChatGPT function with proper prompt and auto-paste functionality
+  function openChatGPT(index) {
+    const question = currentQuestions[index];
+    
+    // Create the question text without the answer
+    const questionText = `${question.question}
+
+${question.options.join('\n')}`;
+    
+    // Copy question to clipboard first
+    navigator.clipboard.writeText(questionText).then(() => {
+      // Create the prompt that will auto-type in ChatGPT
+      const autoPrompt = "answer the question in 3 version\nversion 1: brief answer\nversion 2: quote exact reference from latest biology textbook reprint and answer accordingly.\nversion 3: detailed answer with option analysis.";
+      
+      // Open ChatGPT with the auto-prompt
+      const encodedPrompt = encodeURIComponent(autoPrompt);
+      const chatgptUrl = `https://chat.openai.com/?model=gpt-4&q=${encodedPrompt}`;
+      window.open(chatgptUrl, '_blank');
+      
+      // Show user instruction
+      setTimeout(() => {
+        alert('Question copied to clipboard! Paste it in the ChatGPT chat box that just opened.');
+      }, 500);
+    }).catch(err => {
+      console.error('Failed to copy text: ', err);
+      alert('Failed to copy question. Please copy manually.');
+      
+      // Still open ChatGPT with the prompt
+      const autoPrompt = "answer the question in 3 version\nversion 1: brief answer\nversion 2: quote exact reference from latest biology textbook reprint and answer accordingly.\nversion 3: detailed answer with option analysis.";
+      const encodedPrompt = encodeURIComponent(autoPrompt);
+      const chatgptUrl = `https://chat.openai.com/?model=gpt-4&q=${encodedPrompt}`;
+      window.open(chatgptUrl, '_blank');
+    });
+  }
+
+  // Refresh button functionality - ONLY clears when manually pressed
   document.getElementById('refreshChapterBtn').addEventListener('click', function() {
     const classValue = document.getElementById('classSelect').value;
     const chapterValue = document.getElementById('chapterSelect').value;
@@ -1551,105 +1624,35 @@
     // Clear section score
     delete sectionScores[sectionKey];
     
+    // Save changes to localStorage
+    savePersistentData();
+    
     // Refresh the display
     showQuestions();
     updateScoreDisplay();
   });
 
-  // Initialize
-  updateChapters();
-</script>
-
-<style>
-.chatgpt-btn {
-  background: linear-gradient(135deg, #74b9ff, #0984e3);
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-left: 8px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(116, 185, 255, 0.3);
-}
-.chatgpt-btn:hover {
-  background: linear-gradient(135deg, #0984e3, #74b9ff);
-}
-</style>
-
-<script>
-function encodePrompt(text) {
-  return encodeURIComponent(text);
-}
-
-// Extract question content from the actual question data, not DOM elements
-function buildChatGPTPrompt(questionIndex) {
-  if (!currentQuestions || !currentQuestions[questionIndex]) {
-    return '';
-  }
-  
-  const question = currentQuestions[questionIndex];
-  let prompt = '';
-  
-  // Add question text
-  prompt += question.question + '\n\n';
-  
-  // Add options A, B, C, D
-  question.options.forEach((option, idx) => {
-    const optionLetter = String.fromCharCode(65 + idx); // A, B, C, D
-    prompt += optionLetter + ') ' + option + '\n';
+  // Initialize - Load persistent data first, then setup
+  document.addEventListener('DOMContentLoaded', function() {
+    loadPersistentData();
+    updateChapters();
   });
-
-  // Add the 3-version instruction
-  prompt += '\nAnswer and Explain this question in 3 versions:\n';
-  prompt += 'Version 1: brief explanation\n';
-  prompt += 'Version 2: quote exact reference from NCERT biology text latest reprint and answer it accordingly\n';
-  prompt += 'Version 3: detailed explanation with option analysis';
-
-  return prompt;
-}
-
-// Add ChatGPT button next to "Show Answer" button inside each question
-function addChatGPTButtons() {
-  const questionItems = document.querySelectorAll('.question-item');
   
-  questionItems.forEach((questionElement, index) => {
-    const buttonGroup = questionElement.querySelector('.button-group');
-    if (!buttonGroup) return;
-    if (buttonGroup.querySelector('.chatgpt-btn')) return;
-
-    const btn = document.createElement('button');
-    btn.className = 'chatgpt-btn';
-    btn.textContent = 'ChatGPT';
-
-    btn.addEventListener('click', () => {
-      const prompt = buildChatGPTPrompt(index);
-      if (!prompt) {
-        alert('Could not extract question content.');
-        return;
-      }
-      const url = `https://chat.openai.com/chat#prompt=${encodePrompt(prompt)}`;
-      window.open(url, '_blank');
+  // Also run initialization if DOM is already loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      loadPersistentData();
+      updateChapters();
     });
-
-    buttonGroup.appendChild(btn);
-  });
-}
-
-// Override the original showQuestions function to add ChatGPT buttons after questions load
-const originalShowQuestions = window.showQuestions;
-window.showQuestions = function() {
-  originalShowQuestions.apply(this, arguments);
-  setTimeout(addChatGPTButtons, 100);
-};
-
-// Also add buttons on initial page load
-document.addEventListener('DOMContentLoaded', addChatGPTButtons);
+  } else {
+    loadPersistentData();
+    updateChapters();
+  }
 </script>
+
 
 
 
 </body>
 </html>
+
