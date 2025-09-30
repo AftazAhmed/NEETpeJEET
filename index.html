@@ -1649,5 +1649,175 @@ ${question.options.join('\n')}`;
     updateChapters();
   }
 </script>
+
+
+<!-- CHATGPT AUTOPASTE ADDON - Place before </body> -->
+<script>
+  // Enhanced ChatGPT function with autopaste functionality
+  function openChatGPT(index) {
+    const question = currentQuestions[index];
+    
+    // Create the complete prompt with question and 3-version instruction
+    const fullPrompt = `${question.question}
+
+${question.options.join('\n')}
+
+answer the question in 3 version
+version 1: brief answer
+version 2: quote exact reference from latest biology textbook reprint and answer accordingly.
+version 3: detailed answer with option analysis.`;
+
+    // Method 1: Try to use URL parameter for auto-paste (most reliable)
+    try {
+      const encodedPrompt = encodeURIComponent(fullPrompt);
+      const chatgptUrl = `https://chat.openai.com/?model=gpt-4&q=${encodedPrompt}`;
+      
+      // Open ChatGPT with auto-filled prompt
+      const chatWindow = window.open(chatgptUrl, '_blank');
+      
+      // Show success message
+      setTimeout(() => {
+        alert('ChatGPT opened with question auto-pasted! The question and 3-version prompt should appear automatically.');
+      }, 1000);
+      
+    } catch (error) {
+      console.error('URL method failed:', error);
+      
+      // Fallback Method 2: Clipboard + Manual paste instruction
+      navigator.clipboard.writeText(fullPrompt).then(() => {
+        // Open ChatGPT without parameters
+        window.open('https://chat.openai.com/', '_blank');
+        
+        // Show fallback instruction
+        setTimeout(() => {
+          alert('Question and prompt copied to clipboard!\n\nPlease paste (Ctrl+V) in the ChatGPT chat box that just opened.');
+        }, 1000);
+      }).catch(clipboardError => {
+        console.error('Clipboard method also failed:', clipboardError);
+        
+        // Fallback Method 3: Display prompt for manual copy
+        const promptDisplay = document.createElement('div');
+        promptDisplay.innerHTML = `
+          <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                      background: white; border: 2px solid #023047; border-radius: 10px; 
+                      padding: 20px; max-width: 80%; max-height: 80%; overflow-y: auto; z-index: 10000;
+                      box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+            <h3 style="color: #023047; margin-top: 0;">Copy this prompt to ChatGPT:</h3>
+            <textarea readonly style="width: 100%; height: 200px; font-family: monospace; font-size: 12px; 
+                                    border: 1px solid #ccc; padding: 10px; border-radius: 5px;">${fullPrompt}</textarea>
+            <div style="margin-top: 10px; text-align: right;">
+              <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                      style="background: #023047; color: white; border: none; padding: 8px 16px; 
+                             border-radius: 5px; cursor: pointer;">Close</button>
+              <button onclick="window.open('https://chat.openai.com/', '_blank')" 
+                      style="background: #198754; color: white; border: none; padding: 8px 16px; 
+                             border-radius: 5px; cursor: pointer; margin-left: 10px;">Open ChatGPT</button>
+            </div>
+          </div>`;
+        document.body.appendChild(promptDisplay);
+      });
+    }
+  }
+
+  // Enhanced autopaste functionality for supported browsers
+  function enhancedChatGPTOpen(index) {
+    const question = currentQuestions[index];
+    
+    // Create the complete prompt
+    const fullPrompt = `${question.question}
+
+${question.options.join('\n')}
+
+answer the question in 3 version
+version 1: brief answer
+version 2: quote exact reference from latest biology textbook reprint and answer accordingly.
+version 3: detailed answer with option analysis.`;
+
+    // Try multiple methods for auto-paste
+    const methods = [
+      // Method 1: URL parameter (most reliable for ChatGPT)
+      () => {
+        const encodedPrompt = encodeURIComponent(fullPrompt);
+        const chatgptUrl = `https://chat.openai.com/?model=gpt-4&q=${encodedPrompt}`;
+        window.open(chatgptUrl, '_blank');
+        return 'URL parameter';
+      },
+      
+      // Method 2: Clipboard + instructions
+      () => {
+        return navigator.clipboard.writeText(fullPrompt).then(() => {
+          window.open('https://chat.openai.com/', '_blank');
+          return 'Clipboard';
+        });
+      }
+    ];
+
+    // Try methods in sequence
+    Promise.resolve(methods[0]()).then(method => {
+      if (method === 'URL parameter') {
+        setTimeout(() => {
+          alert('✅ ChatGPT opened with auto-pasted question!\n\nThe question and 3-version prompt should appear automatically in the chat box.');
+        }, 1500);
+      }
+    }).catch(() => {
+      // Fallback to clipboard method
+      methods[1]().then(method => {
+        if (method === 'Clipboard') {
+          setTimeout(() => {
+            alert('📋 Question copied to clipboard!\n\nPlease paste (Ctrl+V or Cmd+V) in ChatGPT chat box.');
+          }, 1000);
+        }
+      }).catch(() => {
+        // Final fallback - show manual copy dialog
+        showManualCopyDialog(fullPrompt);
+      });
+    });
+  }
+
+  // Manual copy dialog as ultimate fallback
+  function showManualCopyDialog(promptText) {
+    const dialog = document.createElement('div');
+    dialog.innerHTML = `
+      <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                  background: rgba(0,0,0,0.7); z-index: 10000; display: flex; 
+                  align-items: center; justify-content: center;">
+        <div style="background: white; border-radius: 15px; padding: 30px; 
+                    max-width: 90%; max-height: 90%; overflow-y: auto;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+          <h3 style="color: #023047; margin-top: 0; text-align: center;">
+            📝 Copy Question & Prompt to ChatGPT
+          </h3>
+          <p style="color: #666; text-align: center; margin-bottom: 20px;">
+            Select all text below and copy it manually:
+          </p>
+          <textarea readonly onclick="this.select()" 
+                    style="width: 100%; height: 250px; font-family: 'Courier New', monospace; 
+                           font-size: 13px; border: 2px solid #023047; padding: 15px; 
+                           border-radius: 8px; background: #f8f9fa; resize: none;">${promptText}</textarea>
+          <div style="margin-top: 20px; text-align: center;">
+            <button onclick="this.closest('div').parentElement.remove()" 
+                    style="background: #6c757d; color: white; border: none; padding: 12px 24px; 
+                           border-radius: 8px; cursor: pointer; margin-right: 15px; font-size: 14px;">
+              ✕ Close
+            </button>
+            <button onclick="navigator.clipboard.writeText(\`${promptText.replace(/`/g, '\\`')}\`).then(() => alert('Copied to clipboard!')).catch(() => alert('Please copy manually')); window.open('https://chat.openai.com/', '_blank');" 
+                    style="background: #198754; color: white; border: none; padding: 12px 24px; 
+                           border-radius: 8px; cursor: pointer; font-size: 14px;">
+              📋 Copy & Open ChatGPT
+            </button>
+          </div>
+        </div>
+      </div>`;
+    document.body.appendChild(dialog);
+  }
+
+  // Override the original function with enhanced version
+  window.openChatGPT = enhancedChatGPTOpen;
+  
+  console.log('✅ ChatGPT Autopaste Addon loaded successfully!');
+</script>
+<!-- END CHATGPT AUTOPASTE ADDON -->
+
+
 </body>
 </html>
