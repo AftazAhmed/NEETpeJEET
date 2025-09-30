@@ -1561,86 +1561,80 @@
 </script>
 
 <style>
-  .chatgpt-btn {
-    background: linear-gradient(135deg, #74b9ff, #0984e3);
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-left: 8px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(116, 185, 255, 0.3);
-  }
-  .chatgpt-btn:hover {
-    background: linear-gradient(135deg, #0984e3, #74b9ff);
-  }
+.chatgpt-btn {
+  background: linear-gradient(135deg, #74b9ff, #0984e3);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(116, 185, 255, 0.3);
+}
+.chatgpt-btn:hover {
+  background: linear-gradient(135deg, #0984e3, #74b9ff);
+}
 </style>
 
 <script>
-  // Function to extract question text and options
-  function getQuestionPrompt(questionElement) {
-    const questionTextElem = questionElement.querySelector('.question-text');
-    const optionsElems = questionElement.querySelectorAll('.option');
-    
-    let prompt = '';
-    if (questionTextElem) {
-      prompt += questionTextElem.innerText.trim() + '\n\n';
-    }
-    if (optionsElems.length > 0) {
-      optionsElems.forEach((opt, i) => {
-        const optionLabel = String.fromCharCode(65 + i); // A, B, C, D
-        prompt += optionLabel + ') ' + opt.innerText.trim() + '\n';
-      });
-    }
-    prompt += '\nAnswer and Explain this question in 3 versions:\n'
-      + 'Version 1: brief explanation\n'
-      + 'Version 2: quote exact reference from NCERT biology text latest reprint and answer it accordingly\n'
-      + 'Version 3: detailed explanation with option analysis';
-    return encodeURIComponent(prompt);
+function encodePrompt(text) {
+  return encodeURIComponent(text);
+}
+
+// Build prompt including question, options, and 3-version explanation instruction
+function buildChatGPTPrompt(questionElement) {
+  const questionTextElem = questionElement.querySelector('.question-text');
+  const optionElems = questionElement.querySelectorAll('.option');
+
+  let prompt = '';
+  if (questionTextElem) {
+    prompt += questionTextElem.innerText.trim() + '\n\n';
   }
-
-  function addChatGPTButtonToQuestions() {
-    // Select all question items
-    const questionItems = document.querySelectorAll('.question-item');
-    questionItems.forEach(question => {
-      // Find the button group container inside the question item
-      const buttonGroup = question.querySelector('.button-group');
-      if (!buttonGroup) return;
-      
-      // Check if chatgpt button already exists
-      if (buttonGroup.querySelector('.chatgpt-btn')) return;
-
-      // Create ChatGPT button
-      const btn = document.createElement('button');
-      btn.textContent = 'ChatGPT';
-      btn.className = 'chatgpt-btn';
-      
-      btn.addEventListener('click', () => {
-        const prompt = getQuestionPrompt(question);
-        // Open ChatGPT in new tab with prompt in URL (using the official chat.openai.com interface)
-        const chatgptUrl = `https://chat.openai.com/chat#prompt=${prompt}`;
-        window.open(chatgptUrl, '_blank');
-      });
-      buttonGroup.appendChild(btn);
-    });
-  }
-
-  // Initialize buttons on DOM ready and whenever questions are loaded/refreshed
-  document.addEventListener('DOMContentLoaded', () => {
-    addChatGPTButtonToQuestions();
+  optionElems.forEach((opt, idx) => {
+    const optionLetter = String.fromCharCode(65 + idx); // A, B, C, D
+    prompt += optionLetter + ') ' + opt.innerText.trim() + '\n';
   });
 
-  // Also monitor content changes to add buttons dynamically
-  const contentArea = document.getElementById('contentArea');
-  if (contentArea) {
-    const observer = new MutationObserver(() => {
-      addChatGPTButtonToQuestions();
+  prompt += '\nAnswer and Explain this question in 3 versions:\n';
+  prompt += 'Version 1: brief explanation\n';
+  prompt += 'Version 2: quote exact reference from NCERT biology text latest reprint and answer it accordingly\n';
+  prompt += 'Version 3: detailed explanation with option analysis';
+
+  return prompt;
+}
+
+// Add ChatGPT button next to "Show Answer" button inside each question
+function addChatGPTButtons() {
+  const questionItems = document.querySelectorAll('.question-item');
+  questionItems.forEach(question => {
+    const buttonGroup = question.querySelector('.button-group');
+    if (!buttonGroup) return;
+    if (buttonGroup.querySelector('.chatgpt-btn')) return;
+
+    const btn = document.createElement('button');
+    btn.className = 'chatgpt-btn';
+    btn.textContent = 'ChatGPT';
+
+    btn.addEventListener('click', () => {
+      const prompt = buildChatGPTPrompt(question);
+      const url = `https://chat.openai.com/chat#prompt=${encodePrompt(prompt)}`;
+      window.open(url, '_blank');
     });
-    observer.observe(contentArea, { childList: true, subtree: true });
-  }
+
+    buttonGroup.appendChild(btn);
+  });
+}
+
+// On page load and on content changes, add buttons
+document.addEventListener('DOMContentLoaded', addChatGPTButtons);
+const contentArea = document.getElementById('contentArea');
+if (contentArea) {
+  const observer = new MutationObserver(addChatGPTButtons);
+  observer.observe(contentArea, { childList: true, subtree: true });
+}
 </script>
 
 
