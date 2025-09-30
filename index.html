@@ -1584,20 +1584,25 @@ function encodePrompt(text) {
   return encodeURIComponent(text);
 }
 
-// Build prompt including question, options, and 3-version explanation instruction
-function buildChatGPTPrompt(questionElement) {
-  const questionTextElem = questionElement.querySelector('.question-text');
-  const optionElems = questionElement.querySelectorAll('.option');
-
-  let prompt = '';
-  if (questionTextElem) {
-    prompt += questionTextElem.innerText.trim() + '\n\n';
+// Extract question content from the actual question data, not DOM elements
+function buildChatGPTPrompt(questionIndex) {
+  if (!currentQuestions || !currentQuestions[questionIndex]) {
+    return '';
   }
-  optionElems.forEach((opt, idx) => {
+  
+  const question = currentQuestions[questionIndex];
+  let prompt = '';
+  
+  // Add question text
+  prompt += question.question + '\n\n';
+  
+  // Add options A, B, C, D
+  question.options.forEach((option, idx) => {
     const optionLetter = String.fromCharCode(65 + idx); // A, B, C, D
-    prompt += optionLetter + ') ' + opt.innerText.trim() + '\n';
+    prompt += optionLetter + ') ' + option + '\n';
   });
 
+  // Add the 3-version instruction
   prompt += '\nAnswer and Explain this question in 3 versions:\n';
   prompt += 'Version 1: brief explanation\n';
   prompt += 'Version 2: quote exact reference from NCERT biology text latest reprint and answer it accordingly\n';
@@ -1609,8 +1614,9 @@ function buildChatGPTPrompt(questionElement) {
 // Add ChatGPT button next to "Show Answer" button inside each question
 function addChatGPTButtons() {
   const questionItems = document.querySelectorAll('.question-item');
-  questionItems.forEach(question => {
-    const buttonGroup = question.querySelector('.button-group');
+  
+  questionItems.forEach((questionElement, index) => {
+    const buttonGroup = questionElement.querySelector('.button-group');
     if (!buttonGroup) return;
     if (buttonGroup.querySelector('.chatgpt-btn')) return;
 
@@ -1619,7 +1625,11 @@ function addChatGPTButtons() {
     btn.textContent = 'ChatGPT';
 
     btn.addEventListener('click', () => {
-      const prompt = buildChatGPTPrompt(question);
+      const prompt = buildChatGPTPrompt(index);
+      if (!prompt) {
+        alert('Could not extract question content.');
+        return;
+      }
       const url = `https://chat.openai.com/chat#prompt=${encodePrompt(prompt)}`;
       window.open(url, '_blank');
     });
@@ -1628,14 +1638,17 @@ function addChatGPTButtons() {
   });
 }
 
-// On page load and on content changes, add buttons
+// Override the original showQuestions function to add ChatGPT buttons after questions load
+const originalShowQuestions = window.showQuestions;
+window.showQuestions = function() {
+  originalShowQuestions.apply(this, arguments);
+  setTimeout(addChatGPTButtons, 100);
+};
+
+// Also add buttons on initial page load
 document.addEventListener('DOMContentLoaded', addChatGPTButtons);
-const contentArea = document.getElementById('contentArea');
-if (contentArea) {
-  const observer = new MutationObserver(addChatGPTButtons);
-  observer.observe(contentArea, { childList: true, subtree: true });
-}
 </script>
+
 
 
 </body>
