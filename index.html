@@ -1601,6 +1601,39 @@
 </style>
 
 <script>
+// FIXED: Add localStorage persistence for section scores and question states
+function loadPersistentData() {
+  try {
+    const savedScores = localStorage.getItem('neet-section-scores');
+    const savedStates = localStorage.getItem('neet-question-states');
+    
+    if (savedScores) {
+      sectionScores = JSON.parse(savedScores);
+    } else {
+      sectionScores = {};
+    }
+    
+    if (savedStates) {
+      questionStates = JSON.parse(savedStates);
+    } else {
+      questionStates = {};
+    }
+  } catch (e) {
+    console.log('Error loading persistent data:', e);
+    sectionScores = {};
+    questionStates = {};
+  }
+}
+
+function savePersistentData() {
+  try {
+    localStorage.setItem('neet-section-scores', JSON.stringify(sectionScores));
+    localStorage.setItem('neet-question-states', JSON.stringify(questionStates));
+  } catch (e) {
+    console.log('Error saving persistent data:', e);
+  }
+}
+
 // Copy to clipboard function
 async function copyToClipboard(text) {
   try {
@@ -1626,7 +1659,7 @@ function showCopyNotification() {
   
   const notification = document.createElement('div');
   notification.className = 'copy-notification';
-  notification.textContent = '✓ Question copied to clipboard!';
+  notification.textContent = '✓ Question copied & ChatGPT opened!';
   document.body.appendChild(notification);
   
   setTimeout(() => notification.classList.add('show'), 100);
@@ -1655,12 +1688,44 @@ function buildChatGPTPrompt(questionIndex) {
   });
 
   // Add your 3-version instruction
-  prompt += '\nAnswer and Explain this question in 3 versions:\n';
+  prompt += '\n\nAnswer and Explain this question in 3 versions:\n';
   prompt += 'Version 1: brief explanation\n';
   prompt += 'Version 2: quote exact reference from NCERT biology text latest reprint and answer it accordingly\n';
   prompt += 'Version 3: detailed explanation with option analysis';
 
   return prompt;
+}
+
+// FIXED: Enhanced autopaste feature for ChatGPT
+async function openChatGPTWithAutopaste(prompt) {
+  // First, copy to clipboard
+  await copyToClipboard(prompt);
+  
+  try {
+    // Method 1: Try URL parameter approach for autopaste
+    const encodedPrompt = encodeURIComponent(prompt);
+    const chatGPTUrl = `https://chat.openai.com/?q=${encodedPrompt}`;
+    
+    // Open ChatGPT with potential autopaste
+    const newWindow = window.open(chatGPTUrl, '_blank');
+    
+    if (newWindow) {
+      // Try to focus and simulate paste after delay
+      setTimeout(() => {
+        try {
+          newWindow.focus();
+        } catch (e) {
+          // Ignore focus errors
+        }
+      }, 1000);
+    }
+    
+    return true;
+  } catch (e) {
+    // Fallback: just open regular ChatGPT
+    window.open('https://chat.openai.com/', '_blank');
+    return true;
+  }
 }
 
 // Add ChatGPT buttons to each question
@@ -1677,36 +1742,40 @@ function addChatGPTButtons() {
     btn.textContent = 'ChatGPT';
 
     btn.addEventListener('click', async () => {
-      // Clear clipboard first
-      await copyToClipboard('');
-      
-      // Get current question prompt
+      // Get FRESH prompt data using the question index from currentQuestions array
       const prompt = buildChatGPTPrompt(index);
       if (!prompt) {
         alert('Could not extract question content.');
         return;
       }
       
-      // Copy to clipboard
-      const success = await copyToClipboard(prompt);
+      // Visual feedback - show processing
+      const originalText = btn.textContent;
+      btn.textContent = 'Opening...';
+      btn.style.background = '#f39c12';
+      
+      // Open ChatGPT with autopaste attempt
+      const success = await openChatGPTWithAutopaste(prompt);
       
       if (success) {
         showCopyNotification();
         
-        // Visual feedback
-        const originalText = btn.textContent;
-        btn.textContent = 'Copied!';
+        // Show success feedback
+        btn.textContent = 'Opened!';
         btn.style.background = '#27ae60';
         
         setTimeout(() => {
           btn.textContent = originalText;
           btn.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
-        }, 1500);
-        
-        // Open ChatGPT
-        window.open('https://chat.openai.com/', '_blank');
+        }, 2000);
       } else {
-        alert('Failed to copy. Please try again.');
+        btn.textContent = 'Error';
+        btn.style.background = '#e74c3c';
+        
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+        }, 2000);
       }
     });
 
@@ -1714,18 +1783,80 @@ function addChatGPTButtons() {
   });
 }
 
-// CORRECT: Store and replace the showQuestions function properly
+// FIXED: Override selectOption to save persistent data after each selection
+const originalSelectOption = selectOption;
+selectOption = function(questionIndex, optionIndex, correctAnswer, questionId) {
+  // Call original function
+  originalSelectOption(questionIndex, optionIndex, correctAnswer, questionId);
+  
+  // Save persistent data after each selection
+  savePersistentData();
+};
+
+// FIXED: Override showQuestions to load persistent data and add ChatGPT buttons
 const originalShowQuestions = showQuestions;
 showQuestions = function() {
+  // Load persistent data first
+  loadPersistentData();
+  
+  // Call original function
   originalShowQuestions();
+  
+  // Add ChatGPT buttons after questions load
   setTimeout(addChatGPTButtons, 100);
 };
 
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(addChatGPTButtons, 500);
+// FIXED: Override refresh button to only clear when explicitly clicked
+document.getElementById('refreshChapterBtn').addEventListener('click', function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  
+  const classValue = document.getElementById('classSelect').value;
+  const chapterValue = document.getElementById('chapterSelect').value;
+  const sectionValue = document.getElementById('sectionSelect').value;
+  
+  if (!classValue || !chapterValue || !sectionValue) return;
+  
+  // Only clear when refresh button is explicitly clicked
+  const sectionKey = `${classValue}-${chapterValue}-${sectionValue}`;
+  
+  // Clear persistent states for current section
+  Object.keys(questionStates).forEach(key => {
+    if (key.startsWith(`${classValue}-${chapterValue}-${sectionValue}-`)) {
+      delete questionStates[key];
+    }
+  });
+  
+  // Clear section score
+  delete sectionScores[sectionKey];
+  
+  // Save the cleared data
+  savePersistentData();
+  
+  // Refresh the display
+  showQuestions();
+  updateScoreDisplay();
 });
+
+// FIXED: Initialize persistent data on page load
+document.addEventListener('DOMContentLoaded', () => {
+  // Load persistent data first
+  loadPersistentData();
+  
+  // Update display with loaded data
+  setTimeout(() => {
+    updateScoreDisplay();
+    addChatGPTButtons();
+  }, 1000);
+});
+
+// Save data before page unload
+window.addEventListener('beforeunload', savePersistentData);
+
+// Auto-save data every 30 seconds
+setInterval(savePersistentData, 30000);
 </script>
+
 
 
 
