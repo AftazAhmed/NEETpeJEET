@@ -467,7 +467,16 @@
 </main>
 
 <script>
-  const questionData = {}
+  const questionData = {
+    "11": {
+      "1": {
+        title: "The Living World", 
+        sections: [
+          {id: "1.0", name: "Introduction to Biology and Living Organisms"},
+          {id: "1.1", name: "Diversity in the Living World"},
+          {id: "1.2", name: "Taxonomic Categories"}
+        ], 
+        questions: {}
       },
       "2": {
         title: "Biological Classification", 
@@ -659,394 +668,272 @@
               answer: "b) Copeland"
             }
           ],
-    "2.1": [
-  {
-    "year": "PMT/NEET-1990",
-    "question": "Which one belongs to Monera?",
-    "options": [
-      "a) Amoeba",
-      "b) Escherichia",
-      "c) Gelidium", 
-      "d) Spirogyra"
-    ],
-    "answer": "b) Escherichia"
-  },
-  {
-    "year": "PMT/NEET-1994, 1997, 2000",
-    "question": "The non-nucleated, unicellular organisms of Whittaker's (1969) classification are included in the kingdom:",
-    "options": [
-      "a) Protista",
-      "b) Monera",
-      "c) Animalia",
-      "d) Plantae"
-    ],
-    "answer": "b) Monera"
-  },
-  {
-    "year": "PMT/NEET-1990",
-    "question": "The main difference in Gram (+)ve and Gram (-)ve bacteria resides in their:",
-    "options": [
-      "a) cell wall",
-      "b) cell membrane",
-      "c) cytoplasm",
-      "d) flagella"
-    ],
-    "answer": "a) cell wall"
-  },
-  {
-    "year": "PMT/NEET-2001",
-    "question": "Difference in Gram positive and Gram negative bacteria is due to:",
-    "options": [
-      "a) cell wall",
-      "b) cell membrane", 
-      "c) ribosome",
-      "d) cytoplasm"
-    ],
-    "answer": "a) cell wall"
-  },
-  {
-    "year": "PMT/NEET-1996",
-    "question": "Which type of DNA is found in bacteria?",
-    "options": [
-      "a) Circular free DNA",
-      "b) Membrane bound DNA",
-      "c) Straight DNA",
-      "d) Helical DNA"
-    ],
-    "answer": "a) Circular free DNA"
-  },
-  {
-    "year": "PMT/NEET-1998",
-    "question": "The DNA of E. coli is:",
-    "options": [
-      "a) double stranded and linear",
-      "b) double stranded and circular",
-      "c) single stranded and linear",
-      "d) single stranded and circular"
-    ],
-    "answer": "b) double stranded and circular"
-  },
-  {
-    "year": "PMT/NEET-2012",
-    "question": "Maximum nutritional diversity is found in the group:",
-    "options": [
-      "a) fungi",
-      "b) animalia",
-      "c) monera",
-      "d) plantae"
-    ],
-    "answer": "c) monera"
-  },
-  {
-    "year": "PMT/NEET-1991",
-    "question": "Name the organisms which do not derive energy directly or indirectly from sun:",
-    "options": [
-      "a) Chemosynthetic bacteria",
-      "b) Pathogenic bacteria",
-      "c) Symbiotic",
-      "d) Mould"
-    ],
-    "answer": "a) Chemosynthetic bacteria"
-  },
-  {
-    "year": "PMT/NEET-2002",
-    "question": "Organisms which obtain energy by the oxidation of reduced inorganic compounds are called:",
-    "options": [
-      "a) photoautotrophs",
-      "b) chemoautotrophs", 
-      "c) saprozoic",
-      "d) coproheterotrophs"
-    ],
-    "answer": "b) chemoautotrophs"
-  },
-  {
-    "year": "PMT/NEET-1994",
-    "question": "Organisms, which fix atmospheric nitrogen in the soil, fall under the category of:",
-    "options": [
-      "a) bacteria",
-      "b) green algae",
-      "c) soil fungi",
-      "d) mosses"
-    ],
-    "answer": "a) bacteria"
-  },
-  {
-    "year": "PMT/NEET-1994",
-    "question": "Azotobacter and Bacillus polymyxa are the examples of:",
-    "options": [
-      "a) pathogenic bacteria",
-      "b) decomposers",
-      "c) symbiotic N₂ fixer",
-      "d) non-symbiotic N₂ fixer"
-    ],
-    "answer": "d) non-symbiotic N₂ fixer"
-  },
-  {
-    "year": "PMT/NEET-1998",
-    "question": "Which one of the following can utilize molecular nitrogen (N₂) as nutrient for growth?",
-    "options": [
-      "a) Rhizobium",
-      "b) Spirogyra",
-      "c) Mucor", 
-      "d) Methanococcus"
-    ],
-    "answer": "a) Rhizobium"
-  },
-  {
-    "year": "PMT/NEET-2001",
-    "question": "What is true for archaebacteria?",
-    "options": [
-      "a) All halophiles",
-      "b) All photosynthetics",
-      "c) All fossils",
-      "d) Oldest living beings"
-    ],
-    "answer": "d) Oldest living beings"
-  },
-  {
-    "year": "PMT/NEET-1998",
-    "question": "A few organisms are known to grow and multiply at temperatures of 100-105°C. They belong to:",
-    "options": [
-      "a) Thermophilic subaerial fungi",
-      "b) Marine archaebacteria",
-      "c) Thermophilic sulphur bacteria",
-      "d) Hot spring blue-green algae"
-    ],
-    "answer": "b) Marine archaebacteria"
-  },
-  {
-    "year": "PMT/NEET-2016",
-    "question": "Methanogens belong to:",
-    "options": [
-      "a) eubacteria",
-      "b) archaebacteria",
-      "c) dinoflagellates",
-      "d) slime moulds"
-    ],
-    "answer": "b) archaebacteria"
-  },
-  {
-    "year": "PMT/NEET-2016",
-    "question": "The primitive prokaryotes responsible for the production of biogas from the dung of ruminant animals, include the:",
-    "options": [
-      "a) methanogens",
-      "b) eubacteria",
-      "c) halophiles",
-      "d) thermoacidophiles"
-    ],
-    "answer": "a) methanogens"
-  },
-  {
-    "year": "PMT/NEET-2017",
-    "question": "Which of the following are found in extreme saline conditions?",
-    "options": [
-      "a) Eubacteria",
-      "b) Cyanobacteria",
-      "c) Mycobacteria",
-      "d) Archaebacteria"
-    ],
-    "answer": "d) Archaebacteria"
-  },
-  {
-    "year": "PMT/NEET-2014",
-    "question": "Archaebacteria differ from eubacteria in:",
-    "options": [
-      "a) cell membrane structure",
-      "b) mode of nutrition",
-      "c) cell shape",
-      "d) mode of reproduction"
-    ],
-    "answer": "a) cell membrane structure"
-  },
-  {
-    "year": "PMT/NEET-2008",
-    "question": "In the light of recent classification of living organisms into three domains of life (bacteria, archaea and eukarya), which one of the following statements is true about archaea?",
-    "options": [
-      "a) Archaea completely differ from both prokaryotes and eukaryotes",
-      "b) Archaea completely differ from prokaryotes",
-      "c) Archaea resemble eukarya in all respects",
-      "d) Archaea have some novel features that are absent in other prokaryotes and eukaryotes"
-    ],
-    "answer": "d) Archaea have some novel features that are absent in other prokaryotes and eukaryotes"
-  },
-  {
-    "year": "PMT/NEET-2008",
-    "question": "Thermococcus, Methanococcus and Methanobacterium exemplify:",
-    "options": [
-      "a) bacteria whose DNA is relaxed or positively supercoiled but which have a cytoskeleton as well as mitochondria",
-      "b) bacteria that contain a cytoskeleton and ribosomes",
-      "c) archaebacteria that contain protein homologous to eukaryotic core histones",
-      "d) archaebacteria that lack any histones resembling those found in eukaryotes but whose DNA is negatively supercoiled"
-    ],
-    "answer": "c) archaebacteria that contain protein homologous to eukaryotic core histones"
-  },
-  {
-    "year": "PMT/NEET-2019",
-    "question": "Match the organisms in column-I with habitats in column-II: A-Halophiles(1-Hot springs), B-Thermoacidophiles(2-Aquatic environment), C-Methanogens(3-Guts of ruminants), D-Cyanobacteria(4-Salty area)",
-    "options": [
-      "a) A-4, B-1, C-3, D-2",
-      "b) A-1, B-2, C-3, D-4",
-      "c) A-3, B-4, C-2, D-1",
-      "d) A-2, B-4, C-3, D-1"
-    ],
-    "answer": "a) A-4, B-1, C-3, D-2"
-  },
-  {
-    "year": "PMT/NEET-2012",
-    "question": "The cyanobacteria are also referred to as:",
-    "options": [
-      "a) protists",
-      "b) golden algae",
-      "c) slime moulds",
-      "d) blue green algae"
-    ],
-    "answer": "d) blue green algae"
-  },
-  {
-    "year": "PMT/NEET-2011",
-    "question": "In eubacteria, a cellular component that resembles eukaryotic cell is:",
-    "options": [
-      "a) plasma membrane",
-      "b) nucleus",
-      "c) ribosomes",
-      "d) cell wall"
-    ],
-    "answer": "c) ribosomes"
-  },
-  {
-    "year": "PMT/NEET-2012",
-    "question": "The most abundant prokaryotes helpful to humans in making curd from milk and in production of antibiotics are the ones categorized as:",
-    "options": [
-      "a) cyanobacteria",
-      "b) archaebacteria",
-      "c) chemosynthetic autotrophs",
-      "d) heterotrophic bacteria"
-    ],
-    "answer": "d) heterotrophic bacteria"
-  },
-  {
-    "year": "PMT/NEET-1998",
-    "question": "The main role of bacteria in the carbon cycle involves:",
-    "options": [
-      "a) chemosynthesis",
-      "b) digestion or breakdown of organic compounds",
-      "c) photosynthesis",
-      "d) assimilation of nitrogenous compounds"
-    ],
-    "answer": "b) digestion or breakdown of organic compounds"
-  },
-  {
-    "year": "PMT/NEET-2017",
-    "question": "Which among the following are the smallest living cells, known without a definite cell wall, pathogenic to plants as well as animals and can survive without oxygen?",
-    "options": [
-      "a) Pseudomonas",
-      "b) Mycoplasma",
-      "c) Nostoc",
-      "d) Bacillus"
-    ],
-    "answer": "b) Mycoplasma"
-  },
-  {
-    "year": "PMT/NEET-2000, 2001, 2002",
-    "question": "Which of the following are called bacteria without cell wall:",
-    "options": [
-      "a) Virus",
-      "b) Viroid",
-      "c) Mycoplasma",
-      "d) Cyanobacteria"
-    ],
-    "answer": "c) Mycoplasma"
-  },
-  {
-    "year": "PMT/NEET-1997",
-    "question": "Organisms without any specific shape are:",
-    "options": [
-      "a) Mycoplasmas",
-      "b) Bacteria",
-      "c) Viruses",
-      "d) Cyanobacteria"
-    ],
-    "answer": "a) Mycoplasmas"
-  },
-  {
-    "year": "PMT/NEET-2007",
-    "question": "Which one of the following statements about mycoplasma is wrong?",
-    "options": [
-      "a) They are pleomorphic",
-      "b) They are sensitive to penicillin",
-      "c) They cause diseases in plants",
-      "d) They are also called PPLO"
-    ],
-    "answer": "b) They are sensitive to penicillin"
-  },
-  {
-    "year": "PMT/NEET-1995",
-    "question": "Mycoplasma differs from virus in being sensitive to:",
-    "options": [
-      "a) Sugar",
-      "b) Tetracycline",
-      "c) Protein",
-      "d) Amino acid"
-    ],
-    "answer": "b) Tetracycline"
-  },
-  {
-    "year": "PMT/NEET-2022",
-    "question": "Given below are two statements. Assertion (A): Mycoplasma can pass through less than 1 micron filter size. Reason (R): Mycoplasma are bacteria with cell wall. In the light of the above statements, choose the most appropriate answer from the options given below.",
-    "options": [
-      "a) Both Assertion and Reason are correct",
-      "b) Both Assertion and Reason are incorrect",
-      "c) Assertion is correct but Reason is incorrect",
-      "d) Assertion is incorrect but Reason is correct"
-    ],
-    "answer": "c) Assertion is correct but Reason is incorrect"
-  },
-  {
-    "year": "PMT/NEET-1991, 1992",
-    "question": "Bacteria lack alternation of generation because there is:",
-    "options": [
-      "a) neither syngamy nor reduction division",
-      "b) distinct chromosomes are absent",
-      "c) no conjugation",
-      "d) no exchange of genetic material"
-    ],
-    "answer": "a) neither syngamy nor reduction division"
-  },
-  {
-    "year": "PMT/NEET-1998",
-    "question": "A bacterium divides every 35 minutes. If a culture containing 10^6 cell per mL is grown for 175 minutes, what will be the cell concentration per mL after 175 minutes?",
-    "options": [
-      "a) 3.5×10^7 cells",
-      "b) 3.2×10^7 cells",
-      "c) 17.5×10^7 cells",
-      "d) 8.5×10^7 cells"
-    ],
-    "answer": "b) 3.2×10^7 cells"
-  },
-  {
-    "year": "PMT/NEET-2002",
-    "question": "In bacteria, plasmid is:",
-    "options": [
-      "a) extra chromosomal material",
-      "b) main DNA",
-      "c) non-functional DNA",
-      "d) repetitive gene"
-    ],
-    "answer": "a) extra chromosomal material"
-  },
-  {
-    "year": "PMT/NEET-2002",
-    "question": "Which statement is correct for bacterial transduction?",
-    "options": [
-      "a) Transfer of some genes from one bacteria to another bacteria through virus",
-      "b) Transfer of genes from one bacteria to another bacteria by conjugation",
-      "c) Bacteria obtained its DNA directly from mother cell",
-      "d) Bacteria obtained DNA from other external source"
-    ],
-    "answer": "a) Transfer of some genes from one bacteria to another bacteria through virus"
- }
-],
-
+          "2.1": [
+            {
+              year: "NEET/AIPMT 2019",
+              question: "Match Column I (groups) with Column II (typical habitats) and choose the correct option:<br><br>Column I: A) Halophiles &nbsp; B) Thermoacidophiles &nbsp; C) Methanogens &nbsp; D) Cyanobacteria<br>Column II: 1) Hot springs &nbsp; 2) Aquatic environment &nbsp; 3) Guts of ruminants &nbsp; 4) Salty area",
+              options: [
+                "a) A-4, B-1, C-3, D-2",
+                "b) A-1, B-2, C-3, D-4",
+                "c) A-3, B-4, C-2, D-1",
+                "d) A-2, B-4, C-3, D-1"
+              ],
+              answer: "a) A-4, B-1, C-3, D-2"
+            },
+            {
+              year: "NEET/AIPMT 2017",
+              question: "Which among the following are the smallest living cells, known without a definite cell wall, pathogenic to plants as well as animals and can survive without oxygen?",
+              options: [
+                "a) Pseudomonas",
+                "b) Mycoplasma",
+                "c) Nostoc",
+                "d) Bacillus"
+              ],
+              answer: "b) Mycoplasma"
+            },
+            {
+              year: "NEET/AIPMT 2017",
+              question: "Which of the following components provides sticky character to the bacterial cell?",
+              options: [
+                "a) Nuclear membrane",
+                "b) Plasma membrane",
+                "c) Glycocalyx",
+                "d) Cell wall"
+              ],
+              answer: "c) Glycocalyx"
+            },
+            {
+              year: "NEET/AIPMT 2017",
+              question: "DNA replication in bacteria occurs:",
+              options: [
+                "a) within nucleus",
+                "b) Prior to fission",
+                "c) just before transcription",
+                "d) during S phase"
+              ],
+              answer: "b) Prior to fission"
+            },
+            {
+              year: "NEET/AIPMT 2016",
+              question: "Methanogens belong to:",
+              options: [
+                "a) eubacteria",
+                "b) archaebacteria",
+                "c) dinoflagellates",
+                "d) slime moulds"
+              ],
+              answer: "b) archaebacteria"
+            },
+            {
+              year: "NEET/AIPMT 2014",
+              question: "Pigment containing membranous extensions in some cyanobacteria are:",
+              options: [
+                "a) pneumatophores",
+                "b) chromatophores",
+                "c) heterocysts",
+                "d) basal bodies"
+              ],
+              answer: "b) chromatophores"
+            },
+            {
+              year: "NEET/AIPMT 2013",
+              question: "Archaebacteria differ from eubacteria in:",
+              options: [
+                "a) cell membrane structure",
+                "b) mode of nutrition",
+                "c) cell shape",
+                "d) mode of reproduction"
+              ],
+              answer: "a) cell membrane structure"
+            },
+            {
+              year: "NEET/AIPMT 2013",
+              question: "Which of the following are likely to be present in deep sea water?",
+              options: [
+                "a) Blue-green algae",
+                "b) Saprophytic fungi",
+                "c) Archaebacteria",
+                "d) Eubacteria"
+              ],
+              answer: "c) Archaebacteria"
+            },
+            {
+              year: "NEET/AIPMT 2012",
+              question: "The most abundant prokaryotes helpful to humans in making curd from milk and in production of antibiotics are the ones categorized as:",
+              options: [
+                "a) cyanobacteria",
+                "b) archaebacteria",
+                "c) chemosynthetic autotrophs",
+                "d) heterotrophic bacteria"
+              ],
+              answer: "d) heterotrophic bacteria"
+            },
+            {
+              year: "NEET/AIPMT 2012",
+              question: "The cyanobacteria are also referred to as:",
+              options: [
+                "a) protists",
+                "b) golden algae",
+                "c) slime moulds",
+                "d) blue green algae"
+              ],
+              answer: "d) blue green algae"
+            },
+            {
+              year: "NEET/AIPMT 2011",
+              question: "In eubacteria, a cellular component that resembles eukaryotic cells is:",
+              options: [
+                "a) plasma membrane",
+                "b) nucleus",
+                "c) ribosomes",
+                "d) cell wall"
+              ],
+              answer: "a) plasma membrane"
+            },
+            {
+              year: "NEET/AIPMT 2010",
+              question: "Some hyperthermophilic organisms that grow in highly acidic (pH₂) habitats belong to the two groups:",
+              options: [
+                "a) eubacteria and archaea",
+                "b) cyanobacteria and diatoms",
+                "c) protists and mosses",
+                "d) liverworts and yeasts"
+              ],
+              answer: "a) eubacteria and archaea"
+            },
+            {
+              year: "NEET/AIPMT 2008",
+              question: "In the light of recent classification of living organisms into three domains of life (bacteria, archaea and eukarya), which one of the following statements is true about archaea?",
+              options: [
+                "a) Archaea completely differ from both prokaryotes and eukaryotes",
+                "b) Archaea completely differ from prokaryotes",
+                "c) Archaea resemble eukarya in all respects",
+                "d) Archaea have some novel features that are absent in other prokaryotes and eukaryotes"
+              ],
+              answer: "d) Archaea have some novel features that are absent in other prokaryotes and eukaryotes"
+            },
+            {
+              year: "NEET/AIPMT 2008",
+              question: "Thermococcus, Methanococcus and Methanobacterium exemplify:",
+              options: [
+                "a) bacteria whose DNA is relaxed or positively supercoiled but which have a cytoskeleton as well as mitochondria",
+                "b) bacteria that contain a cytoskeleton and ribosomes",
+                "c) archaebacteria that contain protein homologous to eukaryotic core histones",
+                "d) archaebacteria that lack any histones resembling those found in eukaryotes but whose DNA is negatively supercoiled"
+              ],
+              answer: "c) archaebacteria that contain protein homologous to eukaryotic core histones"
+            },
+            {
+              year: "NEET/AIPMT 2008",
+              question: "Bacterial leaf blight of rice is caused by species:",
+              options: [
+                "a) Alternaria",
+                "b) Erwinia",
+                "c) Xanthomonas",
+                "d) Pseudomonas"
+              ],
+              answer: "c) Xanthomonas"
+            },
+            {
+              year: "NEET/AIPMT 2006",
+              question: "Curing of tea leaves is brought about by the activity of:",
+              options: [
+                "a) fungi",
+                "b) bacteria",
+                "c) mycorrhiza",
+                "d) viruses"
+              ],
+              answer: "b) bacteria"
+            },
+            {
+              year: "NEET/AIPMT 2005",
+              question: "For retting of jute the fermenting microbe used is:",
+              options: [
+                "a) methanophilic bacteria",
+                "b) butyric acid bacteria",
+                "c) Helicobacter pylori",
+                "d) Streptococcus lactis"
+              ],
+              answer: "b) butyric acid bacteria"
+            },
+            {
+              year: "NEET/AIPMT 2002",
+              question: "Which statement is correct for bacterial transduction?",
+              options: [
+                "a) Transfer of some genes from one bacteria to another bacteria through virus",
+                "b) Transfer of genes from one bacteria to another bacteria by conjugation",
+                "c) Bacteria obtained its DNA directly from mother cell",
+                "d) Bacteria obtained DNA from other external source"
+              ],
+              answer: "a) Transfer of some genes from one bacteria to another bacteria through virus"
+            },
+            {
+              year: "NEET/AIPMT 2001",
+              question: "What is true for archaebacteria?",
+              options: [
+                "a) All halophiles",
+                "b) All photosynthetics",
+                "c) All fossils",
+                "d) Oldest living beings"
+              ],
+              answer: "d) Oldest living beings"
+            },
+            {
+              year: "NEET/AIPMT 2001",
+              question: "Difference in Gram positive and Gram negative bacteria is due to:",
+              options: [
+                "a) cell wall",
+                "b) cell membrane",
+                "c) ribosome",
+                "d) cytoplasm"
+              ],
+              answer: "a) cell wall"
+            },
+            {
+              year: "NEET/AIPMT 1998",
+              question: "Genes for antibiotic resistance are located in:",
+              options: [
+                "a) Chromosome",
+                "b) Nucleus",
+                "c) Cell wall",
+                "d) Plasmid"
+              ],
+              answer: "d) Plasmid"
+            },
+            {
+              year: "NEET/AIPMT 1998",
+              question: "Which one of the following can utilize molecular nitrogen (N₂) as nutrient for growth?",
+              options: [
+                "a) Rhizobium",
+                "b) Spirogyra",
+                "c) Mucor",
+                "d) Methanococcus"
+              ],
+              answer: "d) Methanococcus"
+            },
+            {
+              year: "NEET/AIPMT 1990",
+              question: "Which one belongs to Monera?",
+              options: [
+                "a) Amoeba",
+                "b) Escherichia",
+                "c) Gelidium",
+                "d) Spirogyra"
+              ],
+              answer: "b) Escherichia"
+            },
+            {
+              year: "NEET/AIPMT 1990",
+              question: "The main difference in Gram (+)ve and Gram (-)ve bacteria resides in their:",
+              options: [
+                "a) cell wall",
+                "b) cell membrane",
+                "c) cytoplasm",
+                "d) flagella"
+              ],
+              answer: "a) cell wall"
+            }
+          ], 
 "2.2": [
   {
     "year": "PMT/NEET-2016",
@@ -1401,7 +1288,6 @@
     "answer": "a) Disappearance of contractile vacuole"
   }
     ], 
-
 "2.3": [
   {
     "year": "PMT/NEET-2013",
@@ -1438,7 +1324,7 @@
   },
   {
     "year": "PMT/NEET-2021",
-    "question": "Which of the following statements is correct?",
+    "question": "Fusion of protoplasms between two motile or non-motile gametes is called:",
     "options": [
       "a) Some of the organisms can fix atmospheric nitrogen in specialised cells called karyogamy",
       "b) Fusion of two cells is called karyogamy",
@@ -1449,7 +1335,7 @@
   },
   {
     "year": "PMT/NEET-1997",
-    "question": "Algal fungi are placed in:",
+    "question": "Algal fungi are placed in:", 
     "options": [
       "a) Ascomycetes",
       "b) Basidiomycetes",
@@ -1463,7 +1349,7 @@
     "question": "In Mucor, asexual reproduction takes place by:",
     "options": [
       "a) Motile zoospores",
-      "b) Spores",
+      "b) Spores", 
       "c) Zoogametes",
       "d) Zygospores"
     ],
@@ -1485,7 +1371,7 @@
     "question": "Coenogametes are formed in:",
     "options": [
       "a) Albugo",
-      "b) Saccharomyces",
+      "b) Saccharomyces", 
       "c) Rhizopus",
       "d) Alternaria"
     ],
@@ -1496,22 +1382,11 @@
     "question": "Yeast produces an enzyme complex that is responsible for fermentation. The enzyme complex is:",
     "options": [
       "a) Aldolase",
-      "b) Dehydrogenase",
+      "b) Dehydrogenase", 
       "c) Invertase",
       "d) Zymase"
     ],
     "answer": "d) Zymase"
-  },
-  {
-    "year": "PMT/NEET-2019",
-    "question": "Which of the following statement is incorrect?",
-    "options": [
-      "a) Yeasts have filamentous bodies with long thread like hyphae",
-      "b) Morels and truffles are edible delicacies",
-      "c) Claviceps is a source of many alkaloids and LSD",
-      "d) Conidia are produced exogenously and ascospores endogenously"
-    ],
-    "answer": "a) Yeasts have filamentous bodies with long thread like hyphae"
   },
   {
     "year": "PMT/NEET-2015",
@@ -1523,6 +1398,17 @@
       "d) Neurospora is used in the study of biochemical genetics"
     ],
     "answer": "a) Morels and truffles are poisonous mushrooms"
+  },
+  {
+    "year": "PMT/NEET-2019",
+    "question": "Which of the following statement is incorrect?",
+    "options": [
+      "a) Yeasts have filamentous bodies with long thread like hyphae",
+      "b) Morels and truffles are edible delicacies", 
+      "c) Claviceps is a source of many alkaloids and LSD",
+      "d) Conidia are produced exogenously and ascospores endogenously"
+    ],
+    "answer": "a) Yeasts have filamentous bodies with long thread like hyphae"
   },
   {
     "year": "PMT/NEET-2011",
@@ -1551,7 +1437,7 @@
     "question": "Which pair of the following belongs to basidiomycetes?",
     "options": [
       "a) Puffballs and Claviceps",
-      "b) Peziza and stink horns",
+      "b) Peziza and stink horns", 
       "c) Morchella and Mushrooms",
       "d) Birds nest fungi and puffballs"
     ],
@@ -1562,33 +1448,22 @@
     "question": "After karyogamy followed by meiosis, spores are produced exogenously in:",
     "options": [
       "a) Neurospora",
-      "b) Alternaria",
+      "b) Alternaria", 
       "c) Agaricus",
       "d) Saccharomyces"
     ],
     "answer": "c) Agaricus"
   },
   {
-    "year": "PMT/NEET-2015",
-    "question": "Which one of the following matches is correct?",
+    "year": "PMT/NEET-2000",
+    "question": "Black rust of wheat is caused by:",
     "options": [
-      "a) Mucor - Reproduction by conjugation - Ascomycetes",
-      "b) Agaricus - Parasitic fungus - Basidiomycetes",
-      "c) Phytophthora - Aseptate mycelium - Basidiomycetes",
-      "d) Alternaria - Sexual reproduction absent - Deuteromycetes"
+      "a) Puccinia",
+      "b) Ustilago",
+      "c) Albugo", 
+      "d) Phytophthora"
     ],
-    "answer": "d) Alternaria - Sexual reproduction absent - Deuteromycetes"
-  },
-  {
-    "year": "PMT/NEET-2015",
-    "question": "The imperfect fungi which are decomposers of litter and help in mineral cycling belong to:",
-    "options": [
-      "a) Phycomycetes",
-      "b) Ascomycetes",
-      "c) Deuteromycetes",
-      "d) Basidiomycetes"
-    ],
-    "answer": "c) Deuteromycetes"
+    "answer": "a) Puccinia"
   },
   {
     "year": "PMT/NEET-1995",
@@ -1602,66 +1477,33 @@
     "answer": "b) Puccinia graminis tritici"
   },
   {
-    "year": "PMT/NEET-2000",
-    "question": "Black rust of wheat is caused by:",
+    "year": "PMT/NEET-2015",
+    "question": "The imperfect fungi which are decomposers of litter and help in mineral cycling belong to:",
     "options": [
-      "a) Puccinia",
-      "b) Ustilago",
-      "c) Albugo",
-      "d) Phytophthora"
+      "a) Phycomycetes",
+      "b) Ascomycetes", 
+      "c) Deuteromycetes",
+      "d) Basidiomycetes"
     ],
-    "answer": "a) Puccinia"
+    "answer": "c) Deuteromycetes"
   },
   {
-    "year": "PMT/NEET-1997, 2005",
-    "question": "Ergot is caused by:",
+    "year": "PMT/NEET-2015",
+    "question": "Which one of the following matches is correct?",
     "options": [
-      "a) Claviceps",
-      "b) Penicillium",
-      "c) Aspergillus",
-      "d) Rhizobium"
+      "a) Mucor - Reproduction by conjugation - Ascomycetes",
+      "b) Agaricus - Parasitic fungus - Basidiomycetes", 
+      "c) Phytophthora - Aseptate mycelium - Basidiomycetes",
+      "d) Alternaria - Sexual reproduction absent - Deuteromycetes"
     ],
-    "answer": "a) Claviceps"
-  },
-  {
-    "year": "PMT/NEET-1997, 2000, 2005",
-    "question": "The disease of potato responsible for famous famine of Europe was caused by or late blight of potato is caused by:",
-    "options": [
-      "a) Colletotrichum falcatum",
-      "b) Phytophthora infestans",
-      "c) Potato mosaic virus",
-      "d) Alternaria solani"
-    ],
-    "answer": "b) Phytophthora infestans"
-  },
-  {
-    "year": "PMT/NEET-2002",
-    "question": "Which of the following secrets toxins during storage conditions of crop plants?",
-    "options": [
-      "a) Aspergillus",
-      "b) Penicillium",
-      "c) Fusarium",
-      "d) Colletotrichum"
-    ],
-    "answer": "a) Aspergillus"
-  },
-  {
-    "year": "PMT/NEET-2002",
-    "question": "Which fungal disease spreads by seed and flowers?",
-    "options": [
-      "a) Loose smut of wheat",
-      "b) Corn smut",
-      "c) Covered smut of barley",
-      "d) Soft rot of potato"
-    ],
-    "answer": "a) Loose smut of wheat"
+    "answer": "d) Alternaria - Sexual reproduction absent - Deuteromycetes"
   },
   {
     "year": "PMT/NEET-1994, 2002",
     "question": "Mycorrhiza exhibits the phenomenon of:",
     "options": [
       "a) Antagonism",
-      "b) Endemism",
+      "b) Endemism", 
       "c) Parasitism",
       "d) Symbiosis"
     ],
@@ -1673,7 +1515,7 @@
     "options": [
       "a) Modified root",
       "b) An organism for vegetative propagation",
-      "c) A root hair in adverse condition",
+      "c) A root hair in adverse condition", 
       "d) Mechanical tissue for support"
     ],
     "answer": "c) A root hair in adverse condition"
@@ -1683,11 +1525,55 @@
     "question": "Match column-I with column-II: (A) Saprophyte - 1. Symbiotic association of fungi with plant roots (B) Parasite - 2. Decomposition of dead organic materials (C) Lichens - 3. Living on living plants or animals (D) Mycorrhiza - 4. Symbiotic association of algae and fungi",
     "options": [
       "a) A-2, B-3, C-4, D-1",
-      "b) A-1, B-2, C-3, D-4",
+      "b) A-1, B-2, C-3, D-4", 
       "c) A-3, B-2, C-1, D-4",
       "d) A-2, B-1, C-3, D-4"
     ],
     "answer": "a) A-2, B-3, C-4, D-1"
+  },
+  {
+    "year": "PMT/NEET-1997, 2005",
+    "question": "Ergot is caused by:",
+    "options": [
+      "a) Claviceps",
+      "b) Penicillium",
+      "c) Aspergillus", 
+      "d) Rhizobium"
+    ],
+    "answer": "a) Claviceps"
+  },
+  {
+    "year": "PMT/NEET-1997, 2000, 2005",
+    "question": "The disease of potato responsible for famous famine of Europe was caused by or late blight of potato is caused by:",
+    "options": [
+      "a) Colletotrichum falcatum",
+      "b) Phytophthora infestans",
+      "c) Potato mosaic virus", 
+      "d) Alternaria solani"
+    ],
+    "answer": "b) Phytophthora infestans"
+  },
+  {
+    "year": "PMT/NEET-2002",
+    "question": "Which of the following secrets toxins during storage conditions of crop plants?",
+    "options": [
+      "a) Aspergillus",
+      "b) Penicillium",
+      "c) Fusarium", 
+      "d) Colletotrichum"
+    ],
+    "answer": "a) Aspergillus"
+  },
+  {
+    "year": "PMT/NEET-2002",
+    "question": "Which fungal disease spreads by seed and flowers?",
+    "options": [
+      "a) Loose smut of wheat",
+      "b) Corn smut", 
+      "c) Covered smut of barley",
+      "d) Soft rot of potato"
+    ],
+    "answer": "a) Loose smut of wheat"
   },
   {
     "year": "PMT/NEET-2006",
@@ -1695,7 +1581,7 @@
     "options": [
       "a) fungi",
       "b) bacteria",
-      "c) mycorrhiza",
+      "c) mycorrhiza", 
       "d) viruses"
     ],
     "answer": "a) fungi"
@@ -1705,35 +1591,47 @@
     "question": "Which of the following environmental conditions are essential for optimum growth of Mucor on a piece of bread? A. Temperature of about 25°C B. Temperature of about 5°C C. Relative humidity of about 5% D. Relative humidity of about 95% E. A shady place F. A brightly illuminated place",
     "options": [
       "a) B, C and F only",
-      "b) A, C and E only",
+      "b) A, C and E only", 
       "c) A, D and E only",
       "d) B, D and E only"
     ],
     "answer": "c) A, D and E only"
-  },
-  {
-    "year": "PMT/NEET-2009",
-    "question": "Which one is the wrong pairing for the disease and its causal organism?",
-    "options": [
-      "a) Black rust of wheat-Puccinia graminis",
-      "b) Loose smut of wheat-Ustilago nuda",
-      "c) Root knot of vegetables-Meloidogyne sp.",
-      "d) Late blight of potato-Alternaria solani"
-    ],
-    "answer": "d) Late blight of potato-Alternaria solani"
   }
 ], 
-     "2.4": [
+
+"2.4": [
+  {
+    "year": "PMT/NEET-2012",
+    "question": "Nuclear membrane is absent in:",
+    "options": [
+      "a) Penicillium",
+      "b) Agaricus",
+      "c) Volvox",
+      "d) Nostoc"
+    ],
+    "answer": "d) Nostoc"
+  },
   {
     "year": "PMT/NEET-2015",
-    "question": "Pick up the wrong statement:",
+    "question": "True nucleus is absent in:",
     "options": [
-      "a) Some fungi are edible",
-      "b) Nuclear membrane is present in Monera",
-      "c) Cell wall is absent in Animalia",
-      "d) Protists have photosynthetic and heterotrophic modes of nutrition"
+      "a) Vaucheria",
+      "b) Volvox",
+      "c) Anabaena",
+      "d) Mucor"
     ],
-    "answer": "b) Nuclear membrane is present in Monera"
+    "answer": "c) Anabaena"
+  },
+  {
+    "year": "PMT/NEET-2015",
+    "question": "Cell wall is absent in:",
+    "options": [
+      "a) Mycoplasma",
+      "b) Nostoc",
+      "c) Aspergillus",
+      "d) Funaria"
+    ],
+    "answer": "a) Mycoplasma"
   },
   {
     "year": "PMT/NEET-2018",
@@ -1748,25 +1646,14 @@
   },
   {
     "year": "PMT/NEET-2015",
-    "question": "Cell wall is absent in:",
+    "question": "Pick up the wrong statement:",
     "options": [
-      "a) Mycoplasma",
-      "b) Nostoc",
-      "c) Aspergillus",
-      "d) Funaria"
+      "a) Some fungi are edible",
+      "b) Nuclear membrane is present in Monera",
+      "c) Cell wall is absent in Animalia",
+      "d) Protists have photosynthetic and heterotrophic modes of nutrition"
     ],
-    "answer": "a) Mycoplasma"
-  },
-  {
-    "year": "PMT/NEET-2012",
-    "question": "Nuclear membrane is absent in:",
-    "options": [
-      "a) Penicillium",
-      "b) Agaricus",
-      "c) Volvox",
-      "d) Nostoc"
-    ],
-    "answer": "d) Nostoc"
+    "answer": "b) Nuclear membrane is present in Monera"
   }
 ], 
 
@@ -1783,15 +1670,15 @@
     "answer": "b) Sea-fan (Gorgonia)"
   },
   {
-    "year": "PMT/NEET-2015",
-    "question": "Pick up the wrong statement:",
+    "year": "PMT/NEET-1988",
+    "question": "Peripatus is connecting link between:",
     "options": [
-      "a) Some fungi are edible",
-      "b) Nuclear membrane is present in Monera",
-      "c) Cell wall is absent in Animalia",
-      "d) Protists have photosynthetic and heterotrophic modes of nutrition"
+      "a) Annelida and Arthropoda",
+      "b) Mollusca and Arthropoda",
+      "c) Annelida and Mollusca",
+      "d) Coelenterata and Platyhelminthes"
     ],
-    "answer": "b) Nuclear membrane is present in Monera"
+    "answer": "a) Annelida and Arthropoda"
   },
   {
     "year": "PMT/NEET-1988",
@@ -1804,9 +1691,10 @@
     ],
     "answer": "b) Flat worms"
   }
-    ]
-      }
-       },
+]
+
+ }
+      },
       // Continue with other chapters...
       "3": {
         title: "Plant Kingdom", 
@@ -2729,9 +2617,7 @@ setInterval(savePersistentData, 30000);
 </script>
 
 
-
-
-
 </body>
 </html>
+
 
