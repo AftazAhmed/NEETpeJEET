@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NEET-PYQ</title>
+<title>NEET-PbP</title>
 <style>
   body {
     font-family: 'Montserrat', Arial, sans-serif;
@@ -52,6 +52,197 @@
     font-weight: 600;
     color: #b9fbc0;
     letter-spacing: 0.6px;
+  }
+  .login-section {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 10;
+  }
+  .login-btn, .logout-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .login-btn:hover, .logout-btn:hover {
+    background: linear-gradient(135deg, #764ba2, #667eea);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  }
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    font-weight: 600;
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    animation: fadeIn 0.3s;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .modal-content {
+    background-color: #ffffff;
+    margin: 8% auto;
+    padding: 0;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 420px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.4s;
+  }
+  @keyframes slideDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-header {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 24px;
+    border-radius: 16px 16px 0 0;
+    text-align: center;
+  }
+  .modal-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+  }
+  .modal-body {
+    padding: 32px 24px;
+  }
+  .close {
+    color: white;
+    float: right;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 20px;
+  }
+  .close:hover {
+    color: #ffa726;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .form-group label {
+    display: block;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #344e41;
+  }
+  .form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+  }
+  .form-group input:focus {
+    outline: none;
+    border-color: #667eea;
+  }
+  .submit-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .submit-btn:hover {
+    background: linear-gradient(135deg, #764ba2, #667eea);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+  }
+  .toggle-form {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 14px;
+    color: #666;
+  }
+  .toggle-form a {
+    color: #667eea;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .toggle-form a:hover {
+    text-decoration: underline;
+  }
+  .payment-options {
+    margin-top: 24px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    border-radius: 12px;
+    color: white;
+  }
+  .payment-options h3 {
+    margin: 0 0 12px 0;
+    font-size: 20px;
+    font-weight: 800;
+  }
+  .payment-options p {
+    margin: 8px 0;
+    font-size: 15px;
+  }
+  .payment-btn {
+    width: 100%;
+    background: white;
+    color: #f5576c;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: all 0.3s ease;
+  }
+  .payment-btn:hover {
+    background: #fff5f7;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(245, 87, 108, 0.3);
+  }
+  .subscription-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #ffd89b, #19547b);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: 8px;
+  }
+  .locked-option {
+    opacity: 0.5;
+    position: relative;
+  }
+  .locked-option::after {
+    content: '🔒';
+    margin-left: 8px;
   }
   .note {
     max-width: 720px;
@@ -241,8 +432,11 @@
     overflow: visible;
   }
   .option:hover:not(.disabled):not(.answered-correct):not(.answered-incorrect) {
-    background-color: #dceddb;
+    background-color: rgba(255, 255, 255, 0.1);
     border-color: #71b280;
+  }
+  .option:active:not(.disabled):not(.answered-correct):not(.answered-incorrect) {
+    background-color: rgba(255, 255, 255, 0.05);
   }
   .option.answered-correct {
     background-color: rgba(25, 135, 84, 0.25);
@@ -441,6 +635,13 @@
     .question-text {
       font-size: 15px;
     }
+    .login-section {
+      position: relative;
+      top: auto;
+      right: auto;
+      text-align: center;
+      margin-bottom: 16px;
+    }
   }
 
   .summary-toggle-btn {
@@ -479,8 +680,65 @@
 </head>
 <body>
 <div class="header" role="banner">
-  <h1>NEET-PYQ</h1>
-  <div class="subtitle">NEET/AIPMT Biology Page Wise Analysis (1988-2025)</div>
+  <div class="login-section" id="loginSection">
+    <button class="login-btn" onclick="openLoginModal()">Login / Sign Up</button>
+  </div>
+  <h1>NEET-PbP</h1>
+  <div class="subtitle">NEET/AIPMT Biology Page by Page Analysis (1988-2025)</div>
+</div>
+
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close" onclick="closeLoginModal()">&times;</span>
+      <h2 id="modalTitle">Login to NEET-PbP</h2>
+    </div>
+    <div class="modal-body">
+      <div id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Email Address</label>
+          <input type="email" id="loginEmail" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter your password" required>
+        </div>
+        <button class="submit-btn" onclick="handleLogin()">Login</button>
+        <div class="toggle-form">
+          Don't have an account? <a onclick="showSignupForm()">Sign Up</a>
+        </div>
+      </div>
+
+      <div id="signupForm" style="display: none;">
+        <div class="form-group">
+          <label for="signupName">Full Name</label>
+          <input type="text" id="signupName" placeholder="Enter your full name" required>
+        </div>
+        <div class="form-group">
+          <label for="signupEmail">Email Address</label>
+          <input type="email" id="signupEmail" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label for="signupPassword">Password</label>
+          <input type="password" id="signupPassword" placeholder="Create a password" required>
+        </div>
+        <div class="form-group">
+          <label for="signupConfirmPassword">Confirm Password</label>
+          <input type="password" id="signupConfirmPassword" placeholder="Confirm your password" required>
+        </div>
+        <button class="submit-btn" onclick="handleSignup()">Sign Up</button>
+        <div class="payment-options">
+          <h3>Subscription Plan</h3>
+          <p><strong>₹200</strong> for 2 Years Access</p>
+          <p>Full access to Class 11 & 12 content</p>
+          <button class="payment-btn" onclick="handlePayment()">Proceed to Payment</button>
+        </div>
+        <div class="toggle-form">
+          Already have an account? <a onclick="showLoginForm()">Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="note" role="note">
@@ -493,6 +751,7 @@
       <label for="classSelect">Class:</label>
       <select id="classSelect" onchange="updateChapters()">
         <option value="">Select Class</option>
+        <option value="demo">Demo</option>
         <option value="11">Class 11</option>
         <option value="12">Class 12</option>
       </select>
@@ -528,6 +787,26 @@
 </main>
 <script>
   const questionData = {
+    "demo": {
+      "2": {
+        title: "Biological Classification",
+        questions: {
+          "10": [[], ""],
+          "11": [[], ""],
+          "12": [[], ""],
+          "13": [[], ""],
+          "14": [[], ""],
+          "15": [[], ""],
+          "16": [[], ""],
+          "17": [[], ""],
+          "18": [[], ""],
+          "19": [[], ""],
+          "20": [[], ""],
+          "21": [[], ""],
+          "22": [[], ""]
+        }
+      }
+    },
     "11": {
       "1": {
         title: "The Living World",
@@ -604,21 +883,6 @@
         questions: {
           "120": [[], ""], "121": [[], ""], "122": [[], ""], "123": [[], ""], "124": [[], ""], "125": [[], ""], "126": [[], ""],
           "127": [[], ""], "128": [[], ""], "129": [[], ""], "130": [[], ""]
-        }
-      },
-      "11": {
-        title: "Photosynthesis in Higher Plants",
-        questions: {
-          "133": [[], ""], "134": [[], ""], "135": [[], ""], "136": [[], ""], "137": [[], ""], "138": [[], ""], "139": [[], ""],
-          "140": [[], ""], "141": [[], ""], "142": [[], ""], "143": [[], ""], "144": [[], ""], "145": [[], ""], "146": [[], ""],
-          "147": [[], ""], "148": [[], ""], "149": [[], ""], "150": [[], ""], "151": [[], ""], "152": [[], ""]
-        }
-      },
-      "12": {
-        title: "Respiration in Plants",
-        questions: {
-          "153": [[], ""], "154": [[], ""], "155": [[], ""], "156": [[], ""], "157": [[], ""], "158": [[], ""], "159": [[], ""],
-          "160": [[], ""], "161": [[], ""], "162": [[], ""], "163": [[], ""], "164": [[], ""], "165": [[], ""], "166": [[], ""]
         }
       },
       "13": {
@@ -750,2022 +1014,71 @@
           "184": [[], ""], "185": [[], ""], "186": [[], ""], "187": [[], ""]
         }
       },
-      "11": {
-        title: "Organisms and Populations",
-        questions: {
-          "190": [[{
-question: "Ecology is basically concerned with how many levels of biological organisation?",
-options: [
-"a) Two levels",
-"b) Three levels",
-"c) Four levels - organisms, populations, communities and biomes",
-"d) Five levels"
-],
-answer: "c) Four levels - organisms, populations, communities and biomes"
-},
-{
-question: "At any level of biological organisation, we can ask two types of questions. When we hear a bulbul singing, the question 'How does the bird sing?' seeks to understand",
-options: [
-"a) The significance of the process",
-"b) The mechanism behind the process",
-"c) The evolutionary history",
-"d) The population size"
-],
-answer: "b) The mechanism behind the process"
-},
-{
-question: "The question 'Why does the bird sing?' seeks to understand",
-options: [
-"a) The mechanism of sound production",
-"b) The significance or purpose of the process",
-"c) The anatomical structure",
-"d) The species classification"
-],
-answer: "b) The significance or purpose of the process"
-},
-{
-question: "Why does a bulbul sing early morning during breeding season?",
-options: [
-"a) To search for food",
-"b) To communicate with its mate",
-"c) To migrate to another place",
-"d) To avoid predators"
-],
-answer: "b) To communicate with its mate"
-},
-{
-question: "Biological organisation starts with",
-options: [
-"a) Cellular level",
-"b) Organismic level",
-"c) Submicroscopic molecular level",
-"d) Atomic level"
-],
-answer: "c) Submicroscopic molecular level"
-},
-{
-question: "The various levels of biological organisation include",
-options: [
-"a) Only molecules and cells",
-"b) Molecules, cells, tissues, organs, organisms, populations, communities, ecosystems and biomes",
-"c) Only organisms and populations",
-"d) Only communities and ecosystems"
-],
-answer: "b) Molecules, cells, tissues, organs, organisms, populations, communities, ecosystems and biomes"
-},
-{
-question: "Ecology as a subject is concerned with",
-options: [
-"a) Only individual organisms",
-"b) Only populations",
-"c) Organisms, populations, communities and biomes",
-"d) Only biomes"
-],
-answer: "c) Organisms, populations, communities and biomes"
-},
-{
-question: "Which type of question asks about the mechanism or 'how' something happens?",
-options: [
-"a) How does the bee know which flower has nectar?",
-"b) Why does cactus have so many thorns?",
-"c) Why are night-blooming flowers generally white?",
-"d) Why does the bird sing?"
-],
-answer: "a) How does the bee know which flower has nectar?"
-} ], "NEET POINTERS:<br><br>1. Biological Organisation Levels: Investigations in biology are done at various levels of biological organisation - molecules, cells, tissues, organs, individual organisms, population, communities, ecosystems and biomes.<br><br>2. Four Levels of Ecology: Ecology is basically concerned with four levels of biological organisation - organisms, populations, communities and biomes.<br><br>3. Two Types of Questions: At any level of biological organisation, we can ask two types of questions - How questions (mechanism) and Why questions (significance).<br><br>4. How Questions - Mechanism: How questions seek the mechanism behind the process. Example: How does the bird sing? Answer lies in operation of voice box and sound production mechanisms.<br><br>5. Why Questions - Significance: Why questions seek the significance of the process. Example: Why does the bird sing? Answer may lie in the birds need to communicate with its mate during breeding season.<br><br>6. Bulbul Example: When we hear the bulbul singing early morning in the garden, we may ask both how does the bird sing (mechanism) and why does the bird sing (significance - to communicate with mate).<br><br>7. Biological Organisation Start: Biological organisation starts with the submicroscopic molecular level and goes through cellular level, organismic level and ends in ecosystems and biosphere.<br><br>8. Ecological Questions: Ecology is relevant at all levels with many interesting questions like Why are night-blooming flowers generally white? How does the bee know which flower has nectar? Why does cactus have so many thorns?<br><br>9. Living World Diversity: Our living world is fascinatingly diverse and amazingly complex requiring investigations at various levels.<br><br>10. Chapter Focus: Chapter 13 explores ecology at organism and population levels with emphasis on understanding both how and why questions."], 
-          "191": [[{
-question: "A population is defined as a group of individuals",
-options: [
-"a) Of different species in an area",
-"b) Of the same species sharing or competing for similar resources in a defined area",
-"c) Of all living organisms in a habitat",
-"d) Of only plants in an ecosystem"
-],
-answer: "b) Of the same species sharing or competing for similar resources in a defined area"
-},
-{
-question: "Which of the following is NOT a population attribute?",
-options: [
-"a) Birth rate",
-"b) Death rate",
-"c) Sex ratio",
-"d) Birth and death of an individual"
-],
-answer: "d) Birth and death of an individual"
-},
-{
-question: "In a pond, there were 20 lotus plants last year. Through reproduction, 8 new plants were added. If 3 plants died during the year, the death rate is",
-options: [
-"a) 3/28 per lotus per year",
-"b) 3/20 per lotus per year",
-"c) 8/20 per lotus per year",
-"d) 3/8 per lotus per year"
-],
-answer: "b) 3/20 per lotus per year"
-},
-{
-question: "A population has a sex ratio. If 60 percent of the population are females and 40 percent are males, the sex ratio is",
-options: [
-"a) 60:40 or 3:2 females to males",
-"b) 40:60 or 2:3 females to males",
-"c) 1:1",
-"d) Cannot be determined"
-],
-answer: "a) 60:40 or 3:2 females to males"
-},
-{
-question: "The age pyramid is a plot of",
-options: [
-"a) Number of individuals against their height",
-"b) Percentage of individuals of a given age or age group",
-"c) Only reproductive individuals",
-"d) Only males in a population"
-],
-answer: "b) Percentage of individuals of a given age or age group"
-},
-{
-question: "A triangular-shaped age pyramid with a broad base indicates",
-options: [
-"a) Declining population",
-"b) Stable population",
-"c) Expanding or growing population",
-"d) Extinct population"
-],
-answer: "c) Expanding or growing population"
-},
-{
-question: "Which attribute connects population ecology to population genetics and evolution?",
-options: [
-"a) Death rate only",
-"b) Sex ratio only",
-"c) Population characteristics including birth rates, death rates and age distribution",
-"d) Only birth rate"
-],
-answer: "c) Population characteristics including birth rates, death rates and age distribution"
-},
-{
-question: "An individual organism has births and deaths, but a population has",
-options: [
-"a) Only births",
-"b) Only deaths",
-"c) Birth rates and death rates",
-"d) No such attributes"
-],
-answer: "c) Birth rates and death rates"
-  }], "NEET POINTERS:<br><br>1. Population Definition: A population is a group of individuals of the same species mainly sharing or competing for similar resources, potentially interbreeding and thus constitute a real discrete and identifiable unit.<br><br>2. Population Examples: All cormorants in a wetland, rats in an abandoned dwelling, teakwood trees in a forest tract, bacteria in a culture plate and lotus plants in a pond are examples of populations.<br><br>3. Population Attributes: A population has certain attributes that an individual organism does not possess - birth rates, death rates, sex ratio and age distribution.<br><br>4. Birth Rate Calculation: If in a pond there are 20 lotus plants last year and through reproduction 8 new plants are added, the birth rate or natality is 8 divided by 20 equals 0.4 offspring per lotus per year.<br><br>5. Death Rate Calculation: If 3 plants died during the year out of initial 20, the death rate or mortality is 3 divided by 20 equals 0.15 offspring per lotus per year.<br><br>6. Sex Ratio Definition: An individual may be a male or a female but a population has a sex ratio. Example: 60 percent of population are females and 40 percent males gives ratio 60:40 or 3:2.<br><br>7. Age Distribution: Age composition or age distribution is another attribute of a population referring to the percentage of individuals of different age groups.<br><br>8. Age Pyramid: When percentage of individuals of a given age or age group is plotted for the population, the resulting structure is called the age pyramid.<br><br>9. Age Pyramid Shapes: The shape of the age pyramid reflects the growth status - triangular shape indicates expanding population, bell shape indicates stable population, urn shape indicates declining population.<br><br>10. Connection to Evolution: Population ecology is an important area because it links ecology to population genetics and evolution through studying population attributes. "], 
-          "192": [[ {
-question: "Population density is designated as",
-options: [
-"a) B",
-"b) D",
-"c) N",
-"d) K"
-],
-answer: "c) N"
-},
-{
-question: "In some cases, population density is measured in terms of biomass rather than numbers because",
-options: [
-"a) Numbers are always accurate",
-"b) Biomass is easier to calculate",
-"c) For organisms like Banyan tree, biomass is more meaningful measure than numbers",
-"d) Numbers cannot be counted"
-],
-answer: "c) For organisms like Banyan tree, biomass is more meaningful measure than numbers"
-},
-{
-question: "Population density of terrestrial organisms is measured in terms of individual per",
-options: [
-"a) meter",
-"b) meter²",
-"c) meter³",
-"d) meter⁴"
-],
-answer: "b) meter²"
-},
-{
-question: "Which of the following contributes to an increase in population density?",
-options: [
-"a) Mortality and Emigration",
-"b) Natality and Immigration",
-"c) Only Mortality",
-"d) Only Emigration"
-],
-answer: "b) Natality and Immigration"
-},
-{
-question: "Which of the following contributes to a decrease in population density?",
-options: [
-"a) Natality and Immigration",
-"b) Only Natality",
-"c) Mortality and Emigration",
-"d) Only Immigration"
-],
-answer: "c) Mortality and Emigration"
-},
-{
-question: "The four basic processes that affect population density are",
-options: [
-"a) Natality, Mortality, Immigration and Emigration",
-"b) Birth, Death, Age and Sex ratio",
-"c) Only Natality and Mortality",
-"d) Only Immigration and Emigration"
-],
-answer: "a) Natality, Mortality, Immigration and Emigration"
-},
-{
-question: "If in a population, natality is balanced by mortality, then there will be",
-options: [
-"a) Rapid population growth",
-"b) Zero population growth",
-"c) Negative population growth",
-"d) Exponential growth"
-],
-answer: "b) Zero population growth"
-},
-{
-question: "The formula Nt+1 = Nt + [(B + I) - (D + E)] represents",
-options: [
-"a) Population density at different times",
-"b) Only birth rate",
-"c) Only death rate",
-"d) Sex ratio"
-],
-answer: "a) Population density at different times"
-} ], " NEET POINTERS:<br><br>1. Age Pyramid Shapes: Figure 13.1 shows three types of age pyramids - expanding (triangular base), stable (bell-shaped) and declining (urn-shaped) indicating growth status of population.<br><br>2. Population Density Symbol: Population size is technically called population density and is designated as N.<br><br>3. Measurement Units: Population density need not necessarily be measured in numbers only. For terrestrial organisms it is measured as individuals per square meter (m²).<br><br>4. Biomass Measurement: In some cases, population density is more meaningfully measured in terms of biomass rather than numbers. Example: A single Banyan tree with large canopy has more biomass than 200 carrot grass plants.<br><br>5. Ecological Significance: The ecological effects of any species depend not merely on its absolute numbers but on how dense it is or on its size in relation to available resources.<br><br>6. Four Basic Processes: Population density in a given habitat during a given period fluctuates due to changes in four basic processes - Natality, Mortality, Immigration and Emigration.<br><br>7. Natality: The total number of births during a given period in a population. It contributes to increase in population density.<br><br>8. Mortality: The total number of deaths during a given period in a population. It contributes to decrease in population density.<br><br>9. Immigration: Number of individuals of the same species that have come into the habitat from elsewhere. It increases population density.<br><br>10. Emigration: Number of individuals of the population who left the habitat and gone elsewhere. It decreases population density.<br><br>11. Population Change Formula: Nt+1 = Nt + [(B + I) - (D + E)], where B is births, I is immigrants, D is deaths and E is emigrants.<br><br>12. Zero Growth Condition: If in a population natality is balanced by mortality and immigration is balanced by emigration, there will be zero population growth. "],
-          "193": [[{
-question: "In the equation Nt+1 = Nt + [(B + I) - (D + E)], what does B represent?",
-options: [
-"a) Biomass",
-"b) Birth rate or Natality",
-"c) Biome",
-"d) Biosphere"
-],
-answer: "b) Birth rate or Natality"
-},
-{
-question: "In the population density equation, I, D, and E stand for",
-options: [
-"a) Immigration, Death rate, Emigration",
-"b) Insects, Density, Energy",
-"c) Immigration, Density, Emigration",
-"d) Immigration, Decomposition, Evaporation"
-],
-answer: "a) Immigration, Death rate, Emigration"
-},
-{
-question: "According to the equation Nt+1 = Nt + [(B + I) - (D + E)], population density will increase if",
-options: [
-"a) (B + I) is less than (D + E)",
-"b) (B + I) is equal to (D + E)",
-"c) (B + I) is more than (D + E)",
-"d) B is zero"
-],
-answer: "c) (B + I) is more than (D + E)"
-},
-{
-question: "Under normal conditions, the most important factors influencing population density are",
-options: [
-"a) Immigration and Emigration",
-"b) Natality and Mortality (births and deaths)",
-"c) Only Natality",
-"d) Only Immigration"
-],
-answer: "b) Natality and Mortality (births and deaths)"
-},
-{
-question: "When does immigration play a major role in population growth more than birth rate?",
-options: [
-"a) In stable populations",
-"b) In declining populations",
-"c) In newly colonized habitats",
-"d) Never"
-],
-answer: "c) In newly colonized habitats"
-},
-{
-question: "Which factors contribute to an increase in population density?",
-options: [
-"a) Natality and Mortality",
-"b) Natality and Immigration",
-"c) Mortality and Emigration",
-"d) Emigration and Immigration"
-],
-answer: "b) Natality and Immigration"
-},
-{
-question: "Which factors contribute to a decrease in population density?",
-options: [
-"a) Natality and Immigration",
-"b) Only Mortality",
-"c) Mortality and Emigration",
-"d) Only Emigration"
-],
-answer: "c) Mortality and Emigration"
-},
-{
-question: "If (B + I) = (D + E), then the population will show",
-options: [
-"a) Exponential growth",
-"b) Declining growth",
-"c) Zero growth or stable population",
-"d) Negative growth"
-],
-answer: "c) Zero growth or stable population"
-  } ], " NEET POINTERS:<br><br>1. Four Factors Affecting Population: Population density is affected by four basic processes - Natality (B), Mortality (D), Immigration (I), and Emigration (E).<br><br>2. Natality Definition: Natality refers to the number of births during a given period in the population that are added to the initial density. It contributes to increase in population density.<br><br>3. Mortality Definition: Mortality is the number of deaths in the population during a given period. It contributes to decrease in population density.<br><br>4. Immigration Definition: Immigration is the number of individuals of the same species that have come into the habitat from elsewhere during the time period under consideration. It increases population density.<br><br>5. Emigration Definition: Emigration is the number of individuals of the population who left the habitat and gone elsewhere during the time period under consideration. It decreases population density.<br><br>6. Population Density Formula: If N is the population density at time t, then its density at time t + 1 is: Nt+1 = Nt + [(B + I) - (D + E)].<br><br>7. Population Increase Condition: Population density will increase if the number of births plus immigrants (B + I) is more than the number of deaths plus emigrants (D + E).<br><br>8. Normal Conditions: Under normal conditions, births and deaths are the most important factors influencing population density. Immigration and Emigration assume importance only under special conditions.<br><br>9. Special Conditions: If a new habitat is just being colonized, immigration may contribute more significantly to population growth than birth rates.<br><br>10. Zero Growth: If (B + I) = (D + E), then there will be zero population growth and the population will remain stable. "],
-          "194": [[ {
-question: "In the equation dN/dt = rN, r represents",
-options: [
-"a) Carrying capacity",
-"b) Intrinsic rate of natural increase",
-"c) Population density",
-"d) Time period"
-],
-answer: "b) Intrinsic rate of natural increase"
-},
-{
-question: "The equation dN/dt = rN is applicable to",
-options: [
-"a) Logistic population growth",
-"b) Declining population growth",
-"c) Exponential population growth",
-"d) Zero population growth"
-],
-answer: "c) Exponential population growth"
-},
-{
-question: "Exponential growth occurs when",
-options: [
-"a) Resources are limited",
-"b) Resources are unlimited",
-"c) Population reaches carrying capacity",
-"d) Death rate exceeds birth rate"
-],
-answer: "b) Resources are unlimited"
-},
-{
-question: "The graphical representation of exponential growth produces a",
-options: [
-"a) S-shaped curve",
-"b) J-shaped curve",
-"c) Bell-shaped curve",
-"d) Linear curve"
-],
-answer: "b) J-shaped curve"
-},
-{
-question: "In the integral form of exponential growth equation Nt = N0 e^rt, e represents",
-options: [
-"a) Emigration rate",
-"b) Exponential factor",
-"c) The base of natural logarithms (2.71828)",
-"d) Energy flow"
-],
-answer: "c) The base of natural logarithms (2.71828)"
-},
-{
-question: "The intrinsic rate of natural increase r for Norway rat mentioned in the text is",
-options: [
-"a) 0.12",
-"b) 0.015",
-"c) 0.0205",
-"d) 0.005"
-],
-answer: "b) 0.015"
-},
-{
-question: "The r value for human population in 1981 was approximately",
-options: [
-"a) 0.015",
-"b) 0.0205",
-"c) 0.12",
-"d) 0.50"
-],
-answer: "b) 0.0205"
-},
-{
-question: "In the equation Nt = N0 e^rt, N0 represents",
-options: [
-"a) Population density after time t",
-"b) Population density at time zero",
-"c) Maximum population",
-"d) Carrying capacity"
-],
-answer: "b) Population density at time zero"
-} ], " NEET POINTERS:<br><br>1. Exponential Growth Definition: When resources in the habitat are unlimited, each species can realize fully its innate potential to grow in number. The population grows in an exponential or geometric fashion.<br><br>2. Darwin's Observation: Darwin observed exponential growth while developing his theory of natural selection, noting that populations have the ability to grow rapidly when resources are unlimited.<br><br>3. Growth Rate Formula: If birth rate per capita is b and death rate per capita is d, then the rate of change in population dN/dt = (b - d) × N.<br><br>4. Simplified Form: Let (b - d) = r, then dN/dt = rN, where r is the intrinsic rate of natural increase.<br><br>5. Intrinsic Rate (r): The r in the equation is called the intrinsic rate of natural increase and is a very important parameter for assessing impacts of any biotic or abiotic factor on population growth.<br><br>6. r Values Examples: For Norway rat, r = 0.015. For human population in 1981, r value was 0.0205. In 1981, what the current r value is for calculating it, you need to know the birth and death rates.<br><br>7. J-shaped Curve: Exponential growth results in a J-shaped curve when population size (N) is plotted against time. This indicates unlimited resources.<br><br>8. Integral Form Equation: Using integral calculus, the exponential growth equation is Nt = N0 e^rt, where Nt is population after time t, N0 is initial population, r is intrinsic rate, and e is base of natural logarithms (2.71828).<br><br>9. Rapid Growth Potential: Any species growing exponentially under unlimited resource conditions can reach enormous population densities in a short time.<br><br>10. Exponential vs Logistic: When resources are not limiting, growth plot is exponential (J-shaped). When resources are limiting, growth is logistic (S-shaped) with carrying capacity K. "],
-          "195": [[ {
-question: "A population growing in a habitat with limited resources shows initially a lag phase, followed by phases of",
-options: [
-"a) Acceleration only",
-"b) Deceleration only",
-"c) Acceleration, deceleration and finally asymptote",
-"d) Asymptote only"
-],
-answer: "c) Acceleration, deceleration and finally asymptote"
-},
-{
-question: "The type of growth curve produced when population grows in a habitat with limited resources is",
-options: [
-"a) J-shaped curve",
-"b) S-shaped or sigmoid curve",
-"c) Linear curve",
-"d) Parabolic curve"
-],
-answer: "b) S-shaped or sigmoid curve"
-},
-{
-question: "The Verhulst-Pearl logistic growth is described by the equation",
-options: [
-"a) dN/dt = rN",
-"b) dN/dt = rN[(K-N)/K]",
-"c) Nt = N0 e^rt",
-"d) N = K"
-],
-answer: "b) dN/dt = rN[(K-N)/K]"
-},
-{
-question: "In the equation dN/dt = rN[(K-N)/K], K represents",
-options: [
-"a) Intrinsic rate of natural increase",
-"b) Initial population density",
-"c) Carrying capacity",
-"d) Growth rate"
-],
-answer: "c) Carrying capacity"
-},
-{
-question: "Asymptote in a logistic growth curve is obtained when",
-options: [
-"a) K > N",
-"b) K < N",
-"c) K = N",
-"d) N = 0"
-],
-answer: "c) K = N"
-},
-{
-question: "The correct sequence of phases in logistic growth is",
-options: [
-"a) Acceleration - Lag phase - Deceleration - Asymptote",
-"b) Lag phase - Acceleration - Deceleration - Asymptote",
-"c) Asymptote - Acceleration - Deceleration - Lag phase",
-"d) Deceleration - Acceleration - Lag phase - Asymptote"
-],
-answer: "b) Lag phase - Acceleration - Deceleration - Asymptote"
-},
-{
-question: "In Verhulst-Pearl logistic growth equation, r and K represent",
-options: [
-"a) r = intrinsic rate of natural decrease, K = carrying capacity",
-"b) r = intrinsic rate of natural increase, K = carrying capacity",
-"c) r = extrinsic rate, K = productive capacity",
-"d) r = migration rate, K = birth rate"
-],
-answer: "b) r = intrinsic rate of natural increase, K = carrying capacity"
-},
-{
-question: "The growth rate in logistic growth is maximum when",
-options: [
-"a) N = K",
-"b) N = 0",
-"c) N = K/2",
-"d) N > K"
-],
-answer: "c) N = K/2"
-} ], " NEET POINTERS:<br><br>1. Limited Resources: No population of any species in nature has unlimited resources to permit exponential growth. Resources are finite and limited.<br><br>2. Environmental Resistance: Exponentially growing populations ultimately slow down as environmental resistance increases.<br><br>3. S-shaped Growth: When resources are limited, population eventually exhibits S-shaped or sigmoid growth curve.<br><br>4. Four Phases of Logistic Growth: A population growing in a habitat with limited resources shows initially a lag phase, followed by phases of acceleration and deceleration and finally an asymptote.<br><br>5. Asymptote Definition: When the population density reaches the carrying capacity, it reaches asymptote phase. Asymptote is obtained when K equals N.<br><br>6. Verhulst-Pearl Logistic Growth: This type of population growth is called Verhulst-Pearl Logistic Growth and produces a sigmoid curve.<br><br>7. Logistic Growth Equation: The equation is dN/dt = rN[(K-N)/K], where N is population density at time t, r is intrinsic rate of natural increase, and K is carrying capacity.<br><br>8. Carrying Capacity (K): K represents the maximum population size that the environment can sustain indefinitely with available resources.<br><br>9. Growth Limiting Factor: The factor [(K-N)/K] represents the fraction of carrying capacity available for further growth. When N approaches K, this factor approaches zero, slowing growth.<br><br>10. Maximum Growth Rate: In logistic growth, the population growth rate is maximum when N equals K/2, which is the inflection point of the S-shaped curve.<br><br>11. Comparison with Exponential: Unlike exponential growth (J-shaped curve with unlimited resources), logistic growth (S-shaped curve) occurs with limited resources and plateaus at carrying capacity.<br><br>12. Sigmoid Curve: A plot of population density N in relation to time t results in a sigmoid (S-shaped) curve in logistic growth. "],
-          "196": [[], ""],
-          "197": [[], ""], 
-          "198": [[], ""],
-          "199": [[], ""], 
-          "200": [[], ""],
-          "201": [[], ""],
-          "202": [[], ""], 
-          "203": [[], ""], 
-          "204": [[], ""]
-        }
-      },
-      "12": {
-        title: "Ecosystem",
-        questions: {
-          "205": [[{
-question: "Many ecologists regard the entire biosphere as",
-options: [
-"a) A terrestrial ecosystem",
-"b) A global ecosystem",
-"c) An aquatic ecosystem",
-"d) A local ecosystem"
-],
-answer: "b) A global ecosystem"
-},
-{
-question: "Forest, grassland and desert are examples of",
-options: [
-"a) Aquatic ecosystems",
-"b) Man-made ecosystems",
-"c) Terrestrial ecosystems",
-"d) Marine ecosystems"
-],
-answer: "c) Terrestrial ecosystems"
-},
-{
-question: "Pond, lake, wetland, river and estuary are examples of",
-options: [
-"a) Terrestrial ecosystems",
-"b) Aquatic ecosystems",
-"c) Desert ecosystems",
-"d) Forest ecosystems"
-],
-answer: "b) Aquatic ecosystems"
-},
-{
-question: "Which one of the following is an artificial ecosystem?",
-options: [
-"a) Pond",
-"b) Forest",
-"c) Lake",
-"d) Crop field"
-],
-answer: "d) Crop field"
-},
-{
-question: "An aquarium may be considered as",
-options: [
-"a) A natural aquatic ecosystem",
-"b) A man-made ecosystem",
-"c) A terrestrial ecosystem",
-"d) A forest ecosystem"
-],
-answer: "b) A man-made ecosystem"
-},
-{
-question: "In studying ecosystem structure, the input refers to",
-options: [
-"a) Degradation",
-"b) Energy loss",
-"c) Productivity",
-"d) Decomposition"
-],
-answer: "c) Productivity"
-          }], "NEET POINTERS:<br><br>1. Ecosystem Definition: An ecosystem can be visualized as a functional unit of nature, where living organisms interact among themselves and also with the surrounding physical environment.<br><br>2. Ecosystem Size: Ecosystem varies greatly in size from a small pond to a large forest or a sea.<br><br>3. Biosphere as Global Ecosystem: Many ecologists regard the entire biosphere as a global ecosystem, as a composite of all local ecosystems on Earth.<br><br>4. Division into Categories: Since the biosphere system is too much big and complex to be studied at one time, it is convenient to divide it into two basic categories, namely terrestrial and aquatic.<br><br>5. Terrestrial Ecosystems: Forest, grassland and desert are some examples of terrestrial ecosystems.<br><br>6. Aquatic Ecosystems: Pond, lake, wetland, river and estuary are some examples of aquatic ecosystems.<br><br>7. Man-made Ecosystems: Crop fields and an aquarium may also be considered as man-made ecosystems.<br><br>8. Ecosystem Structure Study: The chapter will first look at the structure of the ecosystem, in order to appreciate the input which is productivity.<br><br>9. Energy Transfer: Transfer of energy occurs through food chain, food web and nutrient cycling.<br><br>10. Ecosystem Output: The output includes degradation and energy loss. The chapter will also look at the relationships like cycles, chains, webs that are created as a result of these energy flows within the system and their inter-relationship."], 
-          "206": [[{
-question: "Vertical distribution of different species occupying different levels in a biotic community is known as",
-options: [
-"a) Divergence",
-"b) Zonation",
-"c) Stratification",
-"d) Pyramid"
-],
-answer: "c) Stratification"
-},
-{
-question: "The components of an ecosystem are seen to function as a unit when you consider",
-options: [
-"a) Productivity, Decomposition, Energy flow and Nutrient cycling",
-"b) Productivity and Stratification only",
-"c) Decomposition and Stratification only",
-"d) Only Stratification"
-],
-answer: "a) Productivity, Decomposition, Energy flow and Nutrient cycling"
-},
-{
-question: "Which one of the following is NOT a functional unit of an ecosystem?",
-options: [
-"a) Energy flow",
-"b) Productivity",
-"c) Decomposition",
-"d) Stratification"
-],
-answer: "d) Stratification"
-},
-{
-question: "In a forest ecosystem, trees occupy the top vertical strata, shrubs the second and herbs and grasses occupy the bottom layers. This represents",
-options: [
-"a) Stratification",
-"b) Zonation",
-"c) Species composition",
-"d) Succession"
-],
-answer: "a) Stratification"
-},
-{
-question: "In a pond ecosystem, the autotrophic components include",
-options: [
-"a) Zooplankton",
-"b) Fungi and bacteria",
-"c) Phytoplankton, some algae and floating plants",
-"d) Free-swimming forms only"
-],
-answer: "c) Phytoplankton, some algae and floating plants"
-},
-{
-question: "The consumers in a pond ecosystem are represented by",
-options: [
-"a) Phytoplankton",
-"b) Zooplankton",
-"c) Fungi",
-"d) Bacteria"
-],
-answer: "b) Zooplankton"
-},
-{
-question: "The decomposers in a pond ecosystem are",
-options: [
-"a) Phytoplankton",
-"b) Zooplankton",
-"c) Fungi, bacteria and flagellates",
-"d) Marginal plants"
-],
-answer: "c) Fungi, bacteria and flagellates"
-},
-{
-question: "Energy flow in an ecosystem is",
-options: [
-"a) Bidirectional",
-"b) Unidirectional towards higher trophic levels",
-"c) Circular",
-"d) Random"
-],
-answer: "b) Unidirectional towards higher trophic levels"
-}], "NEET POINTERS:<br><br>1. Ecosystem Structure: Interaction of biotic (living organisms) and abiotic (non-living) components result in a physical structure that is characteristic for each type of ecosystem.<br><br>2. Stratification Definition: Vertical distribution of different species occupying different levels is called stratification. For example, trees occupy top vertical strata or layer of a forest, shrubs the second and herbs and grasses occupy the bottom layers.<br><br>3. Functional Components: The components of ecosystem are seen to function as a unit when you consider the following aspects: (i) Productivity (ii) Decomposition (iii) Energy flow and (iv) Nutrient cycling. Note: Stratification is NOT a functional component.<br><br>4. Pond Ecosystem Example: A pond is a shallow water body and a fairly self-sustainable unit. It is a simple example that explains even the complex interactions that exist in an aquatic ecosystem.<br><br>5. Abiotic Components of Pond: Water body in which dissolved inorganic and organic substances are present, rich soil deposit at the bottom of pond, solar input, the cycle of temperature, day-length and other climatic conditions regulate the rate of function of entire ecosystem.<br><br>6. Autotrophic Components: The autotrophic components include the phytoplankton, some algae and the floating, submerged and marginal plants found at the edges. These are the producers.<br><br>7. Consumer Components: The consumers are represented by the zooplankton, the free-swimming and bottom-dwelling forms. These are the heterotrophs.<br><br>8. Decomposer Components: The decomposers are the fungi, bacteria and flagellates especially abundant in the bottom of the pond.<br><br>9. Energy Flow: There is unidirectional movement of energy towards the higher trophic levels and its dissipation and loss to the environment.<br><br>10. Ecosystem Functions: System performs all the functions like conversion of inorganic into organic material with the help of radiant energy of sun by autotrophs, consumption of autotrophs by heterotrophs, decomposition and mineralisation of the dead matter to release them back for reuse by autotrophs."], 
-          "207": [[{
-question: "The rate of biomass production is called",
-options: [
-"a) Decomposition",
-"b) Productivity",
-"c) Stratification",
-"d) Fragmentation"
-],
-answer: "b) Productivity"
-},
-{
-question: "Primary productivity is expressed in terms of",
-options: [
-"a) gm⁻¹ yr⁻¹",
-"b) kcal yr⁻¹",
-"c) gm⁻² yr⁻¹ or kcal m⁻²",
-"d) gm yr⁻² or kcal⁻²"
-],
-answer: "c) gm⁻² yr⁻¹ or kcal m⁻²"
-},
-{
-question: "In the equation GPP - R = NPP, R represents",
-options: [
-"a) Rainfall",
-"b) Respiration losses",
-"c) Rate of decomposition",
-"d) Reproductive losses"
-],
-answer: "b) Respiration losses"
-},
-{
-question: "The biomass available for consumption by herbivores and decomposers is called",
-options: [
-"a) Gross primary productivity",
-"b) Secondary productivity",
-"c) Net primary productivity",
-"d) Respiratory productivity"
-],
-answer: "c) Net primary productivity"
-},
-{
-question: "Gross primary productivity of an ecosystem is",
-options: [
-"a) Rate of production of organic matter during photosynthesis",
-"b) Rate of consumption by herbivores",
-"c) Rate of decomposition",
-"d) Net productivity minus respiration"
-],
-answer: "a) Rate of production of organic matter during photosynthesis"
-},
-{
-question: "The important steps in the process of decomposition are",
-options: [
-"a) Fragmentation, leaching, catabolism, humification and mineralization",
-"b) Fragmentation, respiration, photosynthesis, transpiration",
-"c) Only fragmentation and leaching",
-"d) Photosynthesis, respiration and transpiration"
-],
-answer: "a) Fragmentation, leaching, catabolism, humification and mineralization"
-},
-{
-question: "Detritus includes",
-options: [
-"a) Only leaf litter",
-"b) Only animal remains",
-"c) Leaf litter and animal remains",
-"d) Only living organisms"
-],
-answer: "c) Leaf litter and animal remains"
-},
-{
-question: "Detritivores perform which function in decomposition?",
-options: [
-"a) Photosynthesis",
-"b) Break down detritus into smaller particles",
-"c) Only consume living plants",
-"d) Produce oxygen"
-],
-answer: "b) Break down detritus into smaller particles"
-}], "NEET POINTERS:<br><br>1. Solar Energy Requirement: A constant input of solar energy is the basic requirement for any ecosystem to function and sustain.<br><br>2. Primary Production Definition: Primary production is defined as the amount of biomass or organic matter produced per unit area over a time period by plants during photosynthesis.<br><br>3. Units of Productivity: Rate of biomass production is called productivity. It is expressed in terms of gm⁻² yr⁻¹ or kcal m⁻² to compare the productivity of different ecosystems.<br><br>4. Gross Primary Productivity (GPP): GPP of an ecosystem is the rate of production of organic matter during photosynthesis.<br><br>5. Net Primary Productivity (NPP): NPP is defined as the rate of formation of new organic matter by autotrophs in a particular area. It depends on variety of environmental factors like availability of nutrients, photosynthetic capacity of plants, solar radiation and other climatic factors.<br><br>6. GPP and NPP Relationship: Gross primary productivity minus respiration losses (R) is the net primary productivity (NPP). Formula: GPP - R = NPP.<br><br>7. NPP Availability: Net primary productivity is the available biomass for the consumption to heterotrophs (herbivores and decomposers).<br><br>8. Detritus Definition: Detritus which is the raw material for decomposition includes leaf litter, animal remains, including feces of carnivorous vertebrate animals.<br><br>9. Decomposition Process: Process of breakdown of complex organic matter into simpler inorganic substances like carbon dioxide, water and nutrients is called decomposition. It is largely an exoenzymatic process.<br><br>10. Steps of Decomposition: Detritivores like earthworms break down detritus into smaller particles. The important steps are fragmentation, leaching, catabolism, humification and mineralization."], 
-          "208": [[{
-question: "Humus is",
-options: [
-"a) A light colored crystalline substance",
-"b) A dark colored amorphous substance",
-"c) A water soluble substance",
-"d) A transparent substance"
-],
-answer: "b) A dark colored amorphous substance"
-},
-{
-question: "Which one of the following processes during decomposition is correctly described?",
-options: [
-"a) Fragmentation - Carried out by organisms like earthworms",
-"b) Humification - Leads to accumulation of dark colored substance humus which undergoes microbial action at a fast rate",
-"c) Catabolism - Last step in decomposition under fully anaerobic condition",
-"d) Leaching - Water soluble inorganic nutrients rise to the top layers of soil"
-],
-answer: "a) Fragmentation - Carried out by organisms like earthworms"
-},
-{
-question: "The process of release of inorganic nutrients from humus by microbes is called",
-options: [
-"a) Humification",
-"b) Fragmentation",
-"c) Mineralization",
-"d) Leaching"
-],
-answer: "c) Mineralization"
-},
-{
-question: "Decomposition rate is slower if the detritus is rich in",
-options: [
-"a) Nitrogen",
-"b) Water soluble substances",
-"c) Sugars",
-"d) Lignin and chitin"
-],
-answer: "d) Lignin and chitin"
-},
-{
-question: "Decomposition rate is quicker if the detritus is rich in",
-options: [
-"a) Lignin and chitin",
-"b) Nitrogen and water soluble substances like sugars",
-"c) Only lignin",
-"d) Cellulose only"
-],
-answer: "b) Nitrogen and water soluble substances like sugars"
-},
-{
-question: "The most important climatic factors that regulate decomposition are",
-options: [
-"a) Wind and pressure",
-"b) Temperature and soil moisture",
-"c) Light and humidity",
-"d) Rainfall and wind"
-],
-answer: "b) Temperature and soil moisture"
-},
-{
-question: "Which environmental condition favours decomposition?",
-options: [
-"a) Low temperature",
-"b) Anaerobiosis",
-"c) Warm and moist environment",
-"d) Cold and dry environment"
-],
-answer: "c) Warm and moist environment"
-},
-{
-question: "Low temperature and anaerobiosis result in",
-options: [
-"a) Faster decomposition",
-"b) Inhibition of decomposition and build up of organic materials",
-"c) Increased microbial activity",
-"d) Faster mineralization"
-],
-answer: "b) Inhibition of decomposition and build up of organic materials"
-}], "NEET POINTERS:<br><br>1. Humus Definition: Decomposition leads to accumulation of a dark colored amorphous substance called humus that is highly resistant to microbial action and undergoes decomposition at an extremely slow rate.<br><br>2. Humus as Nutrient Reservoir: Being colloidal in nature, humus serves as a reservoir of nutrients.<br><br>3. Mineralization: The humus is further degraded by some microbes and release of inorganic nutrients occurs by the process known as mineralization.<br><br>4. Oxygen Requirement: Decomposition is largely an oxygen-requiring process.<br><br>5. Rate Control Factors: The rate of decomposition is controlled by chemical composition of detritus and climatic factors.<br><br>6. Slow Decomposition Condition: In a particular climatic condition, decomposition rate is slower if detritus is rich in lignin and chitin.<br><br>7. Quick Decomposition Condition: Decomposition rate is quicker if detritus is rich in nitrogen and water-soluble substances like sugars.<br><br>8. Important Climatic Factors: Temperature and soil moisture are the most important climatic factors that regulate decomposition through their effects on the activities of soil microbes.<br><br>9. Favorable Conditions: Warm and moist environment favour decomposition.<br><br>10. Inhibitory Conditions: Low temperature and anaerobiosis inhibit decomposition resulting in build up of organic materials."], 
-          "209": [[{
-question: "Of the incident solar radiation, less than what percentage is photosynthetically active radiation (PAR)?",
-options: [
-"a) 10 percent",
-"b) 25 percent",
-"c) 50 percent",
-"d) 75 percent"
-],
-answer: "c) 50 percent"
-},
-{
-question: "Plants capture what percentage of the PAR and this small amount of energy sustains the entire living world?",
-options: [
-"a) 1-5 percent",
-"b) 2-10 percent",
-"c) 15-20 percent",
-"d) 25-30 percent"
-],
-answer: "b) 2-10 percent"
-},
-{
-question: "The organisms that depend on producers for food in an ecosystem are called",
-options: [
-"a) Autotrophs",
-"b) Producers",
-"c) Heterotrophs",
-"d) Decomposers only"
-],
-answer: "c) Heterotrophs"
-},
-{
-question: "In a terrestrial ecosystem, producers belong to which trophic level?",
-options: [
-"a) First trophic level",
-"b) Second trophic level",
-"c) Third trophic level",
-"d) Fourth trophic level"
-],
-answer: "a) First trophic level"
-},
-{
-question: "Herbivores or primary consumers belong to which trophic level?",
-options: [
-"a) First trophic level",
-"b) Second trophic level",
-"c) Third trophic level",
-"d) Fourth trophic level"
-],
-answer: "b) Second trophic level"
-},
-{
-question: "The Grazing Food Chain (GFC) begins with",
-options: [
-"a) Dead organic matter",
-"b) Herbivores",
-"c) A plant or another autotroph",
-"d) Carnivores"
-],
-answer: "c) A plant or another autotroph"
-},
-{
-question: "The Detritus Food Chain (DFC) begins with",
-options: [
-"a) Living plants",
-"b) Herbivores",
-"c) Dead organic matter",
-"d) Primary consumers"
-],
-answer: "c) Dead organic matter"
-},
-{
-question: "Secondary consumers or carnivores belong to which trophic level?",
-options: [
-"a) First trophic level",
-"b) Second trophic level",
-"c) Third trophic level",
-"d) Fourth trophic level"
-],
-answer: "c) Third trophic level"
-          }], "NEET POINTERS:<br><br>1. Solar Energy Source: Except deep sea hydro-thermal ecosystems, sun is the only source for all ecosystems on Earth.<br><br>2. Photosynthetically Active Radiation (PAR): Of the incident solar radiation, less than 50 percent of it is photosynthetically active radiation (PAR).<br><br>3. Energy Capture by Plants: Plants capture only 2-10 per cent of the PAR and this small amount of energy sustains the entire living world.<br><br>4. Second Law of Thermodynamics: Ecosystems are not exempt from the Second Law of Thermodynamics. Energy dissipation increases disorderliness or entropy.<br><br>5. Producers: In a terrestrial ecosystem, producers are the organisms that synthesize food and form the first trophic level.<br><br>6. Heterotrophs Definition: The organisms that depend on producers for their food directly or indirectly are called heterotrophs and include herbivores and carnivores.<br><br>7. Trophic Levels: Producers belong to the first trophic level, herbivores or primary consumers to the second and carnivores or secondary consumers to the third.<br><br>8. Grazing Food Chain (GFC): The GFC begins with a plant or another autotroph and is either passed on to a herbivore or to decomposer organisms.<br><br>9. Detritus Food Chain (DFC): The DFC begins with dead organic matter. Organisms use dead organic matter for food.<br><br>10. Food Chain Components: A simple grazing food chain shows flow from Grass (producers) to Primary Consumers (herbivores) to Secondary Consumers (carnivores)."], 
-          "210": [[{
-question: "The detritus food chain (DFC) begins with",
-options: [
-"a) Living green plants",
-"b) Herbivores",
-"c) Dead organic matter",
-"d) Carnivores"
-],
-answer: "c) Dead organic matter"
-},
-{
-question: "DFC is made up of decomposers which are heterotrophic organisms, mainly",
-options: [
-"a) Plants and algae",
-"b) Fungi and bacteria",
-"c) Protozoa and viruses",
-"d) Herbivores and carnivores"
-],
-answer: "b) Fungi and bacteria"
-},
-{
-question: "Decomposers are also known as",
-options: [
-"a) Autotrophs",
-"b) Producers",
-"c) Saprotrophs",
-"d) Carnivores"
-],
-answer: "c) Saprotrophs"
-},
-{
-question: "What is the major conduit for energy flow in an aquatic ecosystem?",
-options: [
-"a) Detritus food chain",
-"b) Grazing food chain",
-"c) Parasitic food chain",
-"d) No specific chain"
-],
-answer: "b) Grazing food chain"
-},
-{
-question: "In a terrestrial ecosystem, a much larger fraction of energy flows through",
-options: [
-"a) Grazing food chain only",
-"b) Parasitic food chain",
-"c) Detritus food chain than through GFC",
-"d) No food chain"
-],
-answer: "c) Detritus food chain than through GFC"
-},
-{
-question: "Which of the following are examples of omnivores mentioned in the text?",
-options: [
-"a) Deer and goat",
-"b) Lion and tiger",
-"c) Cockroaches and crows",
-"d) Earthworms and fungi"
-],
-answer: "c) Cockroaches and crows"
-},
-{
-question: "The natural interconnection of food chains makes it a",
-options: [
-"a) Food pyramid",
-"b) Food web",
-"c) Trophic level",
-"d) Energy flow"
-],
-answer: "b) Food web"
-},
-{
-question: "Which trophic level is incorrectly defined?",
-options: [
-"a) Carnivores - secondary or tertiary consumers",
-"b) Decomposers - microbial heterotrophs",
-"c) Herbivores - primary consumers",
-"d) Omnivores - molds, yeast and mushrooms"
-],
-answer: "d) Omnivores - molds, yeast and mushrooms"
-}], "NEET POINTERS:<br><br>1. DFC Beginning: The detritus food chain (DFC) begins with dead organic matter.<br><br>2. Decomposer Composition: DFC is made up of decomposers which are heterotrophic organisms, mainly fungi and bacteria.<br><br>3. Saprotrophs: Decomposers are also known as saprotrophs (sapro: to decompose) that meet their energy and nutrient requirements by degrading dead organic matter or detritus.<br><br>4. Decomposer Action: Decomposers secrete digestive enzymes that breakdown dead and waste materials into simple, inorganic materials, which are subsequently absorbed by them.<br><br>5. Aquatic Ecosystem Energy Flow: In an aquatic ecosystem, GFC (Grazing Food Chain) is the major conduit for energy flow.<br><br>6. Terrestrial Ecosystem Energy Flow: In a terrestrial ecosystem, a much larger fraction of energy flows through the detritus food chain than through the GFC.<br><br>7. Food Chain Connection: Detritus food chain may be connected with the grazing food chain at some levels. Some of the organisms of DFC are prey to the GFC animals.<br><br>8. Omnivores in Ecosystem: In a natural ecosystem, some animals like cockroaches, crows, etc., are omnivores that operate at multiple trophic levels.<br><br>9. Food Web Formation: These natural interconnections of food chains make it a food web.<br><br>10. Human Classification: Based on feeding habits, human beings can be classified as omnivores as they consume both plant and animal matter."], 
-          "211": [[{
-question: "Each trophic level has a certain mass of living material at a particular time called",
-options: [
-"a) Standing state",
-"b) Standing crop",
-"c) Energy pyramid",
-"d) Food web"
-],
-answer: "b) Standing crop"
-},
-{
-question: "The standing crop is measured as the mass of living organisms or",
-options: [
-"a) Energy in a unit area",
-"b) The number in a unit area",
-"c) Water content",
-"d) Soil nutrients"
-],
-answer: "b) The number in a unit area"
-},
-{
-question: "Biomass of a species is expressed in terms of fresh or dry weight. Which measurement is more accurate?",
-options: [
-"a) Fresh weight",
-"b) Dry weight",
-"c) Both are equally accurate",
-"d) Neither is accurate"
-],
-answer: "b) Dry weight"
-},
-{
-question: "The 10% law of energy transfer in a food chain was given by",
-options: [
-"a) Odum",
-"b) Tansley",
-"c) Lindeman",
-"d) Elton"
-],
-answer: "c) Lindeman"
-},
-{
-question: "According to the 10% law, what percentage of energy is transferred from one trophic level to the next?",
-options: [
-"a) 5%",
-"b) 10%",
-"c) 20%",
-"d) 50%"
-],
-answer: "b) 10%"
-},
-{
-question: "Which of the following ecological pyramids is generally inverted?",
-options: [
-"a) Pyramid of energy",
-"b) Pyramid of numbers in grassland",
-"c) Pyramid of biomass in a sea",
-"d) Pyramid of energy in forest"
-],
-answer: "c) Pyramid of biomass in a sea"
-},
-{
-question: "Which ecological pyramid can never be inverted?",
-options: [
-"a) Pyramid of numbers",
-"b) Pyramid of biomass",
-"c) Pyramid of energy",
-"d) All can be inverted"
-],
-answer: "c) Pyramid of energy"
-},
-{
-question: "Standing state refers to",
-options: [
-"a) Mass of living organisms in an area",
-"b) Number of organisms in an area",
-"c) Amount of inorganic nutrients like phosphorus or nitrogen present at any given time",
-"d) Total energy in ecosystem"
-],
-answer: "c) Amount of inorganic nutrients like phosphorus or nitrogen present at any given time"
-}], "NEET POINTERS:<br><br>1. Standing Crop Definition: Each trophic level has a certain mass of living material at a particular time called the standing crop.<br><br>2. Standing Crop Measurement: The standing crop is measured as the mass of living organisms (biomass) or the number in a unit area.<br><br>3. Biomass Expression: The biomass of a species is expressed in terms of fresh or dry weight.<br><br>4. Accurate Measurement: Measurement of biomass in terms of dry weight is more accurate than fresh weight.<br><br>5. Standing State Definition: Standing state is different from standing crop. It relates to the amount of inorganic nutrients such as phosphorus or nitrogen present in the soil or water at any given time.<br><br>6. 10% Law: The 10% law of energy transfer in food chains was given by Lindeman. According to this law, only 10% of the energy is transferred from one trophic level to the next higher trophic level.<br><br>7. Pyramid of Energy: The pyramid of energy is always upright and can never be inverted because energy decreases at successive trophic levels.<br><br>8. Pyramid of Biomass in Sea: The pyramid of biomass in a sea is generally inverted because the biomass of phytoplankton (producers) is less than that of zooplankton and fish at higher trophic levels.<br><br>9. Pyramid of Numbers: The pyramid of numbers can be upright (as in grassland) or inverted (as in tree ecosystem where few trees support many insects).<br><br>10. Ecological Pyramids: Ecological pyramids represent graphical representations of trophic structure and function at successive trophic levels of an ecosystem."],
-          "212": [[{
-question: "The pyramid of numbers in a grassland ecosystem is",
-options: [
-"a) Always inverted",
-"b) Always upright",
-"c) Sometimes upright and sometimes inverted",
-"d) Spindle shaped"
-],
-answer: "b) Always upright"
-},
-{
-question: "Pyramid of numbers is inverted in case of",
-options: [
-"a) Pond ecosystem",
-"b) Grassland ecosystem",
-"c) Tree ecosystem or parasitic food chain",
-"d) Desert ecosystem"
-],
-answer: "c) Tree ecosystem or parasitic food chain"
-},
-{
-question: "The pyramid of biomass in a sea or aquatic ecosystem is generally",
-options: [
-"a) Upright",
-"b) Inverted",
-"c) Spindle shaped",
-"d) Linear"
-],
-answer: "b) Inverted"
-},
-{
-question: "Why is the pyramid of biomass inverted in a sea ecosystem?",
-options: [
-"a) Because fish biomass is more than phytoplankton",
-"b) Because phytoplankton biomass at any instant is less than zooplankton and fish",
-"c) Because producers are absent",
-"d) Because of pollution"
-],
-answer: "b) Because phytoplankton biomass at any instant is less than zooplankton and fish"
-},
-{
-question: "The pyramid of biomass in a grassland or forest ecosystem is",
-options: [
-"a) Inverted",
-"b) Upright",
-"c) Spindle shaped",
-"d) Irregular"
-],
-answer: "b) Upright"
-},
-{
-question: "Which of the following statements is correct?",
-options: [
-"a) Pyramid of energy can be inverted",
-"b) Pyramid of biomass is always upright",
-"c) Pyramid of numbers can be upright or inverted",
-"d) Pyramid of energy is always inverted"
-],
-answer: "c) Pyramid of numbers can be upright or inverted"
-},
-{
-question: "In a tree ecosystem, the pyramid of numbers is inverted because",
-options: [
-"a) Few trees support large number of insects and herbivores",
-"b) Trees are absent",
-"c) Insects are less in number",
-"d) Producers are more than consumers"
-],
-answer: "a) Few trees support large number of insects and herbivores"
-},
-{
-question: "The ecological pyramids represent graphical representation of trophic structure based on",
-options: [
-"a) Number of organisms only",
-"b) Biomass only",
-"c) Energy only",
-"d) Number, Biomass or Energy present at successive trophic levels"
-],
-answer: "d) Number, Biomass or Energy present at successive trophic levels"
-}], "NEET POINTERS:<br><br>1. Ecological Pyramid Definition: The relationship between organisms at different trophic levels is expressed in terms of number, biomass or amount of energy present at successive trophic levels forming ecological pyramids.<br><br>2. Pyramid of Numbers in Grassland: The pyramid of numbers in a grassland ecosystem is always upright because producers (grasses) are maximum in number, followed by primary consumers, secondary consumers and tertiary consumers.<br><br>3. Pyramid of Numbers Inverted: Pyramid of numbers is inverted in case of tree ecosystem or parasitic food chain where few large trees support large number of insects and herbivores.<br><br>4. Pyramid of Biomass Upright: The pyramid of biomass in terrestrial ecosystems like grassland and forest is upright with producers having maximum biomass at the base.<br><br>5. Pyramid of Biomass Inverted: The pyramid of biomass in sea or aquatic ecosystem is generally inverted. This is because the standing crop of phytoplankton (producers) is less than that of zooplankton and fish at any instant.<br><br>6. Phytoplankton Characteristic: Despite low biomass, phytoplankton can support large biomass of consumers because they have high reproductive rates and rapid turnover.<br><br>7. Standing Crop in Pyramids: Each trophic level has a certain mass of living material at a particular time called standing crop which is used to construct pyramid of biomass.<br><br>8. Pyramid of Energy: Pyramid of energy is always upright and can never be inverted because energy decreases at each successive trophic level due to energy loss.<br><br>9. Three Types of Pyramids: Ecological pyramids are of three types - Pyramid of numbers, Pyramid of biomass and Pyramid of energy.<br><br>10. Biomass Measurement: Biomass is measured in terms of dry weight per unit area and is more accurate than fresh weight measurement."],
-          "213": [[{
-question: "The pyramid of energy is always",
-options: [
-"a) Inverted",
-"b) Upright",
-"c) Spindle shaped",
-"d) Sometimes upright and sometimes inverted"
-],
-answer: "b) Upright"
-},
-{
-question: "Why is the pyramid of energy always upright?",
-options: [
-"a) Because producers are always maximum",
-"b) Because energy increases at each trophic level",
-"c) Because some energy is always lost as heat when it flows from one trophic level to next",
-"d) Because of biomass accumulation"
-],
-answer: "c) Because some energy is always lost as heat when it flows from one trophic level to next"
-},
-{
-question: "Energy flow in an ecosystem is",
-options: [
-"a) Bidirectional",
-"b) Multidirectional",
-"c) Unidirectional",
-"d) Cyclic"
-],
-answer: "c) Unidirectional"
-},
-{
-question: "Which of the following is a limitation of ecological pyramids?",
-options: [
-"a) They accommodate food webs easily",
-"b) Saprophytes are not given any place in ecological pyramids",
-"c) They show all species at multiple trophic levels",
-"d) They are always accurate"
-],
-answer: "b) Saprophytes are not given any place in ecological pyramids"
-},
-{
-question: "Ecological pyramids assume",
-options: [
-"a) Complex food webs",
-"b) A simple food chain",
-"c) Multiple interconnections",
-"d) Cyclic energy flow"
-],
-answer: "b) A simple food chain"
-},
-{
-question: "Which organisms are not represented in ecological pyramids despite playing vital role?",
-options: [
-"a) Producers",
-"b) Herbivores",
-"c) Saprophytes or decomposers",
-"d) Carnivores"
-],
-answer: "c) Saprophytes or decomposers"
-},
-{
-question: "Ecological pyramids do NOT take into account",
-options: [
-"a) Producers at first trophic level",
-"b) The same species belonging to two or more trophic levels",
-"c) Primary consumers",
-"d) Energy flow"
-],
-answer: "b) The same species belonging to two or more trophic levels"
-},
-{
-question: "Which statement about pyramid of energy is correct?",
-options: [
-"a) It can be inverted in aquatic ecosystem",
-"b) It can never be inverted and is always upright",
-"c) It is inverted in terrestrial ecosystem",
-"d) It depends on biomass"
-],
-answer: "b) It can never be inverted and is always upright"
-}], "NEET POINTERS:<br><br>1. Pyramid of Energy Always Upright: Pyramid of energy is always upright and can never be inverted because when energy flows from a particular trophic level to the next trophic level, some energy is always lost as heat at each step.<br><br>2. Energy Loss at Each Level: At each trophic level, energy is lost through respiration, metabolic activities, heat dissipation, and other processes. Only about 10% energy is transferred to next level.<br><br>3. Unidirectional Energy Flow: Energy flow in an ecosystem is unidirectional. Energy flows from sun to producers, then to herbivores, then to carnivores and never flows back to sun or previous trophic levels.<br><br>4. Pyramid of Energy Measurement: Pyramid of energy is measured in terms of energy per unit area per time (J/m²/year or kcal/m²/year).<br><br>5. Limitation 1 - Same Species: Ecological pyramids do not take into account the same species belonging to two or more trophic levels. Example: Sparrow can eat both seeds (herbivore) and insects (carnivore).<br><br>6. Limitation 2 - Simple Food Chain: Ecological pyramids assume a simple food chain, something that almost never exists in nature as most ecosystems have complex food webs.<br><br>7. Limitation 3 - No Food Web: Ecological pyramids do not accommodate a food web structure which is the natural reality in ecosystems.<br><br>8. Limitation 4 - Saprophytes Excluded: Saprophytes or decomposers are not given any place in ecological pyramids even though they play a vital role in the ecosystem by recycling nutrients.<br><br>9. Energy Cannot Return: The energy captured by autotrophs never returns back to solar energy. Energy obtained by herbivores never goes back to autotrophs. Hence energy flow is always unidirectional.<br><br>10. Progressive Energy Flow: The energy flow through different trophic levels is progressive and hence previous trophic level cannot get energy back from higher levels."], 
-          "214": [[], ""],
-          "215": [[], ""]
-        }
-      },
       "13": {
         title: "Biodiversity and Conservation",
         questions: {
           "216": [[{
-  question: "How many species of ants exist globally?",
-  options: [
-    "a) 10,000",
-    "b) 20,000",
-    "c) 30,000",
-    "d) 40,000"
-  ],
-  answer: "b) 20,000"
-},
-{
-  question: "What is the approximate number of beetle species?",
-  options: [
-    "a) 1,00,000",
-    "b) 2,00,000",
-    "c) 3,00,000",
-    "d) 4,00,000"
-  ],
-  answer: "c) 3,00,000"
-},
-{
-  question: "How many orchid species have been recorded worldwide?",
-  options: [
-    "a) 10,000",
-    "b) 15,000",
-    "c) 20,000",
-    "d) 25,000"
-  ],
-  answer: "c) 20,000"
-},
-{
-  question: "Who popularized the term 'biodiversity'?",
-  options: [
-    "a) Charles Darwin",
-    "b) Edward Wilson",
-    "c) Paul Ehrlich",
-    "d) R.H. Whittaker"
-  ],
-  answer: "b) Edward Wilson"
-},
-{
-  question: "Edward Wilson was known as a:",
-  options: [
-    "a) Ecologist",
-    "b) Taxonomist",
-    "c) Sociobiologist",
-    "d) Geneticist"
-  ],
-  answer: "c) Sociobiologist"
-},
-{
-  question: "At what levels does biodiversity exist in biological organization?",
-  options: [
-    "a) Cells to tissues",
-    "b) Macromolecules within cells to biomes",
-    "c) Atoms to molecules",
-    "d) Organs to organisms"
-  ],
-  answer: "b) Macromolecules within cells to biomes"
-}], "This page introduces biodiversity, discussing species diversity across different groups (ants, beetles, orchids) and introduces Edward Wilson's role in popularizing the term 'biodiversity'. It emphasizes that biodiversity exists at all levels of biological organization."],
-"217": [[{
-  question: "How many genetically different rice strains does India have?",
-  options: [
-    "a) 10,000",
-    "b) 30,000",
-    "c) 50,000",
-    "d) 70,000"
-  ],
-  answer: "c) 50,000"
-},
-{
-  question: "What is the number of mango varieties found in India?",
-  options: [
-    "a) 500",
-    "b) 1,000",
-    "c) 1,500",
-    "d) 2,000"
-  ],
-  answer: "b) 1,000"
-},
-{
-  question: "According to IUCN (2004), roughly how many species were described?",
-  options: [
-    "a) 1.5 million",
-    "b) 3 million",
-    "c) 7 million",
-    "d) 20 million"
-  ],
-  answer: "a) 1.5 million"
-},
-{
-  question: "Robert May estimated global species diversity at approximately:",
-  options: [
-    "a) 1.5 million",
-    "b) 7 million",
-    "c) 20 million",
-    "d) 50 million"
-  ],
-  answer: "b) 7 million"
-},
-{
-  question: "Greater amphibian diversity in Western Ghats than Eastern Ghats represents:",
-  options: [
-    "a) Genetic diversity",
-    "b) Species diversity",
-    "c) Ecological diversity",
-    "d) Functional diversity"
-  ],
-  answer: "b) Species diversity"
-},
-{
-  question: "India's 50,000 rice strains and 1,000 mango varieties represent:",
-  options: [
-    "a) Species diversity",
-    "b) Ecological diversity",
-    "c) Genetic diversity",
-    "d) Community diversity"
-  ],
-  answer: "c) Genetic diversity"
-},
-{
-  question: "India shows greater ecosystem diversity than Norway because of:",
-  options: [
-    "a) Only deserts",
-    "b) Deserts, rain forests, mangroves, coral reefs, wetlands, estuaries, alpine meadows",
-    "c) Only rain forests",
-    "d) Only wetlands"
-  ],
-  answer: "b) Deserts, rain forests, mangroves, coral reefs, wetlands, estuaries, alpine meadows"
-}], ""],
-"218": [[{
-  question: "What percentage of documented species are animals?",
-  options: [
-    "a) 50",
-    "b) 60",
-    "c) 70",
-    "d) 80"
-  ],
-  answer: "c) 70"
-},
-{
-  question: "Plants (algae, fungi, bryophytes, gymnosperms, angiosperms) account for approximately:",
-  options: [
-    "a) 12",
-    "b) 22",
-    "c) 32",
-    "d) 42"
-  ],
-  answer: "b) 22"
-},
-{
-  question: "Among animals, insects represent more than what percent?",
-  options: [
-    "a) 50",
-    "b) 60",
-    "c) 70",
-    "d) 80"
-  ],
-  answer: "c) 70"
-},
-{
-  question: "Among every 10 animals on the planet, how many are insects?",
-  options: [
-    "a) 5",
-    "b) 6",
-    "c) 7",
-    "d) 8"
-  ],
-  answer: "c) 7"
-},
-{
-  question: "Global fungi species outnumber the combined total of:",
-  options: [
-    "a) All invertebrates",
-    "b) Fishes, amphibians, reptiles and mammals",
-    "c) All plants",
-    "d) All microbes"
-  ],
-  answer: "b) Fishes, amphibians, reptiles and mammals"
-},
-{
-  question: "Standard taxonomic methods are not appropriate for identifying:",
-  options: [
-    "a) Plant species",
-    "b) Animal species",
-    "c) Microbial species",
-    "d) Fungal species"
-  ],
-  answer: "c) Microbial species"
-},
-{
-  question: "Using biochemical or molecular criteria for prokaryotes, diversity could be:",
-  options: [
-    "a) Thousands",
-    "b) Hundreds of thousands",
-    "c) Millions",
-    "d) Billions"
-  ],
-  answer: "c) Millions"
-},
-{
-  question: "Among vertebrates, which group has the highest species diversity?",
-  options: [
-    "a) Mammals",
-    "b) Birds",
-    "c) Fishes",
-    "d) Reptiles"
-  ],
-  answer: "c) Fishes"
-}], ""],
-"219": [[{
-  question: "With only 2.4% of Earth's land, India's global species diversity share is:",
-  options: [
-    "a) 2.4%",
-    "b) 4.8%",
-    "c) 8.1%",
-    "d) 12.5%"
-  ],
-  answer: "c) 8.1%"
-},
-{
-  question: "The latitudinal gradient in diversity concept states that:",
-  options: [
-    "a) Species diversity decreases as we move away from the equator towards the poles",
-    "b) Species diversity increases as we move away from the equator towards the poles",
-    "c) Species diversity remains constant throughout latitudes",
-    "d) There is no relationship between latitude and species diversity"
-  ],
-  answer: "a) Species diversity decreases as we move away from the equator towards the poles"
-},
-{
-  question: "Colombia, positioned near the equator, has approximately how many bird species?",
-  options: [
-    "a) 105",
-    "b) 1,400",
-    "c) 56",
-    "d) 1,200"
-  ],
-  answer: "b) 1,400"
-},
-{
-  question: "Greenland, located at 71°N, has only how many bird species?",
-  options: [
-    "a) 56",
-    "b) 105",
-    "c) 150",
-    "d) 200"
-  ],
-  answer: "a) 56"
-},
-{
-  question: "India possesses how many bird species?",
-  options: [
-    "a) 500",
-    "b) 800",
-    "c) 1,200",
-    "d) 1,500"
-  ],
-  answer: "c) 1,200"
-},
-{
-  question: "New York, at 41°N latitude, has how many bird species?",
-  options: [
-    "a) 56",
-    "b) 105",
-    "c) 150",
-    "d) 200"
-  ],
-  answer: "b) 105"
-},
-{
-  question: "The tropics (between 23.5°N and 23.5°S):",
-  options: [
-    "a) Harbor less species than temperate or polar areas",
-    "b) Harbor same species as temperate areas",
-    "c) Harbor more species than temperate or polar areas",
-    "d) Have no significant species diversity"
-  ],
-  answer: "c) Harbor more species than temperate or polar areas"
-},
-{
-  question: "Tropical regions like Ecuador have how many times more vascular plants than temperate forests of equal area?",
-  options: [
-    "a) 5",
-    "b) 10",
-    "c) 15",
-    "d) 20"
-  ],
-  answer: "b) 10"
-},
-{
-  question: "India has documented approximately how many plant species?",
-  options: [
-    "a) 25,000",
-    "b) 35,000",
-    "c) 45,000",
-    "d) 55,000"
-  ],
-  answer: "c) 45,000"
-}], ""],
-"220": [[{
-  question: "Who originally observed the species-area relationship?",
-  options: [
-    "a) Charles Darwin",
-    "b) Alexander von Humboldt",
-    "c) Robert May",
-    "d) Edward Wilson"
-  ],
-  answer: "b) Alexander von Humboldt"
-},
-{
-  question: "On a logarithmic scale, the species-area equation is written as:",
-  options: [
-    "a) S = CA^Z",
-    "b) Log S = Log C + Z Log A",
-    "c) S = C + ZA",
-    "d) Log S = C + Z Log A"
-  ],
-  answer: "b) Log S = Log C + Z Log A"
-},
-{
-  question: "In the species-area equation, what does Z represent?",
-  options: [
-    "a) Species richness",
-    "b) Area",
-    "c) Slope of the line (regression coefficient)",
-    "d) Y-intercept"
-  ],
-  answer: "c) Slope of the line (regression coefficient)"
-},
-{
-  question: "The Z value typically ranges between:",
-  options: [
-    "a) 0.01 to 0.1",
-    "b) 0.1 to 0.2",
-    "c) 0.5 to 1.0",
-    "d) 1.0 to 2.0"
-  ],
-  answer: "b) 0.1 to 0.2"
-},
-{
-  question: "For large areas such as continents, Z value ranges from:",
-  options: [
-    "a) 0.1 to 0.2",
-    "b) 0.6 to 1.2",
-    "c) 1.5 to 2.0",
-    "d) 2.0 to 3.0"
-  ],
-  answer: "b) 0.6 to 1.2"
-},
-{
-  question: "For mammals in tropical forests across continents, the Z value is:",
-  options: [
-    "a) 0.2",
-    "b) 0.6",
-    "c) 1.15",
-    "d) 1.5"
-  ],
-  answer: "c) 1.15"
-},
-{
-  question: "Von Humboldt noted that within a region, species richness:",
-  options: [
-    "a) Decreases with increasing explored area",
-    "b) Increases with increasing explored area, but only up to a limit",
-    "c) Remains constant with area",
-    "d) Increases indefinitely with area"
-  ],
-  answer: "b) Increases with increasing explored area, but only up to a limit"
-}], ""],
-"221": [[{
-  question: "David Tilman's long-term ecosystem studies using outdoor plots revealed that:",
-  options: [
-    "a) Plots with more species showed more year-to-year variation in total biomass",
-    "b) Plots with more species showed less year-to-year variation in total biomass",
-    "c) Increased diversity led to lower productivity",
-    "d) Diversity has no effect on ecosystem stability"
-  ],
-  answer: "b) Plots with more species showed less year-to-year variation in total biomass"
-},
-{
-  question: "Tilman's experiments further showed that:",
-  options: [
-    "a) Decreased diversity contributed to higher productivity",
-    "b) Increased diversity contributed to higher productivity",
-    "c) Diversity has no relation with productivity",
-    "d) Only genetic diversity affects productivity"
-  ],
-  answer: "b) Increased diversity contributed to higher productivity"
-},
-{
-  question: "In the 'Rivet Popper Hypothesis', Paul Ehrlich compared:",
-  options: [
-    "a) Ecosystem to a ship and species to anchors",
-    "b) Ecosystem to an airplane and species to rivets",
-    "c) Ecosystem to a building and species to bricks",
-    "d) Ecosystem to a car and species to wheels"
-  ],
-  answer: "b) Ecosystem to an airplane and species to rivets"
-},
-{
-  question: "The Rivet Popper Hypothesis suggests that species loss:",
-  options: [
-    "a) Has immediate drastic effects on ecosystem",
-    "b) May initially have no effect but becomes critical as more species are lost",
-    "c) Never affects ecosystem functioning",
-    "d) Only affects genetic diversity"
-  ],
-  answer: "b) May initially have no effect but becomes critical as more species are lost"
-},
-{
-  question: "The IUCN Red List (2004) documented how many extinctions in the past 500 years?",
-  options: [
-    "a) 500",
-    "b) 650",
-    "c) 784",
-    "d) 1000"
-  ],
-  answer: "c) 784"
-},
-{
-  question: "Among 784 extinct species documented by IUCN, how many were vertebrates?",
-  options: [
-    "a) 87",
-    "b) 338",
-    "c) 359",
-    "d) 400"
-  ],
-  answer: "b) 338"
-},
-{
-  question: "Among 784 extinct species, how many were invertebrates?",
-  options: [
-    "a) 87",
-    "b) 338",
-    "c) 359",
-    "d) 400"
-  ],
-  answer: "c) 359"
-},
-{
-  question: "Among 784 extinct species, how many were plants?",
-  options: [
-    "a) 87",
-    "b) 100",
-    "c) 150",
-    "d) 200"
-  ],
-  answer: "a) 87"
-},
-{
-  question: "A stable community should:",
-  options: [
-    "a) Show high variation in productivity year to year",
-    "b) Not be resistant to disturbances",
-    "c) Not show too much variation in productivity and be resistant to disturbances",
-    "d) Have very low species richness"
-  ],
-  answer: "c) Not show too much variation in productivity and be resistant to disturbances"
-}], ""],
-"222": [[{
-  question: "Globally, how many species currently face the threat of extinction?",
-  options: [
-    "a) 10,000",
-    "b) 12,500",
-    "c) 15,500",
-    "d) 20,000"
-  ],
-  answer: "c) 15,500"
-},
-{
-  question: "What percentage of bird species currently face extinction?",
-  options: [
-    "a) 12",
-    "b) 23",
-    "c) 32",
-    "d) 31"
-  ],
-  answer: "a) 12"
-},
-{
-  question: "What percentage of mammal species currently face extinction?",
-  options: [
-    "a) 12",
-    "b) 23",
-    "c) 32",
-    "d) 31"
-  ],
-  answer: "b) 23"
-},
-{
-  question: "What percentage of amphibians currently face extinction?",
-  options: [
-    "a) 12",
-    "b) 23",
-    "c) 32",
-    "d) 31"
-  ],
-  answer: "c) 32"
-},
-{
-  question: "Which animal group appears most vulnerable to extinction?",
-  options: [
-    "a) Birds",
-    "b) Mammals",
-    "c) Amphibians",
-    "d) Reptiles"
-  ],
-  answer: "c) Amphibians"
-},
-{
-  question: "Current species extinction rates are estimated to be how many times faster than pre-human times?",
-  options: [
-    "a) 10 to 50",
-    "b) 50 to 100",
-    "c) 100 to 1,000",
-    "d) 1,000 to 10,000"
-  ],
-  answer: "c) 100 to 1,000"
-},
-{
-  question: "Tropical rain forests previously covered more than what percent of Earth's land?",
-  options: [
-    "a) 6",
-    "b) 10",
-    "c) 14",
-    "d) 20"
-  ],
-  answer: "c) 14"
-},
-{
-  question: "Tropical rain forests presently cover what percent of Earth's land?",
-  options: [
-    "a) 2",
-    "b) 4",
-    "c) 6",
-    "d) 8"
-  ],
-  answer: "c) 6"
-},
-{
-  question: "The four primary causes of biodiversity loss are termed:",
-  options: [
-    "a) The Evil Quartet",
-    "b) The Big Four",
-    "c) The Fatal Four",
-    "d) The Major Threats"
-  ],
-  answer: "a) The Evil Quartet"
-},
-{
-  question: "The most significant cause driving species to extinction is:",
-  options: [
-    "a) Over-exploitation",
-    "b) Habitat loss and fragmentation",
-    "c) Alien species invasion",
-    "d) Co-extinction"
-  ],
-  answer: "b) Habitat loss and fragmentation"
-}], ""],
-"223": [[{
-  question: "Which species became extinct due to human over-exploitation?",
-  options: [
-    "a) Dodo and African catfish",
-    "b) Steller's sea cow and passenger pigeon",
-    "c) Nile perch and cichlid fish",
-    "d) None of the above"
-  ],
-  answer: "b) Steller's sea cow and passenger pigeon"
-},
-{
-  question: "Introducing Nile perch into Lake Victoria led to extinction of:",
-  options: [
-    "a) More than 100 species of cichlid fish",
-    "b) More than 150 species of cichlid fish",
-    "c) More than 200 species of cichlid fish",
-    "d) More than 300 species of cichlid fish"
-  ],
-  answer: "c) More than 200 species of cichlid fish"
-},
-{
-  question: "The Nile perch introduction into Lake Victoria is an instance of:",
-  options: [
-    "a) Over-exploitation",
-    "b) Habitat loss and fragmentation",
-    "c) Alien species invasion",
-    "d) Co-extinction"
-  ],
-  answer: "c) Alien species invasion"
-},
-{
-  question: "Co-extinction means:",
-  options: [
-    "a) Extinction of two unrelated species at the same time",
-    "b) Extinction of species associated with extinct host in an obligatory way",
-    "c) Extinction due to climate change",
-    "d) Extinction due to pollution"
-  ],
-  answer: "b) Extinction of species associated with extinct host in an obligatory way"
-},
-{
-  question: "When a fish host species becomes extinct, what else is lost?",
-  options: [
-    "a) Its predators",
-    "b) Its prey",
-    "c) Its unique assemblage of parasites",
-    "d) All competing species"
-  ],
-  answer: "c) Its unique assemblage of parasites"
-},
-{
-  question: "Which fish threatens indigenous catfish in Indian rivers?",
-  options: [
-    "a) Nile perch",
-    "b) African catfish (Clarias gariepinus)",
-    "c) Cichlid fish",
-    "d) Steller's sea cow"
-  ],
-  answer: "b) African catfish (Clarias gariepinus)"
-},
-{
-  question: "What percentage of drugs in global markets are plant-derived?",
-  options: [
-    "a) 15",
-    "b) 25",
-    "c) 35",
-    "d) 45"
-  ],
-  answer: "b) 25"
-},
-{
-  question: "The three main categories of biodiversity conservation arguments include all EXCEPT:",
-  options: [
-    "a) Narrowly utilitarian",
-    "b) Broadly utilitarian",
-    "c) Ethical",
-    "d) Political"
-  ],
-  answer: "d) Political"
-}], ""],
-"224": [[{
-  question: "The Amazon forest produces approximately what percent of Earth's atmospheric oxygen?",
-  options: [
-    "a) 10%",
-    "b) 20%",
-    "c) 30%",
-    "d) 40%"
-  ],
-  answer: "b) 20%"
-},
-{
-  question: "How many biodiversity hotspots are there in India?",
-  options: [
-    "a) 2",
-    "b) 3",
-    "c) 4",
-    "d) 5"
-  ],
-  answer: "c) 4"
-},
-{
-  question: "India's biodiversity hotspots are:",
-  options: [
-    "a) Western Ghats, Eastern Ghats, Himalayas",
-    "b) Western Ghats & Sri Lanka, Indo-Burma, Himalayas",
-    "c) Eastern Ghats, Sundaland, Western Ghats",
-    "d) Indo-Burma, Eastern Himalayas, Arabian Sea"
-  ],
-  answer: "b) Western Ghats & Sri Lanka, Indo-Burma, Himalayas"
-},
-{
-  question: "India has roughly how many biosphere reserves?",
-  options: [
-    "a) 8",
-    "b) 10",
-    "c) 14",
-    "d) 18"
-  ],
-  answer: "c) 14"
-},
-{
-  question: "India has more than how many national parks?",
-  options: [
-    "a) 50",
-    "b) 70",
-    "c) 90",
-    "d) 110"
-  ],
-  answer: "c) 90"
-},
-{
-  question: "India possesses more than how many wildlife sanctuaries?",
-  options: [
-    "a) 300",
-    "b) 350",
-    "c) 400",
-    "d) 448"
-  ],
-  answer: "d) 448"
-},
-{
-  question: "In-situ conservation means:",
-  options: [
-    "a) Conservation in botanical gardens",
-    "b) Conservation in zoos",
-    "c) Conservation in natural habitats like national parks",
-    "d) Conservation in seed banks"
-  ],
-  answer: "c) Conservation in natural habitats like national parks"
-},
-{
-  question: "Which is NOT an instance of in-situ conservation?",
-  options: [
-    "a) National parks",
-    "b) Wildlife sanctuaries",
-    "c) Biosphere reserves",
-    "d) Botanical gardens"
-  ],
-  answer: "d) Botanical gardens"
-},
-{
-  question: "India's fourth biodiversity hotspot is:",
-  options: [
-    "a) Eastern Ghats",
-    "b) Sundaland",
-    "c) Deccan Peninsula",
-    "d) Arabian Sea"
-  ],
-  answer: "b) Sundaland"
-}], ""],
-"225": [[{
-  question: "Sacred groves in Khasi and Jaintia Hills are located in:",
-  options: [
-    "a) Arunachal Pradesh",
-    "b) Meghalaya",
-    "c) Nagaland",
-    "d) Manipur"
-  ],
-  answer: "b) Meghalaya"
-},
-{
-  question: "Meghalaya has how many sacred forests?",
-  options: [
-    "a) 40",
-    "b) 55",
-    "c) 79",
-    "d) 100"
-  ],
-  answer: "c) 79"
-},
-{
-  question: "Which is an instance of ex-situ conservation?",
-  options: [
-    "a) National Park",
-    "b) Wildlife Sanctuary",
-    "c) Botanical Garden",
-    "d) Sacred Grove"
-  ],
-  answer: "c) Botanical Garden"
-},
-{
-  question: "Ex-situ conservation includes all EXCEPT:",
-  options: [
-    "a) Zoological parks",
-    "b) Botanical gardens",
-    "c) Seed banks",
-    "d) Sacred groves"
-  ],
-  answer: "d) Sacred groves"
-},
-{
-  question: "The Convention on Biological Diversity took place in:",
-  options: [
-    "a) 1990",
-    "b) 1992",
-    "c) 1994",
-    "d) 1996"
-  ],
-  answer: "b) 1992"
-},
-{
-  question: "The Convention on Biological Diversity (Earth Summit) was held at:",
-  options: [
-    "a) Paris",
-    "b) New York",
-    "c) Rio de Janeiro",
-    "d) Stockholm"
-  ],
-  answer: "c) Rio de Janeiro"
-},
-{
-  question: "In ex-situ conservation, gametes are preserved using:",
-  options: [
-    "a) Tissue culture",
-    "b) Cryopreservation techniques",
-    "c) Micropropagation",
-    "d) DNA barcoding"
-  ],
-  answer: "b) Cryopreservation techniques"
-},
-{
-  question: "Which Rajasthani community is known for conserving black buck?",
-  options: [
-    "a) Gujjar",
-    "b) Bishnoi",
-    "c) Meena",
-    "d) Bhil"
-  ],
-  answer: "b) Bishnoi"
-}], ""],
-"226": [[], ""],
-"227": [[], ""]
+            question: "How many species of ants exist globally?",
+            options: [
+              "a) 10,000",
+              "b) 20,000",
+              "c) 30,000",
+              "d) 40,000"
+            ],
+            answer: "b) 20,000"
+          },
+          {
+            question: "What is the approximate number of beetle species?",
+            options: [
+              "a) 1,00,000",
+              "b) 2,00,000",
+              "c) 3,00,000",
+              "d) 4,00,000"
+            ],
+            answer: "c) 3,00,000"
+          },
+          {
+            question: "How many orchid species have been recorded worldwide?",
+            options: [
+              "a) 10,000",
+              "b) 15,000",
+              "c) 20,000",
+              "d) 25,000"
+            ],
+            answer: "c) 20,000"
+          },
+          {
+            question: "Who popularized the term 'biodiversity'?",
+            options: [
+              "a) Charles Darwin",
+              "b) Edward Wilson",
+              "c) Paul Ehrlich",
+              "d) R.H. Whittaker"
+            ],
+            answer: "b) Edward Wilson"
+          },
+          {
+            question: "Edward Wilson was known as a:",
+            options: [
+              "a) Ecologist",
+              "b) Taxonomist",
+              "c) Sociobiologist",
+              "d) Geneticist"
+            ],
+            answer: "c) Sociobiologist"
+          },
+          {
+            question: "At what levels does biodiversity exist in biological organization?",
+            options: [
+              "a) Cells to tissues",
+              "b) Macromolecules within cells to biomes",
+              "c) Atoms to molecules",
+              "d) Organs to organisms"
+            ],
+            answer: "b) Macromolecules within cells to biomes"
+          }], "This page introduces biodiversity, discussing species diversity across different groups (ants, beetles, orchids) and introduces Edward Wilson's role in popularizing the term 'biodiversity'. It emphasizes that biodiversity exists at all levels of biological organization."],
+          "226": [[], ""],
+          "227": [[], ""]
         }
       }
     }
@@ -2773,12 +1086,23 @@ answer: "b) It can never be inverted and is always upright"
 
   let currentQuestions = [];
   let questionStates = {};
+  let currentUser = null;
+  let isSubscribed = false;
 
   function loadPersistentData() {
     try {
-      const saved = localStorage.getItem('neet-pyq-states');
+      const saved = localStorage.getItem('neet-pbp-states');
       if (saved) {
         questionStates = JSON.parse(saved);
+      }
+      const user = localStorage.getItem('neet-pbp-user');
+      if (user) {
+        currentUser = JSON.parse(user);
+        updateLoginUI();
+      }
+      const subscription = localStorage.getItem('neet-pbp-subscription');
+      if (subscription) {
+        isSubscribed = JSON.parse(subscription);
       }
     } catch (e) {
       console.error('Error loading data:', e);
@@ -2787,9 +1111,146 @@ answer: "b) It can never be inverted and is always upright"
 
   function savePersistentData() {
     try {
-      localStorage.setItem('neet-pyq-states', JSON.stringify(questionStates));
+      localStorage.setItem('neet-pbp-states', JSON.stringify(questionStates));
     } catch (e) {
       console.error('Error saving data:', e);
+    }
+  }
+
+  function openLoginModal() {
+    document.getElementById('loginModal').style.display = 'block';
+  }
+
+  function closeLoginModal() {
+    document.getElementById('loginModal').style.display = 'none';
+  }
+
+  function showSignupForm() {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('signupForm').style.display = 'block';
+    document.getElementById('modalTitle').textContent = 'Sign Up for NEET-PbP';
+  }
+
+  function showLoginForm() {
+    document.getElementById('signupForm').style.display = 'none';
+    document.getElementById('loginForm').style.display = 'block';
+    document.getElementById('modalTitle').textContent = 'Login to NEET-PbP';
+  }
+
+  function handleLogin() {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    
+    if (!email || !password) {
+      alert('Please fill in all fields');
+      return;
+    }
+    
+    const storedUser = localStorage.getItem('neet-pbp-user-' + email);
+    if (storedUser) {
+      const userData = JSON.parse(storedUser);
+      if (userData.password === password) {
+        currentUser = { name: userData.name, email: email };
+        localStorage.setItem('neet-pbp-user', JSON.stringify(currentUser));
+        isSubscribed = userData.subscribed || false;
+        localStorage.setItem('neet-pbp-subscription', JSON.stringify(isSubscribed));
+        updateLoginUI();
+        closeLoginModal();
+        alert('Login successful!');
+      } else {
+        alert('Invalid password');
+      }
+    } else {
+      alert('User not found. Please sign up first.');
+    }
+  }
+
+  function handleSignup() {
+    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    const confirmPassword = document.getElementById('signupConfirmPassword').value;
+    
+    if (!name || !email || !password || !confirmPassword) {
+      alert('Please fill in all fields');
+      return;
+    }
+    
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+    
+    const existingUser = localStorage.getItem('neet-pbp-user-' + email);
+    if (existingUser) {
+      alert('User already exists. Please login.');
+      return;
+    }
+    
+    alert('Please proceed to payment to complete registration');
+  }
+
+  function handlePayment() {
+    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    
+    if (!name || !email || !password) {
+      alert('Please fill in all fields before payment');
+      return;
+    }
+    
+    alert('Payment gateway integration pending. For demo purposes, account created successfully!');
+    
+    const userData = {
+      name: name,
+      password: password,
+      subscribed: true,
+      subscriptionDate: new Date().toISOString(),
+      expiryDate: new Date(Date.now() + 2 * 365 * 24 * 60 * 60 * 1000).toISOString()
+    };
+    
+    localStorage.setItem('neet-pbp-user-' + email, JSON.stringify(userData));
+    currentUser = { name: name, email: email };
+    localStorage.setItem('neet-pbp-user', JSON.stringify(currentUser));
+    isSubscribed = true;
+    localStorage.setItem('neet-pbp-subscription', JSON.stringify(isSubscribed));
+    
+    updateLoginUI();
+    closeLoginModal();
+    showLoginForm();
+  }
+
+  function handleLogout() {
+    currentUser = null;
+    isSubscribed = false;
+    localStorage.removeItem('neet-pbp-user');
+    localStorage.removeItem('neet-pbp-subscription');
+    updateLoginUI();
+    alert('Logged out successfully');
+  }
+
+  function updateLoginUI() {
+    const loginSection = document.getElementById('loginSection');
+    if (currentUser) {
+      const subscriptionBadge = isSubscribed ? '<span class="subscription-badge">Premium</span>' : '';
+      loginSection.innerHTML = `
+        <div class="user-info">
+          <span>Welcome, ${currentUser.name}${subscriptionBadge}</span>
+          <button class="logout-btn" onclick="handleLogout()">Logout</button>
+        </div>
+      `;
+    } else {
+      loginSection.innerHTML = `
+        <button class="login-btn" onclick="openLoginModal()">Login / Sign Up</button>
+      `;
+    }
+  }
+
+  window.onclick = function(event) {
+    const modal = document.getElementById('loginModal');
+    if (event.target == modal) {
+      closeLoginModal();
     }
   }
 
@@ -2846,7 +1307,6 @@ answer: "b) It can never be inverted and is always upright"
             const pageData = chapter.questions[pageNum];
             let questionCount = 0;
             
-            // Extract actual question count (not counting summary)
             if (Array.isArray(pageData) && pageData.length === 2 && Array.isArray(pageData[0])) {
               questionCount = pageData[0].length;
             } else if (Array.isArray(pageData)) {
@@ -2882,13 +1342,12 @@ answer: "b) It can never be inverted and is always upright"
     
     currentQuestions = questionData[classValue][chapterValue].questions[pageValue] || [];
 
-    // Extract summary from nested structure
     let questionsArr = currentQuestions;
     let summaryStr = "";
     if(Array.isArray(currentQuestions) && currentQuestions.length === 2 && Array.isArray(currentQuestions[0])) {
       questionsArr = currentQuestions[0];
       summaryStr = currentQuestions[1] || "";
-      currentQuestions = questionsArr; // Update for compatibility
+      currentQuestions = questionsArr;
     }
 
     
@@ -2900,7 +1359,6 @@ answer: "b) It can never be inverted and is always upright"
     
     let html = '';
 
-    // Add summary if exists
     if (summaryStr && summaryStr.trim().length > 0) {
       html += `
         <button id="summaryBtn" class="summary-toggle-btn" onclick="toggleSummary()">📚 View Summary</button>
@@ -2965,7 +1423,6 @@ answer: "b) It can never be inverted and is always upright"
 
     savePersistentData();
 
-    // Fixed: Use data attribute to find the correct question item
     const questionItem = document.querySelector(`.question-item[data-question-index="${questionIndex}"]`);
     if (!questionItem) return;
     
@@ -3006,7 +1463,7 @@ answer: "b) It can never be inverted and is always upright"
 
   function copyQuestion(index, pageNum) {
     const q = currentQuestions[index];
-    const text = `${q.year}\nPage ${pageNum}\n\n${q.question}\n\n${q.options.join('\n')}\n\nAnswer: ${q.answer}`;
+    const text = `Page ${pageNum}\n\n${q.question}\n\n${q.options.join('\n')}\n\nAnswer: ${q.answer}`;
     
     navigator.clipboard.writeText(text).then(() => {
       alert('Question copied to clipboard!');
@@ -3087,7 +1544,6 @@ Version 3: Detailed explanation with option analysis`;
           try {
             newWindow.focus();
           } catch (e) {
-            // Ignore
           }
         }, 1000);
       }
@@ -3201,4 +1657,3 @@ Version 3: Detailed explanation with option analysis`;
 </script>
 </body>
 </html>
-
