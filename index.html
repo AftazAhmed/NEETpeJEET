@@ -662,7 +662,7 @@
   }
 
   .summary-toggle-btn {
-    background: linear-gradient(135deg, #a0522d, #8b4513);
+    background: #5c0a0a;
     color: #fff;
     border: none;
     border-radius: 7px;
@@ -674,15 +674,18 @@
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
   .summary-toggle-btn:hover {
-    background: linear-gradient(135deg, #8b4513, #704214);
+    background: #450808;
     transform: translateY(-1px);
   }
   .summary-content {
     display: none;
     background-color: #fff8f0;
-    border-left: 6px solid #a0522d;
+    border-left: 6px solid #5c0a0a;
     border-radius: 10px;
     padding: 18px 22px;
     color: #1f2937;
@@ -1422,7 +1425,7 @@
     }
     
     if (summary) {
-      html += `<button class="summary-toggle-btn" onclick="toggleSummary()">View NEET Pointers</button>`;
+      html += `<button class="summary-toggle-btn" onclick="toggleSummary()"><span>📚</span> View NEET Pointers</button>`;
       html += `<div class="summary-content" id="summaryContent">`;
       html += processSummaryWithChatGPT(summary);
       html += `</div>`;
