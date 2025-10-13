@@ -1591,19 +1591,15 @@
     const pageValue = pageSelect.value;
     
     if (!classValue || !chapterValue || !pageValue) {
-      alert('Please select a page first');
       return;
     }
     
-    if (confirm('Are you sure you want to reset all answers for this page?')) {
-      currentQuestions.forEach((q, index) => {
-        const qKey = `${classValue}-${chapterValue}-${pageValue}-${index}`;
-        delete questionStates[qKey];
-      });
-      savePersistentData();
-      showQuestions();
-      alert('Page score has been reset!');
-    }
+    currentQuestions.forEach((q, index) => {
+      const qKey = `${classValue}-${chapterValue}-${pageValue}-${index}`;
+      delete questionStates[qKey];
+    });
+    savePersistentData();
+    showQuestions();
   }
 </script>
 </body>
