@@ -405,8 +405,8 @@
     white-space: nowrap;
   }
   .copy-btn-header {
-    background-color: #1e7e34;
-    color: white;
+    background-color: #f1c40f;
+    color: #333;
     border: none;
     padding: 8px 16px;
     border-radius: 20px;
@@ -417,9 +417,9 @@
     white-space: nowrap;
   }
   .copy-btn-header:hover {
-    background-color: #155724;
+    background-color: #d4a506;
     transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(30, 126, 52, 0.3);
+    box-shadow: 0 3px 8px rgba(241, 196, 15, 0.3);
   }
   .question-text {
     font-weight: 600;
@@ -521,10 +521,10 @@
     transition: background-color 0.3s ease;
   }
   .btn-answer {
-    background-color: #198754;
+    background-color: #1e3a8a;
   }
   .btn-answer:hover {
-    background-color: #146c43;
+    background-color: #1e40af;
   }
   .btn-copy {
     background-color: #0d6efd;
@@ -1436,7 +1436,7 @@
         <div class="question-item" data-qkey="${qKey}">
           <div class="question-header">
             <span class="question-number">Question ${index + 1}.</span>
-            <button class="copy-btn-header" onclick="copyQuestion(${index})">Copy Question</button>
+            <button class="copy-btn-header" onclick="copyQuestion(${index})">Copy</button>
           </div>
           <div class="question-text">${q.question}</div>
           <div class="options">
@@ -1444,9 +1444,9 @@
               let optClass = 'option';
               if (state.answered) {
                 optClass += ' disabled';
-                if (opt === q.answer) {
+                if (state.isCorrect && opt === state.selectedOption) {
                   optClass += ' answered-correct';
-                } else if (opt === state.selectedOption) {
+                } else if (!state.isCorrect && opt === state.selectedOption) {
                   optClass += ' answered-incorrect';
                 }
               }
