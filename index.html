@@ -404,6 +404,23 @@
     letter-spacing: 0.6px;
     white-space: nowrap;
   }
+  .copy-btn-header {
+    background-color: #1e7e34;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+  .copy-btn-header:hover {
+    background-color: #155724;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(30, 126, 52, 0.3);
+  }
   .question-text {
     font-weight: 600;
     font-size: 15px;
@@ -1419,7 +1436,7 @@
         <div class="question-item" data-qkey="${qKey}">
           <div class="question-header">
             <span class="question-number">Question ${index + 1}.</span>
-            <button class="btn btn-copy" onclick="copyQuestion(${index})">Copy Question</button>
+            <button class="copy-btn-header" onclick="copyQuestion(${index})">Copy Question</button>
           </div>
           <div class="question-text">${q.question}</div>
           <div class="options">
