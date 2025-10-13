@@ -1419,6 +1419,7 @@
         <div class="question-item" data-qkey="${qKey}">
           <div class="question-header">
             <span class="question-number">Question ${index + 1}.</span>
+            <button class="btn btn-copy" onclick="copyQuestion(${index})">Copy Question</button>
           </div>
           <div class="question-text">${q.question}</div>
           <div class="options">
@@ -1437,7 +1438,6 @@
           </div>
           <div class="button-group">
             <button class="btn btn-answer" onclick="showAnswer('${qKey}')">Show Answer</button>
-            <button class="btn btn-copy" onclick="copyQuestion(${index})">Copy Question</button>
             <button class="chatgpt-btn" onclick="openChatGPTForQuestion(${index})">ChatGPT Explain</button>
           </div>
           <div class="answer-reveal" id="answer-${qKey}">
