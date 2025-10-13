@@ -1438,7 +1438,7 @@
           <div class="button-group">
             <button class="btn btn-answer" onclick="showAnswer('${qKey}')">Show Answer</button>
             <button class="btn btn-copy" onclick="copyQuestion(${index})">Copy Question</button>
-            <button class="chatgpt-btn" onclick="openChatGPTForQuestion(${index})">ChatGPT Explain</button>
+            <button class="chatgpt-btn" onclick="openChatGPTVersion('${qKey}', ${index})">ChatGPT Explain</button>
           </div>
           <div class="answer-reveal" id="answer-${qKey}">
             <strong>Correct Answer:</strong> ${q.answer}
@@ -1473,16 +1473,32 @@
   }
 
   function openChatGPTForPointer(pointerText) {
-    const prompt = `Explain this NEET Biology pointer in detail with NCERT reference:\n\n${pointerText}`;
-    const chatGPTURL = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
+    const chatGPTURL = `https://chat.openai.com/?q=${encodeURIComponent(pointerText)}`;
     window.open(chatGPTURL, '_blank');
   }
 
-  function openChatGPTForQuestion(index) {
+  function openChatGPTVersion(qKey, index) {
     const question = currentQuestions[index];
-    const prompt = `Explain this NEET Biology question in detail:\n\nQuestion: ${question.question}\n\nOptions:\n${question.options.join('\n')}\n\nCorrect Answer: ${question.answer}\n\nProvide detailed explanation with NCERT reference.`;
-    const chatGPTURL = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
-    window.open(chatGPTURL, '_blank');
+    
+    const version1 = `${question.question}\n\n${question.options.join('\n')}\n\nCorrect Answer: ${question.answer}`;
+    const version2 = `Question: ${question.question}\n\nOptions:\n${question.options.join('\n')}\n\nCorrect Answer: ${question.answer}\n\nPlease explain this NEET Biology question in detail.`;
+    const version3 = `Explain this NEET Biology MCQ:\n\n${question.question}\n\n${question.options.join('\n')}\n\nAnswer: ${question.answer}`;
+    
+    const choice = confirm('Choose ChatGPT prompt version:\n\nOK = Version 1 (Basic)\nCancel = Choose more options');
+    
+    if (choice) {
+      const chatGPTURL = `https://chat.openai.com/?q=${encodeURIComponent(version1)}`;
+      window.open(chatGPTURL, '_blank');
+    } else {
+      const secondChoice = confirm('Choose version:\n\nOK = Version 2 (Detailed)\nCancel = Version 3 (Full explanation)');
+      if (secondChoice) {
+        const chatGPTURL = `https://chat.openai.com/?q=${encodeURIComponent(version2)}`;
+        window.open(chatGPTURL, '_blank');
+      } else {
+        const chatGPTURL = `https://chat.openai.com/?q=${encodeURIComponent(version3)}`;
+        window.open(chatGPTURL, '_blank');
+      }
+    }
   }
 
   function toggleSummary() {
