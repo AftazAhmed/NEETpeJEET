@@ -707,34 +707,6 @@
     background: linear-gradient(135deg, #c0392b, #a93226);
     transform: translateY(-1px);
   }
-  .pointer-explanation {
-    display: none;
-    margin-top: 10px;
-    padding: 12px;
-    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
-    border: 2px solid #10a37f;
-    border-radius: 8px;
-    color: #1b5e20;
-    font-weight: 500;
-    line-height: 1.6;
-  }
-  .pointer-explanation.show {
-    display: block;
-  }
-  .loading-spinner {
-    border: 3px solid #f3f3f3;
-    border-top: 3px solid #e74c3c;
-    border-radius: 50%;
-    width: 16px;
-    height: 16px;
-    animation: spin 1s linear infinite;
-    display: inline-block;
-    margin-left: 8px;
-  }
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
 </style>
 </head>
 <body>
@@ -1466,7 +1438,7 @@
           <div class="button-group">
             <button class="btn btn-answer" onclick="showAnswer('${qKey}')">Show Answer</button>
             <button class="btn btn-copy" onclick="copyQuestion(${index})">Copy Question</button>
-            <button class="chatgpt-btn" onclick="explainWithChatGPT('${qKey}', ${index})">ChatGPT Explain</button>
+            <button class="chatgpt-btn" onclick="openChatGPTForQuestion(${index})">ChatGPT Explain</button>
           </div>
           <div class="answer-reveal" id="answer-${qKey}">
             <strong>Correct Answer:</strong> ${q.answer}
@@ -1487,12 +1459,11 @@
       const cleanPointer = pointer.replace(/<br>/g, ' ').trim();
       if (cleanPointer) {
         processedHTML += `
-          <div class="summary-pointer" id="pointer-${index}">
+          <div class="summary-pointer">
             <span class="pointer-text">${cleanPointer}</span>
-            <button class="pointer-chatgpt-btn" onclick="explainPointer(${index}, '${encodeURIComponent(cleanPointer)}')">
+            <button class="pointer-chatgpt-btn" onclick="openChatGPTForPointer('${cleanPointer.replace(/'/g, "\\'")}')">
               ChatGPT
             </button>
-            <div class="pointer-explanation" id="explanation-${index}"></div>
           </div>
         `;
       }
@@ -1501,28 +1472,17 @@
     return processedHTML;
   }
 
-  function explainPointer(pointerIndex, encodedText) {
-    const explanationDiv = document.getElementById(`explanation-${pointerIndex}`);
-    const pointerText = decodeURIComponent(encodedText);
-    
-    if (explanationDiv.classList.contains('show')) {
-      explanationDiv.classList.remove('show');
-      return;
-    }
-    
-    explanationDiv.innerHTML = '<span class="loading-spinner"></span> Generating explanation...';
-    explanationDiv.classList.add('show');
-    
-    setTimeout(() => {
-      explanationDiv.innerHTML = `
-        <strong>ChatGPT Explanation:</strong><br><br>
-        This feature requires OpenAI API integration. To enable it:<br>
-        1. Get an API key from OpenAI<br>
-        2. Add the API call in the explainPointer function<br>
-        3. The system will provide detailed NEET-focused explanations<br><br>
-        <strong>Pointer:</strong> ${pointerText}
-      `;
-    }, 1500);
+  function openChatGPTForPointer(pointerText) {
+    const prompt = `Explain this NEET Biology pointer in detail with NCERT reference:\n\n${pointerText}`;
+    const chatGPTURL = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
+    window.open(chatGPTURL, '_blank');
+  }
+
+  function openChatGPTForQuestion(index) {
+    const question = currentQuestions[index];
+    const prompt = `Explain this NEET Biology question in detail:\n\nQuestion: ${question.question}\n\nOptions:\n${question.options.join('\n')}\n\nCorrect Answer: ${question.answer}\n\nProvide detailed explanation with NCERT reference.`;
+    const chatGPTURL = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
+    window.open(chatGPTURL, '_blank');
   }
 
   function toggleSummary() {
@@ -1572,10 +1532,6 @@
       document.body.appendChild(notification);
       setTimeout(() => notification.remove(), 3000);
     });
-  }
-
-  function explainWithChatGPT(qKey, index) {
-    alert('ChatGPT explanation feature - API integration pending');
   }
 
   function updateScoreDisplay() {
