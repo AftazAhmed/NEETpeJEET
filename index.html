@@ -6483,7 +6483,7 @@ answer: "a) Botanical gardens"
   function openChatGPTForQuestion(index) {
     const question = currentQuestions[index];
     
-    const prompt = `${question.question}\n\n${question.options.join('\n')}\n\nAnswer and explain this in 3 versions.\nVersion 1: Correct answer highlight and brief explanation\nVersion 2: Quote exact reference from NCERT textbook latest reprint and explain accordingly\nVersion 3: Detailed explanation with options analysis\n\nNote: don't leave the chatgpt page without clicking the submit arrow, as it may result in repeated appearance of the same question even in next chat`;
+    const prompt = `${question.question}\n\n${question.options.join('\n')}\n\nYour command\nType 1 for Correct answer highlight and brief explanation\nType 2 for Quoting exact reference from NCERT textbook latest reprint and explain accordingly\nType 3 for Detailed explanation with options analysis\nor type any other query below\n\nNote: don't leave the chatgpt page without clicking the submit arrow, as it may result in repeated appearance of the same question even in next chat`;
     
     const chatGPTURL = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
     window.open(chatGPTURL, '_blank');
