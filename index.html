@@ -6590,7 +6590,7 @@ answer: "a) Botanical gardens"
 </script>
 <script>
   function openChatGPTForPointer(pointerText) {
-    const prompt = `"${pointerText}"\n\nYour response:\nType 1 to make this statement easier to understand and remember\n\nOr type any other query below`;
+    const prompt = `"${pointerText}"\n\nYour command:\nType 1 to make this statement easier to understand and remember\n\ntype 2 to explain it in detail\n\n type 3 to explain the keywords\n\nOr type any other query below`;
     const chatGPTURL = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
     window.open(chatGPTURL, '_blank');
   }
