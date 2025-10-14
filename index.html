@@ -6483,7 +6483,7 @@ answer: "a) Botanical gardens"
   function openChatGPTForQuestion(index) {
     const question = currentQuestions[index];
     
-    const prompt = `${question.question}\n\n${question.options.join('\n')}\n\nYour command:\n\nType 1 for Correct answer highlight and brief explanation\n\nType 2 for Quoting exact reference from NCERT textbook latest reprint and explain accordingly\n\nType 3 for Detailed explanation with options analysis\nor type any other query below\n\n\n\nNote: don't leave the chatgpt page without clicking the submit arrow, as it may result in repeated appearance of the same question even in next chat`;
+    const prompt = `${question.question}\n\n${question.options.join('\n')}\n\nYour command:\n*Type 1 for Correct answer highlight and brief explanation\n*Type 2 for Quoting exact reference from NCERT textbook latest reprint and explain accordingly\n*Type 3 for Detailed explanation with options analysis\n*or type any other query below\n\nNote: don't leave the chatgpt page without clicking the submit arrow, as it may result in repeated appearance of the same question even in next chat`;
     
     const chatGPTURL = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
     window.open(chatGPTURL, '_blank');
@@ -6590,7 +6590,7 @@ answer: "a) Botanical gardens"
 </script>
 <script>
   function openChatGPTForPointer(pointerText) {
-    const prompt = `"${pointerText}"\n\nYour command:\n*Type 1 to make this statement easier to understand and remember\n*type 2 to explain it in detail\n*type 3 to explain the keywords\n*Or type any other query below\n\n\n\nNote: don't leave the chatgpt page without clicking the submit arrow,as it may result in repeated display of the same pointer in the new chat`;
+    const prompt = `"${pointerText}"\n\nYour command:\n*Type 1 to make this statement easier to understand and remember\n*type 2 to explain it in detail\n*type 3 to explain the keywords\n*Or type any other query below\n\nNote: don't leave the chatgpt page without clicking the submit arrow,as it may result in repeated display of the same pointer in the new chat`;
     const chatGPTURL = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
     window.open(chatGPTURL, '_blank');
   }
