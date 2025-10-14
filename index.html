@@ -10106,7 +10106,7 @@ answer: "a) Botanical gardens"
 </script>
 <script>
   function openChatGPTForPointer(pointerText) {
-    const prompt = `"${pointerText}"\n\n*Version 1: make this statement easier to understand and remember\n\n*Or type any other query below\n\n\nNote: don't leave the chatgpt page without clicking the submit arrow,as it may result in repeated display of the same pointer in the new chat`;
+    const prompt = `"${pointerText}"\n\n*Version 1: explain this statement with keywords emphasis\n\n*Or type any other query below\n\n\nNote: don't leave the chatgpt page without clicking the submit arrow,as it may result in repeated display of the same pointer in the new chat`;
     const chatGPTURL = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
     window.open(chatGPTURL, '_blank');
   }
