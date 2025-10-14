@@ -11394,5 +11394,18 @@ answer: "a) All trees and wildlife are given total protection based on religious
     showQuestions();
   }
 </script>
+
+    <script>
+  function openChatGPTForPointer(pointerText) {
+    const prompt = `"${pointerText}"
+
+Your response:
+Type 1 to make this statement easier to understand and remember
+
+Or type any other query related to the statement`;
+    const chatGPTURL = `https://chat.openai.com/?q=${encodeURIComponent(prompt)}`;
+    window.open(chatGPTURL, '_blank');
+  }
+    </script>
 </body>
 </html>
